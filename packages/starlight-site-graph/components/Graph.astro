@@ -1,0 +1,8 @@
+---
+import SvelteGraph from "./GraphContainer.svelte";
+import config from "virtual:starlight-site-graph/config";
+
+---
+
+<SvelteGraph client:only="svelte" config={config}/>
+

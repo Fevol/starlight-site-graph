@@ -1,0 +1,11 @@
+---
+
+import Default from "@astrojs/starlight/components/PageSidebar.astro";
+import type { Props } from '@astrojs/starlight/props';
+
+import Graph from "../components/Graph.astro";
+---
+
+<Graph/>
+
+<Default {...Astro.props}><slot /></Default>
