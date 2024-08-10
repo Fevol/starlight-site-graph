@@ -7,8 +7,9 @@
   "type": "module",
   "exports": {
     ".": "./index.ts",
-    "./overrides/PageSidebar.astro": "./overrides/Sidebar.astro",
-    "./components/Graph.astro": "./components/Graph.astro"
+    "./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
+    "./components/Graph.astro": "./components/Graph.astro",
+    "./styles/common.css": "./styles/common.css"
   },
   "scripts": {},
   "devDependencies": {
@@ -22,6 +23,7 @@
   "dependencies": {
     "@astrojs/starlight": "^0.25.4",
     "@astrojs/svelte": "^5.7.0",
+    "@types/d3": "^7.4.3",
     "astro-integration-kit": "^0.16.0",
     "d3": "^7.9.0",
     "svelte": "^5.0.0-next.210"
@@ -29,7 +31,7 @@
   "keywords": [
     "starlight",
     "plugin",
-    "site-graph",
+    "graph",
     "astro",
     "astro-component",
     "withastro"

@@ -10,6 +10,7 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
             setup: async ({ addIntegration, config, logger, updateConfig }) => {
                 addIntegration(integration(parsedConfig))
                 const componentOverrides: typeof config.components = {};
+                const customCss: typeof config.customCss = ["starlight-site-graph/styles/common.css"];
 
                 if (config.components?.PageSidebar) {
                     logger.warn(
@@ -23,6 +24,7 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
                 }
 
                 updateConfig({
+                    customCss: [...customCss, ...(config.customCss ?? [])],
                     components: {
                         ...componentOverrides,
                         ...config.components,

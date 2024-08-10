@@ -1,0 +1,292 @@
+:root, ::backdrop {
+    --sl-color-accent: #7b97aa;
+    --sl-color-secondary-accent: #7aa1dd;
+    --sl-color-tertiary-accent: #a1e89f;
+
+    --icon-size-sml: 20px;
+    --icon-size-med: 24px;
+    --icon-size-lrg: 32px;
+
+    --graph-text-sml: 0.6em;
+    --graph-text-lrg: 0.7em;
+}
+
+:root {
+    --interactable-color-hover: var(--sl-color-gray-2);
+    --interactable-bg-hover: var(--sl-color-gray-5);
+
+    --graph-fullscreen-bg: var(--sl-color-bg);
+
+    --graph-link-color: var(--sl-color-gray-6);
+    --graph-link-hover-color: var(--sl-color-accent);
+    --graph-link-adjacent-color: var(--sl-color-gray-2);
+    --graph-link-stroke-width: 1px;
+    --graph-link-hover-stroke-width: 1px;
+
+    --graph-node-hover-color: var(--sl-color-accent);
+    /*--graph-node-hover-color: var(--sl-color-accent);*/
+    --graph-current-node-color: var(--sl-color-secondary-accent);
+    --graph-visited-node-color: var(--sl-color-tertiary-accent);
+    --graph-unvisited-node-color: var(--sl-color-gray-2);
+
+    --graph-tag-node-color: var(--sl-color-gray-5);
+    --graph-tag-stroke-width: var(--sl-color-gray-5);
+}
+
+.graph {
+    padding: 1rem var(--sl-sidebar-pad-x);
+
+    text {
+        fill: white;
+    }
+
+    .graph-action-container {
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        display: flex;
+        flex-direction: row;
+        gap: 0.2rem;
+        padding: 0.3rem;
+        background-color: color-mix(in srgb, var(--sl-color-bg) 80%, transparent);
+        border-radius: 0 0 0 16px;
+        backdrop-filter: blur(4px);
+
+        .graph-action {
+            color: var(--interactable-color-hover);
+            opacity: 0.5;
+            padding: 0.2rem;
+            border-radius: 4px;
+            background-color: transparent;
+            transition: background-color 0.5s ease;
+            cursor: pointer;
+            display: flex;
+            border: unset;
+
+            & > svg {
+                width: var(--icon-size-sml);
+                height: var(--icon-size-sml);
+            }
+
+            &:hover {
+                background-color: var(--interactable-bg-hover);
+            }
+        }
+    }
+
+    .graph-outer {
+        border-radius: 5px;
+        border: 1px solid var(--sl-color-gray-6);
+        box-sizing: border-box;
+        height: 250px;
+        width: 250px;
+        margin: 0.5em 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .background-blur {
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100%;
+        backdrop-filter: blur(4px);
+        display: inline-block;
+        overflow: hidden;
+        /*transition        : all 0.2s linear;*/
+        /*-moz-transition   : all 0.2s linear;*/
+        /*-webkit-transition: all 0.2s linear;*/
+        /*-o-transition     : all 0.2s linear;*/
+    }
+
+    .background-blur .graph-outer {
+        .graph-action > svg {
+            width: var(--icon-size-lrg);
+            height: var(--icon-size-lrg);
+        }
+
+
+        border: 1px solid  var(--sl-color-gray-6);
+        background-color: var(--graph-fullscreen-bg);
+        border-radius: 5px;
+        box-sizing: border-box;
+
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 60vh;
+        width: 50vw;
+        z-index: 9999;
+
+        & > .graph-container {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .graph-link {
+        stroke: var(--graph-link-color);
+        stroke-width: var(--graph-link-stroke-width);
+    }
+
+    .graph-link-hover {
+        stroke: var(--graph-link-hover-color);
+        stroke-width: var(--graph-link-hover-stroke-width);
+    }
+
+    .graph-link-head {
+        fill: var(--graph-link-color);
+    }
+
+    .graph-link-head-hover {
+        fill: var(--graph-link-hover-color);
+    }
+
+    .graph-node.graph-faded {
+        opacity: 0.04;
+    }
+
+    .graph-link.graph-faded {
+        opacity: 0.3;
+    }
+
+    .graph-link-head.graph-faded {
+        opacity: 0.3;
+    }
+
+    .graph-label.graph-faded {
+        opacity: 0.0 !important;
+        background: transparent;
+    }
+
+    .graph-label {
+        font-size: var(--graph-text-sml);
+        pointer-events: none;
+        transition: opacity 0.1s ease, font-size 0.3s ease;
+        user-select: none;
+    }
+
+    .graph-label-hover {
+        font-size: var(--graph-text-lrg);
+        opacity: 1 !important;
+    }
+
+    .graph-node {
+        fill: var(--graph-unvisited-node-color);
+        transition: fill 0.3s ease, opacity 0.3s ease;
+    }
+
+    .graph-node-visited {
+        fill: var(--graph-visited-node-color);
+    }
+
+    .graph-node-current {
+        fill: var(--graph-current-node-color);
+    }
+
+    .graph-node-tag {
+        stroke: var(--graph-tag-node-color);
+        stroke-width: var(--graph-tag-stroke-width);
+        fill: var(--graph-tag-node-color);
+    }
+
+    .graph-node:hover {
+        fill: var(--graph-node-hover-color);
+    }
+}
+
+
+body:has(.background-blur) {
+    #starlight__sidebar {
+        z-index: -1;
+    }
+
+    .header {
+        z-index: -1;
+    }
+}
+
+
+
+.menu-container {
+    position: fixed;
+    z-index: 1000;
+}
+
+.menu {
+    display: inline-flex;
+    background-color: var(--sl-color-context-menu);
+    border: 1px var(--sl-color-gray-6) solid;
+    width: 170px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 6px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background-color: var(--sl-color-context-menu-hover);
+}
+
+.menu-icon {
+    display: flex;
+}
+
+.menu-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-item-title {
+    font-weight: 600;
+    font-size: var(--sl-text-sm);
+}
+
+.popup {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+    /*background-color: var(--sl-color-context-menu);*/
+    background-color: color-mix(in srgb, var(--sl-color-bg) 50%, transparent);
+    border: 1px var(--sl-color-gray-6) solid;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.graph-settings-item {
+    display: flex;
+    flex-direction: row;
+    font-size: var(--sl-text-sm);
+    justify-content: space-between;
+
+    input {
+        width: 40%;
+    }
+}
+
+.graph-settings-header {
+    display: flex;
+    gap: 1rem;
+}
+
+.graph-settings-label {
+    font-weight: 600;
+}
+
+.graph-settings-value {
+    font-weight: 400;
+}

@@ -11,14 +11,12 @@ import { PackageManagers } from "starlight-package-managers";
 ## Quick Start
 
 <Steps>
+1.  Setup a Starlight Site: https://starlight.astro.build/getting-started/
 
-    1.  Setup a Starlight Site: https://starlight.astro.build/getting-started/
-
-    2.  Install the `starlight-site-graph` plugin:
-
+2.  Install the `starlight-site-graph` plugin:
     <PackageManagers pkg="starlight-site-graph" />
 
-    3.  Update the `integrations.starlight.plugins` object in `astro.config.mjs` to include the `starlight-site-graph` plugin:
+3.  Update the `integrations.starlight.plugins` object in `astro.config.mjs` to include the `starlight-site-graph` plugin:
 
     ```ts ins={4, 10}
     // astro.config.mjs
@@ -28,14 +26,13 @@ import { PackageManagers } from "starlight-package-managers";
 
     // https://astro.build/config
     export default defineConfig({
-    integrations: [
-        starlight({
-            plugins: [starlightSiteGraph()],
-        }),
-    ],
-});
+        integrations: [
+            starlight({
+                plugins: [starlightSiteGraph()],
+            }),
+        ],
+    });
     ```
 
-    4.  Go to the [Configuration Guide](/docs/configuration) to learn how to set up the different utilities ✨
-
+4.  Go to the [Configuration Guide](/docs/configuration) to learn how to set up the different utilities ✨
 </Steps>

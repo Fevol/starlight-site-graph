@@ -80,7 +80,7 @@
             <div class="menu">
                 {#each Object.entries(groupedItems) as [key, group] (key)}
                     {#if key !== ""}
-                        <div class="menu-separator"/>
+                        <div class="menu-separator"></div>
                     {/if}
 
                     {#each group as item}

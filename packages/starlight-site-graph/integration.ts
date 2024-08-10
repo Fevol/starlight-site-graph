@@ -1,5 +1,6 @@
 import { defineIntegration, addVirtualImports } from "astro-integration-kit";
 import {starlightSiteGraphConfigSchema} from "./config";
+import matter from 'gray-matter';
 
 import fs from "node:fs";
 import path from "node:path";
@@ -51,7 +52,61 @@ export default defineIntegration({
     setup({ name, options }) {
         return {
             hooks: {
-                "astro:config:setup": (params) => {
+                "astro:config:setup": async (params) => {
+                    if (!options.sitemap) {
+                        params.logger.info("Generating sitemap from content links");
+                        const sitemap = siteMapDict();
+                        for await (const p of walk(options.contentRoot)) {
+                            if (!p.endsWith(".md")) continue;
+
+                            const content = await fs.promises.readFile(p, "utf8");
+                            const links = content.match(/\[.*?]\((.*?)\)/g);
+
+                            const relative_path = path.relative(options.contentRoot, p).replace(/\\/g, "/").slice(0, -3);
+                            const sitemap_entry = sitemap[relative_path]!;
+
+                            const frontmatter = matter(content);
+                            if (frontmatter.data) {
+                                sitemap_entry.title = frontmatter.data.title;
+                                sitemap_entry.links = frontmatter.data.links ?? [];
+                            }
+                            sitemap_entry.title ??= relative_path.split("/").pop()!;
+
+                            if (links) {
+                                // FIXME: Catch links that are not formatted as [text](link)
+                                // FIXME: Catch relative links
+                                sitemap_entry.links = [...new Set([...sitemap_entry.links, ...links
+                                    .reduce((acc: string[], link: string) => {
+                                        const url = link.match(/\((.*?)\)/)![1]!;
+                                        if (!url.startsWith("http"))
+                                            acc.push(url.slice(1));
+                                        return acc;
+                                    }, [])
+                                    .map((link: string) => link
+                                        // .split("/").slice(0, -1).join("/")
+                                        .replace(/^.\/(\.\.\/)+/, "")
+                                    )
+                                    .filter(link => link !== relative_path)
+                                ])];
+
+                                for (const link of sitemap_entry.links)
+                                    sitemap[link]!.backlinks.push(relative_path);
+                            }
+                            sitemap[relative_path] = sitemap_entry;
+                        }
+
+                        for (const entry of Object.keys(sitemap)) {
+                            const sitemap_entry = sitemap[entry]!;
+                            sitemap_entry.backlinks = [...new Set(sitemap_entry.backlinks)];
+                            sitemap[entry] = sitemap_entry;
+                        }
+
+                        options.sitemap = { ...sitemap };
+                        params.logger.info("Finished generating sitemap");
+                    } else {
+                        params.logger.info("Using applied sitemap");
+                    }
+
                     addVirtualImports(params, {
                         name,
                         imports: {
@@ -60,47 +115,6 @@ export default defineIntegration({
                             )}`,
                         },
                     });
-                },
-                "astro:server:start": async ({logger}) => {
-                    logger.info("Mapping site links...");
-                    const sitemap = siteMapDict();
-                    for await (const p of walk(options.contentRoot)) {
-                        if (!p.endsWith(".md")) continue;
-
-                        const content = await fs.promises.readFile(p, "utf8");
-                        const path = p.replace(/\\/g, "/").slice(0, -3);
-                        const links = content.match(/\[.*?]\((.*?)\)/g);
-                        const entry_name = path.slice(options!.contentRoot.length + 1).toLowerCase();
-                        const sitemap_entry = sitemap[entry_name]!;
-                        sitemap_entry.title = path.split("/").pop()!;
-                        if (links) {
-                            sitemap_entry.links = [...new Set(links
-                                .reduce((acc: string[], link: string) => {
-                                    const url = link.match(/\((.*?)\)/)![1]!;
-                                    if (!url.startsWith("http"))
-                                        acc.push(url.slice(1));
-                                    return acc;
-                                }, [])
-                                .map((link: string) => link
-                                    .split("/").slice(0, -1).join("/")
-                                    .replace(/^.\/(\.\.\/)+/, "")
-                                )
-                                .filter(link => link !== entry_name)
-                            )];
-
-                            for (const link of sitemap_entry.links)
-                                sitemap[link]!.backlinks.push(entry_name);
-                        }
-                        sitemap[entry_name] = sitemap_entry;
-                    }
-
-                    for (const entry of Object.keys(sitemap)) {
-                        const sitemap_entry = sitemap[entry]!;
-                        sitemap_entry.backlinks = [...new Set(sitemap_entry.backlinks)];
-                        sitemap[entry] = sitemap_entry;
-                    }
-                    await fs.promises.writeFile("./public/sitemap.json", JSON.stringify(sitemap, null, 2));
-                    logger.info("Site links mapped.");
                 }
             }
         }

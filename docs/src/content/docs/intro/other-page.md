@@ -1,5 +1,5 @@
 ---
 title: Page
-sidebar:
-  order: 2
 ---
+
+A test page

@@ -1,5 +1,7 @@
 <script lang="ts">
-    let {showModal = $bindable()}: { showModal: boolean } = $props();
+    import type {Snippet} from "svelte";
+
+    let {showModal = $bindable(), children}: { showModal: boolean, children: Snippet } = $props();
 
     export function clickOutside(node: HTMLElement) {
         const handleClick = (event: MouseEvent) => {
@@ -17,6 +19,6 @@
 
 {#if showModal}
     <div class="popup" use:clickOutside onclick_outside={() => { showModal = false }}>
-        <slot/>
+        {@render children()}
     </div>
 {/if}

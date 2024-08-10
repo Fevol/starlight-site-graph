@@ -8,7 +8,7 @@
      */
 
     import Graph from "./Graph.svelte";
-    import {type GraphConfig, defaultConfig} from "./Graph.svelte";
+    import {type GraphConfig} from "./Graph.svelte";
 
     import ContextMenu from './util/ContextMenu.svelte';
 
@@ -26,11 +26,12 @@
     import graph5 from "../assets/svgs/graph-5.svg?raw"
     import settings from "../assets/svgs/settings.svg?raw"
     import Modal from "./util/Modal.svelte";
-    import sitemapFile from "./../../public/sitemap.json";
 
-    const config: GraphConfig = $state(Object.assign({}, defaultConfig, JSON.parse(sessionStorage.getItem("graph-config") ?? "{}")));
-    let renderArrowAction: HTMLElement | null = null;
-    let updateGraphDepthAction: HTMLElement | null = null;
+    const configData = $props();
+
+    const graphConfig: GraphConfig = $state(Object.assign({}, configData.config.config, JSON.parse(sessionStorage.getItem("graph-config") ?? "{}")));
+    let renderArrowAction: HTMLElement | null = $state(null);
+    let updateGraphDepthAction: HTMLElement | null = $state(null);
 
     let graph: Graph;
     let width = $state(250);
@@ -49,7 +50,7 @@
     }
 
     $effect(() => {
-        sessionStorage.setItem("graph-config", JSON.stringify(config));
+        sessionStorage.setItem("graph-config", JSON.stringify(graphConfig));
     });
 
     function registerEscapeHandler(node: HTMLElement) {
@@ -81,37 +82,39 @@
             }
         }
     }
+
 </script>
 
 
 {#snippet graphActions()}
     <div class="graph-action-container">
-        <div class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); config.renderArrows = !config.renderArrows }}
+        <button class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); graphConfig.renderArrows = !graphConfig.renderArrows }}
+
              bind:this={renderArrowAction}>
-            {@html config.renderArrows ? arrow : line}
-        </div>
+            {@html graphConfig.renderArrows ? arrow : line}
+        </button>
 
         <ContextMenu
                 bind:target={renderArrowAction}
                 menuItems={[
-                { text: "Show arrows", icon: arrow, onClick: () => { config.renderArrows = true } },
-                { text: "Show lines", icon: line, onClick: () => { config.renderArrows = false } },
+                { text: "Show arrows", icon: arrow, onClick: () => { graphConfig.renderArrows = true } },
+                { text: "Show lines", icon: line, onClick: () => { graphConfig.renderArrows = false } },
             ]}
         />
 
-        <div class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); showFullscreen = !showFullscreen }}>
+        <button class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); showFullscreen = !showFullscreen }}>
             {@html showFullscreen ? minimize : maximize}
-        </div>
+        </button>
 
-        <div class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); config.depth = (config.depth + 1) % 6 }}
+        <button class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); graphConfig.depth = (graphConfig.depth + 1) % 6 }}
              bind:this={updateGraphDepthAction}>
-            {@html graphIconMap[config.depth]}
-        </div>
+            {@html graphIconMap[graphConfig.depth]}
+        </button>
 
         {#if showFullscreen}
-            <div class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); graph.zoomToFit() }}>
+            <button class="graph-action svg-embed" onclick={(e) => { e.preventDefault(); graph.zoomToFit() }}>
                 {@html focus}
-            </div>
+            </button>
         {/if}
 
         <ContextMenu
@@ -127,15 +130,15 @@
                             `Show Distance ${i}`,
                         icon: eval(`graph${i}`),
                         onClick: () => {
-                            config.depth = i
+                            graphConfig.depth = i
                         }
                     }))
                  }
         />
 
-        <div class="graph-action svg-embed" onclick={() => { showSettings = true }}>
+        <button class="graph-action svg-embed" onclick={() => { showSettings = true }}>
             {@html settings}
-        </div>
+        </button>
     </div>
 {/snippet}
 
@@ -145,23 +148,23 @@
             <div class="graph-settings-item">
                 <div class="graph-settings-header">
                     <div class="graph-settings-label">Repel Force</div>
-                    <div class="graph-settings-value">{config.repelForce}</div>
+                    <div class="graph-settings-value">{graphConfig.repelForce}</div>
                 </div>
-                <input type="range" min="0" max="2.5" step="0.1" bind:value={config.repelForce}/>
+                <input type="range" min="0" max="2.5" step="0.1" bind:value={graphConfig.repelForce}/>
             </div>
             <div class="graph-settings-item">
                 <div class="graph-settings-header">
                     <div class="graph-settings-label">Center Force</div>
-                    <div class="graph-settings-value">{config.centerForce}</div>
+                    <div class="graph-settings-value">{graphConfig.centerForce}</div>
                 </div>
-                <input type="range" min="0" max="2" step="0.1" bind:value={config.centerForce}/>
+                <input type="range" min="0" max="2" step="0.1" bind:value={graphConfig.centerForce}/>
             </div>
             <div class="graph-settings-item">
                 <div class="graph-settings-header">
                     <div class="graph-settings-label">Link Distance</div>
-                    <div class="graph-settings-value">{config.linkDistance}</div>
+                    <div class="graph-settings-value">{graphConfig.linkDistance}</div>
                 </div>
-                <input type="range" min="0" max="100" step="5" bind:value={config.linkDistance}/>
+                <input type="range" min="0" max="100" step="5" bind:value={graphConfig.linkDistance}/>
             </div>
         </div>
     </Modal>
@@ -187,8 +190,8 @@
             {@render graphActions()}
             {@render settingsModal()}
             <div class="graph-container">
-                <Graph bind:this={graph}
-                        siteData={sitemapFile} w={width} h={height} config={config}
+                <Graph bind:this={graph} siteData={configData.config.sitemap} config={graphConfig}
+                         w={width} h={height}
                 />
             </div>
         </div>

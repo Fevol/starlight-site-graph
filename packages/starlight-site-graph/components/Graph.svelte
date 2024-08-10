@@ -1,4 +1,6 @@
 <script lang="ts" context="module">
+    import type {GraphConfig} from "../config";
+
     export function getRelativePath(current: string, next: string) {
         const currentSegments = current.split("/")
         const nextSegments = next.split("/")
@@ -10,34 +12,10 @@
         return `${"../".repeat(back)}${forward}`
     }
 
-    export type GraphConfig = {
-        enableDrag: boolean,
-        enableZoom: boolean,
-        depth: number,
-
-        scale: number,
-        autoScale: boolean,
-        renderArrows: boolean,
-        opacityScale: number,
-        focusOnHover: boolean,
-        labelOffset: number,
-        labelHoverOffset: number,
-
-        repelForce: number,
-        centerForce: number,
-        linkDistance: number,
-
-        customFolderTags: Record<string, string>,
-        showTags: boolean,
-        removeTags: string[],
-    }
-
     export type GraphProps = {
         siteData: Record<string, ContentDetails>;
-
         w: number;
         h: number;
-
         config: GraphConfig;
     }
 
@@ -59,38 +37,8 @@
     } & d3.SimulationNodeDatum
 
     export type LinkData = {
-        source: string
-        target: string
-    }
-
-    export let defaultConfig: GraphConfig = {
-        enableZoom: true,
-        enableDrag: true,
-        depth: 1,
-        scale: 1.1,
-
-        opacityScale: 1.3,
-        autoScale: true,
-        focusOnHover: true,
-        renderArrows: false,
-        labelOffset: 8,
-        labelHoverOffset: 6,
-
-        repelForce: 0.5,
-        centerForce: 0.3,
-        linkDistance: 30,
-
-        showTags: false,
-        removeTags: [],
-        customFolderTags: {
-            "api/namespaces/obsidian": "obsidian",
-            "api/namespaces/augmentations": "augmentations",
-            "api/namespaces/internals": "internals",
-            "api/namespaces/global": "global",
-            "api/namespaces/codemirror_view": "codemirror",
-            "api/namespaces/canvas": "canvas",
-            "api/namespaces/publish": "publish",
-        },
+        source: NodeData
+        target: NodeData
     }
 </script>
 
@@ -105,12 +53,13 @@
 
     import * as d3 from "d3"
     import {untrack} from "svelte";
+    import {defaultGraphConfig} from "../config";
 
     let {
         siteData = {},
         w = 250,
         h = 250,
-        config = defaultConfig
+        config = defaultGraphConfig
     }: GraphProps = $props();
 
     let svgContainer: HTMLElement;
@@ -160,10 +109,9 @@
                 .force("charge", d3.forceManyBody().strength(-100 * config.repelForce))
                 .force(
                     "link",
-                    d3
-                        .forceLink(graphData.links)
-                        .id((d: any) => d.id)
-                        .distance(config.linkDistance),
+                    d3.forceLink(graphData.links)
+                      .id((d) => d.id)
+                      .distance(config.linkDistance),
                 )
                 .force("center", d3.forceCenter().strength(config.centerForce))
                 .alpha(1)
@@ -218,8 +166,6 @@
 
     function constructGraph(siteData: Record<string, ContentDetails> = {}) {
         svgContainer.replaceChildren();
-
-        if (!Object.keys(siteData).length) return;
 
         let slug = location.pathname;
         const visited = getVisited()
@@ -303,10 +249,9 @@
             .force("charge", d3.forceManyBody().strength(-100 * config.repelForce))
             .force(
                 "link",
-                d3
-                    .forceLink(graphData.links)
-                    .id((d: any) => d.id)
-                    .distance(config.linkDistance),
+                d3.forceLink(graphData.links)
+                  .id((d: NodeData) => d.id)
+                  .distance(config.linkDistance),
             )
             .force("center", d3.forceCenter().strength(config.centerForce));
 
@@ -350,10 +295,9 @@
         marker("graph-link-head-hover")
 
         // SVG groups
-        const graphNode = svg.append("g").selectAll("g").data(graphData.nodes).enter().append("g")
+        const graphNode: d3.Selection<SVGGElement, NodeData, HTMLElement, NodeData> = svg.append("g").selectAll("g").data(graphData.nodes).enter().append("g")
 
-        // Calculate color
-        const determineClass = (d: NodeData) => {
+        const determineNodeClass = (d: NodeData) => {
             let classname = "graph-node"
             if (d.id === slug) {
                 classname += " graph-node-current"
@@ -361,24 +305,24 @@
                 classname += " graph-node-visited"
             } else { }
             if (d.tags.length) {
-                classname += " " + d.tags.map((tag) => "graph-node-tag-" + tag).join(" ")
+                classname += " " + d.tags.map((tag: string) => "graph-node-tag-" + tag).join(" ")
             }
             return classname
         }
 
         const drag = (simulation: d3.Simulation<NodeData, LinkData>) => {
-            function dragstarted(event: any, d: NodeData) {
+            function dragstarted(event: DragEvent, d: NodeData) {
                 if (!event.active) simulation.alphaTarget(1).restart()
                 d.fx = event.x;
                 d.fy = event.y;
             }
 
-            function dragged(event: any, d: NodeData) {
+            function dragged(event: DragEvent, d: NodeData) {
                 d.fx += event.dx / transform.k;
                 d.fy += event.dy / transform.k;
             }
 
-            function dragended(event: any, d: NodeData) {
+            function dragended(event: DragEvent, d: NodeData) {
                 if (!event.active) simulation.alphaTarget(0)
                 d.fx = null;
                 d.fy = null;
@@ -402,28 +346,28 @@
         // Draw individual nodes
         const node = graphNode
             .append("circle")
-            .attr("class", determineClass)
-            .attr("id", (d) => d.id)
+            .attr("class", determineNodeClass)
+            .attr("id", (d: NodeData) => d.id)
             .attr("r", nodeRadius)
             .style("cursor", "pointer")
-            .on("click", (_, d) => {
+            .on("click", (_: MouseEvent, d: NodeData) => {
                 addToVisited(d.id)
                 window.location.assign(getRelativePath(slug, d.id))
             })
-            .on("mouseover", function (_: any, d: any) {
+            .on("mouseover", function (_: any, d: NodeData) {
                 const currentId = d.id
                 const linkNodes = d3
                     .selectAll(".graph-link")
-                    .filter((d: any) => d.source.id === currentId || d.target.id === currentId)
+                    .filter((d: LinkData) => d.source.id === currentId || d.target.id === currentId)
 
                 if (config.focusOnHover) {
                     connectedNodes = [currentId, ...linkNodes.data()
-                        .flatMap((d: any) => [d.source.id, d.target.id])]
+                        .flatMap((d: NodeData) => [d.source.id, d.target.id])]
                     d3.selectAll(".graph-link")
-                        .filter((d: any) => d.source.id !== currentId && d.target.id !== currentId)
+                        .filter((d: NodeData) => d.source.id !== currentId && d.target.id !== currentId)
                         .classed("graph-faded", true)
                     d3.selectAll<HTMLElement, NodeData>(".graph-node")
-                        .filter((d) => !connectedNodes.includes(d.id))
+                        .filter((d: NodeData) => !connectedNodes.includes(d.id))
                         .classed("graph-faded", true)
                 }
 
@@ -437,19 +381,19 @@
                     .select("text")
                     .classed("graph-label-hover", true)
                     .transition().duration(150)
-                    .attr("dy", (d) => nodeRadius(d) + config.labelOffset + config.labelHoverOffset + "px")
+                    .attr("dy", (d: NodeData) => nodeRadius(d) + config.labelOffset + config.labelHoverOffset + "px")
 
                 d3.selectAll(".graph-label")
-                    .filter((d: any) => !connectedNodes.includes(d.id))
+                    .filter((d: NodeData) => !connectedNodes.includes(d.id))
                     .classed("graph-faded", true)
             })
-            .on("mouseleave", function (_, d) {
+            .on("mouseleave", function (_: MouseEvent, d: NodeData) {
                 const parent = this.parentNode as HTMLElement
                 d3.select<HTMLElement, NodeData>(parent)
                     .select("text")
                     .classed("graph-label-hover", false)
                     .transition().duration(150)
-                    .attr("dy", (d) => nodeRadius(d) + config.labelOffset + "px")
+                    .attr("dy", (d: NodeData) => nodeRadius(d) + config.labelOffset + "px")
                 d3.selectAll(".graph-link")
                     .classed("graph-faded", false)
                     .classed("graph-link-hover", false)
@@ -471,13 +415,12 @@
         const labels = graphNode
             .append("text")
             .attr("dx", 0)
-            .attr("dy", (d) => nodeRadius(d) + config.labelOffset + "px")
+            .attr("dy", (d: NodeData) => nodeRadius(d) + config.labelOffset + "px")
             .attr("text-anchor", "middle")
-            .text((d) => d.text)
+            .text((d: NodeData) => d.text)
             .style("opacity", (config.opacityScale - 1) / 3.75)
             .attr("class", "graph-label")
             .raise()
-            // @ts-expect-error Incompatible types
             .call(drag(simulation))
 
         // Set panning
@@ -489,7 +432,7 @@
                     [width, height],
                 ])
                 .scaleExtent([0.25, 4])
-                .on("zoom", (event) => {
+                .on("zoom", (event: any) => {
                     transform = event.transform;
                     const currentScale = transform.k * config.opacityScale
                     const scaledOpacity = Math.max((currentScale - 1) / 3.75, 0)
@@ -509,12 +452,12 @@
 
         // Progress the simulation
         simulation.on("tick", () => {
-            link
-                .attr("x1", (d: any) => d.source.x)
-                .attr("y1", (d: any) => d.source.y)
-                .attr("x2", (d: any) => d.target.x)
-                .attr("y2", (d: any) => d.target.y)
-            node.attr("cx", (d: any) => d.x).attr("cy", (d: any) => d.y)
+            link.attr("x1", (d: LinkData) => d.source.x)
+                .attr("y1", (d: LinkData) => d.source.y)
+                .attr("x2", (d: LinkData) => d.target.x)
+                .attr("y2", (d: LinkData) => d.target.y)
+            node.attr("cx", (d: NodeData) => d.x)
+                .attr("cy", (d: NodeData) => d.y)
             labels.attr("x", (d: any) => d.x).attr("y", (d: any) => d.y)
         })
     }
