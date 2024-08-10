@@ -65,12 +65,13 @@ export default defineIntegration({
                             const relative_path = path.relative(options.contentRoot, p).replace(/\\/g, "/").slice(0, -3);
                             const sitemap_entry = sitemap[relative_path]!;
 
-                            const frontmatter = matter(content);
+                            const frontmatter: { data: { title?: string, links?: string[] } } = matter(content);
                             if (frontmatter.data) {
-                                sitemap_entry.title = frontmatter.data.title;
+                                sitemap_entry.title = frontmatter.data.title ?? relative_path.split("/").pop()!;
                                 sitemap_entry.links = frontmatter.data.links ?? [];
+                            } else {
+                                sitemap_entry.title ??= relative_path.split("/").pop()!;
                             }
-                            sitemap_entry.title ??= relative_path.split("/").pop()!;
 
                             if (links) {
                                 // FIXME: Catch links that are not formatted as [text](link)
