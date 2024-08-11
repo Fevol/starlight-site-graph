@@ -9660,12 +9660,5 @@ export default defineConfig({
                 })
             ],
         }),
-    ],
-    vite: {
-        server: {
-            fs: {
-                strict: false
-            }
-        }
-    }
+    ]
 });
