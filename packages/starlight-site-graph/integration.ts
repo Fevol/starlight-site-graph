@@ -57,12 +57,12 @@ export default defineIntegration({
                         params.logger.info("Generating sitemap from content links");
                         const sitemap = siteMapDict();
                         for await (const p of walk(options.contentRoot)) {
-                            if (!p.endsWith(".md")) continue;
+                            if (!p.endsWith(".md") && !p.endsWith(".mdx")) continue;
 
                             const content = await fs.promises.readFile(p, "utf8");
                             const links = content.match(/\[.*?]\((.*?)\)/g);
 
-                            const relative_path = path.relative(options.contentRoot, p).replace(/\\/g, "/").slice(0, -3);
+                            const relative_path = path.relative(options.contentRoot, p).replace(/\\/g, "/").split(".").slice(0, -1).join(".");
                             const sitemap_entry = sitemap[relative_path]!;
 
                             const frontmatter: { data: { title?: string, links?: string[] } } = matter(content);

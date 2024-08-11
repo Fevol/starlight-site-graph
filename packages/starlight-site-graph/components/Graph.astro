@@ -1,8 +1,11 @@
 ---
-import SvelteGraph from "./GraphContainer.svelte";
-import config from "virtual:starlight-site-graph/config";
+// import SvelteGraph from "./GraphContainer.svelte";
+// import config from "virtual:starlight-site-graph/config";
 
 ---
 
-<SvelteGraph client:only="svelte" config={config}/>
+<script src="./Graph.ts"></script>
 
+<!--<SvelteGraph client:only="svelte" config={config}/>-->
+
+<div class="graph-container"></div>
