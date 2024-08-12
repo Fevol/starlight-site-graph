@@ -15,8 +15,9 @@ type ContentDetails = {
 type NodeData = {
     id: string
     tags: string[]
-    graphics?: Container;
-    text?: Text;
+    node?: Container;
+    text?: string;
+    label?: Text;
 } & d3.SimulationNodeDatum
 
 type LinkData = {

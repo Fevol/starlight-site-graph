@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import {Application, Container, Graphics, Text} from 'pixi.js';
+import {Application, Container, Graphics, Text, Ticker} from 'pixi.js';
 import config from "virtual:starlight-site-graph/config";
 import type {GraphConfig} from "../config";
 
@@ -29,6 +29,7 @@ export class GraphComponent extends HTMLElement {
     processedData!: ReturnType<typeof this.processSitemapData>;
     animator: Animator<keyof AnimatedValues, any>;
 
+    currentlyHovered: string = "";
     isFullscreen: boolean = false;
     fullscreenExitHandler?: () => void;
 
@@ -129,9 +130,7 @@ export class GraphComponent extends HTMLElement {
             {id: "hover", duration: 0.2, easing: d3.easeQuadOut},
         ]);
 
-        this.mountGraph().then(() => {
-            this.processGraph()
-        });
+        this.mountGraph().then(() => { this.setup() });
     }
 
     override remove() {
@@ -202,7 +201,7 @@ export class GraphComponent extends HTMLElement {
                 actionElement.innerHTML = icons["graph" + this.config.depth as keyof typeof icons];
                 actionElement.onclick = () => {
                     this.config.depth = (this.config.depth + 1) % MAX_DEPTH;
-                    this.processGraph();
+                    this.setup();
                     this.renderActionContainer()
                 }
                 actionElement.oncontextmenu = (e) => {
@@ -221,7 +220,7 @@ export class GraphComponent extends HTMLElement {
                             onClick: () => {
                                 if (this.config.depth !== i) {
                                     this.config.depth = i;
-                                    this.processGraph();
+                                    this.setup();
                                     this.renderActionContainer();
                                 }
                             }
@@ -247,6 +246,7 @@ export class GraphComponent extends HTMLElement {
 
         this.links = new Graphics();
         this.app.stage.addChild(this.links);
+        this.app.ticker.add((ticker) => { this.tick(ticker) });
     }
 
     processSitemapData(siteData: Record<string, ContentDetails>): { nodes: NodeData[], links: LinkData[] } {
@@ -275,7 +275,7 @@ export class GraphComponent extends HTMLElement {
             const outgoing = details.links ?? [];
             for (const dest of outgoing) {
                 if (validLinks.has(dest)) {
-                    links.push({source: source, target: dest})
+                    links.push({source: source as unknown as NodeData, target: dest as unknown as NodeData})
                 }
             }
 
@@ -287,7 +287,7 @@ export class GraphComponent extends HTMLElement {
                 tags.push(...localTags.filter((tag) => !tags.includes(tag)))
 
                 for (const tag of localTags) {
-                    links.push({source: source, target: tag})
+                    links.push({source: source as unknown as NodeData, target: tag as unknown as NodeData})
                 }
             }
         }
@@ -304,9 +304,9 @@ export class GraphComponent extends HTMLElement {
                     continue;
                 } else {
                     neighbourhood.add(cur)
-                    const outgoing = links.filter((l) => l.source === cur)
-                    const incoming = links.filter((l) => l.target === cur)
-                    wl.push(...outgoing.map((l) => l.target), ...incoming.map((l) => l.source))
+                    const outgoing = links.filter((l) => l.source as unknown as string === cur)
+                    const incoming = links.filter((l) => l.target as unknown as string === cur)
+                    wl.push(...outgoing.map((l) => l.target as unknown as string), ...incoming.map((l) => l.source as unknown as string))
                 }
             }
         } else {
@@ -316,14 +316,13 @@ export class GraphComponent extends HTMLElement {
 
         return {
             nodes: [...neighbourhood].map((url) => {
-                const text = url.startsWith("tags/") ? "#" + url.substring(5) : data.get(url)?.title ?? url
                 return {
                     id: url,
-                    text: text,
+                    text: url.startsWith("tags/") ? "#" + url.substring(5) : data.get(url)?.title ?? url,
                     tags: data.get(url)?.tags ?? [],
                 }
             }),
-            links: links.filter((l) => neighbourhood.has(l.source) && neighbourhood.has(l.target)),
+            links: links.filter((l) => neighbourhood.has(l.source as unknown as string) && neighbourhood.has(l.target as unknown as string)),
         }
     }
 
@@ -364,13 +363,20 @@ export class GraphComponent extends HTMLElement {
         return Math.max(((k * this.config.opacityScale) - 1) / 3.75, 0);
     }
 
-    processGraph() {
-        this.app.stage.removeChildren();
-        this.zoom = d3.zoomIdentity;
-        this.processedData = this.processSitemapData(config.sitemap as Record<string, ContentDetails>);
-        this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
-        this.simulationUpdate();
+    cleanup() {
+        if (this.simulation) {
+            this.app.stage.removeChildren();
+            this.app.stage.addChild(this.links);
+            this.links.clear();
+            this.simulation.stop();
+            this.simulation.nodes([]);
+            this.simulation.force("link", null);
+            this.currentlyHovered = "";
+            this.zoom = d3.zoomIdentity;
+        }
+    }
 
+    renderNodes() {
         for (const node of this.simulation.nodes()) {
             const nodeGraphics = new Container();
             const nodeDot = new Graphics();
@@ -390,18 +396,28 @@ export class GraphComponent extends HTMLElement {
             nodeGraphics.addChild(nodeDot);
             nodeGraphics.addChild(nodeText);
 
-            node.graphics = nodeGraphics;
-            node.text = nodeText;
+            node.node = nodeGraphics;
+            node.label = nodeText;
             this.app.stage.addChild(nodeGraphics);
         }
+    }
+
+
+    setup() {
+        this.cleanup();
+
+        this.processedData = this.processSitemapData(config.sitemap as Record<string, ContentDetails>);
+        this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
+        this.simulationUpdate();
+
+        this.renderNodes();
 
         let dragX = 0;
         let dragY = 0;
         d3.select(this.app.canvas).call(
-            // @ts-ignore
-            d3
+            (d3
                 .drag()
-                .container(this.app.canvas)
+                .container(this.app.canvas) as unknown as d3.DragBehavior<HTMLCanvasElement, unknown, unknown>)
                 .subject(event => {
                     return this.simulation.find(...this.zoom.invert([event.x, event.y]), 10)
                 })
@@ -432,11 +448,10 @@ export class GraphComponent extends HTMLElement {
                 }),
         );
 
-        let currentlyHovered: string = "";
         d3.select(this.app.canvas).on('mousemove', (e: MouseEvent) => {
             const closestNode = this.simulation.find(...this.zoom.invert([e.offsetX, e.offsetY]), 5);
             if (closestNode) {
-                currentlyHovered = closestNode.id;
+                this.currentlyHovered = closestNode.id;
                 this.animator.setTargets({
                     hoveredNodeColor: config.graphConfig.hoveredNodeColor,
                     unhoveredNodeColor: config.graphConfig.unhoveredNodeColor,
@@ -451,10 +466,10 @@ export class GraphComponent extends HTMLElement {
                     hoveredLabelOpacity: 1,
                     unhoveredLabelOpacity: 0,
                 });
-            } else if (currentlyHovered) {
+            } else if (this.currentlyHovered) {
                 this.resetStyle();
                 this.animator.setOnFinished("hoveredNodeColor", () => {
-                    currentlyHovered = "";
+                    this.currentlyHovered = "";
                 });
             }
 
@@ -469,9 +484,9 @@ export class GraphComponent extends HTMLElement {
         })
 
 
-        d3.select(this.app.canvas).call(
-            // @ts-ignore
-            d3.zoom().on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
+        d3.select(this.app.canvas as HTMLCanvasElement).call(
+            (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
+                .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
                 this.zoom = transform;
                 this.animator.setTargets({
                     zoom: transform.k,
@@ -481,70 +496,68 @@ export class GraphComponent extends HTMLElement {
                 });
             }),
         );
+    }
 
-        this.app.ticker.add((ticker) => {
-            this.animator.update(ticker.deltaMS);
+    tick(ticker: Ticker) {
+        this.animator.update(ticker.deltaMS);
 
-            if (this.animator.isAnimating("zoom")) {
-                this.app.stage.updateTransform({
-                    scaleX: this.animator.get('zoom'),
-                    scaleY: this.animator.get('zoom'),
-                    x: this.animator.get('zoomX'),
-                    y: this.animator.get('zoomY'),
-                });
-            }
+        if (this.animator.isAnimating("zoom")) {
+            this.app.stage.updateTransform({
+                scaleX: this.animator.get('zoom'),
+                scaleY: this.animator.get('zoom'),
+                x: this.animator.get('zoomX'),
+                y: this.animator.get('zoomY'),
+            });
+        }
 
-            for (const node of this.simulation.nodes()) {
-                node.text!.scale.set(1 / this.animator.get('zoom'));
-                node.text!.position.set(0, 10);
-                node.text!.alpha = this.animator.get('unhoveredLabelOpacity');
+        for (const node of this.simulation.nodes()) {
+            node.label!.scale.set(1 / this.animator.get('zoom'));
+            node.label!.position.set(0, 10);
+            node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
 
-                if (currentlyHovered.length > 0) {
-                    if (node.id === currentlyHovered) {
-                        node.text!.alpha = this.animator.get('hoveredLabelOpacity');
+            if (this.currentlyHovered.length > 0) {
+                if (node.id === this.currentlyHovered) {
+                    node.label!.alpha = this.animator.get('hoveredLabelOpacity');
 
-                        (node.graphics!.children[0] as Graphics)
-                            .clear()
-                            .circle(0, 0, 5)
-                            .fill(this.animator.get('hoveredNodeColor'));
-                    } else {
-                        (node.graphics!.children[0] as Graphics)
-                            .clear()
-                            .circle(0, 0, 5)
-                            .fill(this.animator.get('unhoveredNodeColor'));
-                        node.text!.alpha = this.animator.get('unhoveredLabelOpacity');
-                        node.graphics!.alpha = this.animator.get('unhoveredNodeOpacity');
-                    }
+                    (node.node!.children[0] as Graphics)
+                        .clear()
+                        .circle(0, 0, 5)
+                        .fill(this.animator.get('hoveredNodeColor'));
                 } else {
-                    node.graphics!.alpha = 1;
-                    (node.graphics!.children[0] as Graphics)
+                    (node.node!.children[0] as Graphics)
                         .clear()
                         .circle(0, 0, 5)
                         .fill(this.animator.get('unhoveredNodeColor'));
+                    node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
+                    node.node!.alpha = this.animator.get('unhoveredNodeOpacity');
                 }
+            } else {
+                node.node!.alpha = 1;
+                (node.node!.children[0] as Graphics)
+                    .clear()
+                    .circle(0, 0, 5)
+                    .fill(this.animator.get('unhoveredNodeColor'));
             }
+        }
 
-            for (const node of this.simulation.nodes()) {
-                node.graphics!.position.set(node.x!, node.y!);
-            }
+        for (const node of this.simulation.nodes()) {
+            node.node!.position.set(node.x!, node.y!);
+        }
 
-            this.links.clear();
+        this.links.clear();
 
-            for (const link of this.processedData.links) {
-                let isAdjacent = link.source.id === currentlyHovered || link.target.id === currentlyHovered;
-                this.links
-                    // @ts-ignore
-                    .moveTo(link.source.x!, link.source.y!)
-                    // @ts-ignore
-                    .lineTo(link.target.x!, link.target.y!)
-                    .fill()
-                    .stroke({
-                        color: isAdjacent ? this.animator.get('hoveredLinkColor') : this.animator.get('unhoveredLinkColor'),
-                        width: 1 / this.animator.get('zoom'),
-                        alpha: (currentlyHovered ? (isAdjacent ? this.animator.get('hoveredLinkOpacity') : this.animator.get('unhoveredLinkOpacity')) : 0.5)
-                    })
-            }
-        });
+        for (const link of this.processedData.links) {
+            let isAdjacent = link.source.id === this.currentlyHovered || link.target.id === this.currentlyHovered;
+            this.links
+                .moveTo(link.source.x!, link.source.y!)
+                .lineTo(link.target.x!, link.target.y!)
+                .fill()
+                .stroke({
+                    color: isAdjacent ? this.animator.get('hoveredLinkColor') : this.animator.get('unhoveredLinkColor'),
+                    width: 1 / this.animator.get('zoom'),
+                    alpha: (this.currentlyHovered ? (isAdjacent ? this.animator.get('hoveredLinkOpacity') : this.animator.get('unhoveredLinkOpacity')) : 0.5)
+                })
+        }
     }
 
 }
