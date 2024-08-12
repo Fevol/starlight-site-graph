@@ -32,6 +32,9 @@ interface AnimatedValues {
 
     hoveredNodeColor: string;
     unhoveredNodeColor: string;
+    currentNodeColor: string;
+    visitedNodeColor: string;
+
     hoveredNodeOpacity: number;
     unhoveredNodeOpacity: number;
 

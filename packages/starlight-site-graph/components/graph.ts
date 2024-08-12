@@ -4,7 +4,7 @@ import config from "virtual:starlight-site-graph/config";
 import type {GraphConfig} from "../config";
 
 import {Animator} from "./animator";
-import {addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug} from "./util";
+import {addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug, stripSlashes} from "./util";
 import {showContextMenu} from "./context-menu";
 import {icons} from "./icons";
 import type {AnimatedValues, ContentDetails, LinkData, NodeData} from "./types";
@@ -33,6 +33,10 @@ export class GraphComponent extends HTMLElement {
     currentlyHovered: string = "";
     isFullscreen: boolean = false;
     fullscreenExitHandler?: () => void;
+
+    currentPage: string = stripSlashes(location.pathname);
+
+    visitedPages: Set<string> = getVisitedEndpoints();
 
     constructor() {
         super();
@@ -69,69 +73,22 @@ export class GraphComponent extends HTMLElement {
             {key: "zoomX", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
             {key: "zoomY", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
 
-            {
-                key: "hoveredNodeColor",
-                init: config.graphConfig.regularNodeColor,
-                interpolator: d3.interpolateRgb,
-                group: "hover"
-            },
-            {
-                key: "unhoveredNodeColor",
-                init: config.graphConfig.regularNodeColor,
-                interpolator: d3.interpolateRgb,
-                group: "hover"
-            },
-            {
-                key: "hoveredNodeOpacity",
-                init: config.graphConfig.regularNodeOpacity,
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
-            {
-                key: "unhoveredNodeOpacity",
-                init: config.graphConfig.regularNodeOpacity,
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
+            {key: "hoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
+            {key: "unhoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
+            {key: "visitedNodeColor", init: config.graphConfig.visitedNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
+            {key: "currentNodeColor", init: config.graphConfig.currentNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
 
-            {
-                key: "hoveredLinkColor",
-                init: config.graphConfig.regularLinkColor,
-                interpolator: d3.interpolateRgb,
-                group: "hover"
-            },
-            {
-                key: "unhoveredLinkColor",
-                init: config.graphConfig.regularLinkColor,
-                interpolator: d3.interpolateRgb,
-                group: "hover"
-            },
-            {
-                key: "hoveredLinkOpacity",
-                init: config.graphConfig.regularLinkOpacity,
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
-            {
-                key: "unhoveredLinkOpacity",
-                init: config.graphConfig.regularLinkOpacity,
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
+            {key: "hoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover"},
+            {key: "unhoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover"},
+
+            {key: "hoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover"},
+            {key: "unhoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover"},
+            {key: "hoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover"},
+            {key: "unhoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover"},
 
             {key: "hoveredLabelOpacity", init: 1, interpolator: d3.interpolateNumber, group: "hover"},
-            {
-                key: "unhoveredLabelOpacity",
-                init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0),
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
-            {
-                key: "hoveredLabelOffset",
-                init: LABEL_OFFSET,
-                interpolator: d3.interpolateNumber,
-                group: "hover"
-            },
+            {key: "unhoveredLabelOpacity", init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0), interpolator: d3.interpolateNumber, group: "hover"},
+            {key: "hoveredLabelOffset", init: LABEL_OFFSET, interpolator: d3.interpolateNumber, group: "hover"},
 
             {id: "zoom", duration: 0.075, easing: d3.easeQuadOut},
             {id: "hover", duration: 0.2, easing: d3.easeQuadOut},
@@ -258,7 +215,6 @@ export class GraphComponent extends HTMLElement {
 
     processSitemapData(siteData: Record<string, ContentDetails>): { nodes: NodeData[], links: LinkData[] } {
         let slug = location.pathname;
-        const visited = getVisitedEndpoints();
         const links: LinkData[] = []
         const tags: string[] = []
         const data: Map<string, ContentDetails> = new Map(
@@ -353,6 +309,9 @@ export class GraphComponent extends HTMLElement {
         this.animator.setTargets({
             hoveredNodeColor: config.graphConfig.regularNodeColor,
             unhoveredNodeColor: config.graphConfig.regularNodeColor,
+            currentNodeColor: config.graphConfig.currentNodeColor,
+            visitedNodeColor: config.graphConfig.visitedNodeColor,
+
             hoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
             unhoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
 
@@ -384,12 +343,22 @@ export class GraphComponent extends HTMLElement {
         }
     }
 
+    getColor(node: NodeData): string {
+        if (node.id === this.currentPage) {
+            return this.animator.get('currentNodeColor');
+        } else if (this.visitedPages.has(node.id)) {
+            return this.animator.get('visitedNodeColor');
+        } else {
+            return this.animator.get('unhoveredNodeColor');
+        }
+    }
+
     renderNodes() {
         for (const node of this.simulation.nodes()) {
             const nodeGraphics = new Container();
             const nodeDot = new Graphics();
             nodeDot.circle(0, 0, 5)
-                .fill(this.animator.get('unhoveredNodeColor'));
+                .fill(this.getColor(node));
 
             const nodeText = new Text({
                 text: node.text || node.id,
@@ -461,8 +430,13 @@ export class GraphComponent extends HTMLElement {
             if (closestNode) {
                 this.currentlyHovered = closestNode.id;
                 this.animator.setTargets({
+                    // FIXME: There need to be two separate animators for Visited (Hover) / Visited (Non-hovered) -> HoverColor / UnhoveredColor
+                    //      Easier alternative would be to control unhovered styling using opacity, but that would result in links being visible over nodes
                     hoveredNodeColor: config.graphConfig.hoveredNodeColor,
                     unhoveredNodeColor: config.graphConfig.unhoveredNodeColor,
+                    currentNodeColor: config.graphConfig.currentNodeColor,
+                    visitedNodeColor: config.graphConfig.visitedNodeColor,
+
                     hoveredNodeOpacity: config.graphConfig.hoveredNodeOpacity,
                     unhoveredNodeOpacity: config.graphConfig.unhoveredNodeOpacity,
 
@@ -520,11 +494,12 @@ export class GraphComponent extends HTMLElement {
             });
         }
 
+        // FIXME: Disable redrawing when group "hover" is not animating
         for (const node of this.simulation.nodes()) {
             node.label!.scale.set(1);
             node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
 
-            if (this.currentlyHovered.length > 0) {
+            if (this.currentlyHovered) {
                 if (node.id === this.currentlyHovered) {
                     node.label!.position.set(0, this.animator.get('hoveredLabelOffset'));
                     node.label!.alpha = this.animator.get('hoveredLabelOpacity');
@@ -538,7 +513,7 @@ export class GraphComponent extends HTMLElement {
                     (node.node!.children[0] as Graphics)
                         .clear()
                         .circle(0, 0, 5)
-                        .fill(this.animator.get('unhoveredNodeColor'));
+                        .fill(this.getColor(node));
                     node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
                     node.node!.alpha = this.animator.get('unhoveredNodeOpacity');
                 }
@@ -548,7 +523,7 @@ export class GraphComponent extends HTMLElement {
                 (node.node!.children[0] as Graphics)
                     .clear()
                     .circle(0, 0, 5)
-                    .fill(this.animator.get('unhoveredNodeColor'));
+                    .fill(this.getColor(node));
             }
         }
 

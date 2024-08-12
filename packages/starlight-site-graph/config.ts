@@ -26,6 +26,8 @@ export const defaultGraphConfig: GraphConfig = {
     regularNodeColor: "#FFFFFF",
     hoveredNodeColor: "#815CEC",
     unhoveredNodeColor: "#3C3C3C",
+    currentNodeColor: "#28954B",
+    visitedNodeColor: "#1F9389",
 
     regularNodeOpacity: 1,
     hoveredNodeOpacity: 1,
@@ -64,6 +66,8 @@ export type GraphConfig = {
     regularNodeColor: string,
     hoveredNodeColor: string,
     unhoveredNodeColor: string,
+    currentNodeColor: string,
+    visitedNodeColor: string,
 
     regularNodeOpacity: number,
     hoveredNodeOpacity: number,
@@ -139,6 +143,8 @@ export const starlightSiteGraphConfigSchema = z
             regularNodeColor: z.string().default(defaultGraphConfig.regularNodeColor),
             hoveredNodeColor: z.string().default(defaultGraphConfig.hoveredNodeColor),
             unhoveredNodeColor: z.string().default(defaultGraphConfig.unhoveredNodeColor),
+            currentNodeColor: z.string().default(defaultGraphConfig.currentNodeColor),
+            visitedNodeColor: z.string().default(defaultGraphConfig.visitedNodeColor),
 
             regularNodeOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
             hoveredNodeOpacity: z.number().default(defaultGraphConfig.hoveredNodeOpacity),

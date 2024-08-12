@@ -27,7 +27,7 @@ export class Animator<Key extends string, Value> {
     private readonly durations: Record<Key, number>;
     private readonly easings: Record<Key, AnimatorCurve>;
     private readonly onFinished = {} as Record<Key, (() => void) | undefined>;
-    private readonly interpolators = {} as Record<Key, Animatable<Value>>;
+    private readonly interpolators = {} as Record<Key, (t: number) => Value>;
     private readonly timeElapsed = {} as Record<Key, number>;
 
     private anyIsAnimating: boolean = false;
@@ -62,7 +62,6 @@ export class Animator<Key extends string, Value> {
     }
 
     public setTarget(key: Key, value: any): void {
-        this.t = 0;
         this.anyIsAnimating = true;
         this.timeElapsed[key] = 0;
         this.targetValues[key] = value;
@@ -70,7 +69,6 @@ export class Animator<Key extends string, Value> {
     }
 
     public setTargets(values: Partial<Record<Key, any>>): void {
-        this.t = 0;
         this.anyIsAnimating = true;
         this.sourceValues = {...this.intermediateValues};
         for (const key in values) {
