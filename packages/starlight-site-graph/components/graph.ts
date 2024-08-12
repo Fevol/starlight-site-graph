@@ -80,24 +80,23 @@ export class GraphComponent extends HTMLElement {
 
 
         this.config = config.graphConfig;
-        this.animator = new Animator<keyof AnimatedValues>([
-            { key: "zoom", init: 1, group: "zoom" },
-            { key: "zoomX", init: 0, group: "zoom" },
-            { key: "zoomY", init: 0, group: "zoom" },
+        this.animator = new Animator<keyof AnimatedValues, any>([
+            { key: "zoom", init: 1, interpolator: d3.interpolateNumber, group: "zoom" },
+            { key: "zoomX", init: 0, interpolator: d3.interpolateNumber, group: "zoom" },
+            { key: "zoomY", init: 0, interpolator: d3.interpolateNumber, group: "zoom" },
 
-            { key: "hoveredNodeColor", init: config.graphConfig.regularNodeColor, group: "hover" },
-            { key: "unhoveredNodeColor", init: config.graphConfig.regularNodeColor, group: "hover" },
-            { key: "hoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, group: "hover" },
-            { key: "unhoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, group: "hover" },
+            { key: "hoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover" },
+            { key: "unhoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover" },
+            { key: "hoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover" },
+            { key: "unhoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover" },
 
-            { key: "hoveredLinkColor", init: config.graphConfig.regularLinkColor, group: "hover" },
-            { key: "unhoveredLinkColor", init: config.graphConfig.regularLinkColor, group: "hover" },
+            { key: "hoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover" },
+            { key: "unhoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover" },
+            { key: "hoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover" },
+            { key: "unhoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover" },
 
-            { key: "hoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, group: "hover" },
-            { key: "unhoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, group: "hover" },
-
-            { key: "hoveredLabelOpacity", init: 1, group: "hover" },
-            { key: "unhoveredLabelOpacity", init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0), group: "hover" },
+            { key: "hoveredLabelOpacity", init: 1, interpolator: d3.interpolateNumber, group: "hover" },
+            { key: "unhoveredLabelOpacity", init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0), interpolator: d3.interpolateNumber, group: "hover" },
 
             { id: "zoom", duration: 0.075, easing: d3.easeQuadOut },
             { id: "hover", duration: 0.2, easing: d3.easeQuadOut },
