@@ -218,7 +218,7 @@ export class GraphComponent extends HTMLElement {
                 style: {
                     fill: 0xffffff,
                     fontSize: 12,
-                },
+                }
             });
             nodeText.anchor.set(0.5, 0.5);
             nodeText.alpha = this.animator.get('unhoveredLabelOpacity');

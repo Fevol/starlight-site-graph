@@ -6,6 +6,12 @@ import type { Props } from '@astrojs/starlight/props';
 import Graph from "../components/Graph.astro";
 ---
 
-<Graph/>
+<div class="graph-panel">
+    <h3>Graph View</h3>
+    <Graph/>
+</div>
 
-<Default {...Astro.props}><slot /></Default>
+
+<Default {...Astro.props}>
+    <slot />
+</Default>
