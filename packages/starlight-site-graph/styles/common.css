@@ -21,6 +21,7 @@
     canvas {
         width: inherit;
         height: inherit;
+        border-radius: inherit;
     }
 }
 
@@ -60,9 +61,16 @@ body:has(.background-blur) {
     transform: translate(-50%, -50%);
     z-index: 1000;
 
+    outline: unset;
 
     height: 60vh;
     width: 50vw;
+
+    .graph-action-container svg {
+        width: 24px;
+        height: 24px;
+    }
+
 }
 
 
@@ -79,10 +87,7 @@ body:has(.background-blur) {
     display: flex;
     flex-direction: row;
     gap: 0.2rem;
-    padding: 0.3rem;
-
-
-    margin: -1px;
+    padding: 0.2rem 0.2rem 0.4rem 0.5rem;
 
     background-color: color-mix(in srgb, var(--sl-color-bg) 80%, transparent);
     border-radius: 0 0 0 16px;

@@ -12,6 +12,7 @@ import type {AnimatedValues, ContentDetails, LinkData, NodeData} from "./types";
 
 
 const MAX_DEPTH = 6;
+const LABEL_OFFSET = 12;
 
 export class GraphComponent extends HTMLElement {
     graphContainer: HTMLElement;
@@ -122,6 +123,12 @@ export class GraphComponent extends HTMLElement {
             {
                 key: "unhoveredLabelOpacity",
                 init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0),
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
+            {
+                key: "hoveredLabelOffset",
+                init: LABEL_OFFSET,
                 interpolator: d3.interpolateNumber,
                 group: "hover"
             },
@@ -239,7 +246,7 @@ export class GraphComponent extends HTMLElement {
         await this.app.init({
             antialias: true,
             backgroundAlpha: 0,
-            resolution: 1,
+            resolution: 4,
             resizeTo: this.graphContainer,
         });
         this.graphContainer.appendChild(this.app.canvas);
@@ -356,6 +363,7 @@ export class GraphComponent extends HTMLElement {
 
             hoveredLabelOpacity: labelOpacity,
             unhoveredLabelOpacity: labelOpacity,
+            hoveredLabelOffset: LABEL_OFFSET,
         });
     }
 
@@ -465,6 +473,7 @@ export class GraphComponent extends HTMLElement {
 
                     hoveredLabelOpacity: 1,
                     unhoveredLabelOpacity: 0,
+                    hoveredLabelOffset: LABEL_OFFSET + 4,
                 });
             } else if (this.currentlyHovered) {
                 this.resetStyle();
@@ -486,6 +495,7 @@ export class GraphComponent extends HTMLElement {
 
         d3.select(this.app.canvas as HTMLCanvasElement).call(
             (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
+                .scaleExtent([0.05, 4])
                 .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
                 this.zoom = transform;
                 this.animator.setTargets({
@@ -511,12 +521,12 @@ export class GraphComponent extends HTMLElement {
         }
 
         for (const node of this.simulation.nodes()) {
-            node.label!.scale.set(1 / this.animator.get('zoom'));
-            node.label!.position.set(0, 10);
+            node.label!.scale.set(1);
             node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
 
             if (this.currentlyHovered.length > 0) {
                 if (node.id === this.currentlyHovered) {
+                    node.label!.position.set(0, this.animator.get('hoveredLabelOffset'));
                     node.label!.alpha = this.animator.get('hoveredLabelOpacity');
 
                     (node.node!.children[0] as Graphics)
@@ -524,6 +534,7 @@ export class GraphComponent extends HTMLElement {
                         .circle(0, 0, 5)
                         .fill(this.animator.get('hoveredNodeColor'));
                 } else {
+                    node.label!.position.set(0, LABEL_OFFSET);
                     (node.node!.children[0] as Graphics)
                         .clear()
                         .circle(0, 0, 5)
@@ -532,6 +543,7 @@ export class GraphComponent extends HTMLElement {
                     node.node!.alpha = this.animator.get('unhoveredNodeOpacity');
                 }
             } else {
+                node.label!.position.set(0, LABEL_OFFSET);
                 node.node!.alpha = 1;
                 (node.node!.children[0] as Graphics)
                     .clear()

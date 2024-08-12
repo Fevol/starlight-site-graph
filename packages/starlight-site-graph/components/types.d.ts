@@ -42,4 +42,5 @@ interface AnimatedValues {
 
     hoveredLabelOpacity: number;
     unhoveredLabelOpacity: number;
+    hoveredLabelOffset: number;
 }
