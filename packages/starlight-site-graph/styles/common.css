@@ -2,16 +2,79 @@
     padding: 1rem var(--sl-sidebar-pad-x);
 }
 
-.graph-container {
+.graph-component {
     width: 250px;
     height: 250px;
+}
+
+.graph-container {
+    position: relative;
+    width: inherit;
+    height: inherit;
+
     box-sizing: border-box;
 
     border-radius: 5px;
-    border: 1px solid var(--sl-color-gray-6);
+    outline: 1px solid var(--sl-color-gray-6);
 
     canvas {
         width: inherit;
         height: inherit;
     }
 }
+
+.is-fullscreen {
+    background-color: var(--sl-color-bg-sidebar);
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+
+
+    height: 60vh;
+    width: 50vw;
+}
+
+.graph-action-container {
+    position: absolute;
+    right: 0;
+
+    display: flex;
+    flex-direction: row;
+    gap: 0.2rem;
+    padding: 0.3rem;
+
+
+    margin: -1px;
+
+    background-color: color-mix(in srgb, var(--sl-color-bg) 80%, transparent);
+    border-radius: 0 0 0 16px;
+    backdrop-filter: blur(4px);
+}
+
+.graph-action-button {
+    display: flex;
+
+    color: var(--sl-color-white);
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    border: unset;
+    border-radius: 4px;
+
+    padding: 0.2rem;
+    opacity: 0.5;
+
+
+    &:hover {
+        background-color: var(--sl-color-gray-5);
+    }
+
+    svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+

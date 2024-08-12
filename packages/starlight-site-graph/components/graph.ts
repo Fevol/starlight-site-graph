@@ -6,6 +6,9 @@ import type {GraphConfig} from "../config";
 import {Animator} from "./animator";
 import {addToVisitedEndpoints, getVisitedEndpoints, simplifySlug} from "./util";
 
+
+import maximize from "../assets/svgs/maximize.svg?raw"
+
 export type ContentDetails = {
     title: string
     links: string[]
@@ -50,6 +53,8 @@ interface AnimatedValues {
 
 export class GraphComponent extends HTMLElement {
     graphContainer: HTMLElement;
+    actionContainer: HTMLElement;
+
     app!: Application;
     simulation!: d3.Simulation<NodeData, undefined>;
 
@@ -61,7 +66,19 @@ export class GraphComponent extends HTMLElement {
 
     constructor() {
         super();
-        this.graphContainer = this.children[0] as HTMLElement;
+
+        this.classList.add('graph-component');
+
+        this.graphContainer = document.createElement('div');
+        this.graphContainer.classList.add('graph-container');
+        this.appendChild(this.graphContainer);
+
+        this.actionContainer = document.createElement('div');
+        this.actionContainer.classList.add('graph-action-container');
+        this.renderActionContainer();
+        this.graphContainer.appendChild(this.actionContainer);
+
+
         this.config = config.graphConfig;
         this.animator = new Animator<keyof AnimatedValues>([
             { key: "zoom", init: 1, group: "zoom" },
@@ -87,6 +104,22 @@ export class GraphComponent extends HTMLElement {
         ]);
 
         this.mountGraph().then(() => {this.processGraph()});
+    }
+
+    renderActionContainer() {
+        this.actionContainer.replaceChildren();
+
+        for (const action of ["fullscreen"]) {
+            const actionElement = document.createElement('button');
+            actionElement.innerHTML = maximize;
+            actionElement.classList.add('graph-action-button');
+            actionElement.onclick = () => {
+                this.graphContainer.classList.toggle('is-fullscreen');
+                this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
+            }
+            this.actionContainer.appendChild(actionElement);
+        }
+
     }
 
     async mountGraph() {

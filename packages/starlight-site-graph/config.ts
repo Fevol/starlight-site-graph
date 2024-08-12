@@ -37,7 +37,7 @@ export const defaultGraphConfig: GraphConfig = {
 
     regularLinkOpacity: 1,
     hoveredLinkOpacity: 1,
-    unhoveredLinkOpacity: 0.1,
+    unhoveredLinkOpacity: 0.05,
 };
 
 export type GraphConfig = {
