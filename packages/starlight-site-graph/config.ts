@@ -25,15 +25,19 @@ export const defaultGraphConfig: GraphConfig = {
 
     regularNodeColor: "#FFFFFF",
     hoveredNodeColor: "#815CEC",
-    unhoveredNodeColor: "#FFFFFF",
+    unhoveredNodeColor: "#3C3C3C",
+
+    regularNodeOpacity: 1,
+    hoveredNodeOpacity: 1,
+    unhoveredNodeOpacity: 1,
+
+    regularLinkColor: "#FFFFFF",
+    hoveredLinkColor: "#815CEC",
+    unhoveredLinkColor: "#FFFFFF",
 
     regularLinkOpacity: 1,
     hoveredLinkOpacity: 1,
     unhoveredLinkOpacity: 0.1,
-
-    regularNodeOpacity: 1,
-    hoveredNodeOpacity: 1,
-    unhoveredNodeOpacity: 0.1,
 };
 
 export type GraphConfig = {
@@ -61,13 +65,18 @@ export type GraphConfig = {
     hoveredNodeColor: string,
     unhoveredNodeColor: string,
 
-    regularLinkOpacity: number,
-    hoveredLinkOpacity: number,
-    unhoveredNodeOpacity: number,
-
     regularNodeOpacity: number,
     hoveredNodeOpacity: number,
     unhoveredLinkOpacity: number,
+
+
+    regularLinkColor: string,
+    hoveredLinkColor: string,
+    unhoveredLinkColor: string,
+
+    regularLinkOpacity: number,
+    hoveredLinkOpacity: number,
+    unhoveredNodeOpacity: number,
 };
 
 export const starlightSiteGraphConfigSchema = z
@@ -128,16 +137,21 @@ export const starlightSiteGraphConfigSchema = z
             customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
 
             regularNodeColor: z.string().default(defaultGraphConfig.regularNodeColor),
-            hoveredColor: z.string().default(defaultGraphConfig.hoveredNodeColor),
-            unhoveredColor: z.string().default(defaultGraphConfig.unhoveredNodeColor),
+            hoveredNodeColor: z.string().default(defaultGraphConfig.hoveredNodeColor),
+            unhoveredNodeColor: z.string().default(defaultGraphConfig.unhoveredNodeColor),
+
+            regularNodeOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
+            hoveredNodeOpacity: z.number().default(defaultGraphConfig.hoveredNodeOpacity),
+            unhoveredNodeOpacity: z.number().default(defaultGraphConfig.unhoveredNodeOpacity),
+
+            regularLinkColor: z.string().default(defaultGraphConfig.regularLinkColor),
+            hoveredLinkColor: z.string().default(defaultGraphConfig.hoveredLinkColor),
+            unhoveredLinkColor: z.string().default(defaultGraphConfig.unhoveredLinkColor),
 
             regularLinkOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
             hoveredLinkOpacity: z.number().default(defaultGraphConfig.hoveredLinkOpacity),
             unhoveredLinkOpacity: z.number().default(defaultGraphConfig.unhoveredLinkOpacity),
 
-            regularNodeOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
-            hoveredNodeOpacity: z.number().default(defaultGraphConfig.hoveredNodeOpacity),
-            unhoveredNodeOpacity: z.number().default(defaultGraphConfig.unhoveredNodeOpacity),
 
         }).default(defaultGraphConfig),
         sitemap: z.record(z.string(), z.object({
