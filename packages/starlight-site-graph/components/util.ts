@@ -32,3 +32,13 @@ export function stripSlashes(s: string, onlyStripPrefix?: boolean): string {
         s = s.slice(0, -1)
     return s
 }
+
+export function onClickOutside(target: HTMLElement, callback: () => void) {
+    function handleClickOutside(event: MouseEvent) {
+        if (!target.contains(event.target as HTMLElement)) {
+            callback();
+        }
+    }
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+}

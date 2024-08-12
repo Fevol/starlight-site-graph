@@ -4,73 +4,51 @@ import config from "virtual:starlight-site-graph/config";
 import type {GraphConfig} from "../config";
 
 import {Animator} from "./animator";
-import {addToVisitedEndpoints, getVisitedEndpoints, simplifySlug} from "./util";
+import {addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug} from "./util";
+import {showContextMenu} from "./context-menu";
+import {icons} from "./icons";
+import type {AnimatedValues, ContentDetails, LinkData, NodeData} from "./types";
 
 
-import maximize from "../assets/svgs/maximize.svg?raw"
 
-export type ContentDetails = {
-    title: string
-    links: string[]
-    backlinks: string[]
-    tags: string[]
-    content: string
-    richContent?: string
-    date?: Date
-    description?: string
-}
-
-export type NodeData = {
-    id: string
-    tags: string[]
-    graphics?: Container;
-    text?: Text;
-} & d3.SimulationNodeDatum
-
-export type LinkData = {
-    source: NodeData
-    target: NodeData
-}
-
-interface AnimatedValues {
-    zoom: number;
-    zoomX: number;
-    zoomY: number;
-
-    hoveredNodeColor: string;
-    unhoveredNodeColor: string;
-    hoveredNodeOpacity: number;
-    unhoveredNodeOpacity: number;
-
-    hoveredLinkColor: string;
-    unhoveredLinkColor: string;
-    hoveredLinkOpacity: number;
-    unhoveredLinkOpacity: number;
-
-    hoveredLabelOpacity: number;
-    unhoveredLabelOpacity: number;
-}
+const MAX_DEPTH = 6;
 
 export class GraphComponent extends HTMLElement {
     graphContainer: HTMLElement;
+    mockGraphContainer: HTMLElement;
     actionContainer: HTMLElement;
+    blurContainer: HTMLElement;
 
     app!: Application;
     simulation!: d3.Simulation<NodeData, undefined>;
+    zoom: d3.ZoomTransform;
 
     links!: Graphics;
 
     config!: GraphConfig;
     processedData!: ReturnType<typeof this.processSitemapData>;
-    animator: Animator<keyof AnimatedValues>;
+    animator: Animator<keyof AnimatedValues, any>;
+
+    isFullscreen: boolean = false;
+    fullscreenExitHandler?: () => void;
 
     constructor() {
         super();
+
+        this.config = config.graphConfig;
+        this.config.depth = Math.min(this.config.depth, 5);
+
+
+        this.zoom = d3.zoomIdentity;
 
         this.classList.add('graph-component');
 
         this.graphContainer = document.createElement('div');
         this.graphContainer.classList.add('graph-container');
+        this.graphContainer.onkeyup = (e) => {
+            if (e.key === "f") this.enableFullscreen()
+        }
+        this.graphContainer.tabIndex = 0;
         this.appendChild(this.graphContainer);
 
         this.actionContainer = document.createElement('div');
@@ -78,45 +56,181 @@ export class GraphComponent extends HTMLElement {
         this.renderActionContainer();
         this.graphContainer.appendChild(this.actionContainer);
 
+        this.mockGraphContainer = document.createElement('div');
+        this.mockGraphContainer.classList.add('graph-container');
 
-        this.config = config.graphConfig;
+        this.blurContainer = document.createElement('div');
+        this.blurContainer.classList.add('background-blur');
+
         this.animator = new Animator<keyof AnimatedValues, any>([
-            { key: "zoom", init: 1, interpolator: d3.interpolateNumber, group: "zoom" },
-            { key: "zoomX", init: 0, interpolator: d3.interpolateNumber, group: "zoom" },
-            { key: "zoomY", init: 0, interpolator: d3.interpolateNumber, group: "zoom" },
+            {key: "zoom", init: 1, interpolator: d3.interpolateNumber, group: "zoom"},
+            {key: "zoomX", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
+            {key: "zoomY", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
 
-            { key: "hoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover" },
-            { key: "unhoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover" },
-            { key: "hoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover" },
-            { key: "unhoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover" },
+            {
+                key: "hoveredNodeColor",
+                init: config.graphConfig.regularNodeColor,
+                interpolator: d3.interpolateRgb,
+                group: "hover"
+            },
+            {
+                key: "unhoveredNodeColor",
+                init: config.graphConfig.regularNodeColor,
+                interpolator: d3.interpolateRgb,
+                group: "hover"
+            },
+            {
+                key: "hoveredNodeOpacity",
+                init: config.graphConfig.regularNodeOpacity,
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
+            {
+                key: "unhoveredNodeOpacity",
+                init: config.graphConfig.regularNodeOpacity,
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
 
-            { key: "hoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover" },
-            { key: "unhoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover" },
-            { key: "hoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover" },
-            { key: "unhoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover" },
+            {
+                key: "hoveredLinkColor",
+                init: config.graphConfig.regularLinkColor,
+                interpolator: d3.interpolateRgb,
+                group: "hover"
+            },
+            {
+                key: "unhoveredLinkColor",
+                init: config.graphConfig.regularLinkColor,
+                interpolator: d3.interpolateRgb,
+                group: "hover"
+            },
+            {
+                key: "hoveredLinkOpacity",
+                init: config.graphConfig.regularLinkOpacity,
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
+            {
+                key: "unhoveredLinkOpacity",
+                init: config.graphConfig.regularLinkOpacity,
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
 
-            { key: "hoveredLabelOpacity", init: 1, interpolator: d3.interpolateNumber, group: "hover" },
-            { key: "unhoveredLabelOpacity", init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0), interpolator: d3.interpolateNumber, group: "hover" },
+            {key: "hoveredLabelOpacity", init: 1, interpolator: d3.interpolateNumber, group: "hover"},
+            {
+                key: "unhoveredLabelOpacity",
+                init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0),
+                interpolator: d3.interpolateNumber,
+                group: "hover"
+            },
 
-            { id: "zoom", duration: 0.075, easing: d3.easeQuadOut },
-            { id: "hover", duration: 0.2, easing: d3.easeQuadOut },
+            {id: "zoom", duration: 0.075, easing: d3.easeQuadOut},
+            {id: "hover", duration: 0.2, easing: d3.easeQuadOut},
         ]);
 
-        this.mountGraph().then(() => {this.processGraph()});
+        this.mountGraph().then(() => {
+            this.processGraph()
+        });
+    }
+
+    override remove() {
+        this.app.destroy();
+        this.graphContainer.remove();
+        this.mockGraphContainer.remove();
+        this.blurContainer.remove();
+
+        super.remove();
+    }
+
+    enableFullscreen() {
+        if (this.isFullscreen) return;
+
+        this.isFullscreen = true;
+        this.graphContainer.classList.toggle('is-fullscreen', true);
+        this.appendChild(this.mockGraphContainer);
+        this.appendChild(this.blurContainer);
+        this.fullscreenExitHandler = onClickOutside(this.graphContainer, () => {
+            this.disableFullscreen()
+        });
+        this.graphContainer.onkeyup = (e) => {
+            if (e.key === "Escape" || e.key === "f") this.disableFullscreen()
+        }
+        this.renderActionContainer();
+
+        this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
+    }
+
+    disableFullscreen() {
+        if (!this.isFullscreen) return;
+
+        this.isFullscreen = false;
+        this.graphContainer.classList.toggle('is-fullscreen', false);
+        this.removeChild(this.mockGraphContainer);
+        this.removeChild(this.blurContainer);
+        this.fullscreenExitHandler!();
+        this.graphContainer.onkeyup = (e) => {
+            if (e.key === "f") this.enableFullscreen()
+        }
+        this.renderActionContainer();
+
+        this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
     }
 
     renderActionContainer() {
         this.actionContainer.replaceChildren();
-
-        for (const action of ["fullscreen"]) {
+        for (const action of ["fullscreen", "depth"]) {
             const actionElement = document.createElement('button');
-            actionElement.innerHTML = maximize;
             actionElement.classList.add('graph-action-button');
-            actionElement.onclick = () => {
-                this.graphContainer.classList.toggle('is-fullscreen');
-                this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
-            }
             this.actionContainer.appendChild(actionElement);
+
+            if (action === "fullscreen") {
+                actionElement.innerHTML = this.isFullscreen ? icons.minimize : icons.maximize;
+                actionElement.onclick = (e) => {
+                    (this.isFullscreen ? this.disableFullscreen() : this.enableFullscreen());
+                    e.stopPropagation()
+                }
+                actionElement.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showContextMenu(e, [
+                        {text: "Minimize", icon: icons.minimize, onClick: () => this.disableFullscreen()},
+                        {text: "Maximize", icon: icons.maximize, onClick: () => this.enableFullscreen()},
+                    ]);
+                }
+            } else if (action === "depth") {
+                actionElement.innerHTML = icons["graph" + this.config.depth as keyof typeof icons];
+                actionElement.onclick = () => {
+                    this.config.depth = (this.config.depth + 1) % MAX_DEPTH;
+                    this.processGraph();
+                    this.renderActionContainer()
+                }
+                actionElement.oncontextmenu = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    showContextMenu(e,
+                        Array.from({length: MAX_DEPTH}, (_, i) => ({
+                            text: i === MAX_DEPTH - 1 ?
+                                "Show Entire Graph" :
+                                i === 0 ?
+                                    "Show Only Current" :
+                                    i === 1 ?
+                                        "Show Adjacent" :
+                                        `Show Distance ${i}`,
+                            icon: icons["graph" + i as keyof typeof icons],
+                            onClick: () => {
+                                if (this.config.depth !== i) {
+                                    this.config.depth = i;
+                                    this.processGraph();
+                                    this.renderActionContainer();
+                                }
+                            }
+                        }))
+                    );
+                }
+            }
+
+
         }
 
     }
@@ -228,16 +342,34 @@ export class GraphComponent extends HTMLElement {
             .restart();
     }
 
+    resetStyle() {
+        const labelOpacity = this.getCurrentLabelOpacity();
+        this.animator.setTargets({
+            hoveredNodeColor: config.graphConfig.regularNodeColor,
+            unhoveredNodeColor: config.graphConfig.regularNodeColor,
+            hoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
+            unhoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
+
+            hoveredLinkColor: config.graphConfig.regularLinkColor,
+            unhoveredLinkColor: config.graphConfig.regularLinkColor,
+            hoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
+            unhoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
+
+            hoveredLabelOpacity: labelOpacity,
+            unhoveredLabelOpacity: labelOpacity,
+        });
+    }
+
+    getCurrentLabelOpacity(k: number = this.zoom.k): number {
+        return Math.max(((k * this.config.opacityScale) - 1) / 3.75, 0);
+    }
+
     processGraph() {
+        this.app.stage.removeChildren();
+        this.zoom = d3.zoomIdentity;
         this.processedData = this.processSitemapData(config.sitemap as Record<string, ContentDetails>);
         this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
         this.simulationUpdate();
-
-
-        function getCurrentLabelOpacity(k: number = zoom.k): number {
-            return Math.max(((k * config.graphConfig.opacityScale) - 1) / 3.75, 0);
-        }
-
 
         for (const node of this.simulation.nodes()) {
             const nodeGraphics = new Container();
@@ -271,8 +403,7 @@ export class GraphComponent extends HTMLElement {
                 .drag()
                 .container(this.app.canvas)
                 .subject(event => {
-                    const invZoom = zoom.invert([event.x, event.y]);
-                    return this.simulation.find(invZoom[0], invZoom[1], 10);
+                    return this.simulation.find(...this.zoom.invert([event.x, event.y]), 10)
                 })
                 .on('start', (e) => {
                     if (!e.subject) return;
@@ -303,8 +434,7 @@ export class GraphComponent extends HTMLElement {
 
         let currentlyHovered: string = "";
         d3.select(this.app.canvas).on('mousemove', (e: MouseEvent) => {
-            const invZoom = zoom.invert([e.offsetX, e.offsetY]);
-            const closestNode = this.simulation.find(invZoom[0], invZoom[1], 5);
+            const closestNode = this.simulation.find(...this.zoom.invert([e.offsetX, e.offsetY]), 5);
             if (closestNode) {
                 currentlyHovered = closestNode.id;
                 this.animator.setTargets({
@@ -322,21 +452,7 @@ export class GraphComponent extends HTMLElement {
                     unhoveredLabelOpacity: 0,
                 });
             } else if (currentlyHovered) {
-                const labelOpacity = getCurrentLabelOpacity();
-                this.animator.setTargets({
-                    hoveredNodeColor: config.graphConfig.regularNodeColor,
-                    unhoveredNodeColor: config.graphConfig.regularNodeColor,
-                    hoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
-                    unhoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
-
-                    hoveredLinkColor: config.graphConfig.regularLinkColor,
-                    unhoveredLinkColor: config.graphConfig.regularLinkColor,
-                    hoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
-                    unhoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
-
-                    hoveredLabelOpacity: labelOpacity,
-                    unhoveredLabelOpacity: labelOpacity,
-                });
+                this.resetStyle();
                 this.animator.setOnFinished("hoveredNodeColor", () => {
                     currentlyHovered = "";
                 });
@@ -345,8 +461,7 @@ export class GraphComponent extends HTMLElement {
         })
 
         d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
-            const invZoom = zoom.invert([e.offsetX, e.offsetY]);
-            const closestNode = this.simulation.find(invZoom[0], invZoom[1], 5);
+            const closestNode = this.simulation.find(...this.zoom.invert([e.offsetX, e.offsetY]), 5);
             if (closestNode) {
                 addToVisitedEndpoints(closestNode.id);
                 location.href = closestNode.id;
@@ -354,17 +469,15 @@ export class GraphComponent extends HTMLElement {
         })
 
 
-        let zoom: d3.ZoomTransform = d3.zoomIdentity;
-
         d3.select(this.app.canvas).call(
             // @ts-ignore
             d3.zoom().on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
-                zoom = transform;
+                this.zoom = transform;
                 this.animator.setTargets({
                     zoom: transform.k,
                     zoomX: transform.x,
                     zoomY: transform.y,
-                    unhoveredLabelOpacity: getCurrentLabelOpacity(transform.k),
+                    unhoveredLabelOpacity: this.getCurrentLabelOpacity(transform.k),
                 });
             }),
         );

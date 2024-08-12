@@ -1,3 +1,4 @@
+/* =================================== Graph Container Styling ============================================== */
 .graph-panel {
     padding: 1rem var(--sl-sidebar-pad-x);
 }
@@ -23,6 +24,33 @@
     }
 }
 
+/* ========================================================================================================= */
+
+
+/* ====================================== Fullscreen Styling =============================================== */
+
+body:has(.background-blur) {
+    #starlight__sidebar {
+        z-index: -1;
+    }
+
+    .header {
+        z-index: -1;
+    }
+}
+
+.background-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    backdrop-filter: blur(4px);
+    width: 100%;
+    height: 100%;
+
+    z-index: 10;
+}
+
 .is-fullscreen {
     background-color: var(--sl-color-bg-sidebar);
 
@@ -36,6 +64,13 @@
     height: 60vh;
     width: 50vw;
 }
+
+
+/* ========================================================================================================== */
+
+
+
+/* ====================================== Graph Action Styles =============================================== */
 
 .graph-action-container {
     position: absolute;
@@ -78,3 +113,52 @@
     }
 }
 
+/* ========================================================================================================== */
+
+
+/* ====================================== Context Menu Styles =============================================== */
+
+.menu-container {
+    position: fixed;
+    z-index: 1000;
+}
+
+.menu {
+    display: inline-flex;
+    background-color: var(--sl-color-gray-6);
+    border: 1px var(--sl-color-gray-4) solid;
+    width: 170px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-direction: column;
+    padding: 6px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 4px;
+    margin: 0 2px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.menu-item:hover {
+    background-color: var(--sl-color-gray-5);
+}
+
+.menu-item-icon {
+    display: flex;
+}
+
+.menu-item-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.menu-item-title {
+    font-weight: 600;
+    font-size: var(--sl-text-xs);
+}
+/* ========================================================================================================== */
