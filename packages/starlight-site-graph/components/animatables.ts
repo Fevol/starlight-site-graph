@@ -1,10 +1,10 @@
 import type {GraphConfig} from "../config";
 import {HOVER_DURATION, HOVER_EASER, LABEL_OFFSET, ZOOM_DURATION, ZOOM_EASER} from "./constants";
 import type {AnimatedValues} from "./types";
-import {ColorInterpolator, NumberInterpolator} from "./animator";
+import {ColorInterpolator, NumberInterpolator, type AnimationConfig} from "./animator";
 
 
-export const animatables: (graphConfig: GraphConfig) => keyof AnimatedValues = (graphConfig: GraphConfig) => {
+export const animatables = (graphConfig: GraphConfig) => {
     return {
         "zoom": {
             properties: {default: 1},
@@ -119,5 +119,5 @@ export const animatables: (graphConfig: GraphConfig) => keyof AnimatedValues = (
             duration: HOVER_DURATION,
             easing: HOVER_EASER
         },
-    }
+    } as const satisfies Record<keyof AnimatedValues, AnimationConfig<unknown>>;
 }

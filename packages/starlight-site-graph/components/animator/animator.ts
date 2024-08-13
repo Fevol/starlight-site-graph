@@ -1,5 +1,13 @@
 import type {AnimationConfig, AnimationState, ConfigValueType} from "./types";
 
+type AnimationToMap<T extends Record<string, AnimationConfig<unknown>>> = {
+    [key in keyof T]?: keyof (T[key]['properties'])
+}
+
+type AnimationsMap<T extends Record<string, AnimationConfig<unknown>>> = {
+    [key in keyof T]?: ConfigValueType<T[key]>
+}
+
 export class Animator<const T extends Record<string, AnimationConfig<unknown>>> {
     private readonly configs: T;
     private animations: Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
@@ -13,6 +21,8 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
         this.animations = {} as Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
         for (const [key, config] of Object.entries(configs)) {
             const initialValue = (config.initialValue ?? config.properties?.["default"] ?? config.interpolator.defaultValue()) as ConfigValueType<T[keyof T]>;
+            
+            // @ts-ignore
             this.animations[key] = {
                 progress: 0,
                 sourceValue: initialValue,
@@ -26,8 +36,8 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
         this.startAnimation(key, this.configs[key]!.properties![property as string] as ConfigValueType<T[K]>, onFinished);
     }
 
-    startAnimationsTo<K extends keyof T, P extends keyof T[K]['properties']>(properties: Record<K, P>): void {
-        for (const [key, property] of Object.entries(properties) as [K, P][]) {
+    startAnimationsTo(properties: AnimationToMap<T>): void {
+        for (const [key, property] of Object.entries(properties)) {
             this.startAnimationTo(key, property);
         }
     }
@@ -47,7 +57,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
         animation.onFinished = onFinished;
     }
 
-    startAnimations(animations: Record<keyof T, ConfigValueType<T[keyof T]>>): void {
+    startAnimations(animations: AnimationsMap<T>): void {
         for (const key in animations) {
             this.startAnimation(key, animations[key]!);
         }

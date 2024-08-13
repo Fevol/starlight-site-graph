@@ -38,7 +38,7 @@ export class GraphComponent extends HTMLElement {
 
     config!: GraphConfig;
     processedData!: ReturnType<typeof this.processSitemapData>;
-    animator: Animator<keyof AnimatedValues>;
+    animator: Animator<ReturnType<typeof animatables>>;
 
     currentlyHovered: string = "";
     isFullscreen: boolean = false;
@@ -78,7 +78,7 @@ export class GraphComponent extends HTMLElement {
         this.blurContainer = document.createElement('div');
         this.blurContainer.classList.add('background-blur');
 
-        this.animator = new Animator<keyof AnimatedValues, any>(animatables(config.graphConfig)) as const satisfies Record<string, AnimationConfig<unknown>>;
+        this.animator = new Animator<ReturnType<typeof animatables>>(animatables(config.graphConfig));
 
         this.mountGraph().then(() => {
             this.setup()
@@ -349,6 +349,7 @@ export class GraphComponent extends HTMLElement {
         } else {
             color = 'nodeColor';
         }
+        // @ts-ignore ts does not understand that the keys are valid
         return this.animator.getValue(color + (hover ? "Hover" : ""));
     }
 
