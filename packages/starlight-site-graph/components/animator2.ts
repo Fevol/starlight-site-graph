@@ -13,6 +13,12 @@ interface Interpolator<T> {
     interpolate(a: T, b: T, current: T, x: number): T;
 
     defaultValue(): T;
+
+    /**
+     * Clones the given value.
+     * Must be a deep clone.
+     */
+    clone(x: T): T;
 }
 
 interface AnimationCurve2 {
@@ -73,9 +79,9 @@ class Animator2<const T extends Record<string, AnimationConfig2<unknown>>> {
 
     startAnimation<K extends keyof T>(key: K, targetValue: ConfigValueType<T[K]>, onFinished?: (value: ConfigValueType<T[K]>) => void): void {
         const animation = this.animations[key];
+        const config = this.configs[key]!;
 
-        // TODO: this breaks when mutating, maybe copy
-        animation.sourceValue = this.values[key];
+        animation.sourceValue = config.interpolator.clone(this.values[key]) as ConfigValueType<T[keyof T]>;
         animation.targetValue = targetValue;
         animation.progress = 0;
         animation.onFinished = onFinished;
@@ -166,6 +172,10 @@ class NumberInterpolator implements Interpolator<number> {
     defaultValue(): number {
         return 0;
     }
+
+    clone(x: number): number {
+        return x;
+    }
 }
 
 class Color {
@@ -190,6 +200,10 @@ class ColorInterpolator implements Interpolator<Color> {
 
     defaultValue(): Color {
         return new Color(0, 0, 0);
+    }
+
+    clone(x: Color): Color {
+        return new Color(x.r, x.g, x.b);
     }
 }
 
