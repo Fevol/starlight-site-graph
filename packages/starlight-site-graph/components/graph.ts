@@ -554,7 +554,7 @@ export class GraphComponent extends HTMLElement {
                 .stroke({
                     color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
                     width: 1 / this.animator.getValue('zoom'),
-                    alpha: (this.currentlyHovered ? (isAdjacent ? this.animator.getValue('linkOpacityHover') : this.animator.getValue('linkOpacity')) : 0.5)
+                    alpha: (isAdjacent ? this.animator.getValue('linkOpacityHover') : this.animator.getValue('linkOpacity'))
                 })
         }
     }
