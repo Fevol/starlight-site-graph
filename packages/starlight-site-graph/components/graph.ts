@@ -13,6 +13,14 @@ import type {AnimatedValues, ContentDetails, LinkData, NodeData} from "./types";
 
 const MAX_DEPTH = 6;
 const LABEL_OFFSET = 12;
+/**
+ * The default size of a node.
+ */
+const NODE_SIZE = 5;
+/**
+ * The additional size of a node for each link.
+ */
+const NODE_SIZE_MODIFIER = 0.2;
 
 export class GraphComponent extends HTMLElement {
     graphContainer: HTMLElement;
@@ -209,6 +217,7 @@ export class GraphComponent extends HTMLElement {
         this.graphContainer.appendChild(this.app.canvas);
 
         this.links = new Graphics();
+        this.app.stage.sortableChildren = true;
         this.app.stage.addChild(this.links);
         this.app.ticker.add((ticker) => { this.tick(ticker) });
     }
@@ -254,22 +263,28 @@ export class GraphComponent extends HTMLElement {
                 }
             }
         }
+        
+        const neighbourhood = new Set<string>();
+        // __SENTINEL is used to separate levels in the BFS
+        const queue: (string | "__SENTINEL")[] = [slug, "__SENTINEL"];
 
-        const neighbourhood = new Set<string>()
-        const wl: (string | "__SENTINEL")[] = [slug, "__SENTINEL"]
-        if (depth >= 0) {
-            while (depth >= 0 && wl.length > 0) {
-                const cur = wl.shift()!
-                if (cur === "__SENTINEL") {
-                    depth--
-                    wl.push("__SENTINEL")
-                } else if (neighbourhood.has(cur)) {
+        if (depth !== -1) {
+            while (depth >= 0 && queue.length > 0) {
+                const current = queue.shift()!;
+
+                if (current === "__SENTINEL") {
+                    depth -= 1;
+                    if (queue.length === 0) {
+                        break;
+                    }
+                    queue.push("__SENTINEL");
+                } else if (neighbourhood.has(current)) {
                     continue;
                 } else {
-                    neighbourhood.add(cur)
-                    const outgoing = links.filter((l) => l.source as unknown as string === cur)
-                    const incoming = links.filter((l) => l.target as unknown as string === cur)
-                    wl.push(...outgoing.map((l) => l.target as unknown as string), ...incoming.map((l) => l.source as unknown as string))
+                    neighbourhood.add(current);
+                    const outgoing = links.filter((l) => l.source as unknown as string === current);
+                    const incoming = links.filter((l) => l.target as unknown as string === current);
+                    queue.push(...outgoing.map((l) => l.target as unknown as string), ...incoming.map((l) => l.source as unknown as string));
                 }
             }
         } else {
@@ -283,6 +298,7 @@ export class GraphComponent extends HTMLElement {
                     id: url,
                     text: url.startsWith("tags/") ? "#" + url.substring(5) : data.get(url)?.title ?? url,
                     tags: data.get(url)?.tags ?? [],
+                    neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
                 }
             }),
             links: links.filter((l) => neighbourhood.has(l.source as unknown as string) && neighbourhood.has(l.target as unknown as string)),
@@ -353,11 +369,25 @@ export class GraphComponent extends HTMLElement {
         }
     }
 
+    getNodeSize(node: NodeData): number {
+        return NODE_SIZE + (node.neighborCount ?? 0) * NODE_SIZE_MODIFIER;
+    }
+
+    findOverlappingNode(x: number, y: number): NodeData | undefined {
+        for (const node of this.simulation.nodes()) {
+            if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= this.getNodeSize(node) ** 2) {
+                return node;
+            }
+        }
+
+        return undefined;
+    }
+
     renderNodes() {
         for (const node of this.simulation.nodes()) {
-            const nodeGraphics = new Container();
             const nodeDot = new Graphics();
-            nodeDot.circle(0, 0, 5)
+            nodeDot.zIndex = 0;
+            nodeDot.circle(0, 0, this.getNodeSize(node))
                 .fill(this.getColor(node));
 
             const nodeText = new Text({
@@ -365,17 +395,16 @@ export class GraphComponent extends HTMLElement {
                 style: {
                     fill: 0xffffff,
                     fontSize: 12,
-                }
+                },
+                zIndex: 100,
             });
             nodeText.anchor.set(0.5, 0.5);
             nodeText.alpha = this.animator.get('unhoveredLabelOpacity');
 
-            nodeGraphics.addChild(nodeDot);
-            nodeGraphics.addChild(nodeText);
-
-            node.node = nodeGraphics;
+            node.node = nodeDot;
             node.label = nodeText;
-            this.app.stage.addChild(nodeGraphics);
+            this.app.stage.addChild(nodeText);
+            this.app.stage.addChild(nodeDot);
         }
     }
 
@@ -426,7 +455,9 @@ export class GraphComponent extends HTMLElement {
         );
 
         d3.select(this.app.canvas).on('mousemove', (e: MouseEvent) => {
-            const closestNode = this.simulation.find(...this.zoom.invert([e.offsetX, e.offsetY]), 5);
+            const [x, y] = this.zoom.invert([e.offsetX, e.offsetY]);
+            const closestNode = this.findOverlappingNode(x, y);
+
             if (closestNode) {
                 this.currentlyHovered = closestNode.id;
                 this.animator.setTargets({
@@ -501,33 +532,31 @@ export class GraphComponent extends HTMLElement {
 
             if (this.currentlyHovered) {
                 if (node.id === this.currentlyHovered) {
-                    node.label!.position.set(0, this.animator.get('hoveredLabelOffset'));
+                    node.label!.position.set(node.x!, node.y! + this.animator.get('hoveredLabelOffset'));
                     node.label!.alpha = this.animator.get('hoveredLabelOpacity');
 
-                    (node.node!.children[0] as Graphics)
+                    (node.node!)
                         .clear()
-                        .circle(0, 0, 5)
+                        .circle(0, 0, this.getNodeSize(node))
                         .fill(this.animator.get('hoveredNodeColor'));
                 } else {
-                    node.label!.position.set(0, LABEL_OFFSET);
-                    (node.node!.children[0] as Graphics)
+                    node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
+                    (node.node!)
                         .clear()
-                        .circle(0, 0, 5)
+                        .circle(0, 0, this.getNodeSize(node))
                         .fill(this.getColor(node));
                     node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
                     node.node!.alpha = this.animator.get('unhoveredNodeOpacity');
                 }
             } else {
-                node.label!.position.set(0, LABEL_OFFSET);
+                node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
                 node.node!.alpha = 1;
-                (node.node!.children[0] as Graphics)
+                (node.node!)
                     .clear()
-                    .circle(0, 0, 5)
+                    .circle(0, 0, this.getNodeSize(node))
                     .fill(this.getColor(node));
             }
-        }
 
-        for (const node of this.simulation.nodes()) {
             node.node!.position.set(node.x!, node.y!);
         }
 

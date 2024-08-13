@@ -1,4 +1,4 @@
-import {Container, Text} from "pixi.js";
+import {Container, Graphics, Text} from "pixi.js";
 import * as d3 from "d3";
 
 type ContentDetails = {
@@ -15,9 +15,10 @@ type ContentDetails = {
 type NodeData = {
     id: string
     tags: string[]
-    node?: Container;
+    node?: Graphics;
     text?: string;
     label?: Text;
+    neighborCount?: number;
 } & d3.SimulationNodeDatum
 
 type LinkData = {
