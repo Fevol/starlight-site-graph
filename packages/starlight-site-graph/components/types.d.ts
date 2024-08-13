@@ -31,20 +31,22 @@ interface AnimatedValues {
     zoomX: number;
     zoomY: number;
 
-    hoveredNodeColor: string;
-    unhoveredNodeColor: string;
+    nodeColor: string;
+    nodeColorHover: string;
     currentNodeColor: string;
+    currentNodeColorHover: string;
     visitedNodeColor: string;
+    visitedNodeColorHover: string;
 
-    hoveredNodeOpacity: number;
-    unhoveredNodeOpacity: number;
+    nodeOpacity: number;
+    nodeOpacityHover: number;
 
-    hoveredLinkColor: string;
-    unhoveredLinkColor: string;
-    hoveredLinkOpacity: number;
-    unhoveredLinkOpacity: number;
+    linkColor: string;
+    linkColorHover: string;
+    linkOpacity: number;
+    linkOpacityHover: number;
 
-    hoveredLabelOpacity: number;
-    unhoveredLabelOpacity: number;
-    hoveredLabelOffset: number;
+    labelOpacity: number;
+    labelOpacityHover: number;
+    labelOffset: number;
 }

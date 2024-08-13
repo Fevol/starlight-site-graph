@@ -1,26 +1,28 @@
 import * as d3 from 'd3';
-import {Application, Container, Graphics, Text, Ticker} from 'pixi.js';
+import {Application, Graphics, Text, Ticker} from 'pixi.js';
 import config from "virtual:starlight-site-graph/config";
 import type {GraphConfig} from "../config";
 
-import {Animator} from "./animator";
-import {addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug, stripSlashes} from "./util";
+import {type AnimationConfig, Animator} from "./animator";
+
 import {showContextMenu} from "./context-menu";
-import {icons} from "./icons";
+import {
+    addToVisitedEndpoints,
+    getRelativePath,
+    getVisitedEndpoints,
+    onClickOutside,
+    simplifySlug,
+    stripSlashes
+} from "./util";
 import type {AnimatedValues, ContentDetails, LinkData, NodeData} from "./types";
 
+import {LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER} from "./constants";
+import {animatables} from "./animatables";
+import {icons} from "./icons";
 
 
 const MAX_DEPTH = 6;
-const LABEL_OFFSET = 12;
-/**
- * The default size of a node.
- */
-const NODE_SIZE = 5;
-/**
- * The additional size of a node for each link.
- */
-const NODE_SIZE_MODIFIER = 0.2;
+
 
 export class GraphComponent extends HTMLElement {
     graphContainer: HTMLElement;
@@ -36,7 +38,7 @@ export class GraphComponent extends HTMLElement {
 
     config!: GraphConfig;
     processedData!: ReturnType<typeof this.processSitemapData>;
-    animator: Animator<keyof AnimatedValues, any>;
+    animator: Animator<keyof AnimatedValues>;
 
     currentlyHovered: string = "";
     isFullscreen: boolean = false;
@@ -76,33 +78,11 @@ export class GraphComponent extends HTMLElement {
         this.blurContainer = document.createElement('div');
         this.blurContainer.classList.add('background-blur');
 
-        this.animator = new Animator<keyof AnimatedValues, any>([
-            {key: "zoom", init: 1, interpolator: d3.interpolateNumber, group: "zoom"},
-            {key: "zoomX", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
-            {key: "zoomY", init: 0, interpolator: d3.interpolateNumber, group: "zoom"},
+        this.animator = new Animator<keyof AnimatedValues, any>(animatables(config.graphConfig)) as const satisfies Record<string, AnimationConfig<unknown>>;
 
-            {key: "hoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
-            {key: "unhoveredNodeColor", init: config.graphConfig.regularNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
-            {key: "visitedNodeColor", init: config.graphConfig.visitedNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
-            {key: "currentNodeColor", init: config.graphConfig.currentNodeColor, interpolator: d3.interpolateRgb, group: "hover"},
-
-            {key: "hoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover"},
-            {key: "unhoveredNodeOpacity", init: config.graphConfig.regularNodeOpacity, interpolator: d3.interpolateNumber, group: "hover"},
-
-            {key: "hoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover"},
-            {key: "unhoveredLinkColor", init: config.graphConfig.regularLinkColor, interpolator: d3.interpolateRgb, group: "hover"},
-            {key: "hoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover"},
-            {key: "unhoveredLinkOpacity", init: config.graphConfig.regularLinkOpacity, interpolator: d3.interpolateNumber, group: "hover"},
-
-            {key: "hoveredLabelOpacity", init: 1, interpolator: d3.interpolateNumber, group: "hover"},
-            {key: "unhoveredLabelOpacity", init: Math.max((config.graphConfig.opacityScale - 1) / 3.75, 0), interpolator: d3.interpolateNumber, group: "hover"},
-            {key: "hoveredLabelOffset", init: LABEL_OFFSET, interpolator: d3.interpolateNumber, group: "hover"},
-
-            {id: "zoom", duration: 0.075, easing: d3.easeQuadOut},
-            {id: "hover", duration: 0.2, easing: d3.easeQuadOut},
-        ]);
-
-        this.mountGraph().then(() => { this.setup() });
+        this.mountGraph().then(() => {
+            this.setup()
+        });
     }
 
     override remove() {
@@ -200,10 +180,7 @@ export class GraphComponent extends HTMLElement {
                     );
                 }
             }
-
-
         }
-
     }
 
     async mountGraph() {
@@ -219,7 +196,9 @@ export class GraphComponent extends HTMLElement {
         this.links = new Graphics();
         this.app.stage.sortableChildren = true;
         this.app.stage.addChild(this.links);
-        this.app.ticker.add((ticker) => { this.tick(ticker) });
+        this.app.ticker.add((ticker) => {
+            this.tick(ticker)
+        });
     }
 
     processSitemapData(siteData: Record<string, ContentDetails>): { nodes: NodeData[], links: LinkData[] } {
@@ -263,7 +242,7 @@ export class GraphComponent extends HTMLElement {
                 }
             }
         }
-        
+
         const neighbourhood = new Set<string>();
         // __SENTINEL is used to separate levels in the BFS
         const queue: (string | "__SENTINEL")[] = [slug, "__SENTINEL"];
@@ -321,25 +300,27 @@ export class GraphComponent extends HTMLElement {
     }
 
     resetStyle() {
-        const labelOpacity = this.getCurrentLabelOpacity();
-        this.animator.setTargets({
-            hoveredNodeColor: config.graphConfig.regularNodeColor,
-            unhoveredNodeColor: config.graphConfig.regularNodeColor,
-            currentNodeColor: config.graphConfig.currentNodeColor,
-            visitedNodeColor: config.graphConfig.visitedNodeColor,
+        this.animator.startAnimationsTo({
+            nodeColorHover: "default",
+            nodeColor: "default",
+            visitedNodeColorHover: "default",
+            visitedNodeColor: "default",
+            currentNodeColorHover: "default",
+            currentNodeColor: "default",
 
-            hoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
-            unhoveredNodeOpacity: config.graphConfig.regularNodeOpacity,
+            nodeOpacityHover: "default",
+            nodeOpacity: "default",
 
-            hoveredLinkColor: config.graphConfig.regularLinkColor,
-            unhoveredLinkColor: config.graphConfig.regularLinkColor,
-            hoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
-            unhoveredLinkOpacity: config.graphConfig.regularLinkOpacity,
+            linkColorHover: "default",
+            linkColor: "default",
+            linkOpacityHover: "default",
+            linkOpacity: "default",
 
-            hoveredLabelOpacity: labelOpacity,
-            unhoveredLabelOpacity: labelOpacity,
-            hoveredLabelOffset: LABEL_OFFSET,
+            labelOpacityHover: "default",
+            labelOpacity: "default",
+            labelOffset: "default"
         });
+        this.animator.startAnimation('labelOpacity', this.getCurrentLabelOpacity());
     }
 
     getCurrentLabelOpacity(k: number = this.zoom.k): number {
@@ -359,14 +340,16 @@ export class GraphComponent extends HTMLElement {
         }
     }
 
-    getColor(node: NodeData): string {
+    getColor(node: NodeData, hover: boolean): string {
+        let color = "";
         if (node.id === this.currentPage) {
-            return this.animator.get('currentNodeColor');
+            color = 'currentNodeColor';
         } else if (this.visitedPages.has(node.id)) {
-            return this.animator.get('visitedNodeColor');
+            color = 'visitedNodeColor';
         } else {
-            return this.animator.get('unhoveredNodeColor');
+            color = 'nodeColor';
         }
+        return this.animator.getValue(color + (hover ? "Hover" : ""));
     }
 
     getNodeSize(node: NodeData): number {
@@ -388,7 +371,7 @@ export class GraphComponent extends HTMLElement {
             const nodeDot = new Graphics();
             nodeDot.zIndex = 0;
             nodeDot.circle(0, 0, this.getNodeSize(node))
-                .fill(this.getColor(node));
+                .fill(this.getColor(node, false));
 
             const nodeText = new Text({
                 text: node.text || node.id,
@@ -399,7 +382,7 @@ export class GraphComponent extends HTMLElement {
                 zIndex: 100,
             });
             nodeText.anchor.set(0.5, 0.5);
-            nodeText.alpha = this.animator.get('unhoveredLabelOpacity');
+            nodeText.alpha = this.animator.getValue('labelOpacity');
 
             node.node = nodeDot;
             node.label = nodeText;
@@ -439,8 +422,8 @@ export class GraphComponent extends HTMLElement {
                 .on('drag', (e) => {
                     if (!e.subject) return;
 
-                    dragX += e.dx / this.animator.get('zoom');
-                    dragY += e.dy / this.animator.get('zoom');
+                    dragX += e.dx / this.animator.getValue('zoom');
+                    dragY += e.dy / this.animator.getValue('zoom');
 
                     e.subject.fx = dragX;
                     e.subject.fy = dragY;
@@ -460,56 +443,55 @@ export class GraphComponent extends HTMLElement {
 
             if (closestNode) {
                 this.currentlyHovered = closestNode.id;
-                this.animator.setTargets({
-                    // FIXME: There need to be two separate animators for Visited (Hover) / Visited (Non-hovered) -> HoverColor / UnhoveredColor
-                    //      Easier alternative would be to control unhovered styling using opacity, but that would result in links being visible over nodes
-                    hoveredNodeColor: config.graphConfig.hoveredNodeColor,
-                    unhoveredNodeColor: config.graphConfig.unhoveredNodeColor,
-                    currentNodeColor: config.graphConfig.currentNodeColor,
-                    visitedNodeColor: config.graphConfig.visitedNodeColor,
+                this.animator.startAnimationsTo({
+                    nodeColorHover: "hover",
+                    nodeColor: "blur",
+                    visitedNodeColorHover: "hover",
+                    visitedNodeColor: "blur",
+                    currentNodeColorHover: "hover",
+                    currentNodeColor: "blur",
 
-                    hoveredNodeOpacity: config.graphConfig.hoveredNodeOpacity,
-                    unhoveredNodeOpacity: config.graphConfig.unhoveredNodeOpacity,
+                    nodeOpacityHover: "hover",
+                    nodeOpacity: "blur",
 
-                    hoveredLinkColor: config.graphConfig.hoveredLinkColor,
-                    unhoveredLinkColor: config.graphConfig.unhoveredLinkColor,
-                    hoveredLinkOpacity: config.graphConfig.hoveredLinkOpacity,
-                    unhoveredLinkOpacity: config.graphConfig.unhoveredLinkOpacity,
+                    linkColorHover: "hover",
+                    linkColor: "blur",
+                    linkOpacityHover: "hover",
+                    linkOpacity: "blur",
 
-                    hoveredLabelOpacity: 1,
-                    unhoveredLabelOpacity: 0,
-                    hoveredLabelOffset: LABEL_OFFSET + 4,
+                    labelOpacityHover: "hover",
+                    labelOpacity: "blur",
+                    labelOffset: "hover"
                 });
             } else if (this.currentlyHovered) {
                 this.resetStyle();
-                this.animator.setOnFinished("hoveredNodeColor", () => {
+                this.animator.setOnFinished("nodeColorHover", () => {
                     this.currentlyHovered = "";
                 });
             }
-
-        })
+        });
 
         d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
             const closestNode = this.simulation.find(...this.zoom.invert([e.offsetX, e.offsetY]), 5);
             if (closestNode) {
                 addToVisitedEndpoints(closestNode.id);
-                location.href = closestNode.id;
+                window.location.assign(getRelativePath(this.currentPage, closestNode.id))
             }
-        })
+        });
 
 
         d3.select(this.app.canvas as HTMLCanvasElement).call(
             (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
                 .scaleExtent([0.05, 4])
                 .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
-                this.zoom = transform;
-                this.animator.setTargets({
-                    zoom: transform.k,
-                    zoomX: transform.x,
-                    zoomY: transform.y,
-                    unhoveredLabelOpacity: this.getCurrentLabelOpacity(transform.k),
-                });
-            }),
+                    this.zoom = transform;
+                    this.animator.startAnimations({
+                        zoom: transform.k,
+                        zoomX: transform.x,
+                        zoomY: transform.y,
+                        labelOpacity: this.getCurrentLabelOpacity(transform.k),
+                    });
+                }),
         );
     }
 
@@ -518,35 +500,35 @@ export class GraphComponent extends HTMLElement {
 
         if (this.animator.isAnimating("zoom")) {
             this.app.stage.updateTransform({
-                scaleX: this.animator.get('zoom'),
-                scaleY: this.animator.get('zoom'),
-                x: this.animator.get('zoomX'),
-                y: this.animator.get('zoomY'),
+                scaleX: this.animator.getValue('zoom'),
+                scaleY: this.animator.getValue('zoom'),
+                x: this.animator.getValue('zoomX'),
+                y: this.animator.getValue('zoomY'),
             });
         }
 
         // FIXME: Disable redrawing when group "hover" is not animating
         for (const node of this.simulation.nodes()) {
             node.label!.scale.set(1);
-            node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
+            node.label!.alpha = this.animator.getValue('labelOpacity');
 
             if (this.currentlyHovered) {
                 if (node.id === this.currentlyHovered) {
-                    node.label!.position.set(node.x!, node.y! + this.animator.get('hoveredLabelOffset'));
-                    node.label!.alpha = this.animator.get('hoveredLabelOpacity');
+                    node.label!.position.set(node.x!, node.y! + this.animator.getValue('labelOffset'));
+                    node.label!.alpha = this.animator.getValue('labelOpacityHover');
 
                     (node.node!)
                         .clear()
                         .circle(0, 0, this.getNodeSize(node))
-                        .fill(this.animator.get('hoveredNodeColor'));
+                        .fill(this.getColor(node, true));
                 } else {
                     node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
                     (node.node!)
                         .clear()
                         .circle(0, 0, this.getNodeSize(node))
-                        .fill(this.getColor(node));
-                    node.label!.alpha = this.animator.get('unhoveredLabelOpacity');
-                    node.node!.alpha = this.animator.get('unhoveredNodeOpacity');
+                        .fill(this.getColor(node, false));
+                    node.label!.alpha = this.animator.getValue('labelOpacity');
+                    node.node!.alpha = this.animator.getValue('nodeOpacity');
                 }
             } else {
                 node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
@@ -554,7 +536,7 @@ export class GraphComponent extends HTMLElement {
                 (node.node!)
                     .clear()
                     .circle(0, 0, this.getNodeSize(node))
-                    .fill(this.getColor(node));
+                    .fill(this.getColor(node, false));
             }
 
             node.node!.position.set(node.x!, node.y!);
@@ -569,9 +551,9 @@ export class GraphComponent extends HTMLElement {
                 .lineTo(link.target.x!, link.target.y!)
                 .fill()
                 .stroke({
-                    color: isAdjacent ? this.animator.get('hoveredLinkColor') : this.animator.get('unhoveredLinkColor'),
-                    width: 1 / this.animator.get('zoom'),
-                    alpha: (this.currentlyHovered ? (isAdjacent ? this.animator.get('hoveredLinkOpacity') : this.animator.get('unhoveredLinkOpacity')) : 0.5)
+                    color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
+                    width: 1 / this.animator.getValue('zoom'),
+                    alpha: (this.currentlyHovered ? (isAdjacent ? this.animator.getValue('linkOpacityHover') : this.animator.getValue('linkOpacity')) : 0.5)
                 })
         }
     }
