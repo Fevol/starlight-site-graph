@@ -35,9198 +35,6355 @@ export default defineConfig({
 						renderArrows: true,
 					},
 					sitemap: {
-						'api/namespaces/augmentations/interfaces/EditableFileView': {
-							title: 'EditableFileView',
-							content: '',
-							links: [
-								'api/namespaces/augmentations/interfaces/fileview/',
-								'api/namespaces/augmentations/interfaces/textfileview/',
-								'api/namespaces/augmentations/interfaces/fileview',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/fileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/EditableFileView',
-								'api/namespaces/augmentations/interfaces/ItemView',
-							],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/textfileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/EditableFileView',
-								'api/namespaces/augmentations/interfaces/MarkdownView',
-							],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/fileview': {
-							title: 'fileview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/EditableFileView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/FileView': {
-							title: 'FileView',
-							content: '',
-							links: [
-								'api/namespaces/augmentations/interfaces/itemview/',
-								'api/namespaces/augmentations/interfaces/editablefileview/',
-								'api/namespaces/augmentations/interfaces/itemview',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/itemview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/FileView',
-								'api/namespaces/augmentations/interfaces/View',
-							],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/editablefileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/FileView',
-								'api/namespaces/augmentations/interfaces/TextFileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/itemview': {
-							title: 'itemview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/FileView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/ItemView': {
-							title: 'ItemView',
-							content: '',
-							links: [
-								'api/namespaces/augmentations/interfaces/view/',
-								'api/namespaces/augmentations/interfaces/fileview/',
-								'api/namespaces/augmentations/interfaces/view',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/view/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/view': {
-							title: 'view',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/MarkdownView': {
-							title: 'MarkdownView',
-							content: '',
-							links: [
-								'api/namespaces/augmentations/interfaces/textfileview/',
-								'api/namespaces/augmentations/interfaces/textfileview',
-								'api/namespaces/internals/interfaces/metadataeditor/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/textfileview': {
-							title: 'textfileview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/MarkdownView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadataeditor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/MarkdownView',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/PropertyRenderContext',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/MarkdownView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/token/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/augmentations/interfaces/MarkdownView',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/interfaces/EditorRange',
-							],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/TextFileView': {
-							title: 'TextFileView',
-							content: '',
-							links: [
-								'api/namespaces/augmentations/interfaces/editablefileview/',
-								'api/namespaces/augmentations/interfaces/markdownview/',
-								'api/namespaces/augmentations/interfaces/editablefileview',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/markdownview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/TextFileView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/editablefileview': {
-							title: 'editablefileview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/augmentations/interfaces/TextFileView'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/interfaces/View': {
-							title: 'View',
-							content: '',
-							links: ['api/namespaces/augmentations/interfaces/itemview/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasData': {
-							title: 'CanvasData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasedgedata/',
-								'api/namespaces/canvas/type-aliases/allcanvasnodedata/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvasedgedata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/canvas/interfaces/CanvasData'],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/allcanvasnodedata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/canvas/interfaces/CanvasData'],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasEdgeData': {
-							title: 'CanvasEdgeData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/type-aliases/edgeend/',
-								'api/namespaces/canvas/type-aliases/nodeside/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/edgeend/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/canvas/interfaces/CanvasEdgeData'],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/nodeside/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/canvas/interfaces/CanvasEdgeData'],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasFileData': {
-							title: 'CanvasFileData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasnodedata/',
-								'api/namespaces/canvas/interfaces/canvasnodedata',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvasnodedata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasFileData',
-								'api/namespaces/canvas/interfaces/CanvasGroupData',
-								'api/namespaces/canvas/interfaces/CanvasLinkData',
-								'api/namespaces/canvas/interfaces/CanvasTextData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvasnodedata': {
-							title: 'canvasnodedata',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasFileData',
-								'api/namespaces/canvas/interfaces/CanvasGroupData',
-								'api/namespaces/canvas/interfaces/CanvasLinkData',
-								'api/namespaces/canvas/interfaces/CanvasTextData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasGroupData': {
-							title: 'CanvasGroupData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasnodedata/',
-								'api/namespaces/canvas/type-aliases/backgroundstyle/',
-								'api/namespaces/canvas/interfaces/canvasnodedata',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/backgroundstyle/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/canvas/interfaces/CanvasGroupData'],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasLinkData': {
-							title: 'CanvasLinkData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasnodedata/',
-								'api/namespaces/canvas/interfaces/canvasnodedata',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasNodeData': {
-							title: 'CanvasNodeData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasfiledata/',
-								'api/namespaces/canvas/interfaces/canvastextdata/',
-								'api/namespaces/canvas/interfaces/canvaslinkdata/',
-								'api/namespaces/canvas/interfaces/canvasgroupdata/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvasfiledata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasNodeData',
-								'api/namespaces/canvas/type-aliases/AllCanvasNodeData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvastextdata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasNodeData',
-								'api/namespaces/canvas/type-aliases/AllCanvasNodeData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvaslinkdata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasNodeData',
-								'api/namespaces/canvas/type-aliases/AllCanvasNodeData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/canvasgroupdata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/canvas/interfaces/CanvasNodeData',
-								'api/namespaces/canvas/type-aliases/AllCanvasNodeData',
-							],
-							tags: [],
-						},
-						'api/namespaces/canvas/interfaces/CanvasTextData': {
-							title: 'CanvasTextData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasnodedata/',
-								'api/namespaces/canvas/interfaces/canvasnodedata',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/AllCanvasNodeData': {
-							title: 'AllCanvasNodeData',
-							content: '',
-							links: [
-								'api/namespaces/canvas/interfaces/canvasfiledata/',
-								'api/namespaces/canvas/interfaces/canvastextdata/',
-								'api/namespaces/canvas/interfaces/canvaslinkdata/',
-								'api/namespaces/canvas/interfaces/canvasgroupdata/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/BackgroundStyle': {
-							title: 'BackgroundStyle',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/CanvasColor': {
-							title: 'CanvasColor',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/EdgeEnd': {
-							title: 'EdgeEnd',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/canvas/type-aliases/NodeSide': {
-							title: 'NodeSide',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/codemirror__view/interfaces/EditorView': {
-							title: 'EditorView',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/global/interfaces/DomElementInfo': {
-							title: 'DomElementInfo',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AbstractSearchComponent': {
-							title: 'AbstractSearchComponent',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/editorsearchcomponent/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/editorsearchcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AbstractSearchComponent',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/app/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AbstractSearchComponent',
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasLinkUpdater',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/ClipBoardManager',
-								'api/namespaces/internals/interfaces/Commands',
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/DragManager',
-								'api/namespaces/internals/interfaces/EditorSearchComponent',
-								'api/namespaces/internals/interfaces/EmbedContext',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/FileSuggestManager',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/HotkeyManager',
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/LinkUpdate',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/MetadataTypeManager',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/Plugins',
-								'api/namespaces/internals/interfaces/PropertyRenderContext',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/Tree',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/FuzzySuggestModal',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SettingTab',
-								'api/namespaces/obsidian/classes/SuggestModal',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/interfaces/BlockCache',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/scope/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AbstractSearchComponent',
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/EditorSearchComponent',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/KeyScope',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/Tree',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/FuzzySuggestModal',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/Keymap',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-								'api/namespaces/obsidian/classes/Scope',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SuggestModal',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/interfaces/KeymapEventHandler',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Account': {
-							title: 'Account',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AllPropertiesView': {
-							title: 'AllPropertiesView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/itemview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/View',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/component/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/PropertyWidget',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/internals/type-aliases/EmbeddableConstructor',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/itemview': {
-							title: 'itemview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/obsidian/classes/FileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/eventref/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/EmbedRegistry',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/MetadataTypeManager',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/ViewRegistry',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceleaf/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/HoverLinkEvent',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/ViewRegistry',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/interfaces/OpenViewState',
-								'api/namespaces/obsidian/interfaces/ViewState',
-								'api/namespaces/obsidian/type-aliases/ViewCreator',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/menu/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/MenuItem',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/interfaces/CloseableComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/keymapeventhandler/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/Scope',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/interfaces/KeymapInfo',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/viewstateresult/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AllPropertiesView',
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/BrowserHistoryView',
-								'api/namespaces/internals/interfaces/BrowserView',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/EmptyView',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/GraphView',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/ReleaseNotesView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/View',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AppMenuBarManager': {
-							title: 'AppMenuBarManager',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AppVaultConfig': {
-							title: 'AppVaultConfig',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/appvaultconfighotkeysrecord/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/appvaultconfighotkeysrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/AppVaultConfig'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AppVaultConfigHotkeysRecord': {
-							title: 'AppVaultConfigHotkeysRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AudioRecorderPluginInstance': {
-							title: 'AudioRecorderPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/audiorecorderplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/internalplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioRecorderPluginInstance',
-								'api/namespaces/internals/interfaces/BacklinkPluginInstance',
-								'api/namespaces/internals/interfaces/BookmarksPluginInstance',
-								'api/namespaces/internals/interfaces/CanvasPluginInstance',
-								'api/namespaces/internals/interfaces/CommandPalettePluginInstance',
-								'api/namespaces/internals/interfaces/DailyNotesPluginInstance',
-								'api/namespaces/internals/interfaces/EditorStatusPluginInstance',
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/FileRecoveryPluginInstance',
-								'api/namespaces/internals/interfaces/GlobalSearchPluginInstance',
-								'api/namespaces/internals/interfaces/GraphPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugin',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/MarkdownImporterPluginInstance',
-								'api/namespaces/internals/interfaces/NoteComposerPluginInstance',
-								'api/namespaces/internals/interfaces/OutgoingLinkPluginInstance',
-								'api/namespaces/internals/interfaces/OutlinePluginInstance',
-								'api/namespaces/internals/interfaces/PagePreviewPluginInstance',
-								'api/namespaces/internals/interfaces/PropertiesPluginInstance',
-								'api/namespaces/internals/interfaces/PublishPluginInstance',
-								'api/namespaces/internals/interfaces/RandomNotePluginInstance',
-								'api/namespaces/internals/interfaces/SlashCommandPluginInstance',
-								'api/namespaces/internals/interfaces/SlidesPluginInstance',
-								'api/namespaces/internals/interfaces/StarredPluginInstance',
-								'api/namespaces/internals/interfaces/SwitcherPluginInstance',
-								'api/namespaces/internals/interfaces/SyncPluginInstance',
-								'api/namespaces/internals/interfaces/TagPanePluginInstance',
-								'api/namespaces/internals/interfaces/TemplatesPluginInstance',
-								'api/namespaces/internals/interfaces/WordCountPluginInstance',
-								'api/namespaces/internals/interfaces/WorkspacesPluginInstance',
-								'api/namespaces/internals/interfaces/ZkPrefixerPluginInstance',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/internalplugin/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioRecorderPluginInstance',
-								'api/namespaces/internals/interfaces/BacklinkPluginInstance',
-								'api/namespaces/internals/interfaces/BookmarksPluginInstance',
-								'api/namespaces/internals/interfaces/CanvasPluginInstance',
-								'api/namespaces/internals/interfaces/CommandPalettePluginInstance',
-								'api/namespaces/internals/interfaces/DailyNotesPluginInstance',
-								'api/namespaces/internals/interfaces/EditorStatusPluginInstance',
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/FileRecoveryPluginInstance',
-								'api/namespaces/internals/interfaces/GlobalSearchPluginInstance',
-								'api/namespaces/internals/interfaces/GraphPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/MarkdownImporterPluginInstance',
-								'api/namespaces/internals/interfaces/NoteComposerPluginInstance',
-								'api/namespaces/internals/interfaces/OutgoingLinkPluginInstance',
-								'api/namespaces/internals/interfaces/OutlinePluginInstance',
-								'api/namespaces/internals/interfaces/PagePreviewPluginInstance',
-								'api/namespaces/internals/interfaces/PropertiesPluginInstance',
-								'api/namespaces/internals/interfaces/PublishPluginInstance',
-								'api/namespaces/internals/interfaces/RandomNotePluginInstance',
-								'api/namespaces/internals/interfaces/SlashCommandPluginInstance',
-								'api/namespaces/internals/interfaces/SlidesPluginInstance',
-								'api/namespaces/internals/interfaces/StarredPluginInstance',
-								'api/namespaces/internals/interfaces/SwitcherPluginInstance',
-								'api/namespaces/internals/interfaces/SyncPluginInstance',
-								'api/namespaces/internals/interfaces/TagPanePluginInstance',
-								'api/namespaces/internals/interfaces/TemplatesPluginInstance',
-								'api/namespaces/internals/interfaces/WordCountPluginInstance',
-								'api/namespaces/internals/interfaces/WorkspacesPluginInstance',
-								'api/namespaces/internals/interfaces/ZkPrefixerPluginInstance',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/audiorecorderplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioRecorderPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/internalplugininstance': {
-							title: 'internalplugininstance',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioRecorderPluginInstance',
-								'api/namespaces/internals/interfaces/BacklinkPluginInstance',
-								'api/namespaces/internals/interfaces/BookmarksPluginInstance',
-								'api/namespaces/internals/interfaces/CanvasPluginInstance',
-								'api/namespaces/internals/interfaces/CommandPalettePluginInstance',
-								'api/namespaces/internals/interfaces/DailyNotesPluginInstance',
-								'api/namespaces/internals/interfaces/EditorStatusPluginInstance',
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/FileRecoveryPluginInstance',
-								'api/namespaces/internals/interfaces/GlobalSearchPluginInstance',
-								'api/namespaces/internals/interfaces/GraphPluginInstance',
-								'api/namespaces/internals/interfaces/MarkdownImporterPluginInstance',
-								'api/namespaces/internals/interfaces/NoteComposerPluginInstance',
-								'api/namespaces/internals/interfaces/OutgoingLinkPluginInstance',
-								'api/namespaces/internals/interfaces/OutlinePluginInstance',
-								'api/namespaces/internals/interfaces/PagePreviewPluginInstance',
-								'api/namespaces/internals/interfaces/PropertiesPluginInstance',
-								'api/namespaces/internals/interfaces/PublishPluginInstance',
-								'api/namespaces/internals/interfaces/RandomNotePluginInstance',
-								'api/namespaces/internals/interfaces/SlashCommandPluginInstance',
-								'api/namespaces/internals/interfaces/SlidesPluginInstance',
-								'api/namespaces/internals/interfaces/StarredPluginInstance',
-								'api/namespaces/internals/interfaces/SwitcherPluginInstance',
-								'api/namespaces/internals/interfaces/SyncPluginInstance',
-								'api/namespaces/internals/interfaces/TagPanePluginInstance',
-								'api/namespaces/internals/interfaces/TemplatesPluginInstance',
-								'api/namespaces/internals/interfaces/WordCountPluginInstance',
-								'api/namespaces/internals/interfaces/WorkspacesPluginInstance',
-								'api/namespaces/internals/interfaces/ZkPrefixerPluginInstance',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/AudioView': {
-							title: 'AudioView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/editablefileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/editablefileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/TextFileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/editablefileview': {
-							title: 'editablefileview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/obsidian/classes/TextFileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/tfile/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/AudioView',
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/BookmarksView',
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/CanvasLinkUpdater',
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/internals/interfaces/DragManager',
-								'api/namespaces/internals/interfaces/EditorSuggests',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/EmbedRegistry',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/FileSuggestManager',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/ImageView',
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/internals/interfaces/LinkUpdate',
-								'api/namespaces/internals/interfaces/LinkUpdater',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/PdfView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/VideoView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/internals/type-aliases/EmbeddableConstructor',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/TAbstractFile',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/classes/TFile',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/interfaces/EditorSuggestContext',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BacklinkPluginInstance': {
-							title: 'BacklinkPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/backlinkplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/backlinkplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BacklinkPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BacklinkView': {
-							title: 'BacklinkView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/infofileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/infofileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/obsidian/classes/FileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/infofileview': {
-							title: 'infofileview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BacklinkView',
-								'api/namespaces/internals/interfaces/FilePropertiesView',
-								'api/namespaces/internals/interfaces/LocalGraphView',
-								'api/namespaces/internals/interfaces/OutgoingLinkView',
-								'api/namespaces/internals/interfaces/OutlineView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BaseEditor': {
-							title: 'BaseEditor',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/editor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BaseEditor',
-								'api/namespaces/internals/interfaces/EditorSearchComponent',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/Editor',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/interfaces/Command',
-								'api/namespaces/obsidian/interfaces/EditorSuggestContext',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorposition/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BaseEditor',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/SearchCursor',
-								'api/namespaces/internals/interfaces/Token',
-								'api/namespaces/obsidian/classes/Editor',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/interfaces/EditorChange',
-								'api/namespaces/obsidian/interfaces/EditorRange',
-								'api/namespaces/obsidian/interfaces/EditorRangeOrCaret',
-								'api/namespaces/obsidian/interfaces/EditorSelection',
-								'api/namespaces/obsidian/interfaces/EditorSelectionOrCaret',
-								'api/namespaces/obsidian/interfaces/EditorSuggestContext',
-								'api/namespaces/obsidian/interfaces/EditorSuggestTriggerInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BookmarksPluginInstance': {
-							title: 'BookmarksPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/bookmarksplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/bookmarksplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/BookmarksPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BookmarksView': {
-							title: 'BookmarksView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BrowserHistoryView': {
-							title: 'BrowserHistoryView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/BrowserView': {
-							title: 'BrowserView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasConnection': {
-							title: 'CanvasConnection',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasLeaf': {
-							title: 'CanvasLeaf',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspaceleaf',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/openviewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceleaf': {
-							title: 'workspaceleaf',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacemobiledrawer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacetabs/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/view/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/internals/interfaces/OutlineView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/internals/interfaces/Tree',
-								'api/namespaces/internals/interfaces/ViewRegistry',
-								'api/namespaces/internals/interfaces/ViewRegistryViewByTypeRecord',
-								'api/namespaces/internals/type-aliases/TreeItem',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/type-aliases/ViewCreator',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacecontainer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceroot': {
-							title: 'workspaceroot',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacewindow': {
-							title: 'workspacewindow',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/viewstate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/internals/interfaces/LeafEntry',
-								'api/namespaces/internals/interfaces/StateHistory',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/openviewstate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLeaf',
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/internals/interfaces/GlobalSearchLeaf',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasLinkUpdater': {
-							title: 'CanvasLinkUpdater',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/linkupdater/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/canvasplugininstance/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/linkchangeupdate/',
-								'api/namespaces/internals/interfaces/linkupdater',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/linkupdater/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLinkUpdater',
-								'api/namespaces/internals/interfaces/LinkUpdaters',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/canvasplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLinkUpdater',
-								'api/namespaces/internals/interfaces/CanvasPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/linkchangeupdate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasLinkUpdater',
-								'api/namespaces/internals/interfaces/LinkUpdater',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/linkupdater': {
-							title: 'linkupdater',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/CanvasLinkUpdater'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasNode': {
-							title: 'CanvasNode',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasPluginInstance': {
-							title: 'CanvasPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/canvasplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CanvasView': {
-							title: 'CanvasView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/textfileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/textfileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/textfileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/TextFileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/textfileview': {
-							title: 'textfileview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CanvasView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ClipBoardManager': {
-							title: 'ClipBoardManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/internals/interfaces/importedattachments/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/ClipBoardManager',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/TextFileView',
-								'api/namespaces/obsidian/interfaces/Command',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/tabstractfile/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/ClipBoardManager',
-								'api/namespaces/internals/interfaces/Draggable',
-								'api/namespaces/internals/interfaces/DragManager',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FileTreeItem',
-								'api/namespaces/internals/interfaces/VaultFileMapRecord',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/TAbstractFile',
-								'api/namespaces/obsidian/classes/TFile',
-								'api/namespaces/obsidian/classes/TFolder',
-								'api/namespaces/obsidian/classes/Vault',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/importedattachments/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/ClipBoardManager',
-								'api/namespaces/obsidian/classes/App',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CommandPalettePluginInstance': {
-							title: 'CommandPalettePluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/commandpaletteplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/commandpaletteplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CommandPalettePluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Commands': {
-							title: 'Commands',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/commandscommandsrecord/',
-								'api/namespaces/internals/interfaces/commandseditorcommandsrecord/',
-								'api/namespaces/obsidian/interfaces/command/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/commandscommandsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Commands'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/commandseditorcommandsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Commands'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/command/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/Commands',
-								'api/namespaces/internals/interfaces/CommandsCommandsRecord',
-								'api/namespaces/internals/interfaces/CommandsEditorCommandsRecord',
-								'api/namespaces/obsidian/classes/Plugin',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CommandsCommandsRecord': {
-							title: 'CommandsCommandsRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/command/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CommandsEditorCommandsRecord': {
-							title: 'CommandsEditorCommandsRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/command/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CustomArrayDict': {
-							title: 'CustomArrayDict',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/customarraydictdatarecord/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/customarraydictdatarecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/CustomArrayDict'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CustomArrayDictDataRecord': {
-							title: 'CustomArrayDictDataRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CustomCSS': {
-							title: 'CustomCSS',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/customcssthemesrecord/',
-								'api/namespaces/internals/interfaces/thememanifest/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/component': {
-							title: 'component',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/View',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/customcssthemesrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/CustomCSS'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/thememanifest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/CustomCSS',
-								'api/namespaces/internals/interfaces/CustomCSSThemesRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CustomCSSThemesRecord': {
-							title: 'CustomCSSThemesRecord',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/thememanifest/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/CustomCSSUpdatesRecord': {
-							title: 'CustomCSSUpdatesRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DailyNotesPluginInstance': {
-							title: 'DailyNotesPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/dailynotesplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/dailynotesplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/DailyNotesPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DataAdapterFilesRecord': {
-							title: 'DataAdapterFilesRecord',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/fileentry/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/fileentry/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/DataAdapterFilesRecord'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DataAdapterWatchersRecord': {
-							title: 'DataAdapterWatchersRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Draggable': {
-							title: 'Draggable',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/tabstractfile/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DragManager': {
-							title: 'DragManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/dragstartevent/',
-								'api/namespaces/internals/interfaces/draggable/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/classes/tfolder/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/dragstartevent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/DragManager'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/draggable/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/DragManager'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/tfolder/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/DragManager',
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/TAbstractFile',
-								'api/namespaces/obsidian/classes/TFile',
-								'api/namespaces/obsidian/classes/TFolder',
-								'api/namespaces/obsidian/classes/Vault',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DragStartEvent': {
-							title: 'DragStartEvent',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/DropResult': {
-							title: 'DropResult',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EditorSearchComponent': {
-							title: 'EditorSearchComponent',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/abstractsearchcomponent/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/abstractsearchcomponent',
-								'api/namespaces/internals/interfaces/searchcursor/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/interfaces/editorrange/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/abstractsearchcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/EditorSearchComponent'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/abstractsearchcomponent': {
-							title: 'abstractsearchcomponent',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/EditorSearchComponent'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/searchcursor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EditorSearchComponent',
-								'api/namespaces/obsidian/classes/Editor',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorrange/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EditorSearchComponent',
-								'api/namespaces/internals/interfaces/StateHistory',
-								'api/namespaces/internals/interfaces/Token',
-								'api/namespaces/obsidian/classes/Editor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EditorStatusPluginInstance': {
-							title: 'EditorStatusPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/editorstatusplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/editorstatusplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EditorStatusPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EditorSuggests': {
-							title: 'EditorSuggests',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/internals/interfaces/markdownbaseview/',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/editorsuggest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EditorSuggests',
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/SuggestionContainer',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/markdownbaseview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EditorSuggests',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/Component',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EmbedContext': {
-							title: 'EmbedContext',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/app/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EmbeddedEditorView': {
-							title: 'EmbeddedEditorView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/widgeteditorview/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/iframedmarkdowneditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/widgeteditorview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/EmbeddedEditorView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/iframedmarkdowneditor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/hoverpopover/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/interfaces/HoverParent',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownpreviewview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbeddedEditorView',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-								'api/namespaces/obsidian/interfaces/MarkdownSubView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EmbedRegistry': {
-							title: 'EmbedRegistry',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/internals/interfaces/embedregistryembedbyextensionrecord/',
-								'api/namespaces/internals/type-aliases/embeddableconstructor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/events/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbedRegistry',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/MetadataTypeManager',
-								'api/namespaces/internals/interfaces/ViewRegistry',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/interfaces/EventRef',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/embedregistryembedbyextensionrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/EmbedRegistry'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/embeddableconstructor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbedRegistry',
-								'api/namespaces/internals/interfaces/EmbedRegistryEmbedByExtensionRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/events': {
-							title: 'events',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/EmbedRegistry',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/MetadataTypeManager',
-								'api/namespaces/internals/interfaces/ViewRegistry',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EmbedRegistryEmbedByExtensionRecord': {
-							title: 'EmbedRegistryEmbedByExtensionRecord',
-							content: '',
-							links: ['api/namespaces/internals/type-aliases/embeddableconstructor/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/EmptyView': {
-							title: 'EmptyView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/internals/interfaces/unknownview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/unknownview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/EmptyView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileCacheEntry': {
-							title: 'FileCacheEntry',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileEntry': {
-							title: 'FileEntry',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileExplorerLeaf': {
-							title: 'FileExplorerLeaf',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspaceleaf',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/internals/interfaces/fileexplorerview/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/openviewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/fileexplorerview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileExplorerLeaf',
-								'api/namespaces/obsidian/classes/View',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileExplorerPluginInstance': {
-							title: 'FileExplorerPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/fileexplorerplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/fileexplorerplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileExplorerPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileExplorerView': {
-							title: 'FileExplorerView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/view',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/',
-								'api/namespaces/internals/interfaces/weakmapwrapper/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/tree/',
-								'api/namespaces/internals/interfaces/filetreeitem/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/type-aliases/panetype/',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/view': {
-							title: 'view',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/SearchView',
-								'api/namespaces/internals/interfaces/TagView',
-								'api/namespaces/obsidian/classes/ItemView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileExplorerView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/weakmapwrapper/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileExplorerView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tree/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileExplorerView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filetreeitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/internals/interfaces/FileExplorerViewFileItemsRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/panetype/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileExplorerView',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/Keymap',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileExplorerViewFileItemsRecord': {
-							title: 'FileExplorerViewFileItemsRecord',
-							content: '',
-							links: [
-								'api/namespaces/internals/type-aliases/treeitem/',
-								'api/namespaces/internals/interfaces/filetreeitem/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/treeitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileExplorerViewFileItemsRecord'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FilePropertiesView': {
-							title: 'FilePropertiesView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/infofileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileRecoveryPluginInstance': {
-							title: 'FileRecoveryPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/filerecoveryplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filerecoveryplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileRecoveryPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileSuggest': {
-							title: 'FileSuggest',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/editorsuggest',
-								'api/namespaces/obsidian/interfaces/editorsuggestcontext/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/filesuggestmanager/',
-								'api/namespaces/internals/interfaces/suggestioncontainer/',
-								'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/instruction/',
-								'api/namespaces/obsidian/interfaces/searchresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/editorsuggest': {
-							title: 'editorsuggest',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileSuggest'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorsuggestcontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/interfaces/EditorSuggestTriggerInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filesuggestmanager/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileSuggest'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/suggestioncontainer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/interfaces/EditorSuggestContext',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/instruction/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/FuzzySuggestModal',
-								'api/namespaces/obsidian/classes/SuggestModal',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/searchresult/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggest',
-								'api/namespaces/internals/interfaces/FileSuggestManager',
-								'api/namespaces/internals/interfaces/SuggestionContainer',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/functions/fuzzySearch',
-								'api/namespaces/obsidian/functions/prepareFuzzySearch',
-								'api/namespaces/obsidian/functions/prepareSimpleSearch',
-								'api/namespaces/obsidian/functions/renderResults',
-								'api/namespaces/obsidian/interfaces/FuzzyMatch',
-								'api/namespaces/obsidian/interfaces/SearchResultContainer',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileSuggestManager': {
-							title: 'FileSuggestManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/runnable/',
-								'api/namespaces/obsidian/interfaces/searchresult/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/blockcache/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/runnable/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/FileSuggestManager'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/blockcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/FileSuggestManager',
-								'api/namespaces/obsidian/interfaces/BlockSubpathResult',
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FileTreeItem': {
-							title: 'FileTreeItem',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/tabstractfile/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FoldInfo': {
-							title: 'FoldInfo',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/FoldManager': {
-							title: 'FoldManager',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/GlobalSearchLeaf': {
-							title: 'GlobalSearchLeaf',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspaceleaf',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/openviewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/GlobalSearchPluginInstance': {
-							title: 'GlobalSearchPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/globalsearchplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/globalsearchplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/GlobalSearchPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/GraphPluginInstance': {
-							title: 'GraphPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/graphplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/graphplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/GraphPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/GraphView': {
-							title: 'GraphView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/HotkeyManager': {
-							title: 'HotkeyManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/interfaces/keymapinfo/',
-								'api/namespaces/internals/interfaces/hotkeymanagercustomkeysrecord/',
-								'api/namespaces/internals/interfaces/hotkeymanagerdefaultkeysrecord/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/keymapinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeyManager',
-								'api/namespaces/internals/interfaces/HotkeyManagerCustomKeysRecord',
-								'api/namespaces/internals/interfaces/HotkeyManagerDefaultKeysRecord',
-								'api/namespaces/obsidian/interfaces/KeymapContext',
-								'api/namespaces/obsidian/interfaces/KeymapEventHandler',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/hotkeymanagercustomkeysrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/HotkeyManager'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/hotkeymanagerdefaultkeysrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/HotkeyManager'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/HotkeyManagerCustomKeysRecord': {
-							title: 'HotkeyManagerCustomKeysRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/keymapinfo/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/HotkeyManagerDefaultKeysRecord': {
-							title: 'HotkeyManagerDefaultKeysRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/keymapinfo/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/HotkeysSettingTab': {
-							title: 'HotkeysSettingTab',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/settingtab/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/settingtab',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/classes/searchcomponent/',
-								'api/namespaces/obsidian/classes/setting/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/settingtab/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/settingtab': {
-							title: 'settingtab',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/plugin/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/internals/interfaces/Plugins',
-								'api/namespaces/internals/interfaces/PluginsPluginsRecord',
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-								'api/namespaces/obsidian/classes/SettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/searchcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/SearchComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/setting/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/HotkeysSettingTab',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/HoverLinkEvent': {
-							title: 'HoverLinkEvent',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/workspaceleaf/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/IFramedMarkdownEditor': {
-							title: 'IFramedMarkdownEditor',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/markdownscrollableeditview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/markdownscrollableeditview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/clipboardmanager/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/editorsuggests/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/editorsearchcomponent/',
-								'api/namespaces/internals/interfaces/tablecelleditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/internals/interfaces/tableeditor/',
-								'api/namespaces/internals/interfaces/tablecell/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/markdownscrollableeditview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/obsidian/classes/Editor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/markdownscrollableeditview': {
-							title: 'markdownscrollableeditview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/clipboardmanager/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/editorsuggests/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownfileinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/interfaces/Command',
-								'api/namespaces/obsidian/interfaces/HoverParent',
-								'api/namespaces/obsidian/variables/editorInfoField',
-								'api/namespaces/obsidian/variables/editorViewField',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tablecelleditor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCell',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/foldinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tableeditor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tablecell/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/IFramedMarkdownEditor',
-								'api/namespaces/internals/interfaces/MarkdownBaseView',
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ImageView': {
-							title: 'ImageView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/editablefileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ImportedAttachments': {
-							title: 'ImportedAttachments',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InfinityScroll': {
-							title: 'InfinityScroll',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InfoFileView': {
-							title: 'InfoFileView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/fileview/',
-								'api/namespaces/internals/interfaces/backlinkview/',
-								'api/namespaces/internals/interfaces/filepropertiesview/',
-								'api/namespaces/internals/interfaces/localgraphview/',
-								'api/namespaces/internals/interfaces/outgoinglinkview/',
-								'api/namespaces/internals/interfaces/outlineview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/fileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/fileview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/obsidian/classes/EditableFileView',
-								'api/namespaces/obsidian/classes/FileView',
-								'api/namespaces/obsidian/classes/ItemView',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/backlinkview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InfoFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filepropertiesview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InfoFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/localgraphview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InfoFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/outgoinglinkview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InfoFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/outlineview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InfoFileView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/fileview': {
-							title: 'fileview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InfoFileView',
-								'api/namespaces/obsidian/classes/EditableFileView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InternalPlugin': {
-							title: 'InternalPlugin',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/internalplugininstance/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InternalPluginInstance': {
-							title: 'InternalPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/audiorecorderplugininstance/',
-								'api/namespaces/internals/interfaces/backlinkplugininstance/',
-								'api/namespaces/internals/interfaces/bookmarksplugininstance/',
-								'api/namespaces/internals/interfaces/canvasplugininstance/',
-								'api/namespaces/internals/interfaces/commandpaletteplugininstance/',
-								'api/namespaces/internals/interfaces/dailynotesplugininstance/',
-								'api/namespaces/internals/interfaces/editorstatusplugininstance/',
-								'api/namespaces/internals/interfaces/fileexplorerplugininstance/',
-								'api/namespaces/internals/interfaces/filerecoveryplugininstance/',
-								'api/namespaces/internals/interfaces/globalsearchplugininstance/',
-								'api/namespaces/internals/interfaces/graphplugininstance/',
-								'api/namespaces/internals/interfaces/markdownimporterplugininstance/',
-								'api/namespaces/internals/interfaces/notecomposerplugininstance/',
-								'api/namespaces/internals/interfaces/outgoinglinkplugininstance/',
-								'api/namespaces/internals/interfaces/outlineplugininstance/',
-								'api/namespaces/internals/interfaces/pagepreviewplugininstance/',
-								'api/namespaces/internals/interfaces/propertiesplugininstance/',
-								'api/namespaces/internals/interfaces/publishplugininstance/',
-								'api/namespaces/internals/interfaces/randomnoteplugininstance/',
-								'api/namespaces/internals/interfaces/slashcommandplugininstance/',
-								'api/namespaces/internals/interfaces/slidesplugininstance/',
-								'api/namespaces/internals/interfaces/starredplugininstance/',
-								'api/namespaces/internals/interfaces/switcherplugininstance/',
-								'api/namespaces/internals/interfaces/syncplugininstance/',
-								'api/namespaces/internals/interfaces/tagpaneplugininstance/',
-								'api/namespaces/internals/interfaces/templatesplugininstance/',
-								'api/namespaces/internals/interfaces/wordcountplugininstance/',
-								'api/namespaces/internals/interfaces/workspacesplugininstance/',
-								'api/namespaces/internals/interfaces/zkprefixerplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/markdownimporterplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/MarkdownImporterPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/notecomposerplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/NoteComposerPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/outgoinglinkplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/OutgoingLinkPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/outlineplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/OutlinePluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/pagepreviewplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/PagePreviewPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/propertiesplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/PropertiesPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/publishplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/PublishPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/randomnoteplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/RandomNotePluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/slashcommandplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/SlashCommandPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/slidesplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/SlidesPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/starredplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/StarredPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/switcherplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/SwitcherPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/syncplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/SyncPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tagpaneplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/TagPanePluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/templatesplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/TemplatesPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/wordcountplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/WordCountPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/workspacesplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/WorkspacesPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/zkprefixerplugininstance/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPluginInstance',
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/ZkPrefixerPluginInstance',
-								'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InternalPlugins': {
-							title: 'InternalPlugins',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/internalpluginsconfigrecord/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/audiorecorderplugininstance/',
-								'api/namespaces/internals/interfaces/backlinkplugininstance/',
-								'api/namespaces/internals/interfaces/bookmarksplugininstance/',
-								'api/namespaces/internals/interfaces/canvasplugininstance/',
-								'api/namespaces/internals/interfaces/commandpaletteplugininstance/',
-								'api/namespaces/internals/interfaces/dailynotesplugininstance/',
-								'api/namespaces/internals/interfaces/editorstatusplugininstance/',
-								'api/namespaces/internals/interfaces/fileexplorerplugininstance/',
-								'api/namespaces/internals/interfaces/filerecoveryplugininstance/',
-								'api/namespaces/internals/interfaces/globalsearchplugininstance/',
-								'api/namespaces/internals/interfaces/graphplugininstance/',
-								'api/namespaces/internals/interfaces/markdownimporterplugininstance/',
-								'api/namespaces/internals/interfaces/notecomposerplugininstance/',
-								'api/namespaces/internals/interfaces/outgoinglinkplugininstance/',
-								'api/namespaces/internals/interfaces/outlineplugininstance/',
-								'api/namespaces/internals/interfaces/pagepreviewplugininstance/',
-								'api/namespaces/internals/interfaces/propertiesplugininstance/',
-								'api/namespaces/internals/interfaces/publishplugininstance/',
-								'api/namespaces/internals/interfaces/randomnoteplugininstance/',
-								'api/namespaces/internals/interfaces/slashcommandplugininstance/',
-								'api/namespaces/internals/interfaces/slidesplugininstance/',
-								'api/namespaces/internals/interfaces/starredplugininstance/',
-								'api/namespaces/internals/interfaces/switcherplugininstance/',
-								'api/namespaces/internals/interfaces/syncplugininstance/',
-								'api/namespaces/internals/interfaces/tagpaneplugininstance/',
-								'api/namespaces/internals/interfaces/templatesplugininstance/',
-								'api/namespaces/internals/interfaces/wordcountplugininstance/',
-								'api/namespaces/internals/interfaces/workspacesplugininstance/',
-								'api/namespaces/internals/interfaces/zkprefixerplugininstance/',
-								'api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/',
-								'api/namespaces/internals/type-aliases/internalpluginnametype/',
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/internalpluginsconfigrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InternalPlugins'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/InternalPlugins'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/internalpluginnametype/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/InternalPlugins',
-								'api/namespaces/internals/interfaces/InternalPluginsConfigRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/InternalPluginsConfigRecord': {
-							title: 'InternalPluginsConfigRecord',
-							content: '',
-							links: ['api/namespaces/internals/type-aliases/internalpluginnametype/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/KeyScope': {
-							title: 'KeyScope',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/scope/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LeafEntry': {
-							title: 'LeafEntry',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/leafentry/',
-								'api/namespaces/obsidian/type-aliases/splitdirection/',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/leafentry/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/LeafEntry',
-								'api/namespaces/internals/interfaces/SerializedWorkspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/splitdirection/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/LeafEntry',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LinkChangeUpdate': {
-							title: 'LinkChangeUpdate',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/referencecache/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/referencecache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/LinkChangeUpdate',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-								'api/namespaces/obsidian/interfaces/EmbedCache',
-								'api/namespaces/obsidian/interfaces/LinkCache',
-								'api/namespaces/obsidian/interfaces/Reference',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LinkUpdate': {
-							title: 'LinkUpdate',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/positionedreference/',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/positionedreference/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/LinkUpdate',
-								'api/namespaces/obsidian/interfaces/Reference',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LinkUpdater': {
-							title: 'LinkUpdater',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/canvaslinkupdater/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/linkchangeupdate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/canvaslinkupdater/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/LinkUpdater',
-								'api/namespaces/internals/interfaces/LinkUpdaters',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LinkUpdaters': {
-							title: 'LinkUpdaters',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/linkupdater/',
-								'api/namespaces/internals/interfaces/canvaslinkupdater/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LoadProgress': {
-							title: 'LoadProgress',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/LocalGraphView': {
-							title: 'LocalGraphView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/infofileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MarkdownBaseView': {
-							title: 'MarkdownBaseView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/markdownscrollableeditview/',
-								'api/namespaces/internals/interfaces/tablecelleditor/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/clipboardmanager/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/editorsuggests/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/internals/interfaces/tableeditor/',
-								'api/namespaces/internals/interfaces/tablecell/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MarkdownImporterPluginInstance': {
-							title: 'MarkdownImporterPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/markdownimporterplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MarkdownScrollableEditView': {
-							title: 'MarkdownScrollableEditView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/markdownbaseview/',
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/internals/interfaces/iframedmarkdowneditor/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/markdownbaseview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/clipboardmanager/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/editorsuggests/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/editorsearchcomponent/',
-								'api/namespaces/internals/interfaces/tablecelleditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/internals/interfaces/tableeditor/',
-								'api/namespaces/internals/interfaces/tablecell/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdowneditview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-								'api/namespaces/obsidian/interfaces/HoverParent',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-								'api/namespaces/obsidian/interfaces/MarkdownSubView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/markdownbaseview': {
-							title: 'markdownbaseview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MarkdownScrollableEditView',
-								'api/namespaces/internals/interfaces/TableCellEditor',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MenuSubmenuConfigRecord': {
-							title: 'MenuSubmenuConfigRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataCacheFileCacheRecord': {
-							title: 'MetadataCacheFileCacheRecord',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/filecacheentry/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filecacheentry/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataCacheFileCacheRecord',
-								'api/namespaces/obsidian/classes/MetadataCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataCacheMetadataCacheRecord': {
-							title: 'MetadataCacheMetadataCacheRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/cachedmetadata/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/cachedmetadata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataCacheMetadataCacheRecord',
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/functions/getAllTags',
-								'api/namespaces/obsidian/functions/iterateCacheRefs',
-								'api/namespaces/obsidian/functions/resolveSubpath',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataEditor': {
-							title: 'MetadataEditor',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/metadataeditorproperty/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/internals/interfaces/propertyentrydata/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadataeditorproperty/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/obsidian/classes/Component',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/propertyentrydata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataEditor',
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/PropertyWidget',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataEditorProperty': {
-							title: 'MetadataEditorProperty',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/propertyentrydata/',
-								'api/namespaces/internals/interfaces/metadataeditor/',
-								'api/namespaces/internals/interfaces/metadatawidget/',
-								'api/namespaces/internals/interfaces/propertywidget/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadatawidget/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/MetadataEditorProperty'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/propertywidget/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataEditorProperty',
-								'api/namespaces/internals/interfaces/MetadataTypeManagerRegisteredTypeWidgetsRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataTypeManager': {
-							title: 'MetadataTypeManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/metadatatypemanagerpropertiesrecord/',
-								'api/namespaces/internals/interfaces/metadatatypemanagertypesrecord/',
-								'api/namespaces/internals/interfaces/propertyinfo/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadatatypemanagerpropertiesrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/MetadataTypeManager'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadatatypemanagertypesrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/MetadataTypeManager'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/propertyinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataTypeManager',
-								'api/namespaces/internals/interfaces/MetadataTypeManagerPropertiesRecord',
-								'api/namespaces/obsidian/classes/MetadataCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataTypeManagerPropertiesRecord': {
-							title: 'MetadataTypeManagerPropertiesRecord',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/propertyinfo/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataTypeManagerRegisteredTypeWidgetsRecord': {
-							title: 'MetadataTypeManagerRegisteredTypeWidgetsRecord',
-							content: '',
-							links: [
-								'api/namespaces/internals/type-aliases/propertywidgettype/',
-								'api/namespaces/internals/interfaces/propertywidget/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/propertywidgettype/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/MetadataTypeManagerRegisteredTypeWidgetsRecord',
-								'api/namespaces/internals/interfaces/MetadataTypeManagerTypesRecord',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataTypeManagerTypesRecord': {
-							title: 'MetadataTypeManagerTypesRecord',
-							content: '',
-							links: ['api/namespaces/internals/type-aliases/propertywidgettype/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MetadataWidget': {
-							title: 'MetadataWidget',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MobileNavbar': {
-							title: 'MobileNavbar',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/MobileToolbar': {
-							title: 'MobileToolbar',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/NoteComposerPluginInstance': {
-							title: 'NoteComposerPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/notecomposerplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ObsidianDOM': {
-							title: 'ObsidianDOM',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ObsidianTouchEvent': {
-							title: 'ObsidianTouchEvent',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/OutgoingLinkPluginInstance': {
-							title: 'OutgoingLinkPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/outgoinglinkplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/OutgoingLinkView': {
-							title: 'OutgoingLinkView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/infofileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/OutlinePluginInstance': {
-							title: 'OutlinePluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/outlineplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/OutlineView': {
-							title: 'OutlineView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/infofileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PagePreviewPluginInstance': {
-							title: 'PagePreviewPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/pagepreviewplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PdfView': {
-							title: 'PdfView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/editablefileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Plugins': {
-							title: 'Plugins',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/pluginsmanifestsrecord/',
-								'api/namespaces/internals/interfaces/pluginspluginsrecord/',
-								'api/namespaces/internals/interfaces/pluginupdatemanifest/',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/interfaces/pluginmanifest/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/pluginsmanifestsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Plugins'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/pluginspluginsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Plugins'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/pluginupdatemanifest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Plugins'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/pluginmanifest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/Plugins',
-								'api/namespaces/internals/interfaces/PluginsManifestsRecord',
-								'api/namespaces/internals/interfaces/PluginUpdateManifest',
-								'api/namespaces/obsidian/classes/Plugin',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PluginsManifestsRecord': {
-							title: 'PluginsManifestsRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/pluginmanifest/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PluginsPluginsRecord': {
-							title: 'PluginsPluginsRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/plugin/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PluginUpdateManifest': {
-							title: 'PluginUpdateManifest',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/pluginmanifest/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PositionedReference': {
-							title: 'PositionedReference',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/reference/',
-								'api/namespaces/obsidian/interfaces/reference',
-								'api/namespaces/obsidian/interfaces/loc/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/reference/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/PositionedReference',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/functions/iterateRefs',
-								'api/namespaces/obsidian/interfaces/FrontmatterLinkCache',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/reference': {
-							title: 'reference',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/PositionedReference',
-								'api/namespaces/obsidian/interfaces/FrontmatterLinkCache',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/loc/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/PositionedReference',
-								'api/namespaces/obsidian/interfaces/BlockSubpathResult',
-								'api/namespaces/obsidian/interfaces/HeadingSubpathResult',
-								'api/namespaces/obsidian/interfaces/Pos',
-								'api/namespaces/obsidian/interfaces/SubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PropertiesPluginInstance': {
-							title: 'PropertiesPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/propertiesplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PropertyEntryData': {
-							title: 'PropertyEntryData',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PropertyInfo': {
-							title: 'PropertyInfo',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PropertyRenderContext': {
-							title: 'PropertyRenderContext',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/metadataeditor/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PropertyWidget': {
-							title: 'PropertyWidget',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/propertyentrydata/',
-								'api/namespaces/internals/interfaces/propertyrendercontext/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/propertyrendercontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/PropertyWidget'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/PublishPluginInstance': {
-							title: 'PublishPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/publishplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/RandomNotePluginInstance': {
-							title: 'RandomNotePluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/randomnoteplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ReadViewRenderer': {
-							title: 'ReadViewRenderer',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/renderersection/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/renderersection/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/ReadViewRenderer'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/RecentFileTracker': {
-							title: 'RecentFileTracker',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/obsidian/classes/workspace/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/vault/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/RecentFileTracker',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/classes/TAbstractFile',
-								'api/namespaces/obsidian/classes/TFile',
-								'api/namespaces/obsidian/classes/TFolder',
-								'api/namespaces/obsidian/classes/Vault',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspace/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/RecentFileTracker',
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ReleaseNotesView': {
-							title: 'ReleaseNotesView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/RendererSection': {
-							title: 'RendererSection',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Runnable': {
-							title: 'Runnable',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SearchCursor': {
-							title: 'SearchCursor',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/editorposition/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SearchView': {
-							title: 'SearchView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/view',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SerializedWorkspace': {
-							title: 'SerializedWorkspace',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/leafentry/',
-								'api/namespaces/internals/interfaces/serializedworkspaceleftribbonhiddenitemsrecord/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/serializedworkspaceleftribbonhiddenitemsrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/SerializedWorkspace'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SerializedWorkspaceLeftRibbonHiddenItemsRecord': {
-							title: 'SerializedWorkspaceLeftRibbonHiddenItemsRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SlashCommandPluginInstance': {
-							title: 'SlashCommandPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/slashcommandplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SlidesPluginInstance': {
-							title: 'SlidesPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/slidesplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/StarredPluginInstance': {
-							title: 'StarredPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/starredplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/StateHistory': {
-							title: 'StateHistory',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorrange/',
-								'api/namespaces/internals/interfaces/statehistory/',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/statehistory/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/StateHistory',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SuggestionContainer': {
-							title: 'SuggestionContainer',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/obsidian/interfaces/searchresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SwitcherPluginInstance': {
-							title: 'SwitcherPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/switcherplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/SyncPluginInstance': {
-							title: 'SyncPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/syncplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TableCell': {
-							title: 'TableCell',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/tablecelleditor/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TableCellEditor': {
-							title: 'TableCellEditor',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/markdownbaseview/',
-								'api/namespaces/internals/interfaces/tablecell/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/markdownbaseview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/clipboardmanager/',
-								'api/namespaces/internals/interfaces/tablecell',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/editorsuggests/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/internals/interfaces/tablecelleditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/internals/interfaces/tableeditor/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tablecell': {
-							title: 'tablecell',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/TableCellEditor'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TableEditor': {
-							title: 'TableEditor',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TagPanePluginInstance': {
-							title: 'TagPanePluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/tagpaneplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TagView': {
-							title: 'TagView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/view',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/TemplatesPluginInstance': {
-							title: 'TemplatesPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/templatesplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ThemeManifest': {
-							title: 'ThemeManifest',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Token': {
-							title: 'Token',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorrange/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/interfaces/editorrange',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorrange': {
-							title: 'editorrange',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/Token'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/Tree': {
-							title: 'Tree',
-							content: '',
-							links: [
-								'api/namespaces/internals/type-aliases/treenode/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/view/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/treenode/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/Tree',
-								'api/namespaces/internals/type-aliases/TreeItem',
-								'api/namespaces/internals/type-aliases/TreeNode',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/UnknownView': {
-							title: 'UnknownView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/emptyview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/emptyview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/emptyview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/UnknownView',
-								'api/namespaces/obsidian/classes/ItemView',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/emptyview': {
-							title: 'emptyview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/UnknownView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/VaultFileMapRecord': {
-							title: 'VaultFileMapRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/tabstractfile/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/VideoView': {
-							title: 'VideoView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/editablefileview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ViewRegistry': {
-							title: 'ViewRegistry',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/internals/interfaces/viewregistrytypebyextensionrecord/',
-								'api/namespaces/internals/interfaces/viewregistryviewbytyperecord/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/viewregistrytypebyextensionrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/ViewRegistry'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/viewregistryviewbytyperecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/ViewRegistry'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ViewRegistryTypeByExtensionRecord': {
-							title: 'ViewRegistryTypeByExtensionRecord',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ViewRegistryViewByTypeRecord': {
-							title: 'ViewRegistryViewByTypeRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/view/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WeakMapWrapper': {
-							title: 'WeakMapWrapper',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WidgetEditorView': {
-							title: 'WidgetEditorView',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/embeddededitorview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/embeddededitorview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/iframedmarkdowneditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/obsidian/interfaces/cachedmetadata/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/embeddededitorview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/WidgetEditorView',
-								'api/namespaces/obsidian/classes/Component',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/embeddededitorview': {
-							title: 'embeddededitorview',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/interfaces/WidgetEditorView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WindowSelection': {
-							title: 'WindowSelection',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WordCountPluginInstance': {
-							title: 'WordCountPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/wordcountplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WorkspaceHoverLinkSourcesRecord': {
-							title: 'WorkspaceHoverLinkSourcesRecord',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/hoverlinksource/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/hoverlinksource/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/internals/interfaces/WorkspaceHoverLinkSourcesRecord',
-								'api/namespaces/obsidian/classes/Plugin',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/WorkspacesPluginInstance': {
-							title: 'WorkspacesPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/workspacesplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/ZkPrefixerPluginInstance': {
-							title: 'ZkPrefixerPluginInstance',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/internalplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugin/',
-								'api/namespaces/internals/interfaces/zkprefixerplugininstance/',
-								'api/namespaces/internals/interfaces/internalplugininstance',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/ConfigItem': {
-							title: 'ConfigItem',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/EmbeddableConstructor': {
-							title: 'EmbeddableConstructor',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/embedcontext/',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/embedcontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/type-aliases/EmbeddableConstructor'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/InternalPluginNameInstancesMapping': {
-							title: 'InternalPluginNameInstancesMapping',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/audiorecorderplugininstance/',
-								'api/namespaces/internals/interfaces/backlinkplugininstance/',
-								'api/namespaces/internals/interfaces/bookmarksplugininstance/',
-								'api/namespaces/internals/interfaces/canvasplugininstance/',
-								'api/namespaces/internals/interfaces/commandpaletteplugininstance/',
-								'api/namespaces/internals/interfaces/dailynotesplugininstance/',
-								'api/namespaces/internals/interfaces/editorstatusplugininstance/',
-								'api/namespaces/internals/interfaces/fileexplorerplugininstance/',
-								'api/namespaces/internals/interfaces/filerecoveryplugininstance/',
-								'api/namespaces/internals/interfaces/globalsearchplugininstance/',
-								'api/namespaces/internals/interfaces/graphplugininstance/',
-								'api/namespaces/internals/interfaces/markdownimporterplugininstance/',
-								'api/namespaces/internals/interfaces/notecomposerplugininstance/',
-								'api/namespaces/internals/interfaces/outgoinglinkplugininstance/',
-								'api/namespaces/internals/interfaces/outlineplugininstance/',
-								'api/namespaces/internals/interfaces/pagepreviewplugininstance/',
-								'api/namespaces/internals/interfaces/propertiesplugininstance/',
-								'api/namespaces/internals/interfaces/publishplugininstance/',
-								'api/namespaces/internals/interfaces/randomnoteplugininstance/',
-								'api/namespaces/internals/interfaces/slashcommandplugininstance/',
-								'api/namespaces/internals/interfaces/slidesplugininstance/',
-								'api/namespaces/internals/interfaces/starredplugininstance/',
-								'api/namespaces/internals/interfaces/switcherplugininstance/',
-								'api/namespaces/internals/interfaces/syncplugininstance/',
-								'api/namespaces/internals/interfaces/tagpaneplugininstance/',
-								'api/namespaces/internals/interfaces/templatesplugininstance/',
-								'api/namespaces/internals/interfaces/wordcountplugininstance/',
-								'api/namespaces/internals/interfaces/workspacesplugininstance/',
-								'api/namespaces/internals/interfaces/zkprefixerplugininstance/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/InternalPluginNameType': {
-							title: 'InternalPluginNameType',
-							content: '',
-							links: ['api/namespaces/internals/variables/internalpluginname/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/variables/internalpluginname/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/type-aliases/InternalPluginNameType'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/LinkUpdateHandler': {
-							title: 'LinkUpdateHandler',
-							content: '',
-							links: ['api/namespaces/internals/interfaces/linkupdate/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/linkupdate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/internals/type-aliases/LinkUpdateHandler'],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/PropertyWidgetType': {
-							title: 'PropertyWidgetType',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/TreeItem': {
-							title: 'TreeItem',
-							content: '',
-							links: [
-								'api/namespaces/internals/type-aliases/treenode/',
-								'api/namespaces/obsidian/classes/view/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/TreeNode': {
-							title: 'TreeNode',
-							content: '',
-							links: ['api/namespaces/internals/type-aliases/treenode/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/variables/InternalPluginName': {
-							title: 'InternalPluginName',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/AbstractInputSuggest': {
-							title: 'AbstractInputSuggest',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/popoversuggest/',
-								'api/namespaces/obsidian/classes/abstractinputsuggest/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/popoversuggest',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/suggestioncontainer/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/popoversuggest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-								'api/namespaces/obsidian/interfaces/CloseableComponent',
-								'api/namespaces/obsidian/interfaces/ISuggestOwner',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/abstractinputsuggest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/popoversuggest': {
-							title: 'popoversuggest',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractInputSuggest',
-								'api/namespaces/obsidian/classes/EditorSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/AbstractTextComponent': {
-							title: 'AbstractTextComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/searchcomponent/',
-								'api/namespaces/obsidian/classes/textareacomponent/',
-								'api/namespaces/obsidian/classes/textcomponent/',
-								'api/namespaces/obsidian/classes/abstracttextcomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/valuecomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/BaseComponent',
-								'api/namespaces/obsidian/classes/ColorComponent',
-								'api/namespaces/obsidian/classes/DropdownComponent',
-								'api/namespaces/obsidian/classes/ProgressBarComponent',
-								'api/namespaces/obsidian/classes/SliderComponent',
-								'api/namespaces/obsidian/classes/ToggleComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/textareacomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/TextAreaComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/textcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/MomentFormatComponent',
-								'api/namespaces/obsidian/classes/TextComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/abstracttextcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/SearchComponent',
-								'api/namespaces/obsidian/classes/TextAreaComponent',
-								'api/namespaces/obsidian/classes/TextComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/valuecomponent': {
-							title: 'valuecomponent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/AbstractTextComponent',
-								'api/namespaces/obsidian/classes/ColorComponent',
-								'api/namespaces/obsidian/classes/DropdownComponent',
-								'api/namespaces/obsidian/classes/ProgressBarComponent',
-								'api/namespaces/obsidian/classes/SliderComponent',
-								'api/namespaces/obsidian/classes/ToggleComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/App': {
-							title: 'App',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/internals/interfaces/account/',
-								'api/namespaces/internals/interfaces/commands/',
-								'api/namespaces/internals/interfaces/customcss/',
-								'api/namespaces/internals/interfaces/obsidiandom/',
-								'api/namespaces/internals/interfaces/embedregistry/',
-								'api/namespaces/obsidian/classes/filemanager/',
-								'api/namespaces/internals/interfaces/hotkeymanager/',
-								'api/namespaces/internals/interfaces/internalplugins/',
-								'api/namespaces/obsidian/classes/keymap/',
-								'api/namespaces/obsidian/type-aliases/userevent/',
-								'api/namespaces/internals/interfaces/loadprogress/',
-								'api/namespaces/obsidian/classes/metadatacache/',
-								'api/namespaces/internals/interfaces/metadatatypemanager/',
-								'api/namespaces/internals/interfaces/plugins/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/setting/',
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/internals/interfaces/viewregistry/',
-								'api/namespaces/obsidian/classes/workspace/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/importedattachments/',
-								'api/namespaces/obsidian/classes/tfolder/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/account/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/commands/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/customcss/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Component',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/obsidiandom/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/embedregistry/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/filemanager/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/FileManager',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/hotkeymanager/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/internalplugins/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/keymap/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Keymap',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/userevent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Keymap',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/loadprogress/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/metadatacache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-								'api/namespaces/obsidian/classes/MetadataCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/metadatatypemanager/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/plugins/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/App'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/viewregistry/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/App',
-								'api/namespaces/obsidian/classes/Events',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/BaseComponent': {
-							title: 'BaseComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/buttoncomponent/',
-								'api/namespaces/obsidian/classes/extrabuttoncomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/basecomponent/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/buttoncomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/BaseComponent',
-								'api/namespaces/obsidian/classes/ButtonComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/extrabuttoncomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/BaseComponent',
-								'api/namespaces/obsidian/classes/ExtraButtonComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/basecomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/BaseComponent',
-								'api/namespaces/obsidian/classes/ButtonComponent',
-								'api/namespaces/obsidian/classes/ExtraButtonComponent',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ButtonComponent': {
-							title: 'ButtonComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/basecomponent/',
-								'api/namespaces/obsidian/classes/buttoncomponent/',
-								'api/namespaces/obsidian/classes/basecomponent',
-								'api/namespaces/obsidian/interfaces/tooltipoptions/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/basecomponent': {
-							title: 'basecomponent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ButtonComponent',
-								'api/namespaces/obsidian/classes/ExtraButtonComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/tooltipoptions/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ButtonComponent',
-								'api/namespaces/obsidian/classes/ExtraButtonComponent',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/ToggleComponent',
-								'api/namespaces/obsidian/functions/setTooltip',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ColorComponent': {
-							title: 'ColorComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/colorcomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-								'api/namespaces/obsidian/interfaces/hsl/',
-								'api/namespaces/obsidian/interfaces/rgb/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/colorcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ColorComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/hsl/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ColorComponent'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/rgb/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ColorComponent'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Component': {
-							title: 'Component',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/interfaces/markdownpreviewevents/',
-								'api/namespaces/obsidian/classes/markdownrenderchild/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/internals/interfaces/embeddededitorview/',
-								'api/namespaces/internals/interfaces/markdownbaseview/',
-								'api/namespaces/internals/interfaces/metadataeditor/',
-								'api/namespaces/internals/interfaces/metadataeditorproperty/',
-								'api/namespaces/internals/interfaces/customcss/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownpreviewevents/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownrenderchild/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Component',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/interfaces/MarkdownPostProcessorContext',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/DropdownComponent': {
-							title: 'DropdownComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/dropdowncomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/dropdowncomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/DropdownComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/EditableFileView': {
-							title: 'EditableFileView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/fileview/',
-								'api/namespaces/obsidian/classes/textfileview/',
-								'api/namespaces/internals/interfaces/audioview/',
-								'api/namespaces/internals/interfaces/imageview/',
-								'api/namespaces/internals/interfaces/pdfview/',
-								'api/namespaces/internals/interfaces/videoview/',
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/fileview',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/audioview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/EditableFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/imageview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/EditableFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/pdfview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/EditableFileView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/videoview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/EditableFileView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Editor': {
-							title: 'Editor',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/baseeditor/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/baseeditor',
-								'api/namespaces/internals/interfaces/markdownscrollableeditview/',
-								'api/namespaces/obsidian/interfaces/editorrange/',
-								'api/namespaces/obsidian/interfaces/editorselection/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/type-aliases/editorcommandname/',
-								'api/namespaces/internals/interfaces/searchcursor/',
-								'api/namespaces/obsidian/interfaces/editorselectionorcaret/',
-								'api/namespaces/obsidian/interfaces/editortransaction/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/baseeditor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Editor'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/baseeditor': {
-							title: 'baseeditor',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Editor'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorselection/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Editor',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/editorcommandname/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Editor'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorselectionorcaret/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Editor'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editortransaction/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Editor'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/EditorSuggest': {
-							title: 'EditorSuggest',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/popoversuggest/',
-								'api/namespaces/internals/interfaces/filesuggest/',
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/popoversuggest',
-								'api/namespaces/obsidian/interfaces/editorsuggestcontext/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/suggestioncontainer/',
-								'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/instruction/',
-								'api/namespaces/obsidian/interfaces/searchresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/filesuggest/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/EditorSuggest'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Events': {
-							title: 'Events',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/metadatacache/',
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/obsidian/classes/workspace/',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/internals/interfaces/embedregistry/',
-								'api/namespaces/internals/interfaces/metadatatypemanager/',
-								'api/namespaces/internals/interfaces/viewregistry/',
-								'api/namespaces/internals/interfaces/internalplugins/',
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ExtraButtonComponent': {
-							title: 'ExtraButtonComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/basecomponent/',
-								'api/namespaces/obsidian/classes/extrabuttoncomponent/',
-								'api/namespaces/obsidian/classes/basecomponent',
-								'api/namespaces/obsidian/functions/addicon',
-								'api/namespaces/obsidian/interfaces/tooltipoptions/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/addicon': {
-							title: 'addicon',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ExtraButtonComponent',
-								'api/namespaces/obsidian/classes/MenuItem',
-								'api/namespaces/obsidian/classes/Plugin',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/FileManager': {
-							title: 'FileManager',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/filemanager/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/obsidian/type-aliases/panetype/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/interfaces/datawriteoptions/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/datawriteoptions/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileManager',
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/FileSystemAdapter': {
-							title: 'FileSystemAdapter',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/dataadapter/',
-								'api/namespaces/obsidian/classes/filesystemadapter/',
-								'api/namespaces/obsidian/interfaces/dataadapter',
-								'api/namespaces/internals/interfaces/dataadapterfilesrecord/',
-								'api/namespaces/obsidian/interfaces/datawriteoptions/',
-								'api/namespaces/obsidian/interfaces/listedfiles/',
-								'api/namespaces/obsidian/interfaces/stat/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/dataadapter/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/classes/Vault',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/filesystemadapter/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/dataadapter': {
-							title: 'dataadapter',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/FileSystemAdapter'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/dataadapterfilesrecord/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/listedfiles/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/stat/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FileSystemAdapter',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/FileView': {
-							title: 'FileView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/internals/interfaces/infofileview/',
-								'api/namespaces/obsidian/classes/fileview/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/itemview',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/FuzzySuggestModal': {
-							title: 'FuzzySuggestModal',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/suggestmodal/',
-								'api/namespaces/obsidian/interfaces/fuzzymatch/',
-								'api/namespaces/obsidian/classes/fuzzysuggestmodal/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/suggestmodal',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/interfaces/instruction/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/suggestmodal/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FuzzySuggestModal',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/SuggestModal',
-								'api/namespaces/obsidian/interfaces/ISuggestOwner',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/fuzzymatch/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/FuzzySuggestModal'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/fuzzysuggestmodal/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/FuzzySuggestModal',
-								'api/namespaces/obsidian/classes/SuggestModal',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/suggestmodal': {
-							title: 'suggestmodal',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/FuzzySuggestModal'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/HoverPopover': {
-							title: 'HoverPopover',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/interfaces/hoverparent/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/enumerations/popoverstate/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/hoverparent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/HoverPopover',
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/enumerations/popoverstate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/HoverPopover'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ItemView': {
-							title: 'ItemView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/fileview/',
-								'api/namespaces/internals/interfaces/allpropertiesview/',
-								'api/namespaces/internals/interfaces/bookmarksview/',
-								'api/namespaces/internals/interfaces/browserhistoryview/',
-								'api/namespaces/internals/interfaces/browserview/',
-								'api/namespaces/internals/interfaces/emptyview/',
-								'api/namespaces/internals/interfaces/graphview/',
-								'api/namespaces/internals/interfaces/releasenotesview/',
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/view',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/allpropertiesview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/bookmarksview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/browserhistoryview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/browserview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/graphview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/releasenotesview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/ItemView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Keymap': {
-							title: 'Keymap',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/scope',
-								'api/namespaces/obsidian/classes/keymap/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/type-aliases/panetype/',
-								'api/namespaces/obsidian/type-aliases/userevent/',
-								'api/namespaces/obsidian/type-aliases/modifier/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/scope': {
-							title: 'scope',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Keymap'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/modifier/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Keymap',
-								'api/namespaces/obsidian/classes/Scope',
-								'api/namespaces/obsidian/interfaces/Hotkey',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownEditView': {
-							title: 'MarkdownEditView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/markdownsubview/',
-								'api/namespaces/obsidian/interfaces/hoverparent/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/internals/interfaces/markdownscrollableeditview/',
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/internals/interfaces/markdownscrollableeditview',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo',
-								'api/namespaces/internals/interfaces/clipboardmanager/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/internals/interfaces/editorsuggests/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/editorsearchcomponent/',
-								'api/namespaces/internals/interfaces/tablecelleditor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/foldinfo/',
-								'api/namespaces/obsidian/interfaces/markdownsubview',
-								'api/namespaces/internals/interfaces/tableeditor/',
-								'api/namespaces/internals/interfaces/tablecell/',
-								'api/namespaces/obsidian/interfaces/editorrange/',
-								'api/namespaces/obsidian/interfaces/editorselection/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownsubview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownfileinfo': {
-							title: 'markdownfileinfo',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownsubview': {
-							title: 'markdownsubview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownEditView',
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownPreviewRenderer': {
-							title: 'MarkdownPreviewRenderer',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdownpreviewrenderer/',
-								'api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/',
-								'api/namespaces/obsidian/interfaces/markdownpostprocessor/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownpreviewrenderer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MarkdownPreviewRenderer'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownPreviewRenderer',
-								'api/namespaces/obsidian/interfaces/MarkdownPostProcessor',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownpostprocessor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownPreviewRenderer',
-								'api/namespaces/obsidian/classes/Plugin',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownPreviewView': {
-							title: 'MarkdownPreviewView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdownrenderer/',
-								'api/namespaces/obsidian/interfaces/markdownsubview/',
-								'api/namespaces/obsidian/interfaces/markdownpreviewevents/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/classes/markdownrenderer',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/markdownpreviewevents',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/internals/interfaces/readviewrenderer/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/markdownsubview',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/classes/markdownpreviewview',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownrenderer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderChild',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/interfaces/HoverParent',
-								'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownrenderer': {
-							title: 'markdownrenderer',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MarkdownPreviewView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownpreviewevents': {
-							title: 'markdownpreviewevents',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/readviewrenderer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MarkdownPreviewView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownpreviewview': {
-							title: 'markdownpreviewview',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownPreviewView',
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownRenderChild': {
-							title: 'MarkdownRenderChild',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/markdownrenderer/',
-								'api/namespaces/obsidian/classes/markdownrenderchild/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownRenderer': {
-							title: 'MarkdownRenderer',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdownrenderchild/',
-								'api/namespaces/obsidian/interfaces/markdownpreviewevents/',
-								'api/namespaces/obsidian/interfaces/hoverparent/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/classes/markdownrenderer/',
-								'api/namespaces/obsidian/classes/markdownrenderchild',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/markdownpreviewevents',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/interfaces/hoverparent',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/classes/markdownpreviewview',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/markdownrenderchild': {
-							title: 'markdownrenderchild',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MarkdownRenderer'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/hoverparent': {
-							title: 'hoverparent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MarkdownRenderer',
-								'api/namespaces/obsidian/interfaces/MarkdownFileInfo',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MarkdownView': {
-							title: 'MarkdownView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/textfileview/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/textfileview',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo',
-								'api/namespaces/obsidian/interfaces/markdownsubview/',
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/internals/interfaces/metadataeditor/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/type-aliases/markdownviewmodetype/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-								'api/namespaces/internals/interfaces/token/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/markdownviewmodetype/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MarkdownView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Menu': {
-							title: 'Menu',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/closeablecomponent/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/menuitem/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/interfaces/closeablecomponent',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/menupositiondef/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/closeablecomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/menuitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Menu'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/closeablecomponent': {
-							title: 'closeablecomponent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Menu',
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/menupositiondef/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Menu'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MenuItem': {
-							title: 'MenuItem',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/functions/addicon',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MenuSeparator': {
-							title: 'MenuSeparator',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/menuseparator/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/menuseparator/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MenuSeparator'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MetadataCache': {
-							title: 'MetadataCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/metadatacache/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/internals/interfaces/propertyinfo/',
-								'api/namespaces/internals/interfaces/customarraydict/',
-								'api/namespaces/obsidian/interfaces/linkcache/',
-								'api/namespaces/obsidian/interfaces/cachedmetadata/',
-								'api/namespaces/internals/interfaces/filecacheentry/',
-								'api/namespaces/obsidian/interfaces/reference/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/customarraydict/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MetadataCache'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/linkcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MetadataCache',
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Modal': {
-							title: 'Modal',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/closeablecomponent/',
-								'api/namespaces/obsidian/classes/setting/',
-								'api/namespaces/obsidian/classes/suggestmodal/',
-								'api/namespaces/obsidian/classes/modal/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/interfaces/closeablecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/modal/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Modal',
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SuggestModal',
-								'api/namespaces/obsidian/interfaces/CloseableComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/MomentFormatComponent': {
-							title: 'MomentFormatComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/textcomponent/',
-								'api/namespaces/obsidian/classes/momentformatcomponent/',
-								'api/namespaces/obsidian/classes/textcomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/momentformatcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/MomentFormatComponent',
-								'api/namespaces/obsidian/classes/TextComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/textcomponent': {
-							title: 'textcomponent',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/MomentFormatComponent'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Notice': {
-							title: 'Notice',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/notice/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/notice/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Notice'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Plugin': {
-							title: 'Plugin',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/interfaces/pluginmanifest/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/interfaces/command/',
-								'api/namespaces/obsidian/functions/addicon',
-								'api/namespaces/obsidian/classes/pluginsettingtab/',
-								'api/namespaces/obsidian/classes/workspace',
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/obsidian/interfaces/hoverlinksource/',
-								'api/namespaces/obsidian/interfaces/markdownpostprocessor/',
-								'api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/type-aliases/viewcreator/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/pluginsettingtab/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/PluginSettingTab',
-								'api/namespaces/obsidian/classes/SettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspace': {
-							title: 'workspace',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Plugin',
-								'api/namespaces/obsidian/classes/Workspace',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/viewcreator/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Plugin'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/PluginSettingTab': {
-							title: 'PluginSettingTab',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/settingtab/',
-								'api/namespaces/obsidian/classes/pluginsettingtab/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/classes/settingtab',
-								'api/namespaces/obsidian/classes/setting/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/PopoverSuggest': {
-							title: 'PopoverSuggest',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/isuggestowner/',
-								'api/namespaces/obsidian/interfaces/closeablecomponent/',
-								'api/namespaces/obsidian/classes/abstractinputsuggest/',
-								'api/namespaces/obsidian/classes/editorsuggest/',
-								'api/namespaces/obsidian/classes/popoversuggest/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/suggestioncontainer/',
-								'api/namespaces/obsidian/interfaces/closeablecomponent',
-								'api/namespaces/obsidian/interfaces/isuggestowner',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/isuggestowner/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-								'api/namespaces/obsidian/classes/SuggestModal',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/isuggestowner': {
-							title: 'isuggestowner',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/PopoverSuggest',
-								'api/namespaces/obsidian/classes/SuggestModal',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ProgressBarComponent': {
-							title: 'ProgressBarComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/progressbarcomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/progressbarcomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ProgressBarComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Scope': {
-							title: 'Scope',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/keyscope/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/type-aliases/modifier/',
-								'api/namespaces/obsidian/type-aliases/keymapeventlistener/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/keyscope/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Scope'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/keymapeventlistener/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Scope'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/SearchComponent': {
-							title: 'SearchComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/abstracttextcomponent/',
-								'api/namespaces/obsidian/classes/searchcomponent/',
-								'api/namespaces/obsidian/classes/abstracttextcomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/abstracttextcomponent': {
-							title: 'abstracttextcomponent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/SearchComponent',
-								'api/namespaces/obsidian/classes/TextAreaComponent',
-								'api/namespaces/obsidian/classes/TextComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Setting': {
-							title: 'Setting',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/modal/',
-								'api/namespaces/obsidian/classes/setting/',
-								'api/namespaces/obsidian/classes/modal',
-								'api/namespaces/obsidian/classes/settingtab/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/basecomponent/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/internals/interfaces/hotkeyssettingtab/',
-								'api/namespaces/obsidian/interfaces/tooltipoptions/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/modal': {
-							title: 'modal',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SuggestModal',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/hotkeyssettingtab/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Setting',
-								'api/namespaces/obsidian/classes/SettingTab',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/SettingTab': {
-							title: 'SettingTab',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/pluginsettingtab/',
-								'api/namespaces/internals/interfaces/hotkeyssettingtab/',
-								'api/namespaces/obsidian/classes/settingtab/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/plugin/',
-								'api/namespaces/obsidian/classes/setting/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/SliderComponent': {
-							title: 'SliderComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/slidercomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/slidercomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/SliderComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/SuggestModal': {
-							title: 'SuggestModal',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/modal/',
-								'api/namespaces/obsidian/interfaces/isuggestowner/',
-								'api/namespaces/obsidian/classes/fuzzysuggestmodal/',
-								'api/namespaces/obsidian/classes/suggestmodal/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/modal',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/interfaces/isuggestowner',
-								'api/namespaces/obsidian/interfaces/instruction/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TAbstractFile': {
-							title: 'TAbstractFile',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/classes/vault/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Tasks': {
-							title: 'Tasks',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/tasks/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/tasks/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Tasks'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TextAreaComponent': {
-							title: 'TextAreaComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/abstracttextcomponent/',
-								'api/namespaces/obsidian/classes/textareacomponent/',
-								'api/namespaces/obsidian/classes/abstracttextcomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TextComponent': {
-							title: 'TextComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/abstracttextcomponent/',
-								'api/namespaces/obsidian/classes/momentformatcomponent/',
-								'api/namespaces/obsidian/classes/textcomponent/',
-								'api/namespaces/obsidian/classes/abstracttextcomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TextFileView': {
-							title: 'TextFileView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editablefileview/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/internals/interfaces/canvasview/',
-								'api/namespaces/obsidian/classes/textfileview/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/editablefileview',
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/canvasview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/TextFileView'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TFile': {
-							title: 'TFile',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/tabstractfile',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/interfaces/filestats/',
-								'api/namespaces/obsidian/classes/vault/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/tabstractfile': {
-							title: 'tabstractfile',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/TFile',
-								'api/namespaces/obsidian/classes/TFolder',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/filestats/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/TFile'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/TFolder': {
-							title: 'TFolder',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/classes/tabstractfile',
-								'api/namespaces/obsidian/classes/vault/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ToggleComponent': {
-							title: 'ToggleComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/togglecomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent',
-								'api/namespaces/obsidian/interfaces/tooltipoptions/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/togglecomponent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/ToggleComponent',
-								'api/namespaces/obsidian/classes/ValueComponent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/ValueComponent': {
-							title: 'ValueComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/basecomponent/',
-								'api/namespaces/obsidian/classes/abstracttextcomponent/',
-								'api/namespaces/obsidian/classes/colorcomponent/',
-								'api/namespaces/obsidian/classes/dropdowncomponent/',
-								'api/namespaces/obsidian/classes/progressbarcomponent/',
-								'api/namespaces/obsidian/classes/slidercomponent/',
-								'api/namespaces/obsidian/classes/togglecomponent/',
-								'api/namespaces/obsidian/classes/valuecomponent/',
-								'api/namespaces/obsidian/classes/basecomponent',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Vault': {
-							title: 'Vault',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/vault/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/dataadapter/',
-								'api/namespaces/internals/interfaces/appvaultconfig/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/datawriteoptions/',
-								'api/namespaces/obsidian/classes/vault',
-								'api/namespaces/obsidian/classes/tfolder/',
-								'api/namespaces/obsidian/classes/tabstractfile/',
-								'api/namespaces/internals/type-aliases/configitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/workspace',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/appvaultconfig/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Vault'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/vault': {
-							title: 'vault',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Vault',
-								'api/namespaces/obsidian/interfaces/DataAdapter',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/type-aliases/configitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Vault'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/View': {
-							title: 'View',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/itemview/',
-								'api/namespaces/internals/interfaces/fileexplorerview/',
-								'api/namespaces/internals/interfaces/searchview/',
-								'api/namespaces/internals/interfaces/tagview/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/scope/',
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-								'api/namespaces/obsidian/interfaces/viewstateresult/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/searchview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/View'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/tagview/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/View'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/Workspace': {
-							title: 'Workspace',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/workspace/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspace',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/classes/workspaceribbon/',
-								'api/namespaces/obsidian/classes/workspacesidedock/',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/',
-								'api/namespaces/internals/interfaces/recentfiletracker/',
-								'api/namespaces/obsidian/interfaces/debouncer/',
-								'api/namespaces/obsidian/classes/workspaceroot/',
-								'api/namespaces/internals/interfaces/statehistory/',
-								'api/namespaces/obsidian/type-aliases/splitdirection/',
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/type-aliases/panetype/',
-								'api/namespaces/obsidian/classes/fileview/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/type-aliases/constructor/',
-								'api/namespaces/internals/interfaces/fileexplorerleaf/',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'alse',
-								'api/namespaces/obsidian/classes/workspacewindow/',
-								'api/namespaces/obsidian/interfaces/workspacewindowinitdata/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/interfaces/openviewstate/',
-								'rue',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceribbon/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceRibbon',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacesidedock/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-							],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/recentfiletracker/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Workspace'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/debouncer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/functions/debounce',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceroot/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacesplit/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/constructor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Workspace'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/fileexplorerleaf/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceparent/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceItem',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						alse: {
-							title: 'alse',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Workspace'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacewindow/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/Workspace',
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/workspacewindowinitdata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Workspace'],
-							tags: [],
-						},
-						rue: {
-							title: 'rue',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/Workspace'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceContainer': {
-							title: 'WorkspaceContainer',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/classes/workspaceroot/',
-								'api/namespaces/obsidian/classes/workspacewindow/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspacesplit',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacesplit': {
-							title: 'workspacesplit',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/WorkspaceContainer',
-								'api/namespaces/obsidian/classes/WorkspaceSidedock',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceFloating': {
-							title: 'WorkspaceFloating',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspacefloating/',
-								'api/namespaces/obsidian/classes/workspaceparent',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacefloating/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceparent': {
-							title: 'workspaceparent',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/WorkspaceFloating',
-								'api/namespaces/obsidian/classes/WorkspaceMobileDrawer',
-								'api/namespaces/obsidian/classes/WorkspaceSplit',
-								'api/namespaces/obsidian/classes/WorkspaceTabs',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceItem': {
-							title: 'WorkspaceItem',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/events/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/classes/events',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceLeaf': {
-							title: 'WorkspaceLeaf',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/internals/interfaces/canvasleaf/',
-								'api/namespaces/internals/interfaces/fileexplorerleaf/',
-								'api/namespaces/internals/interfaces/globalsearchleaf/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-								'api/namespaces/obsidian/classes/workspaceitem',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/interfaces/viewstate/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/classes/tfile/',
-								'api/namespaces/obsidian/interfaces/openviewstate/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/canvasleaf/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/WorkspaceLeaf'],
-							tags: [],
-						},
-						'api/namespaces/internals/interfaces/globalsearchleaf/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/classes/WorkspaceLeaf'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspaceitem': {
-							title: 'workspaceitem',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/WorkspaceLeaf',
-								'api/namespaces/obsidian/classes/WorkspaceParent',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceMobileDrawer': {
-							title: 'WorkspaceMobileDrawer',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspaceparent',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceParent': {
-							title: 'WorkspaceParent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/classes/workspacefloating/',
-								'api/namespaces/obsidian/classes/workspacemobiledrawer/',
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspaceitem',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceRibbon': {
-							title: 'WorkspaceRibbon',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/workspaceribbon/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceRoot': {
-							title: 'WorkspaceRoot',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot/',
-								'api/namespaces/obsidian/classes/workspacecontainer',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/workspacecontainer': {
-							title: 'workspacecontainer',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/classes/WorkspaceRoot',
-								'api/namespaces/obsidian/classes/WorkspaceWindow',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceSidedock': {
-							title: 'WorkspaceSidedock',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/classes/workspacesidedock/',
-								'api/namespaces/obsidian/classes/workspacesplit',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceSplit': {
-							title: 'WorkspaceSplit',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspacesidedock/',
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/classes/workspaceparent',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceTabs': {
-							title: 'WorkspaceTabs',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspacetabs/',
-								'api/namespaces/obsidian/classes/workspaceparent',
-								'api/namespaces/obsidian/classes/workspacesplit/',
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/classes/WorkspaceWindow': {
-							title: 'WorkspaceWindow',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/workspacecontainer/',
-								'api/namespaces/obsidian/classes/workspacewindow/',
-								'api/namespaces/obsidian/classes/workspacecontainer',
-								'api/namespaces/obsidian/classes/workspaceparent/',
-								'api/namespaces/obsidian/classes/workspaceroot',
-								'api/namespaces/obsidian/classes/workspacewindow',
-								'api/namespaces/obsidian/classes/workspaceitem/',
-								'api/namespaces/obsidian/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/enumerations/PopoverState': {
-							title: 'PopoverState',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/addIcon': {
-							title: 'addIcon',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/arrayBufferToBase64': {
-							title: 'arrayBufferToBase64',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/arrayBufferToHex': {
-							title: 'arrayBufferToHex',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/base64ToArrayBuffer': {
-							title: 'base64ToArrayBuffer',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/debounce': {
-							title: 'debounce',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/debouncer/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/finishRenderMath': {
-							title: 'finishRenderMath',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/fuzzySearch': {
-							title: 'fuzzySearch',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/searchresult/',
-								'api/namespaces/obsidian/interfaces/preparedquery/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/preparedquery/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/functions/fuzzySearch',
-								'api/namespaces/obsidian/functions/prepareQuery',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getAllTags': {
-							title: 'getAllTags',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/cachedmetadata/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getBlobArrayBuffer': {
-							title: 'getBlobArrayBuffer',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getFrontMatterInfo': {
-							title: 'getFrontMatterInfo',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/frontmatterinfo/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/frontmatterinfo/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/functions/getFrontMatterInfo'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getIcon': {
-							title: 'getIcon',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getIconIds': {
-							title: 'getIconIds',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/iconname/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/iconname/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/functions/getIconIds'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/getLinkpath': {
-							title: 'getLinkpath',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/hexToArrayBuffer': {
-							title: 'hexToArrayBuffer',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/htmlToMarkdown': {
-							title: 'htmlToMarkdown',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/iterateCacheRefs': {
-							title: 'iterateCacheRefs',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/cachedmetadata/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/iterateRefs': {
-							title: 'iterateRefs',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/reference/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/loadMathJax': {
-							title: 'loadMathJax',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/loadMermaid': {
-							title: 'loadMermaid',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/loadPdfJs': {
-							title: 'loadPdfJs',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/loadPrism': {
-							title: 'loadPrism',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/normalizePath': {
-							title: 'normalizePath',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseFrontMatterAliases': {
-							title: 'parseFrontMatterAliases',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseFrontMatterEntry': {
-							title: 'parseFrontMatterEntry',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseFrontMatterStringArray': {
-							title: 'parseFrontMatterStringArray',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseFrontMatterTags': {
-							title: 'parseFrontMatterTags',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseLinktext': {
-							title: 'parseLinktext',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/parseYaml': {
-							title: 'parseYaml',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/prepareFuzzySearch': {
-							title: 'prepareFuzzySearch',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresult/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/prepareQuery': {
-							title: 'prepareQuery',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/preparedquery/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/prepareSimpleSearch': {
-							title: 'prepareSimpleSearch',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresult/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/removeIcon': {
-							title: 'removeIcon',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/renderMatches': {
-							title: 'renderMatches',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/searchmatches/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/searchmatches/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/functions/renderMatches',
-								'api/namespaces/obsidian/interfaces/SearchResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/renderMath': {
-							title: 'renderMath',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/renderResults': {
-							title: 'renderResults',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresult/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/request': {
-							title: 'request',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/requesturlparam/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/requesturlparam/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/functions/request',
-								'api/namespaces/obsidian/functions/requestUrl',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/requestUrl': {
-							title: 'requestUrl',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/requesturlresponsepromise/',
-								'api/namespaces/obsidian/interfaces/requesturlparam/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/requesturlresponsepromise/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/functions/requestUrl'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/requireApiVersion': {
-							title: 'requireApiVersion',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/resolveSubpath': {
-							title: 'resolveSubpath',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/headingsubpathresult/',
-								'api/namespaces/obsidian/interfaces/blocksubpathresult/',
-								'api/namespaces/obsidian/interfaces/cachedmetadata/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/headingsubpathresult/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/functions/resolveSubpath',
-								'api/namespaces/obsidian/interfaces/SubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/blocksubpathresult/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/functions/resolveSubpath',
-								'api/namespaces/obsidian/interfaces/SubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/sanitizeHTMLToDom': {
-							title: 'sanitizeHTMLToDom',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/setIcon': {
-							title: 'setIcon',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/setTooltip': {
-							title: 'setTooltip',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/tooltipoptions/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/sortSearchResults': {
-							title: 'sortSearchResults',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresultcontainer/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/searchresultcontainer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/functions/sortSearchResults'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/stringifyYaml': {
-							title: 'stringifyYaml',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/stripHeading': {
-							title: 'stripHeading',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/stripHeadingForLink': {
-							title: 'stripHeadingForLink',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/BlockCache': {
-							title: 'BlockCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/cacheitem/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockCache',
-								'api/namespaces/obsidian/interfaces/FootnoteCache',
-								'api/namespaces/obsidian/interfaces/HeadingCache',
-								'api/namespaces/obsidian/interfaces/ListItemCache',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-								'api/namespaces/obsidian/interfaces/SectionCache',
-								'api/namespaces/obsidian/interfaces/TagCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/pos/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockCache',
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-								'api/namespaces/obsidian/interfaces/EmbedCache',
-								'api/namespaces/obsidian/interfaces/FootnoteCache',
-								'api/namespaces/obsidian/interfaces/HeadingCache',
-								'api/namespaces/obsidian/interfaces/LinkCache',
-								'api/namespaces/obsidian/interfaces/ListItemCache',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-								'api/namespaces/obsidian/interfaces/SectionCache',
-								'api/namespaces/obsidian/interfaces/TagCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/cacheitem': {
-							title: 'cacheitem',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockCache',
-								'api/namespaces/obsidian/interfaces/FootnoteCache',
-								'api/namespaces/obsidian/interfaces/HeadingCache',
-								'api/namespaces/obsidian/interfaces/ListItemCache',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-								'api/namespaces/obsidian/interfaces/SectionCache',
-								'api/namespaces/obsidian/interfaces/TagCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/BlockSubpathResult': {
-							title: 'BlockSubpathResult',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/subpathresult/',
-								'api/namespaces/obsidian/interfaces/blockcache/',
-								'api/namespaces/obsidian/interfaces/loc/',
-								'api/namespaces/obsidian/interfaces/subpathresult',
-								'api/namespaces/obsidian/interfaces/listitemcache/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/subpathresult/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockSubpathResult',
-								'api/namespaces/obsidian/interfaces/HeadingSubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/subpathresult': {
-							title: 'subpathresult',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockSubpathResult',
-								'api/namespaces/obsidian/interfaces/HeadingSubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/listitemcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/BlockSubpathResult',
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/CachedMetadata': {
-							title: 'CachedMetadata',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/blockcache/',
-								'api/namespaces/obsidian/interfaces/embedcache/',
-								'api/namespaces/obsidian/interfaces/footnotecache/',
-								'api/namespaces/obsidian/interfaces/frontmattercache/',
-								'api/namespaces/obsidian/interfaces/frontmatterlinkcache/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/headingcache/',
-								'api/namespaces/obsidian/interfaces/linkcache/',
-								'api/namespaces/obsidian/interfaces/listitemcache/',
-								'api/namespaces/obsidian/interfaces/sectioncache/',
-								'api/namespaces/obsidian/interfaces/tagcache/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/embedcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/ReferenceCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/footnotecache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/frontmattercache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/CachedMetadata'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/frontmatterlinkcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/Reference',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/headingcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-								'api/namespaces/obsidian/interfaces/HeadingSubpathResult',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/sectioncache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/tagcache/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/CachedMetadata',
-								'api/namespaces/obsidian/interfaces/CacheItem',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/CacheItem': {
-							title: 'CacheItem',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/blockcache/',
-								'api/namespaces/obsidian/interfaces/footnotecache/',
-								'api/namespaces/obsidian/interfaces/headingcache/',
-								'api/namespaces/obsidian/interfaces/listitemcache/',
-								'api/namespaces/obsidian/interfaces/referencecache/',
-								'api/namespaces/obsidian/interfaces/sectioncache/',
-								'api/namespaces/obsidian/interfaces/tagcache/',
-								'api/namespaces/obsidian/interfaces/pos/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/CloseableComponent': {
-							title: 'CloseableComponent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/menu/',
-								'api/namespaces/obsidian/classes/modal/',
-								'api/namespaces/obsidian/classes/popoversuggest/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Command': {
-							title: 'Command',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/markdownview/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/interfaces/hotkey/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/hotkey/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/Command'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/DataAdapter': {
-							title: 'DataAdapter',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/vault',
-								'api/namespaces/obsidian/classes/filesystemadapter/',
-								'api/namespaces/internals/interfaces/dataadapterfilesrecord/',
-								'api/namespaces/obsidian/functions/normalizepath',
-								'api/namespaces/obsidian/interfaces/datawriteoptions/',
-								'api/namespaces/obsidian/interfaces/listedfiles/',
-								'api/namespaces/obsidian/interfaces/stat/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/functions/normalizepath': {
-							title: 'normalizepath',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/DataAdapter'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/DataWriteOptions': {
-							title: 'DataWriteOptions',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Debouncer': {
-							title: 'Debouncer',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorChange': {
-							title: 'EditorChange',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorrangeorcaret/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/interfaces/editorrangeorcaret',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorrangeorcaret/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/EditorChange',
-								'api/namespaces/obsidian/interfaces/EditorTransaction',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorrangeorcaret': {
-							title: 'editorrangeorcaret',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/EditorChange'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorPosition': {
-							title: 'EditorPosition',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorRange': {
-							title: 'EditorRange',
-							content: '',
-							links: [
-								'api/namespaces/internals/interfaces/token/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorRangeOrCaret': {
-							title: 'EditorRangeOrCaret',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorchange/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorchange/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/EditorRangeOrCaret',
-								'api/namespaces/obsidian/interfaces/EditorTransaction',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorScrollInfo': {
-							title: 'EditorScrollInfo',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorSelection': {
-							title: 'EditorSelection',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/editorposition/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorSelectionOrCaret': {
-							title: 'EditorSelectionOrCaret',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/editorposition/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorSuggestContext': {
-							title: 'EditorSuggestContext',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-								'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo': {
-							title: 'editorsuggesttriggerinfo',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/EditorSuggestContext'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorSuggestTriggerInfo': {
-							title: 'EditorSuggestTriggerInfo',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorsuggestcontext/',
-								'api/namespaces/obsidian/interfaces/editorposition/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EditorTransaction': {
-							title: 'EditorTransaction',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/editorchange/',
-								'api/namespaces/obsidian/interfaces/editorrangeorcaret/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EmbedCache': {
-							title: 'EmbedCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/referencecache/',
-								'api/namespaces/obsidian/interfaces/referencecache',
-								'api/namespaces/obsidian/interfaces/pos/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/referencecache': {
-							title: 'referencecache',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/EmbedCache',
-								'api/namespaces/obsidian/interfaces/LinkCache',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/EventRef': {
-							title: 'EventRef',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/events/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FileStats': {
-							title: 'FileStats',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FootnoteCache': {
-							title: 'FootnoteCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FrontMatterCache': {
-							title: 'FrontMatterCache',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FrontMatterInfo': {
-							title: 'FrontMatterInfo',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FrontmatterLinkCache': {
-							title: 'FrontmatterLinkCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/reference/',
-								'api/namespaces/obsidian/interfaces/reference',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/FuzzyMatch': {
-							title: 'FuzzyMatch',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresult/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/HeadingCache': {
-							title: 'HeadingCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/HeadingSubpathResult': {
-							title: 'HeadingSubpathResult',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/subpathresult/',
-								'api/namespaces/obsidian/interfaces/headingcache/',
-								'api/namespaces/obsidian/interfaces/loc/',
-								'api/namespaces/obsidian/interfaces/subpathresult',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Hotkey': {
-							title: 'Hotkey',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/modifier/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/HoverLinkSource': {
-							title: 'HoverLinkSource',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/HoverParent': {
-							title: 'HoverParent',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/classes/markdownrenderer/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/HSL': {
-							title: 'HSL',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Instruction': {
-							title: 'Instruction',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ISuggestOwner': {
-							title: 'ISuggestOwner',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/popoversuggest/',
-								'api/namespaces/obsidian/classes/suggestmodal/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/KeymapContext': {
-							title: 'KeymapContext',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/keymapinfo/',
-								'api/namespaces/obsidian/interfaces/keymapinfo',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/keymapinfo': {
-							title: 'keymapinfo',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/KeymapContext',
-								'api/namespaces/obsidian/interfaces/KeymapEventHandler',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/KeymapEventHandler': {
-							title: 'KeymapEventHandler',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/keymapinfo/',
-								'api/namespaces/obsidian/interfaces/keymapinfo',
-								'api/namespaces/obsidian/classes/scope/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/KeymapInfo': {
-							title: 'KeymapInfo',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/keymapcontext/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/keymapcontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/obsidian/interfaces/KeymapInfo',
-								'api/namespaces/obsidian/type-aliases/KeymapEventListener',
-							],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/LinkCache': {
-							title: 'LinkCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/referencecache/',
-								'api/namespaces/obsidian/interfaces/referencecache',
-								'api/namespaces/obsidian/interfaces/pos/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ListedFiles': {
-							title: 'ListedFiles',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ListItemCache': {
-							title: 'ListItemCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/livePreviewState-1': {
-							title: 'livePreviewState',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/LivePreviewState': {
-							title: 'LivePreviewState',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Loc': {
-							title: 'Loc',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownFileInfo': {
-							title: 'MarkdownFileInfo',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/hoverparent/',
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/obsidian/classes/app/',
-								'api/namespaces/obsidian/classes/editor/',
-								'api/namespaces/obsidian/classes/hoverpopover/',
-								'api/namespaces/obsidian/interfaces/hoverparent',
-								'api/namespaces/obsidian/classes/tfile/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownPostProcessor': {
-							title: 'MarkdownPostProcessor',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/markdownpostprocessorcontext',
-								'api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownpostprocessorcontext': {
-							title: 'markdownpostprocessorcontext',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/MarkdownPostProcessor'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownPostProcessorContext': {
-							title: 'MarkdownPostProcessorContext',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdownrenderchild/',
-								'api/namespaces/obsidian/interfaces/markdownsectioninformation/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/markdownsectioninformation/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/MarkdownPostProcessorContext'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownPreviewEvents': {
-							title: 'MarkdownPreviewEvents',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/component/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-								'api/namespaces/obsidian/classes/markdownrenderer/',
-								'api/namespaces/obsidian/classes/component',
-								'api/namespaces/obsidian/interfaces/eventref/',
-								'api/namespaces/obsidian/interfaces/keymapeventhandler/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownSectionInformation': {
-							title: 'MarkdownSectionInformation',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MarkdownSubView': {
-							title: 'MarkdownSubView',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/markdowneditview/',
-								'api/namespaces/obsidian/classes/markdownpreviewview/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/MenuPositionDef': {
-							title: 'MenuPositionDef',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ObsidianProtocolData': {
-							title: 'ObsidianProtocolData',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/OpenViewState': {
-							title: 'OpenViewState',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/workspaceleaf/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Platform': {
-							title: 'Platform',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/PluginManifest': {
-							title: 'PluginManifest',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Point': {
-							title: 'Point',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Pos': {
-							title: 'Pos',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/loc/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/PreparedQuery': {
-							title: 'PreparedQuery',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Reference': {
-							title: 'Reference',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/frontmatterlinkcache/',
-								'api/namespaces/obsidian/interfaces/referencecache/',
-								'api/namespaces/internals/interfaces/positionedreference/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ReferenceCache': {
-							title: 'ReferenceCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/reference/',
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/embedcache/',
-								'api/namespaces/obsidian/interfaces/linkcache/',
-								'api/namespaces/obsidian/interfaces/reference',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/RequestUrlParam': {
-							title: 'RequestUrlParam',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/RequestUrlResponse': {
-							title: 'RequestUrlResponse',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/RequestUrlResponsePromise': {
-							title: 'RequestUrlResponsePromise',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/requesturlresponse/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/requesturlresponse/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/RequestUrlResponsePromise'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/RGB': {
-							title: 'RGB',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/SearchResult': {
-							title: 'SearchResult',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/searchmatches/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/SearchResultContainer': {
-							title: 'SearchResultContainer',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/searchresult/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/SectionCache': {
-							title: 'SectionCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/Stat': {
-							title: 'Stat',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/SubpathResult': {
-							title: 'SubpathResult',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/blocksubpathresult/',
-								'api/namespaces/obsidian/interfaces/headingsubpathresult/',
-								'api/namespaces/obsidian/interfaces/loc/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/TagCache': {
-							title: 'TagCache',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/cacheitem/',
-								'api/namespaces/obsidian/interfaces/pos/',
-								'api/namespaces/obsidian/interfaces/cacheitem',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/TooltipOptions': {
-							title: 'TooltipOptions',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/tooltipplacement/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/tooltipplacement/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/interfaces/TooltipOptions'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ViewState': {
-							title: 'ViewState',
-							content: '',
-							links: ['api/namespaces/obsidian/classes/workspaceleaf/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/ViewStateResult': {
-							title: 'ViewStateResult',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/WorkspaceWindowInitData': {
-							title: 'WorkspaceWindowInitData',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/Constructor': {
-							title: 'Constructor',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/EditorCommandName': {
-							title: 'EditorCommandName',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/HexString': {
-							title: 'HexString',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/IconName': {
-							title: 'IconName',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/KeymapEventListener': {
-							title: 'KeymapEventListener',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/keymapcontext/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/MarkdownViewModeType': {
-							title: 'MarkdownViewModeType',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/Modifier': {
-							title: 'Modifier',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/ObsidianProtocolHandler': {
-							title: 'ObsidianProtocolHandler',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/obsidianprotocoldata/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/obsidianprotocoldata/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/type-aliases/ObsidianProtocolHandler'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/PaneType': {
-							title: 'PaneType',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/SearchMatches': {
-							title: 'SearchMatches',
-							content: '',
-							links: ['api/namespaces/obsidian/type-aliases/searchmatchpart/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/searchmatchpart/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/type-aliases/SearchMatches'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/SearchMatchPart': {
-							title: 'SearchMatchPart',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/SplitDirection': {
-							title: 'SplitDirection',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/TooltipPlacement': {
-							title: 'TooltipPlacement',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/UserEvent': {
-							title: 'UserEvent',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/type-aliases/ViewCreator': {
-							title: 'ViewCreator',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/classes/view/',
-								'api/namespaces/obsidian/classes/workspaceleaf/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/apiVersion': {
-							title: 'apiVersion',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/editorEditorField': {
-							title: 'editorEditorField',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/editorInfoField': {
-							title: 'editorInfoField',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/markdownfileinfo/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/editorLivePreviewField': {
-							title: 'editorLivePreviewField',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/editorViewField': {
-							title: 'editorViewField',
-							content: '',
-							links: [
-								'api/namespaces/obsidian/interfaces/markdownfileinfo/',
-								'api/namespaces/obsidian/variables/editorinfofield/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/editorinfofield/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/variables/editorViewField'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/livePreviewState': {
-							title: 'livePreviewState',
-							content: '',
-							links: ['api/namespaces/obsidian/interfaces/livepreviewstate/'],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/interfaces/livepreviewstate/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/obsidian/variables/livePreviewState'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/moment': {
-							title: 'moment',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/obsidian/variables/Platform': {
-							title: 'Platform',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/Component': {
-							title: 'Component',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/markdownrenderchild/',
-								'api/namespaces/publish/classes/component/',
-								'api/namespaces/publish/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/markdownrenderchild/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/Component',
-								'api/namespaces/publish/classes/MarkdownRenderChild',
-								'api/namespaces/publish/interfaces/MarkdownPostProcessorContext',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/component/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/Component',
-								'api/namespaces/publish/classes/MarkdownRenderChild',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/eventref/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/Component',
-								'api/namespaces/publish/classes/Events',
-								'api/namespaces/publish/classes/MarkdownRenderChild',
-								'api/namespaces/publish/classes/Publish',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/Events': {
-							title: 'Events',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/publish/',
-								'api/namespaces/publish/classes/events/',
-								'api/namespaces/publish/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/publish/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/Events',
-								'api/namespaces/publish/classes/Publish',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/events/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/Events',
-								'api/namespaces/publish/classes/Publish',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/MarkdownPreviewRenderer': {
-							title: 'MarkdownPreviewRenderer',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/markdownpreviewrenderer/',
-								'api/namespaces/publish/interfaces/markdownpostprocessorcontext/',
-								'api/namespaces/publish/interfaces/markdownpostprocessor/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/markdownpreviewrenderer/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/publish/classes/MarkdownPreviewRenderer'],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/markdownpostprocessorcontext/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/MarkdownPreviewRenderer',
-								'api/namespaces/publish/interfaces/MarkdownPostProcessor',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/markdownpostprocessor/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: [
-								'api/namespaces/publish/classes/MarkdownPreviewRenderer',
-								'api/namespaces/publish/classes/Publish',
-							],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/MarkdownRenderChild': {
-							title: 'MarkdownRenderChild',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/component/',
-								'api/namespaces/publish/classes/markdownrenderchild/',
-								'api/namespaces/publish/classes/component',
-								'api/namespaces/publish/interfaces/eventref/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/component': {
-							title: 'component',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/publish/classes/MarkdownRenderChild'],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/Publish': {
-							title: 'Publish',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/events/',
-								'api/namespaces/publish/classes/publish/',
-								'api/namespaces/publish/classes/events',
-								'api/namespaces/publish/interfaces/eventref/',
-								'api/namespaces/publish/interfaces/markdownpostprocessor/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/classes/events': {
-							title: 'events',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/publish/classes/Publish'],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/EventRef': {
-							title: 'EventRef',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/MarkdownPostProcessor': {
-							title: 'MarkdownPostProcessor',
-							content: '',
-							links: [
-								'api/namespaces/publish/interfaces/markdownpostprocessorcontext',
-								'api/namespaces/publish/interfaces/markdownpostprocessorcontext/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/markdownpostprocessorcontext': {
-							title: 'markdownpostprocessorcontext',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/publish/interfaces/MarkdownPostProcessor'],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/MarkdownPostProcessorContext': {
-							title: 'MarkdownPostProcessorContext',
-							content: '',
-							links: [
-								'api/namespaces/publish/classes/markdownrenderchild/',
-								'api/namespaces/publish/interfaces/markdownsectioninformation/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/markdownsectioninformation/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/namespaces/publish/interfaces/MarkdownPostProcessorContext'],
-							tags: [],
-						},
-						'api/namespaces/publish/interfaces/MarkdownSectionInformation': {
-							title: 'MarkdownSectionInformation',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'api/README': {
-							title: 'obsidian-typings',
-							content: '',
-							links: [
-								'api/namespaces/codemirror__view/readme/',
-								'api/namespaces/augmentations/readme/',
-								'api/namespaces/canvas/readme/',
-								'api/namespaces/global/readme/',
-								'api/namespaces/internals/readme/',
-								'api/namespaces/obsidian/readme/',
-								'api/namespaces/publish/readme/',
-							],
-							backlinks: [],
-							tags: [],
-						},
-						'api/namespaces/codemirror__view/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/augmentations/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/canvas/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/global/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/internals/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/obsidian/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'api/namespaces/publish/readme/': {
-							title: '',
-							content: '',
-							links: [],
-							backlinks: ['api/README'],
-							tags: [],
-						},
-						'guides/start': {
-							title: 'Quick start',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						index: {
-							title: 'Welcome to Starlight',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
-						'reference/intro': {
-							title: 'Intro',
-							content: '',
-							links: [],
-							backlinks: [],
-							tags: [],
-						},
+						"api/namespaces/augmentations/interfaces/editablefileview/": {
+							"title": "EditableFileView",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/fileview/",
+								"api/namespaces/augmentations/interfaces/textfileview/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/fileview/",
+								"api/namespaces/augmentations/interfaces/textfileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/interfaces/fileview/": {
+							"title": "FileView",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/itemview/",
+								"api/namespaces/augmentations/interfaces/editablefileview/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/editablefileview/",
+								"api/namespaces/augmentations/interfaces/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/interfaces/textfileview/": {
+							"title": "TextFileView",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/editablefileview/",
+								"api/namespaces/augmentations/interfaces/markdownview/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/editablefileview/",
+								"api/namespaces/augmentations/interfaces/markdownview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/interfaces/itemview/": {
+							"title": "ItemView",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/view/",
+								"api/namespaces/augmentations/interfaces/fileview/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/fileview/",
+								"api/namespaces/augmentations/interfaces/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/interfaces/view/": {
+							"title": "View",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/itemview/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/interfaces/markdownview/": {
+							"title": "MarkdownView",
+							"content": "",
+							"links": [
+								"api/namespaces/augmentations/interfaces/textfileview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/textfileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadataeditor/": {
+							"title": "MetadataEditor",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/internals/interfaces/propertyentrydata/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/markdownview/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/propertyrendercontext/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdownview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/token/": {
+							"title": "Token",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorrange/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/augmentations/interfaces/markdownview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/editorrange/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvasdata/": {
+							"title": "CanvasData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasedgedata/",
+								"api/namespaces/canvas/type-aliases/allcanvasnodedata/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvasedgedata/": {
+							"title": "CanvasEdgeData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/type-aliases/edgeend/",
+								"api/namespaces/canvas/type-aliases/nodeside/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasdata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/type-aliases/allcanvasnodedata/": {
+							"title": "AllCanvasNodeData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasfiledata/",
+								"api/namespaces/canvas/interfaces/canvastextdata/",
+								"api/namespaces/canvas/interfaces/canvaslinkdata/",
+								"api/namespaces/canvas/interfaces/canvasgroupdata/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasdata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/type-aliases/edgeend/": {
+							"title": "EdgeEnd",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasedgedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/type-aliases/nodeside/": {
+							"title": "NodeSide",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasedgedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvasfiledata/": {
+							"title": "CanvasFileData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/",
+								"api/namespaces/canvas/type-aliases/allcanvasnodedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvasnodedata/": {
+							"title": "CanvasNodeData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasfiledata/",
+								"api/namespaces/canvas/interfaces/canvastextdata/",
+								"api/namespaces/canvas/interfaces/canvaslinkdata/",
+								"api/namespaces/canvas/interfaces/canvasgroupdata/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasfiledata/",
+								"api/namespaces/canvas/interfaces/canvasgroupdata/",
+								"api/namespaces/canvas/interfaces/canvaslinkdata/",
+								"api/namespaces/canvas/interfaces/canvastextdata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvasgroupdata/": {
+							"title": "CanvasGroupData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/",
+								"api/namespaces/canvas/type-aliases/backgroundstyle/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/",
+								"api/namespaces/canvas/type-aliases/allcanvasnodedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/type-aliases/backgroundstyle/": {
+							"title": "BackgroundStyle",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasgroupdata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvaslinkdata/": {
+							"title": "CanvasLinkData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/",
+								"api/namespaces/canvas/type-aliases/allcanvasnodedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/interfaces/canvastextdata/": {
+							"title": "CanvasTextData",
+							"content": "",
+							"links": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/"
+							],
+							"backlinks": [
+								"api/namespaces/canvas/interfaces/canvasnodedata/",
+								"api/namespaces/canvas/type-aliases/allcanvasnodedata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/type-aliases/canvascolor/": {
+							"title": "CanvasColor",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/codemirrorview/interfaces/editorview/": {
+							"title": "EditorView",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/global/interfaces/domelementinfo/": {
+							"title": "DomElementInfo",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/abstractsearchcomponent/": {
+							"title": "AbstractSearchComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/editorsearchcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/editorsearchcomponent/": {
+							"title": "EditorSearchComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/abstractsearchcomponent/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/searchcursor/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/interfaces/editorrange/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/abstractsearchcomponent/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/app/": {
+							"title": "App",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/account/",
+								"api/namespaces/internals/interfaces/commands/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/obsidiandom/",
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/internals/interfaces/hotkeymanager/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/obsidian/classes/keymap/",
+								"api/namespaces/obsidian/type-aliases/userevent/",
+								"api/namespaces/internals/interfaces/loadprogress/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/plugins/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/importedattachments/",
+								"api/namespaces/obsidian/classes/tfolder/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/abstractsearchcomponent/",
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/internals/interfaces/commands/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/dragmanager/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/embedcontext/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/filesuggestmanager/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/hotkeymanager/",
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/linkupdate/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/plugins/",
+								"api/namespaces/internals/interfaces/propertyrendercontext/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/tree/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/abstractinputsuggest/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/settingtab/",
+								"api/namespaces/obsidian/classes/suggestmodal/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/scope/": {
+							"title": "Scope",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/keyscope/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/type-aliases/modifier/",
+								"api/namespaces/obsidian/type-aliases/keymapeventlistener/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/abstractsearchcomponent/",
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/keyscope/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/tree/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/abstractinputsuggest/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/keymap/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/suggestmodal/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/account/": {
+							"title": "Account",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/allpropertiesview/": {
+							"title": "AllPropertiesView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/itemview/": {
+							"title": "ItemView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/component/": {
+							"title": "Component",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/",
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/propertywidget/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/internals/type-aliases/embeddableconstructor/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/eventref/": {
+							"title": "EventRef",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspaceleaf/": {
+							"title": "WorkspaceLeaf",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/interfaces/viewstate/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/openviewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/hoverlinkevent/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/openviewstate/",
+								"api/namespaces/obsidian/interfaces/viewstate/",
+								"api/namespaces/obsidian/type-aliases/viewcreator/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/menu/": {
+							"title": "Menu",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/closeablecomponent/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/menuitem/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/menupositiondef/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/menuitem/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/interfaces/closeablecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/keymapeventhandler/": {
+							"title": "KeymapEventHandler",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapinfo/",
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/interfaces/keymapinfo/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/viewstateresult/": {
+							"title": "ViewStateResult",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/allpropertiesview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/browserhistoryview/",
+								"api/namespaces/internals/interfaces/browserview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/graphview/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/releasenotesview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/appmenubarmanager/": {
+							"title": "AppMenuBarManager",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/appvaultconfig/": {
+							"title": "AppVaultConfig",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/appvaultconfighotkeysrecord/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/appvaultconfighotkeysrecord/": {
+							"title": "AppVaultConfigHotkeysRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/appvaultconfig/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/audiorecorderplugininstance/": {
+							"title": "AudioRecorderPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/internalplugininstance/": {
+							"title": "InternalPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/audiorecorderplugininstance/",
+								"api/namespaces/internals/interfaces/backlinkplugininstance/",
+								"api/namespaces/internals/interfaces/bookmarksplugininstance/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/internals/interfaces/commandpaletteplugininstance/",
+								"api/namespaces/internals/interfaces/dailynotesplugininstance/",
+								"api/namespaces/internals/interfaces/editorstatusplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/filerecoveryplugininstance/",
+								"api/namespaces/internals/interfaces/globalsearchplugininstance/",
+								"api/namespaces/internals/interfaces/graphplugininstance/",
+								"api/namespaces/internals/interfaces/markdownimporterplugininstance/",
+								"api/namespaces/internals/interfaces/notecomposerplugininstance/",
+								"api/namespaces/internals/interfaces/outgoinglinkplugininstance/",
+								"api/namespaces/internals/interfaces/outlineplugininstance/",
+								"api/namespaces/internals/interfaces/pagepreviewplugininstance/",
+								"api/namespaces/internals/interfaces/propertiesplugininstance/",
+								"api/namespaces/internals/interfaces/publishplugininstance/",
+								"api/namespaces/internals/interfaces/randomnoteplugininstance/",
+								"api/namespaces/internals/interfaces/slashcommandplugininstance/",
+								"api/namespaces/internals/interfaces/slidesplugininstance/",
+								"api/namespaces/internals/interfaces/starredplugininstance/",
+								"api/namespaces/internals/interfaces/switcherplugininstance/",
+								"api/namespaces/internals/interfaces/syncplugininstance/",
+								"api/namespaces/internals/interfaces/tagpaneplugininstance/",
+								"api/namespaces/internals/interfaces/templatesplugininstance/",
+								"api/namespaces/internals/interfaces/wordcountplugininstance/",
+								"api/namespaces/internals/interfaces/workspacesplugininstance/",
+								"api/namespaces/internals/interfaces/zkprefixerplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/audiorecorderplugininstance/",
+								"api/namespaces/internals/interfaces/backlinkplugininstance/",
+								"api/namespaces/internals/interfaces/bookmarksplugininstance/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/internals/interfaces/commandpaletteplugininstance/",
+								"api/namespaces/internals/interfaces/dailynotesplugininstance/",
+								"api/namespaces/internals/interfaces/editorstatusplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/filerecoveryplugininstance/",
+								"api/namespaces/internals/interfaces/globalsearchplugininstance/",
+								"api/namespaces/internals/interfaces/graphplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/markdownimporterplugininstance/",
+								"api/namespaces/internals/interfaces/notecomposerplugininstance/",
+								"api/namespaces/internals/interfaces/outgoinglinkplugininstance/",
+								"api/namespaces/internals/interfaces/outlineplugininstance/",
+								"api/namespaces/internals/interfaces/pagepreviewplugininstance/",
+								"api/namespaces/internals/interfaces/propertiesplugininstance/",
+								"api/namespaces/internals/interfaces/publishplugininstance/",
+								"api/namespaces/internals/interfaces/randomnoteplugininstance/",
+								"api/namespaces/internals/interfaces/slashcommandplugininstance/",
+								"api/namespaces/internals/interfaces/slidesplugininstance/",
+								"api/namespaces/internals/interfaces/starredplugininstance/",
+								"api/namespaces/internals/interfaces/switcherplugininstance/",
+								"api/namespaces/internals/interfaces/syncplugininstance/",
+								"api/namespaces/internals/interfaces/tagpaneplugininstance/",
+								"api/namespaces/internals/interfaces/templatesplugininstance/",
+								"api/namespaces/internals/interfaces/wordcountplugininstance/",
+								"api/namespaces/internals/interfaces/workspacesplugininstance/",
+								"api/namespaces/internals/interfaces/zkprefixerplugininstance/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/internalplugin/": {
+							"title": "InternalPlugin",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/audiorecorderplugininstance/",
+								"api/namespaces/internals/interfaces/backlinkplugininstance/",
+								"api/namespaces/internals/interfaces/bookmarksplugininstance/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/internals/interfaces/commandpaletteplugininstance/",
+								"api/namespaces/internals/interfaces/dailynotesplugininstance/",
+								"api/namespaces/internals/interfaces/editorstatusplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/filerecoveryplugininstance/",
+								"api/namespaces/internals/interfaces/globalsearchplugininstance/",
+								"api/namespaces/internals/interfaces/graphplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/markdownimporterplugininstance/",
+								"api/namespaces/internals/interfaces/notecomposerplugininstance/",
+								"api/namespaces/internals/interfaces/outgoinglinkplugininstance/",
+								"api/namespaces/internals/interfaces/outlineplugininstance/",
+								"api/namespaces/internals/interfaces/pagepreviewplugininstance/",
+								"api/namespaces/internals/interfaces/propertiesplugininstance/",
+								"api/namespaces/internals/interfaces/publishplugininstance/",
+								"api/namespaces/internals/interfaces/randomnoteplugininstance/",
+								"api/namespaces/internals/interfaces/slashcommandplugininstance/",
+								"api/namespaces/internals/interfaces/slidesplugininstance/",
+								"api/namespaces/internals/interfaces/starredplugininstance/",
+								"api/namespaces/internals/interfaces/switcherplugininstance/",
+								"api/namespaces/internals/interfaces/syncplugininstance/",
+								"api/namespaces/internals/interfaces/tagpaneplugininstance/",
+								"api/namespaces/internals/interfaces/templatesplugininstance/",
+								"api/namespaces/internals/interfaces/wordcountplugininstance/",
+								"api/namespaces/internals/interfaces/workspacesplugininstance/",
+								"api/namespaces/internals/interfaces/zkprefixerplugininstance/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/audioview/": {
+							"title": "AudioView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editablefileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/editablefileview/": {
+							"title": "EditableFileView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/textfileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/tfile/": {
+							"title": "TFile",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/interfaces/filestats/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/audioview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/bookmarksview/",
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/internals/interfaces/dragmanager/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/filesuggestmanager/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/imageview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/internals/interfaces/linkupdate/",
+								"api/namespaces/internals/interfaces/linkupdater/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/pdfview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/videoview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/internals/type-aliases/embeddableconstructor/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/backlinkplugininstance/": {
+							"title": "BacklinkPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/backlinkview/": {
+							"title": "BacklinkView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/infofileview/": {
+							"title": "InfoFileView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/backlinkview/",
+								"api/namespaces/internals/interfaces/filepropertiesview/",
+								"api/namespaces/internals/interfaces/localgraphview/",
+								"api/namespaces/internals/interfaces/outgoinglinkview/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/obsidian/classes/fileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/baseeditor/": {
+							"title": "BaseEditor",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/editor/": {
+							"title": "Editor",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/baseeditor/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/obsidian/interfaces/editorrange/",
+								"api/namespaces/obsidian/interfaces/editorselection/",
+								"api/namespaces/obsidian/interfaces/editorposition/",
+								"api/namespaces/obsidian/type-aliases/editorcommandname/",
+								"api/namespaces/internals/interfaces/searchcursor/",
+								"api/namespaces/obsidian/interfaces/editorselectionorcaret/",
+								"api/namespaces/obsidian/interfaces/editortransaction/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/baseeditor/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/command/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorposition/": {
+							"title": "EditorPosition",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/baseeditor/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/searchcursor/",
+								"api/namespaces/internals/interfaces/token/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/editorchange/",
+								"api/namespaces/obsidian/interfaces/editorrange/",
+								"api/namespaces/obsidian/interfaces/editorrangeorcaret/",
+								"api/namespaces/obsidian/interfaces/editorselection/",
+								"api/namespaces/obsidian/interfaces/editorselectionorcaret/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/bookmarksplugininstance/": {
+							"title": "BookmarksPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/bookmarksview/": {
+							"title": "BookmarksView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/browserhistoryview/": {
+							"title": "BrowserHistoryView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/browserview/": {
+							"title": "BrowserView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvasconnection/": {
+							"title": "CanvasConnection",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvasleaf/": {
+							"title": "CanvasLeaf",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/viewstate/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/openviewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacemobiledrawer/": {
+							"title": "WorkspaceMobileDrawer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspaceparent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacetabs/": {
+							"title": "WorkspaceTabs",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspaceparent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/view/": {
+							"title": "View",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/internals/interfaces/outlineview/",
+								"api/namespaces/internals/interfaces/searchview/",
+								"api/namespaces/internals/interfaces/tagview/",
+								"api/namespaces/internals/interfaces/tree/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/internals/interfaces/viewregistryviewbytyperecord/",
+								"api/namespaces/internals/type-aliases/treeitem/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/type-aliases/viewcreator/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacecontainer/": {
+							"title": "WorkspaceContainer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\workspaceroot/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\workspacewindow/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspaceitem/": {
+							"title": "WorkspaceItem",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/viewstate/": {
+							"title": "ViewState",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/internals/interfaces/leafentry/",
+								"api/namespaces/internals/interfaces/statehistory/",
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/openviewstate/": {
+							"title": "OpenViewState",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasleaf/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/internals/interfaces/globalsearchleaf/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvaslinkupdater/": {
+							"title": "CanvasLinkUpdater",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/linkupdater/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/linkchangeupdate/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/linkupdater/",
+								"api/namespaces/internals/interfaces/linkupdaters/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/linkupdater/": {
+							"title": "LinkUpdater",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/linkchangeupdate/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/internals/interfaces/linkupdaters/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvasplugininstance/": {
+							"title": "CanvasPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/linkchangeupdate/": {
+							"title": "LinkChangeUpdate",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/referencecache/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvaslinkupdater/",
+								"api/namespaces/internals/interfaces/linkupdater/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvasnode/": {
+							"title": "CanvasNode",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/canvasview/": {
+							"title": "CanvasView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/textfileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/textfileview/": {
+							"title": "TextFileView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/canvasview/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/markdownview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/clipboardmanager/": {
+							"title": "ClipBoardManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/internals/interfaces/importedattachments/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdownview/": {
+							"title": "MarkdownView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/markdownsubview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/type-aliases/markdownviewmodetype/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/textfileview/",
+								"api/namespaces/obsidian/interfaces/command/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/tabstractfile/": {
+							"title": "TAbstractFile",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/internals/interfaces/draggable/",
+								"api/namespaces/internals/interfaces/dragmanager/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/filetreeitem/",
+								"api/namespaces/internals/interfaces/vaultfilemaprecord/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/importedattachments/": {
+							"title": "ImportedAttachments",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/commandpaletteplugininstance/": {
+							"title": "CommandPalettePluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/commands/": {
+							"title": "Commands",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/commandscommandsrecord/",
+								"api/namespaces/internals/interfaces/commandseditorcommandsrecord/",
+								"api/namespaces/obsidian/interfaces/command/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/commandscommandsrecord/": {
+							"title": "CommandsCommandsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/command/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/commands/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/commandseditorcommandsrecord/": {
+							"title": "CommandsEditorCommandsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/command/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/commands/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/command/": {
+							"title": "Command",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/interfaces/hotkey/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/commands/",
+								"api/namespaces/internals/interfaces/commandscommandsrecord/",
+								"api/namespaces/internals/interfaces/commandseditorcommandsrecord/",
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/customarraydict/": {
+							"title": "CustomArrayDict",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/customarraydictdatarecord/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/metadatacache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/customarraydictdatarecord/": {
+							"title": "CustomArrayDictDataRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/customarraydict/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/customcss/": {
+							"title": "CustomCSS",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/customcssthemesrecord/",
+								"api/namespaces/internals/interfaces/thememanifest/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/component/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/customcssthemesrecord/": {
+							"title": "CustomCSSThemesRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/thememanifest/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/customcss/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/thememanifest/": {
+							"title": "ThemeManifest",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/customcss/",
+								"api/namespaces/internals/interfaces/customcssthemesrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/customcssupdatesrecord/": {
+							"title": "CustomCSSUpdatesRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dailynotesplugininstance/": {
+							"title": "DailyNotesPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dataadapterfilesrecord/": {
+							"title": "DataAdapterFilesRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/fileentry/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/fileentry/": {
+							"title": "FileEntry",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/dataadapterfilesrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dataadapterwatchersrecord/": {
+							"title": "DataAdapterWatchersRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/draggable/": {
+							"title": "Draggable",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tabstractfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/dragmanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dragmanager/": {
+							"title": "DragManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/dragstartevent/",
+								"api/namespaces/internals/interfaces/draggable/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/tfolder/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dragstartevent/": {
+							"title": "DragStartEvent",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/dragmanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/tfolder/": {
+							"title": "TFolder",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/dragmanager/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/dropresult/": {
+							"title": "DropResult",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/searchcursor/": {
+							"title": "SearchCursor",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/obsidian/classes/editor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorrange/": {
+							"title": "EditorRange",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/token/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/statehistory/",
+								"api/namespaces/internals/interfaces/token/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/editorstatusplugininstance/": {
+							"title": "EditorStatusPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/editorsuggests/": {
+							"title": "EditorSuggests",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/editorsuggest/": {
+							"title": "EditorSuggest",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/",
+								"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/",
+								"api/namespaces/obsidian/interfaces/editorposition/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/instruction/",
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/popoversuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/markdownbaseview/": {
+							"title": "MarkdownBaseView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/internals/interfaces/tableeditor/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/component/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/embedcontext/": {
+							"title": "EmbedContext",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/type-aliases/embeddableconstructor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/embeddededitorview/": {
+							"title": "EmbeddedEditorView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/component/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/widgeteditorview/": {
+							"title": "WidgetEditorView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embeddededitorview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/iframedmarkdowneditor/": {
+							"title": "IFramedMarkdownEditor",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/internals/interfaces/tableeditor/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/hoverpopover/": {
+							"title": "HoverPopover",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/enumerations/popoverstate/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdownpreviewview/": {
+							"title": "MarkdownPreviewView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/interfaces/markdownsubview/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/internals/interfaces/readviewrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embeddededitorview/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/",
+								"api/namespaces/obsidian/interfaces/markdownsubview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/embedregistry/": {
+							"title": "EmbedRegistry",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/internals/interfaces/embedregistryembedbyextensionrecord/",
+								"api/namespaces/internals/type-aliases/embeddableconstructor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/events/": {
+							"title": "Events",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/viewregistry/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/embedregistryembedbyextensionrecord/": {
+							"title": "EmbedRegistryEmbedByExtensionRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/embeddableconstructor/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embedregistry/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/embeddableconstructor/": {
+							"title": "EmbeddableConstructor",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/internals/interfaces/embedcontext/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/embedregistry/",
+								"api/namespaces/internals/interfaces/embedregistryembedbyextensionrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/emptyview/": {
+							"title": "EmptyView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/unknownview/",
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/unknownview/": {
+							"title": "UnknownView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/emptyview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/emptyview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filecacheentry/": {
+							"title": "FileCacheEntry",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatacachefilecacherecord/",
+								"api/namespaces/obsidian/classes/metadatacache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/fileexplorerleaf/": {
+							"title": "FileExplorerLeaf",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/viewstate/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/openviewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/fileexplorerview/": {
+							"title": "FileExplorerView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/",
+								"api/namespaces/internals/interfaces/weakmapwrapper/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/tree/",
+								"api/namespaces/internals/interfaces/filetreeitem/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/type-aliases/panetype/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/fileexplorerplugininstance/": {
+							"title": "FileExplorerPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/": {
+							"title": "FileExplorerViewFileItemsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/treeitem/",
+								"api/namespaces/internals/interfaces/filetreeitem/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/weakmapwrapper/": {
+							"title": "WeakMapWrapper",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tree/": {
+							"title": "Tree",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/treenode/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filetreeitem/": {
+							"title": "FileTreeItem",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tabstractfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/panetype/": {
+							"title": "PaneType",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerview/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/keymap/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/treeitem/": {
+							"title": "TreeItem",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/treenode/",
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/fileexplorerviewfileitemsrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filepropertiesview/": {
+							"title": "FilePropertiesView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filerecoveryplugininstance/": {
+							"title": "FileRecoveryPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filesuggest/": {
+							"title": "FileSuggest",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/filesuggestmanager/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/",
+								"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/",
+								"api/namespaces/obsidian/interfaces/editorposition/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/instruction/",
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editorsuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorsuggestcontext/": {
+							"title": "EditorSuggestContext",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/interfaces/editorposition/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/filesuggestmanager/": {
+							"title": "FileSuggestManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/runnable/",
+								"api/namespaces/obsidian/interfaces/searchresult/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/blockcache/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/suggestioncontainer/": {
+							"title": "SuggestionContainer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/obsidian/classes/abstractinputsuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/popoversuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorsuggesttriggerinfo/": {
+							"title": "EditorSuggestTriggerInfo",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/editorsuggestcontext/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/instruction/": {
+							"title": "Instruction",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/",
+								"api/namespaces/obsidian/classes/suggestmodal/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/searchresult/": {
+							"title": "SearchResult",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/searchmatches/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggest/",
+								"api/namespaces/internals/interfaces/filesuggestmanager/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/functions/fuzzysearch/",
+								"api/namespaces/obsidian/functions/preparefuzzysearch/",
+								"api/namespaces/obsidian/functions/preparesimplesearch/",
+								"api/namespaces/obsidian/functions/renderresults/",
+								"api/namespaces/obsidian/interfaces/fuzzymatch/",
+								"api/namespaces/obsidian/interfaces/searchresultcontainer/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/runnable/": {
+							"title": "Runnable",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggestmanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/blockcache/": {
+							"title": "BlockCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/filesuggestmanager/",
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/foldinfo/": {
+							"title": "FoldInfo",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/foldmanager/": {
+							"title": "FoldManager",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/globalsearchleaf/": {
+							"title": "GlobalSearchLeaf",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/viewstate/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/openviewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/globalsearchplugininstance/": {
+							"title": "GlobalSearchPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/graphplugininstance/": {
+							"title": "GraphPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/graphview/": {
+							"title": "GraphView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/hotkeymanager/": {
+							"title": "HotkeyManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/keymapinfo/",
+								"api/namespaces/internals/interfaces/hotkeymanagercustomkeysrecord/",
+								"api/namespaces/internals/interfaces/hotkeymanagerdefaultkeysrecord/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/keymapinfo/": {
+							"title": "KeymapInfo",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapcontext/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeymanager/",
+								"api/namespaces/internals/interfaces/hotkeymanagercustomkeysrecord/",
+								"api/namespaces/internals/interfaces/hotkeymanagerdefaultkeysrecord/",
+								"api/namespaces/obsidian/interfaces/keymapcontext/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/hotkeymanagercustomkeysrecord/": {
+							"title": "HotkeyManagerCustomKeysRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapinfo/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeymanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/hotkeymanagerdefaultkeysrecord/": {
+							"title": "HotkeyManagerDefaultKeysRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapinfo/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeymanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/hotkeyssettingtab/": {
+							"title": "HotkeysSettingTab",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/settingtab/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/searchcomponent/",
+								"api/namespaces/obsidian/classes/setting/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/settingtab/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/settingtab/": {
+							"title": "SettingTab",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/setting/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api/namespaces/obsidian/classes/setting/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/plugin/": {
+							"title": "Plugin",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/interfaces/pluginmanifest/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/interfaces/command/",
+								"api\\namespaces\\obsidian\\functions\\addicon/",
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api\\namespaces\\obsidian\\classes\\workspace\\",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/hoverlinksource/",
+								"api/namespaces/obsidian/interfaces/markdownpostprocessor/",
+								"api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/type-aliases/viewcreator/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/internals/interfaces/plugins/",
+								"api/namespaces/internals/interfaces/pluginspluginsrecord/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api/namespaces/obsidian/classes/settingtab/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/searchcomponent/": {
+							"title": "SearchComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/obsidian/classes/abstracttextcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/setting/": {
+							"title": "Setting",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/settingtab/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/basecomponent/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/hotkeyssettingtab/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/pluginsettingtab/",
+								"api/namespaces/obsidian/classes/settingtab/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/hoverlinkevent/": {
+							"title": "HoverLinkEvent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/markdownscrollableeditview/": {
+							"title": "MarkdownScrollableEditView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/internals/interfaces/tableeditor/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownfileinfo/": {
+							"title": "MarkdownFileInfo",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/interfaces/command/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/variables/editorinfofield/",
+								"api/namespaces/obsidian/variables/editorviewfield/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tablecelleditor/": {
+							"title": "TableCellEditor",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/internals/interfaces/tableeditor/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tableeditor/": {
+							"title": "TableEditor",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tablecell/": {
+							"title": "TableCell",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/tablecelleditor/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/iframedmarkdowneditor/",
+								"api/namespaces/internals/interfaces/markdownbaseview/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/imageview/": {
+							"title": "ImageView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editablefileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/infinityscroll/": {
+							"title": "InfinityScroll",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/fileview/": {
+							"title": "FileView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/localgraphview/": {
+							"title": "LocalGraphView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/outgoinglinkview/": {
+							"title": "OutgoingLinkView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/outlineview/": {
+							"title": "OutlineView",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/infofileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/infofileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/markdownimporterplugininstance/": {
+							"title": "MarkdownImporterPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/notecomposerplugininstance/": {
+							"title": "NoteComposerPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/outgoinglinkplugininstance/": {
+							"title": "OutgoingLinkPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/outlineplugininstance/": {
+							"title": "OutlinePluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/pagepreviewplugininstance/": {
+							"title": "PagePreviewPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/propertiesplugininstance/": {
+							"title": "PropertiesPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/publishplugininstance/": {
+							"title": "PublishPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/randomnoteplugininstance/": {
+							"title": "RandomNotePluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/slashcommandplugininstance/": {
+							"title": "SlashCommandPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/slidesplugininstance/": {
+							"title": "SlidesPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/starredplugininstance/": {
+							"title": "StarredPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/switcherplugininstance/": {
+							"title": "SwitcherPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/syncplugininstance/": {
+							"title": "SyncPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tagpaneplugininstance/": {
+							"title": "TagPanePluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/templatesplugininstance/": {
+							"title": "TemplatesPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/wordcountplugininstance/": {
+							"title": "WordCountPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/workspacesplugininstance/": {
+							"title": "WorkspacesPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/zkprefixerplugininstance/": {
+							"title": "ZkPrefixerPluginInstance",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/internalplugins/": {
+							"title": "InternalPlugins",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/internalpluginsconfigrecord/",
+								"api/namespaces/internals/interfaces/internalplugin/",
+								"api/namespaces/internals/interfaces/audiorecorderplugininstance/",
+								"api/namespaces/internals/interfaces/backlinkplugininstance/",
+								"api/namespaces/internals/interfaces/bookmarksplugininstance/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/internals/interfaces/commandpaletteplugininstance/",
+								"api/namespaces/internals/interfaces/dailynotesplugininstance/",
+								"api/namespaces/internals/interfaces/editorstatusplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/filerecoveryplugininstance/",
+								"api/namespaces/internals/interfaces/globalsearchplugininstance/",
+								"api/namespaces/internals/interfaces/graphplugininstance/",
+								"api/namespaces/internals/interfaces/markdownimporterplugininstance/",
+								"api/namespaces/internals/interfaces/notecomposerplugininstance/",
+								"api/namespaces/internals/interfaces/outgoinglinkplugininstance/",
+								"api/namespaces/internals/interfaces/outlineplugininstance/",
+								"api/namespaces/internals/interfaces/pagepreviewplugininstance/",
+								"api/namespaces/internals/interfaces/propertiesplugininstance/",
+								"api/namespaces/internals/interfaces/publishplugininstance/",
+								"api/namespaces/internals/interfaces/randomnoteplugininstance/",
+								"api/namespaces/internals/interfaces/slashcommandplugininstance/",
+								"api/namespaces/internals/interfaces/slidesplugininstance/",
+								"api/namespaces/internals/interfaces/starredplugininstance/",
+								"api/namespaces/internals/interfaces/switcherplugininstance/",
+								"api/namespaces/internals/interfaces/syncplugininstance/",
+								"api/namespaces/internals/interfaces/tagpaneplugininstance/",
+								"api/namespaces/internals/interfaces/templatesplugininstance/",
+								"api/namespaces/internals/interfaces/wordcountplugininstance/",
+								"api/namespaces/internals/interfaces/workspacesplugininstance/",
+								"api/namespaces/internals/interfaces/zkprefixerplugininstance/",
+								"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/",
+								"api/namespaces/internals/type-aliases/internalpluginnametype/",
+								"api/namespaces/internals/interfaces/internalplugininstance/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/internalpluginsconfigrecord/": {
+							"title": "InternalPluginsConfigRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/internalpluginnametype/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugins/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/internalpluginnameinstancesmapping/": {
+							"title": "InternalPluginNameInstancesMapping",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/audiorecorderplugininstance/",
+								"api/namespaces/internals/interfaces/backlinkplugininstance/",
+								"api/namespaces/internals/interfaces/bookmarksplugininstance/",
+								"api/namespaces/internals/interfaces/canvasplugininstance/",
+								"api/namespaces/internals/interfaces/commandpaletteplugininstance/",
+								"api/namespaces/internals/interfaces/dailynotesplugininstance/",
+								"api/namespaces/internals/interfaces/editorstatusplugininstance/",
+								"api/namespaces/internals/interfaces/fileexplorerplugininstance/",
+								"api/namespaces/internals/interfaces/filerecoveryplugininstance/",
+								"api/namespaces/internals/interfaces/globalsearchplugininstance/",
+								"api/namespaces/internals/interfaces/graphplugininstance/",
+								"api/namespaces/internals/interfaces/markdownimporterplugininstance/",
+								"api/namespaces/internals/interfaces/notecomposerplugininstance/",
+								"api/namespaces/internals/interfaces/outgoinglinkplugininstance/",
+								"api/namespaces/internals/interfaces/outlineplugininstance/",
+								"api/namespaces/internals/interfaces/pagepreviewplugininstance/",
+								"api/namespaces/internals/interfaces/propertiesplugininstance/",
+								"api/namespaces/internals/interfaces/publishplugininstance/",
+								"api/namespaces/internals/interfaces/randomnoteplugininstance/",
+								"api/namespaces/internals/interfaces/slashcommandplugininstance/",
+								"api/namespaces/internals/interfaces/slidesplugininstance/",
+								"api/namespaces/internals/interfaces/starredplugininstance/",
+								"api/namespaces/internals/interfaces/switcherplugininstance/",
+								"api/namespaces/internals/interfaces/syncplugininstance/",
+								"api/namespaces/internals/interfaces/tagpaneplugininstance/",
+								"api/namespaces/internals/interfaces/templatesplugininstance/",
+								"api/namespaces/internals/interfaces/wordcountplugininstance/",
+								"api/namespaces/internals/interfaces/workspacesplugininstance/",
+								"api/namespaces/internals/interfaces/zkprefixerplugininstance/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugins/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/internalpluginnametype/": {
+							"title": "InternalPluginNameType",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/variables/internalpluginname/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/internalplugins/",
+								"api/namespaces/internals/interfaces/internalpluginsconfigrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/keyscope/": {
+							"title": "KeyScope",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/leafentry/": {
+							"title": "LeafEntry",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/splitdirection/",
+								"api/namespaces/obsidian/interfaces/viewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/serializedworkspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/splitdirection/": {
+							"title": "SplitDirection",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/leafentry/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/referencecache/": {
+							"title": "ReferenceCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/reference/",
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/embedcache/",
+								"api/namespaces/obsidian/interfaces/linkcache/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/linkchangeupdate/",
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/embedcache/",
+								"api/namespaces/obsidian/interfaces/linkcache/",
+								"api/namespaces/obsidian/interfaces/reference/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/linkupdate/": {
+							"title": "LinkUpdate",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/positionedreference/",
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/type-aliases/linkupdatehandler/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/positionedreference/": {
+							"title": "PositionedReference",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/reference/",
+								"api/namespaces/obsidian/interfaces/loc/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/linkupdate/",
+								"api/namespaces/obsidian/interfaces/reference/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/linkupdaters/": {
+							"title": "LinkUpdaters",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/linkupdater/",
+								"api/namespaces/internals/interfaces/canvaslinkupdater/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/loadprogress/": {
+							"title": "LoadProgress",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdowneditview/": {
+							"title": "MarkdownEditView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/markdownsubview/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/clipboardmanager/",
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/internals/interfaces/editorsuggests/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/editorsearchcomponent/",
+								"api/namespaces/internals/interfaces/tablecelleditor/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/foldinfo/",
+								"api/namespaces/internals/interfaces/tableeditor/",
+								"api/namespaces/internals/interfaces/tablecell/",
+								"api/namespaces/obsidian/interfaces/editorrange/",
+								"api/namespaces/obsidian/interfaces/editorselection/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/internals/interfaces/token/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/markdownscrollableeditview/",
+								"api/namespaces/obsidian/classes/markdownview/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/interfaces/markdownsubview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/menusubmenuconfigrecord/": {
+							"title": "MenuSubmenuConfigRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatacachefilecacherecord/": {
+							"title": "MetadataCacheFileCacheRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/filecacheentry/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatacachemetadatacacherecord/": {
+							"title": "MetadataCacheMetadataCacheRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/cachedmetadata/": {
+							"title": "CachedMetadata",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/embedcache/",
+								"api/namespaces/obsidian/interfaces/footnotecache/",
+								"api/namespaces/obsidian/interfaces/frontmattercache/",
+								"api/namespaces/obsidian/interfaces/frontmatterlinkcache/",
+								"api/namespaces/obsidian/interfaces/pos/",
+								"api/namespaces/obsidian/interfaces/headingcache/",
+								"api/namespaces/obsidian/interfaces/linkcache/",
+								"api/namespaces/obsidian/interfaces/listitemcache/",
+								"api/namespaces/obsidian/interfaces/sectioncache/",
+								"api/namespaces/obsidian/interfaces/tagcache/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatacachemetadatacacherecord/",
+								"api/namespaces/internals/interfaces/widgeteditorview/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/functions/getalltags/",
+								"api/namespaces/obsidian/functions/iteratecacherefs/",
+								"api/namespaces/obsidian/functions/resolvesubpath/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadataeditorproperty/": {
+							"title": "MetadataEditorProperty",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/propertyentrydata/",
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadatawidget/",
+								"api/namespaces/internals/interfaces/propertywidget/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/obsidian/classes/component/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/propertyentrydata/": {
+							"title": "PropertyEntryData",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadataeditor/",
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/propertywidget/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatawidget/": {
+							"title": "MetadataWidget",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadataeditorproperty/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/propertywidget/": {
+							"title": "PropertyWidget",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/internals/interfaces/propertyentrydata/",
+								"api/namespaces/internals/interfaces/propertyrendercontext/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadataeditorproperty/",
+								"api/namespaces/internals/interfaces/metadatatypemanagerregisteredtypewidgetsrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatatypemanager/": {
+							"title": "MetadataTypeManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/metadatatypemanagerpropertiesrecord/",
+								"api/namespaces/internals/interfaces/metadatatypemanagertypesrecord/",
+								"api/namespaces/internals/interfaces/propertyinfo/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatatypemanagerpropertiesrecord/": {
+							"title": "MetadataTypeManagerPropertiesRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/propertyinfo/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatatypemanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatatypemanagertypesrecord/": {
+							"title": "MetadataTypeManagerTypesRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/propertywidgettype/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatatypemanager/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/propertyinfo/": {
+							"title": "PropertyInfo",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatatypemanager/",
+								"api/namespaces/internals/interfaces/metadatatypemanagerpropertiesrecord/",
+								"api/namespaces/obsidian/classes/metadatacache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/metadatatypemanagerregisteredtypewidgetsrecord/": {
+							"title": "MetadataTypeManagerRegisteredTypeWidgetsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/type-aliases/propertywidgettype/",
+								"api/namespaces/internals/interfaces/propertywidget/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/propertywidgettype/": {
+							"title": "PropertyWidgetType",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/metadatatypemanagerregisteredtypewidgetsrecord/",
+								"api/namespaces/internals/interfaces/metadatatypemanagertypesrecord/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/mobilenavbar/": {
+							"title": "MobileNavbar",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/mobiletoolbar/": {
+							"title": "MobileToolbar",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/obsidiandom/": {
+							"title": "ObsidianDOM",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/obsidiantouchevent/": {
+							"title": "ObsidianTouchEvent",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/pdfview/": {
+							"title": "PdfView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editablefileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/plugins/": {
+							"title": "Plugins",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/pluginsmanifestsrecord/",
+								"api/namespaces/internals/interfaces/pluginspluginsrecord/",
+								"api/namespaces/internals/interfaces/pluginupdatemanifest/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/interfaces/pluginmanifest/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/pluginsmanifestsrecord/": {
+							"title": "PluginsManifestsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/pluginmanifest/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/plugins/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/pluginspluginsrecord/": {
+							"title": "PluginsPluginsRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/plugins/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/pluginupdatemanifest/": {
+							"title": "PluginUpdateManifest",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/pluginmanifest/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/plugins/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/pluginmanifest/": {
+							"title": "PluginManifest",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/plugins/",
+								"api/namespaces/internals/interfaces/pluginsmanifestsrecord/",
+								"api/namespaces/internals/interfaces/pluginupdatemanifest/",
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/reference/": {
+							"title": "Reference",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/frontmatterlinkcache/",
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/internals/interfaces/positionedreference/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/positionedreference/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/functions/iteraterefs/",
+								"api/namespaces/obsidian/interfaces/frontmatterlinkcache/",
+								"api/namespaces/obsidian/interfaces/referencecache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/loc/": {
+							"title": "Loc",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/positionedreference/",
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/headingsubpathresult/",
+								"api/namespaces/obsidian/interfaces/pos/",
+								"api/namespaces/obsidian/interfaces/subpathresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/propertyrendercontext/": {
+							"title": "PropertyRenderContext",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/internals/interfaces/metadataeditor/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/propertywidget/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/readviewrenderer/": {
+							"title": "ReadViewRenderer",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/renderersection/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdownpreviewview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/renderersection/": {
+							"title": "RendererSection",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/readviewrenderer/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/recentfiletracker/": {
+							"title": "RecentFileTracker",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/vault/": {
+							"title": "Vault",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/interfaces/dataadapter/",
+								"api/namespaces/internals/interfaces/appvaultconfig/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/datawriteoptions/",
+								"api\\namespaces\\obsidian\\classes\\vault\\",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/internals/type-aliases/configitem/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api\\namespaces\\obsidian\\classes\\workspace\\"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/recentfiletracker/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/classes/tabstractfile/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/tfolder/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspace/": {
+							"title": "Workspace",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api\\namespaces\\obsidian\\classes\\workspace\\",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceribbon/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/",
+								"api/namespaces/internals/interfaces/recentfiletracker/",
+								"api/namespaces/obsidian/interfaces/debouncer/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/internals/interfaces/statehistory/",
+								"api/namespaces/obsidian/type-aliases/splitdirection/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/type-aliases/panetype/",
+								"api/namespaces/obsidian/classes/fileview/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/type-aliases/constructor/",
+								"api/namespaces/internals/interfaces/fileexplorerleaf/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"alse",
+								"api/namespaces/obsidian/classes/workspacewindow/",
+								"api/namespaces/obsidian/interfaces/workspacewindowinitdata/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/interfaces/openviewstate/",
+								"rue"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/recentfiletracker/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/releasenotesview/": {
+							"title": "ReleaseNotesView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/itemview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/itemview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/searchview/": {
+							"title": "SearchView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/serializedworkspace/": {
+							"title": "SerializedWorkspace",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/leafentry/",
+								"api/namespaces/internals/interfaces/serializedworkspaceleftribbonhiddenitemsrecord/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/serializedworkspaceleftribbonhiddenitemsrecord/": {
+							"title": "SerializedWorkspaceLeftRibbonHiddenItemsRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/serializedworkspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/statehistory/": {
+							"title": "StateHistory",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorrange/",
+								"api/namespaces/obsidian/interfaces/viewstate/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/tagview/": {
+							"title": "TagView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/treenode/": {
+							"title": "TreeNode",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/tree/",
+								"api/namespaces/internals/type-aliases/treeitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/vaultfilemaprecord/": {
+							"title": "VaultFileMapRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/tabstractfile/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/videoview/": {
+							"title": "VideoView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/editablefileview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/",
+								"api/namespaces/obsidian/interfaces/viewstateresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editablefileview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/viewregistry/": {
+							"title": "ViewRegistry",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/internals/interfaces/viewregistrytypebyextensionrecord/",
+								"api/namespaces/internals/interfaces/viewregistryviewbytyperecord/",
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspaceleaf/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/viewregistrytypebyextensionrecord/": {
+							"title": "ViewRegistryTypeByExtensionRecord",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/viewregistry/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/viewregistryviewbytyperecord/": {
+							"title": "ViewRegistryViewByTypeRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/"
+							],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/viewregistry/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/windowselection/": {
+							"title": "WindowSelection",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/internals/interfaces/workspacehoverlinksourcesrecord/": {
+							"title": "WorkspaceHoverLinkSourcesRecord",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/hoverlinksource/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/hoverlinksource/": {
+							"title": "HoverLinkSource",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/interfaces/workspacehoverlinksourcesrecord/",
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/configitem/": {
+							"title": "ConfigItem",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/variables/internalpluginname/": {
+							"title": "InternalPluginName",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/internals/type-aliases/internalpluginnametype/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/type-aliases/linkupdatehandler/": {
+							"title": "LinkUpdateHandler",
+							"content": "",
+							"links": [
+								"api/namespaces/internals/interfaces/linkupdate/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/abstractinputsuggest/": {
+							"title": "AbstractInputSuggest",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/popoversuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/popoversuggest/": {
+							"title": "PopoverSuggest",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/isuggestowner/",
+								"api/namespaces/obsidian/interfaces/closeablecomponent/",
+								"api/namespaces/obsidian/classes/abstractinputsuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/internals/interfaces/suggestioncontainer/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/abstractinputsuggest/",
+								"api/namespaces/obsidian/classes/editorsuggest/",
+								"api/namespaces/obsidian/interfaces/closeablecomponent/",
+								"api/namespaces/obsidian/interfaces/isuggestowner/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/abstracttextcomponent/": {
+							"title": "AbstractTextComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/",
+								"api/namespaces/obsidian/classes/searchcomponent/",
+								"api/namespaces/obsidian/classes/textareacomponent/",
+								"api/namespaces/obsidian/classes/textcomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/searchcomponent/",
+								"api/namespaces/obsidian/classes/textareacomponent/",
+								"api/namespaces/obsidian/classes/textcomponent/",
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/valuecomponent/": {
+							"title": "ValueComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/basecomponent/",
+								"api/namespaces/obsidian/classes/abstracttextcomponent/",
+								"api/namespaces/obsidian/classes/colorcomponent/",
+								"api/namespaces/obsidian/classes/dropdowncomponent/",
+								"api/namespaces/obsidian/classes/progressbarcomponent/",
+								"api/namespaces/obsidian/classes/slidercomponent/",
+								"api/namespaces/obsidian/classes/togglecomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/",
+								"api/namespaces/obsidian/classes/basecomponent/",
+								"api/namespaces/obsidian/classes/colorcomponent/",
+								"api/namespaces/obsidian/classes/dropdowncomponent/",
+								"api/namespaces/obsidian/classes/progressbarcomponent/",
+								"api/namespaces/obsidian/classes/slidercomponent/",
+								"api/namespaces/obsidian/classes/togglecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/textareacomponent/": {
+							"title": "TextAreaComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/textcomponent/": {
+							"title": "TextComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/",
+								"api/namespaces/obsidian/classes/momentformatcomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/abstracttextcomponent/",
+								"api/namespaces/obsidian/classes/momentformatcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/filemanager/": {
+							"title": "FileManager",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/type-aliases/panetype/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/classes/tfolder/",
+								"api/namespaces/obsidian/interfaces/datawriteoptions/",
+								"api/namespaces/obsidian/classes/tabstractfile/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/keymap/": {
+							"title": "Keymap",
+							"content": "",
+							"links": [
+								"api\\namespaces\\obsidian\\classes\\scope/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/type-aliases/panetype/",
+								"api/namespaces/obsidian/type-aliases/userevent/",
+								"api/namespaces/obsidian/type-aliases/modifier/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/userevent/": {
+							"title": "UserEvent",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/keymap/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/metadatacache/": {
+							"title": "MetadataCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/events/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/internals/interfaces/propertyinfo/",
+								"api/namespaces/internals/interfaces/customarraydict/",
+								"api/namespaces/obsidian/interfaces/linkcache/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/internals/interfaces/filecacheentry/",
+								"api/namespaces/obsidian/interfaces/reference/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/basecomponent/": {
+							"title": "BaseComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/buttoncomponent/",
+								"api/namespaces/obsidian/classes/extrabuttoncomponent/",
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/buttoncomponent/",
+								"api/namespaces/obsidian/classes/extrabuttoncomponent/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/buttoncomponent/": {
+							"title": "ButtonComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/basecomponent/",
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/basecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/extrabuttoncomponent/": {
+							"title": "ExtraButtonComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/basecomponent/",
+								"api\\namespaces\\obsidian\\functions\\addicon/",
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/basecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/tooltipoptions/": {
+							"title": "TooltipOptions",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/tooltipplacement/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/buttoncomponent/",
+								"api/namespaces/obsidian/classes/extrabuttoncomponent/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/togglecomponent/",
+								"api/namespaces/obsidian/functions/settooltip/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/colorcomponent/": {
+							"title": "ColorComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/",
+								"api/namespaces/obsidian/interfaces/hsl/",
+								"api/namespaces/obsidian/interfaces/rgb/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/hsl/": {
+							"title": "HSL",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/colorcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/rgb/": {
+							"title": "RGB",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/colorcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownpreviewevents/": {
+							"title": "MarkdownPreviewEvents",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdownrenderchild/": {
+							"title": "MarkdownRenderChild",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/dropdowncomponent/": {
+							"title": "DropdownComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorselection/": {
+							"title": "EditorSelection",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editor/",
+								"api/namespaces/obsidian/classes/markdowneditview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/editorcommandname/": {
+							"title": "EditorCommandName",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorselectionorcaret/": {
+							"title": "EditorSelectionOrCaret",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editortransaction/": {
+							"title": "EditorTransaction",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorchange/",
+								"api/namespaces/obsidian/interfaces/editorrangeorcaret/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/editor/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\functions\\addicon/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/extrabuttoncomponent/",
+								"api/namespaces/obsidian/classes/menuitem/",
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/datawriteoptions/": {
+							"title": "DataWriteOptions",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/filemanager/",
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/filesystemadapter/": {
+							"title": "FileSystemAdapter",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/dataadapter/",
+								"api/namespaces/internals/interfaces/dataadapterfilesrecord/",
+								"api/namespaces/obsidian/interfaces/datawriteoptions/",
+								"api/namespaces/obsidian/interfaces/listedfiles/",
+								"api/namespaces/obsidian/interfaces/stat/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/dataadapter/": {
+							"title": "DataAdapter",
+							"content": "",
+							"links": [
+								"api\\namespaces\\obsidian\\classes\\vault/",
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/internals/interfaces/dataadapterfilesrecord/",
+								"api\\namespaces\\obsidian\\functions\\normalizepath/",
+								"api/namespaces/obsidian/interfaces/datawriteoptions/",
+								"api/namespaces/obsidian/interfaces/listedfiles/",
+								"api/namespaces/obsidian/interfaces/stat/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/listedfiles/": {
+							"title": "ListedFiles",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/stat/": {
+							"title": "Stat",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/filesystemadapter/",
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/fuzzysuggestmodal/": {
+							"title": "FuzzySuggestModal",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/suggestmodal/",
+								"api/namespaces/obsidian/interfaces/fuzzymatch/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/interfaces/instruction/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/suggestmodal/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/suggestmodal/": {
+							"title": "SuggestModal",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/interfaces/isuggestowner/",
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/interfaces/instruction/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/interfaces/isuggestowner/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/fuzzymatch/": {
+							"title": "FuzzyMatch",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/fuzzysuggestmodal/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/hoverparent/": {
+							"title": "HoverParent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/classes/hoverpopover/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownrenderer/",
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/enumerations/popoverstate/": {
+							"title": "PopoverState",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/hoverpopover/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\scope/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/keymap/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/modifier/": {
+							"title": "Modifier",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/keymap/",
+								"api/namespaces/obsidian/classes/scope/",
+								"api/namespaces/obsidian/interfaces/hotkey/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownsubview/": {
+							"title": "MarkdownSubView",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdowneditview/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdownpreviewrenderer/": {
+							"title": "MarkdownPreviewRenderer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/",
+								"api/namespaces/obsidian/interfaces/markdownpostprocessor/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/": {
+							"title": "MarkdownPostProcessorContext",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/interfaces/markdownsectioninformation/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdownpreviewrenderer/",
+								"api/namespaces/obsidian/interfaces/markdownpostprocessor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownpostprocessor/": {
+							"title": "MarkdownPostProcessor",
+							"content": "",
+							"links": [
+								"api\\namespaces\\obsidian\\interfaces\\markdownpostprocessorcontext\\",
+								"api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdownpreviewrenderer/",
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/markdownrenderer/": {
+							"title": "MarkdownRenderer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/component/",
+								"api/namespaces/obsidian/interfaces/eventref/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/hoverpopover/",
+								"api/namespaces/obsidian/classes/tfile/",
+								"api/namespaces/obsidian/interfaces/keymapeventhandler/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdownpreviewview/",
+								"api/namespaces/obsidian/classes/markdownrenderchild/",
+								"api/namespaces/obsidian/interfaces/hoverparent/",
+								"api/namespaces/obsidian/interfaces/markdownpreviewevents/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/markdownviewmodetype/": {
+							"title": "MarkdownViewModeType",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/markdownview/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/closeablecomponent/": {
+							"title": "CloseableComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/popoversuggest/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/menu/",
+								"api/namespaces/obsidian/classes/modal/",
+								"api/namespaces/obsidian/classes/popoversuggest/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/menuitem/": {
+							"title": "MenuItem",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/menu/",
+								"api\\namespaces\\obsidian\\functions\\addicon/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/menu/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/menupositiondef/": {
+							"title": "MenuPositionDef",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/menu/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/menuseparator/": {
+							"title": "MenuSeparator",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/linkcache/": {
+							"title": "LinkCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/metadatacache/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/referencecache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/modal/": {
+							"title": "Modal",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/closeablecomponent/",
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/suggestmodal/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/setting/",
+								"api/namespaces/obsidian/classes/suggestmodal/",
+								"api/namespaces/obsidian/interfaces/closeablecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/momentformatcomponent/": {
+							"title": "MomentFormatComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/textcomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/textcomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/notice/": {
+							"title": "Notice",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/pluginsettingtab/": {
+							"title": "PluginSettingTab",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/settingtab/",
+								"api/namespaces/obsidian/classes/app/",
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/setting/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/settingtab/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\workspace\\": {
+							"title": "api\\namespaces\\obsidian\\classes\\workspace\\",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/vault/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/": {
+							"title": "ObsidianProtocolHandler",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/obsidianprotocoldata/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/plugin/",
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/viewcreator/": {
+							"title": "ViewCreator",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/view/",
+								"api/namespaces/obsidian/classes/workspaceleaf/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/plugin/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/isuggestowner/": {
+							"title": "ISuggestOwner",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/obsidian/classes/suggestmodal/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/popoversuggest/",
+								"api/namespaces/obsidian/classes/suggestmodal/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/progressbarcomponent/": {
+							"title": "ProgressBarComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/keymapeventlistener/": {
+							"title": "KeymapEventListener",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapcontext/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/scope/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/slidercomponent/": {
+							"title": "SliderComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/tasks/": {
+							"title": "Tasks",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/filestats/": {
+							"title": "FileStats",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/tfile/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/togglecomponent/": {
+							"title": "ToggleComponent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/valuecomponent/",
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/valuecomponent/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\vault\\": {
+							"title": "api\\namespaces\\obsidian\\classes\\vault\\",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/vault/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspaceribbon/": {
+							"title": "WorkspaceRibbon",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacesidedock/": {
+							"title": "WorkspaceSidedock",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacesplit/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/debouncer/": {
+							"title": "Debouncer",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/functions/debounce/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspaceroot/": {
+							"title": "WorkspaceRoot",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacecontainer/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacesplit/": {
+							"title": "WorkspaceSplit",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacetabs/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/constructor/": {
+							"title": "Constructor",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspaceparent/": {
+							"title": "WorkspaceParent",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspacefloating/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/classes/workspacemobiledrawer/",
+								"api/namespaces/obsidian/classes/workspaceroot/",
+								"api/namespaces/obsidian/classes/workspacesidedock/",
+								"api/namespaces/obsidian/classes/workspacesplit/",
+								"api/namespaces/obsidian/classes/workspacetabs/",
+								"api/namespaces/obsidian/classes/workspacewindow/"
+							],
+							"tags": []
+						},
+						"alse": {
+							"title": "alse",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacewindow/": {
+							"title": "WorkspaceWindow",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/",
+								"api/namespaces/obsidian/classes/workspacecontainer/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/workspacewindowinitdata/": {
+							"title": "WorkspaceWindowInitData",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"rue": {
+							"title": "rue",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspace/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/classes/workspacefloating/": {
+							"title": "WorkspaceFloating",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/classes/workspaceparent/",
+								"api/namespaces/obsidian/classes/workspacecontainer/",
+								"api\\namespaces\\obsidian\\classes\\workspaceroot/",
+								"api\\namespaces\\obsidian\\classes\\workspacewindow/",
+								"api/namespaces/obsidian/classes/workspaceitem/",
+								"api/namespaces/obsidian/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/classes/workspaceparent/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/addicon/": {
+							"title": "addIcon",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/arraybuffertobase64/": {
+							"title": "arrayBufferToBase64",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/arraybuffertohex/": {
+							"title": "arrayBufferToHex",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/base64toarraybuffer/": {
+							"title": "base64ToArrayBuffer",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/debounce/": {
+							"title": "debounce",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/debouncer/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/finishrendermath/": {
+							"title": "finishRenderMath",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/fuzzysearch/": {
+							"title": "fuzzySearch",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/",
+								"api/namespaces/obsidian/interfaces/preparedquery/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/preparedquery/": {
+							"title": "PreparedQuery",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/fuzzysearch/",
+								"api/namespaces/obsidian/functions/preparequery/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/getalltags/": {
+							"title": "getAllTags",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/getblobarraybuffer/": {
+							"title": "getBlobArrayBuffer",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/getfrontmatterinfo/": {
+							"title": "getFrontMatterInfo",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/frontmatterinfo/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/frontmatterinfo/": {
+							"title": "FrontMatterInfo",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/getfrontmatterinfo/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/geticon/": {
+							"title": "getIcon",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/geticonids/": {
+							"title": "getIconIds",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/iconname/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/iconname/": {
+							"title": "IconName",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/geticonids/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/getlinkpath/": {
+							"title": "getLinkpath",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/hextoarraybuffer/": {
+							"title": "hexToArrayBuffer",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/htmltomarkdown/": {
+							"title": "htmlToMarkdown",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/iteratecacherefs/": {
+							"title": "iterateCacheRefs",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/iteraterefs/": {
+							"title": "iterateRefs",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/reference/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/loadmathjax/": {
+							"title": "loadMathJax",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/loadmermaid/": {
+							"title": "loadMermaid",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/loadpdfjs/": {
+							"title": "loadPdfJs",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/loadprism/": {
+							"title": "loadPrism",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/normalizepath/": {
+							"title": "normalizePath",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parsefrontmatteraliases/": {
+							"title": "parseFrontMatterAliases",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parsefrontmatterentry/": {
+							"title": "parseFrontMatterEntry",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parsefrontmatterstringarray/": {
+							"title": "parseFrontMatterStringArray",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parsefrontmattertags/": {
+							"title": "parseFrontMatterTags",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parselinktext/": {
+							"title": "parseLinktext",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/parseyaml/": {
+							"title": "parseYaml",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/preparefuzzysearch/": {
+							"title": "prepareFuzzySearch",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/preparequery/": {
+							"title": "prepareQuery",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/preparedquery/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/preparesimplesearch/": {
+							"title": "prepareSimpleSearch",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/removeicon/": {
+							"title": "removeIcon",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/rendermatches/": {
+							"title": "renderMatches",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/searchmatches/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/searchmatches/": {
+							"title": "SearchMatches",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/searchmatchpart/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/rendermatches/",
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/rendermath/": {
+							"title": "renderMath",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/renderresults/": {
+							"title": "renderResults",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/request/": {
+							"title": "request",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/requesturlparam/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/requesturlparam/": {
+							"title": "RequestUrlParam",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/request/",
+								"api/namespaces/obsidian/functions/requesturl/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/requesturl/": {
+							"title": "requestUrl",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/requesturlresponsepromise/",
+								"api/namespaces/obsidian/interfaces/requesturlparam/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/requesturlresponsepromise/": {
+							"title": "RequestUrlResponsePromise",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/requesturlresponse/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/requesturl/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/requireapiversion/": {
+							"title": "requireApiVersion",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/resolvesubpath/": {
+							"title": "resolveSubpath",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/headingsubpathresult/",
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/headingsubpathresult/": {
+							"title": "HeadingSubpathResult",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/subpathresult/",
+								"api/namespaces/obsidian/interfaces/headingcache/",
+								"api/namespaces/obsidian/interfaces/loc/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/resolvesubpath/",
+								"api/namespaces/obsidian/interfaces/subpathresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/blocksubpathresult/": {
+							"title": "BlockSubpathResult",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/subpathresult/",
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/loc/",
+								"api/namespaces/obsidian/interfaces/listitemcache/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/resolvesubpath/",
+								"api/namespaces/obsidian/interfaces/subpathresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/sanitizehtmltodom/": {
+							"title": "sanitizeHTMLToDom",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/seticon/": {
+							"title": "setIcon",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/settooltip/": {
+							"title": "setTooltip",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/sortsearchresults/": {
+							"title": "sortSearchResults",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresultcontainer/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/searchresultcontainer/": {
+							"title": "SearchResultContainer",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/searchresult/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/functions/sortsearchresults/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/stringifyyaml/": {
+							"title": "stringifyYaml",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/stripheading/": {
+							"title": "stripHeading",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/functions/stripheadingforlink/": {
+							"title": "stripHeadingForLink",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/cacheitem/": {
+							"title": "CacheItem",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/footnotecache/",
+								"api/namespaces/obsidian/interfaces/headingcache/",
+								"api/namespaces/obsidian/interfaces/listitemcache/",
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/obsidian/interfaces/sectioncache/",
+								"api/namespaces/obsidian/interfaces/tagcache/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/footnotecache/",
+								"api/namespaces/obsidian/interfaces/headingcache/",
+								"api/namespaces/obsidian/interfaces/listitemcache/",
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/obsidian/interfaces/sectioncache/",
+								"api/namespaces/obsidian/interfaces/tagcache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/pos/": {
+							"title": "Pos",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/loc/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/blockcache/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/embedcache/",
+								"api/namespaces/obsidian/interfaces/footnotecache/",
+								"api/namespaces/obsidian/interfaces/headingcache/",
+								"api/namespaces/obsidian/interfaces/linkcache/",
+								"api/namespaces/obsidian/interfaces/listitemcache/",
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/obsidian/interfaces/sectioncache/",
+								"api/namespaces/obsidian/interfaces/tagcache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/subpathresult/": {
+							"title": "SubpathResult",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/headingsubpathresult/",
+								"api/namespaces/obsidian/interfaces/loc/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/headingsubpathresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/listitemcache/": {
+							"title": "ListItemCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/blocksubpathresult/",
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/embedcache/": {
+							"title": "EmbedCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/referencecache/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/referencecache/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/footnotecache/": {
+							"title": "FootnoteCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/frontmattercache/": {
+							"title": "FrontMatterCache",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/frontmatterlinkcache/": {
+							"title": "FrontmatterLinkCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/reference/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/reference/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/headingcache/": {
+							"title": "HeadingCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/headingsubpathresult/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/sectioncache/": {
+							"title": "SectionCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/tagcache/": {
+							"title": "TagCache",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/cacheitem/",
+								"api/namespaces/obsidian/interfaces/pos/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/cachedmetadata/",
+								"api/namespaces/obsidian/interfaces/cacheitem/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/hotkey/": {
+							"title": "Hotkey",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/type-aliases/modifier/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/command/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\classes\\vault/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\functions\\normalizepath/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/dataadapter/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorchange/": {
+							"title": "EditorChange",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorrangeorcaret/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/editorrangeorcaret/",
+								"api/namespaces/obsidian/interfaces/editortransaction/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorrangeorcaret/": {
+							"title": "EditorRangeOrCaret",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/editorchange/",
+								"api/namespaces/obsidian/interfaces/editorposition/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/editorchange/",
+								"api/namespaces/obsidian/interfaces/editortransaction/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/editorscrollinfo/": {
+							"title": "EditorScrollInfo",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/keymapcontext/": {
+							"title": "KeymapContext",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/keymapinfo/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/keymapinfo/",
+								"api/namespaces/obsidian/type-aliases/keymapeventlistener/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/livepreviewstate-1/": {
+							"title": "livePreviewState",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/livepreviewstate/": {
+							"title": "LivePreviewState",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/variables/livepreviewstate/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\obsidian\\interfaces\\markdownpostprocessorcontext\\": {
+							"title": "api\\namespaces\\obsidian\\interfaces\\markdownpostprocessorcontext\\",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/markdownpostprocessor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/markdownsectioninformation/": {
+							"title": "MarkdownSectionInformation",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/markdownpostprocessorcontext/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/obsidianprotocoldata/": {
+							"title": "ObsidianProtocolData",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/type-aliases/obsidianprotocolhandler/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/platform/": {
+							"title": "Platform",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/point/": {
+							"title": "Point",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/interfaces/requesturlresponse/": {
+							"title": "RequestUrlResponse",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/requesturlresponsepromise/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/tooltipplacement/": {
+							"title": "TooltipPlacement",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/interfaces/tooltipoptions/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/hexstring/": {
+							"title": "HexString",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/type-aliases/searchmatchpart/": {
+							"title": "SearchMatchPart",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/obsidian/type-aliases/searchmatches/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/apiversion/": {
+							"title": "apiVersion",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/editoreditorfield/": {
+							"title": "editorEditorField",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/editorinfofield/": {
+							"title": "editorInfoField",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/"
+							],
+							"backlinks": [
+								"api/namespaces/obsidian/variables/editorviewfield/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/editorlivepreviewfield/": {
+							"title": "editorLivePreviewField",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/editorviewfield/": {
+							"title": "editorViewField",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/markdownfileinfo/",
+								"api/namespaces/obsidian/variables/editorinfofield/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/livepreviewstate/": {
+							"title": "livePreviewState",
+							"content": "",
+							"links": [
+								"api/namespaces/obsidian/interfaces/livepreviewstate/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/moment/": {
+							"title": "moment",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/obsidian/variables/platform/": {
+							"title": "Platform",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/publish/classes/component/": {
+							"title": "Component",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/classes/markdownrenderchild/",
+								"api/namespaces/publish/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/markdownrenderchild/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/classes/markdownrenderchild/": {
+							"title": "MarkdownRenderChild",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/classes/component/",
+								"api/namespaces/publish/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/component/",
+								"api/namespaces/publish/interfaces/markdownpostprocessorcontext/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/interfaces/eventref/": {
+							"title": "EventRef",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/publish/classes/component/",
+								"api/namespaces/publish/classes/events/",
+								"api/namespaces/publish/classes/markdownrenderchild/",
+								"api/namespaces/publish/classes/publish/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/classes/events/": {
+							"title": "Events",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/classes/publish/",
+								"api/namespaces/publish/interfaces/eventref/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/publish/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/classes/publish/": {
+							"title": "Publish",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/classes/events/",
+								"api/namespaces/publish/interfaces/eventref/",
+								"api/namespaces/publish/interfaces/markdownpostprocessor/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/events/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/classes/markdownpreviewrenderer/": {
+							"title": "MarkdownPreviewRenderer",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/interfaces/markdownpostprocessorcontext/",
+								"api/namespaces/publish/interfaces/markdownpostprocessor/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/publish/interfaces/markdownpostprocessorcontext/": {
+							"title": "MarkdownPostProcessorContext",
+							"content": "",
+							"links": [
+								"api/namespaces/publish/classes/markdownrenderchild/",
+								"api/namespaces/publish/interfaces/markdownsectioninformation/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/markdownpreviewrenderer/",
+								"api/namespaces/publish/interfaces/markdownpostprocessor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/interfaces/markdownpostprocessor/": {
+							"title": "MarkdownPostProcessor",
+							"content": "",
+							"links": [
+								"api\\namespaces\\publish\\interfaces\\markdownpostprocessorcontext\\",
+								"api/namespaces/publish/interfaces/markdownpostprocessorcontext/"
+							],
+							"backlinks": [
+								"api/namespaces/publish/classes/markdownpreviewrenderer/",
+								"api/namespaces/publish/classes/publish/"
+							],
+							"tags": []
+						},
+						"api\\namespaces\\publish\\interfaces\\markdownpostprocessorcontext\\": {
+							"title": "api\\namespaces\\publish\\interfaces\\markdownpostprocessorcontext\\",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/publish/interfaces/markdownpostprocessor/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/interfaces/markdownsectioninformation/": {
+							"title": "MarkdownSectionInformation",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/namespaces/publish/interfaces/markdownpostprocessorcontext/"
+							],
+							"tags": []
+						},
+						"api/readme/": {
+							"title": "obsidian-typings",
+							"content": "",
+							"links": [
+								"api/namespaces/codemirror__view/readme/",
+								"api/namespaces/augmentations/readme/",
+								"api/namespaces/canvas/readme/",
+								"api/namespaces/global/readme/",
+								"api/namespaces/internals/readme/",
+								"api/namespaces/obsidian/readme/",
+								"api/namespaces/publish/readme/"
+							],
+							"backlinks": [],
+							"tags": []
+						},
+						"api/namespaces/codemirror__view/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/augmentations/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/canvas/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/global/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/internals/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/obsidian/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"api/namespaces/publish/readme/": {
+							"title": "",
+							"content": "",
+							"links": [],
+							"backlinks": [
+								"api/readme/"
+							],
+							"tags": []
+						},
+						"guides/start/": {
+							"title": "Quick start",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"index/": {
+							"title": "Welcome to Starlight",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						},
+						"reference/intro/": {
+							"title": "Intro",
+							"content": "",
+							"links": [],
+							"backlinks": [],
+							"tags": []
+						}
 					},
 				}),
 			],
