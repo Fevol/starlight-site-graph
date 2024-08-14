@@ -21,5 +21,5 @@ export const icons = {
 	graph5: graph5,
 	focus: focus,
 	arrow: arrow,
-	line: line
+	line: line,
 };

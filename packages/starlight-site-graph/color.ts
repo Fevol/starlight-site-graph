@@ -9,6 +9,9 @@ export type GraphColorConfig = {
 	linkColor: string;
 	linkColorHover: string;
 	linkColorMuted: string;
+
+	labelColor: string;
+	labelColorHover: string;
 };
 
 export function getGraphColors(): GraphColorConfig {
@@ -24,5 +27,8 @@ export function getGraphColors(): GraphColorConfig {
 		linkColor: style.getPropertyValue('--slsg-link-color'),
 		linkColorHover: style.getPropertyValue('--slsg-link-color-hover'),
 		linkColorMuted: style.getPropertyValue('--slsg-link-color-muted'),
+
+		labelColor: style.getPropertyValue('--slsg-label-color'),
+		labelColorHover: style.getPropertyValue('--slsg-label-color-hover'),
 	};
 }

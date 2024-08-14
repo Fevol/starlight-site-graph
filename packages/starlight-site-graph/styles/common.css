@@ -1,4 +1,4 @@
-:root {
+:root[data-theme='dark'] {
 	--slsg-node-color: var(--sl-color-white);
 	--slsg-node-color-hover: var(--sl-color-accent-high);
 	--slsg-node-color-muted: var(--sl-color-gray-5);
@@ -8,7 +8,10 @@
 
 	--slsg-link-color: var(--sl-color-gray-4);
 	--slsg-link-color-hover: var(--sl-color-accent-high);
-	--slsg-link-color-muted: var(--sl-color-gray-6);
+	--slsg-link-color-muted: var(--sl-color-gray-5);
+
+	--slsg-label-color: var(--sl-color-text);
+	--slsg-label-color-hover: var(--sl-color-accent-high);
 }
 
 :root[data-theme='light'] {
@@ -22,6 +25,9 @@
 	--slsg-link-color: var(--sl-color-gray-5);
 	--slsg-link-color-hover: var(--sl-color-accent);
 	--slsg-link-color-muted: var(--sl-color-gray-6);
+
+	--slsg-label-color: var(--sl-color-text);
+	--slsg-label-color-hover: var(--sl-color-accent);
 }
 
 /* =================================== Graph Container Styling ============================================== */

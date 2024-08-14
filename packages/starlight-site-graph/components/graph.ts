@@ -10,7 +10,7 @@ import { ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } 
 import { animatables } from './animatables';
 import { icons } from './icons';
 import { ensureLeadingSlash } from '../integrationUtil';
-import { getGraphColors } from '../color';
+import { getGraphColors, type GraphColorConfig } from '../color';
 
 const MAX_DEPTH = 6;
 
@@ -33,6 +33,7 @@ export class GraphComponent extends HTMLElement {
 	arrows!: Graphics;
 
 	config!: GraphConfig;
+	colors!: GraphColorConfig;
 	processedData!: ReturnType<typeof this.processSitemapData>;
 	animator: Animator<ReturnType<typeof animatables>>;
 
@@ -75,9 +76,9 @@ export class GraphComponent extends HTMLElement {
 		this.blurContainer = document.createElement('div');
 		this.blurContainer.classList.add('background-blur');
 
-		const colors = getGraphColors();
+		this.colors = getGraphColors();
 
-		this.animator = new Animator<ReturnType<typeof animatables>>(animatables(config.graphConfig, colors));
+		this.animator = new Animator<ReturnType<typeof animatables>>(animatables(config.graphConfig, this.colors));
 
 		this.mountGraph().then(() => {
 			this.setup();
@@ -154,11 +155,9 @@ export class GraphComponent extends HTMLElement {
 						{ text: 'Maximize', icon: icons.maximize, onClick: () => this.enableFullscreen() },
 					]);
 				};
-			}
-
-			else if (action === 'depth') {
+			} else if (action === 'depth') {
 				actionElement.innerHTML = icons[('graph' + this.config.depth) as keyof typeof icons];
-				actionElement.onclick = (e) => {
+				actionElement.onclick = e => {
 					this.config.depth = (this.config.depth + 1) % MAX_DEPTH;
 					this.setup();
 					this.renderActionContainer();
@@ -191,19 +190,15 @@ export class GraphComponent extends HTMLElement {
 						})),
 					);
 				};
-			}
-
-			else if (action === 'reset-zoom') {
+			} else if (action === 'reset-zoom') {
 				actionElement.innerHTML = icons.focus;
-				actionElement.onclick = (e) => {
+				actionElement.onclick = e => {
 					this.resetZoom();
 					e.stopPropagation();
 				};
-			}
-
-			else if (action === 'render-arrows') {
+			} else if (action === 'render-arrows') {
 				actionElement.innerHTML = this.config.renderArrows ? icons.arrow : icons.line;
-				actionElement.onclick = (e) => {
+				actionElement.onclick = e => {
 					this.config.renderArrows = !this.config.renderArrows;
 					this.renderActionContainer();
 					e.stopPropagation();
@@ -344,6 +339,7 @@ export class GraphComponent extends HTMLElement {
 			linkColor: 'default',
 
 			labelOffset: 'default',
+			labelColorHover: 'default',
 		});
 		this.animator.startAnimation('labelOpacity', this.getCurrentLabelOpacity());
 		this.animator.startAnimation('labelOpacityHover', this.getCurrentLabelOpacity());
@@ -405,7 +401,7 @@ export class GraphComponent extends HTMLElement {
 		for (const node of this.simulation.nodes()) {
 			const nodeDot = new Graphics();
 			nodeDot.zIndex = 1;
-			nodeDot.circle(0, 0, node.size!).fill(this.getNodeColor(node, false));
+			nodeDot.circle(0, 0, node.size!).fill(0xffffff);
 
 			const nodeText = new Text({
 				text: node.text || node.id,
@@ -495,6 +491,7 @@ export class GraphComponent extends HTMLElement {
 					labelOpacityHover: 'hover',
 					labelOpacity: 'blur',
 					labelOffset: 'hover',
+					labelColorHover: 'hover',
 				});
 			} else if (this.currentlyHovered) {
 				this.resetStyle();
@@ -590,55 +587,63 @@ export class GraphComponent extends HTMLElement {
 			const labelOpacity = isHovered
 				? this.animator.getValue('labelOpacityHover')
 				: this.animator.getValue('labelOpacity');
+			const labelColor = isHovered ? this.animator.getValue('labelColorHover') : this.colors.labelColor;
 			const nodeZIndex = isHovered ? 100 : 1;
 
-			// nodeColorHover is used here in place for all the different hover color animations
-			if (this.animator.isAnimating('nodeColorHover')) {
-				let nodeColor = this.getNodeColor(node, isHovered);
-				node.node!.clear().circle(0, 0, node.size!).fill(nodeColor);
-			}
+			const nodeColor = this.getNodeColor(node, isHovered);
+			node.node!.tint = nodeColor;
 
 			node.label!.scale.set(1);
 			node.label!.position.set(node.x!, node.y! + labelOffset);
 			node.label!.alpha = labelOpacity;
+			node.label!.tint = labelColor;
 
 			node.node!.position.set(node.x!, node.y!);
 			node.node!.zIndex = nodeZIndex;
 		}
 
 		this.links.clear();
-		this.arrows.clear();
+
+		const adjacentLinks = [];
+		// FIXME: make adjacent links render above other links, probably some drawing order stuff
 		for (const link of this.processedData.links) {
 			let isAdjacent =
 				this.currentlyHovered !== '' &&
 				(link.source.id === this.currentlyHovered || link.target.id === this.currentlyHovered);
-			this.links
-				.moveTo(link.source.x!, link.source.y!)
-				.lineTo(link.target.x!, link.target.y!)
-				.fill()
-				.stroke({
-					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
-					width: 1 / this.animator.getValue('zoom'),
-				});
 
-			if (this.config.renderArrows) {
-				let { x, y } = link.target as { x: number; y: number };
-				const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
-				x -= link.target.size! * Math.cos(angle);
-				y -= link.target.size! * Math.sin(angle);
-				this.arrows
-					.moveTo(x, y)
-					.lineTo(
-						x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE),
-						y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE),
-					)
-					.lineTo(
-						x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE),
-						y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE),
-					)
-					.lineTo(x, y)
-					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
+			if (isAdjacent) {
+				adjacentLinks.push(link);
+			} else {
+				this.renderArrow(link, false);
 			}
+		}
+
+		for (const link of adjacentLinks) {
+			this.renderArrow(link, true);
+		}
+	}
+
+	renderArrow(link: LinkData, isAdjacent: boolean): void {
+		this.links
+			.moveTo(link.source.x!, link.source.y!)
+			.lineTo(link.target.x!, link.target.y!)
+			.fill()
+			.stroke({
+				color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
+				width: 1 / this.animator.getValue('zoom'),
+			});
+
+		if (this.config.renderArrows) {
+			let { x, y } = link.target as { x: number; y: number };
+			const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
+			x -= link.target.size! * Math.cos(angle);
+			y -= link.target.size! * Math.sin(angle);
+			this.links
+				.moveTo(x, y)
+				.lineTo(x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE))
+				.lineTo(x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE))
+				.lineTo(x, y)
+				.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
 		}
 	}
 }

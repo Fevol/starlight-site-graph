@@ -94,5 +94,11 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			duration: HOVER_DURATION,
 			easing: HOVER_EASER,
 		},
+		labelColorHover: {
+			properties: { default: colorConfig.labelColor, hover: colorConfig.labelColorHover },
+			interpolator: new ColorInterpolator(),
+			duration: HOVER_DURATION,
+			easing: HOVER_EASER,
+		},
 	} as const satisfies Record<keyof AnimatedValues, AnimationConfig<unknown>>;
 };

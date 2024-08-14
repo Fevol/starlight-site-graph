@@ -46,4 +46,5 @@ interface AnimatedValues {
 	labelOpacity: number;
 	labelOpacityHover: number;
 	labelOffset: number;
+	labelColorHover: string;
 }
