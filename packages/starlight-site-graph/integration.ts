@@ -95,14 +95,12 @@ export default defineIntegration({
 
 							if (links) {
 								// FIXME: Catch links that are not formatted as [text](link)
-								// FIXME: Catch relative links
 								sitemap_entry.links = [
 									...new Set([
 										...sitemap_entry.links,
 										...links
 											.reduce((acc: string[], link: string) => {
 												const url = link.match(/\((.*?)\)/)![1]!;
-												console.log(url);
 
 												if (!url.startsWith('http')) {
 													// remove the leading slash
@@ -111,7 +109,15 @@ export default defineIntegration({
 												return acc;
 											}, [])
 											.map((link: string) => {
-												return link;
+												// resolve relative links
+												if (link.startsWith('.')) {
+													link = path.join(relative_path, link);
+													link = ensureTrailingSlash(link);
+													console.log('link', link, relative_path);
+												}
+
+												// remove the hash and everything after it
+												return link.split('#')[0]!;
 											})
 											.filter(link => link !== relative_path),
 									]),

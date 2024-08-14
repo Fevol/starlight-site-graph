@@ -40,13 +40,8 @@ interface AnimatedValues {
 	visitedNodeColor: string;
 	visitedNodeColorHover: string;
 
-	nodeOpacity: number;
-	nodeOpacityHover: number;
-
 	linkColor: string;
 	linkColorHover: string;
-	linkOpacity: number;
-	linkOpacityHover: number;
 
 	labelOpacity: number;
 	labelOpacityHover: number;

@@ -4,16 +4,9 @@ import config from 'virtual:starlight-site-graph/config';
 import type { GraphConfig } from '../config';
 import { Animator } from './animator';
 import { showContextMenu } from './context-menu';
-import {
-	addToVisitedEndpoints,
-	getRelativePath,
-	getVisitedEndpoints,
-	onClickOutside,
-	simplifySlug,
-	stripSlashes,
-} from './util';
+import { addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug, stripSlashes } from './util';
 import type { ContentDetails, LinkData, NodeData } from './types';
-import {ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER} from './constants';
+import { ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } from './constants';
 import { animatables } from './animatables';
 import { icons } from './icons';
 import { ensureLeadingSlash } from '../integrationUtil';
@@ -290,7 +283,10 @@ export class GraphComponent extends HTMLElement {
 					text: url.startsWith('tags/') ? '#' + url.substring(5) : (data.get(url)?.title ?? url),
 					tags: data.get(url)?.tags ?? [],
 					neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
-					size: NODE_SIZE + ((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) * NODE_SIZE_MODIFIER
+					size:
+						NODE_SIZE +
+						((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) *
+							NODE_SIZE_MODIFIER,
 				};
 			}),
 			links: links.filter(
@@ -494,7 +490,7 @@ export class GraphComponent extends HTMLElement {
 			const closestNode = this.findOverlappingNode(x, y);
 			if (closestNode) {
 				addToVisitedEndpoints(closestNode.id);
-                window.open(ensureLeadingSlash(closestNode.id), '_self');
+				window.open(ensureLeadingSlash(closestNode.id), '_self');
 			}
 		});
 
@@ -534,9 +530,16 @@ export class GraphComponent extends HTMLElement {
 
 	updateCenterTransform(immediate: boolean = false) {
 		const k = 1;
-		const closestNode = this.simulation.find(0, 0)!;
-		const x = this.graphContainer.clientWidth / 2 - closestNode.x! * k;
-		const y = this.graphContainer.clientHeight / 2 - closestNode.y! * k;
+		let x;
+		let y;
+
+		if (this.currentNode) {
+			x = this.graphContainer.clientWidth / 2 - this.currentNode.x! * k;
+			y = this.graphContainer.clientHeight / 2 - this.currentNode.y! * k;
+		} else {
+			x = this.graphContainer.clientWidth / 2;
+			y = this.graphContainer.clientHeight / 2;
+		}
 
 		this.centerTransform = new d3.ZoomTransform(k, x, y);
 
@@ -559,11 +562,12 @@ export class GraphComponent extends HTMLElement {
 			});
 		}
 
-		// FIXME: Disable redrawing when group "hover" is not animating
 		for (const node of this.simulation.nodes()) {
 			const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
 
-			const labelOffset = isHovered ? this.animator.getValue('labelOffset') + node.size! : LABEL_OFFSET + node.size!;
+			const labelOffset = isHovered
+				? this.animator.getValue('labelOffset') + node.size!
+				: LABEL_OFFSET + node.size!;
 			const labelOpacity = isHovered
 				? this.animator.getValue('labelOpacityHover')
 				: this.animator.getValue('labelOpacity');
@@ -599,14 +603,20 @@ export class GraphComponent extends HTMLElement {
 				});
 
 			if (this.config.renderArrows) {
-				let {x, y} = link.target as { x: number, y: number };
-				const angle = (Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!));
+				let { x, y } = link.target as { x: number; y: number };
+				const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
 				x -= link.target.size! * Math.cos(angle);
 				y -= link.target.size! * Math.sin(angle);
 				this.arrows
 					.moveTo(x, y)
-					.lineTo(x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE))
-					.lineTo(x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE))
+					.lineTo(
+						x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE),
+						y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE),
+					)
+					.lineTo(
+						x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE),
+						y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE),
+					)
 					.lineTo(x, y)
 					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
 			}

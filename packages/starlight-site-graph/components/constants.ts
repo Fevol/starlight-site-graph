@@ -14,7 +14,6 @@ export const NODE_SIZE = 5;
  */
 export const NODE_SIZE_MODIFIER = 0.2;
 
-
 export const ARROW_SIZE = 4;
 
 export const ARROW_ANGLE = Math.PI / 6;
