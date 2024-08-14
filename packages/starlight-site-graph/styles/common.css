@@ -1,3 +1,29 @@
+:root {
+	--slsg-node-color: var(--sl-color-white);
+	--slsg-node-color-hover: var(--sl-color-accent-high);
+	--slsg-node-color-muted: var(--sl-color-gray-5);
+
+	--slsg-node-color-current: var(--sl-color-green-high);
+	--slsg-node-color-visited: var(--sl-color-purple-high);
+
+	--slsg-link-color: var(--sl-color-gray-4);
+	--slsg-link-color-hover: var(--sl-color-accent-high);
+	--slsg-link-color-muted: var(--sl-color-gray-6);
+}
+
+:root[data-theme='light'] {
+	--slsg-node-color: var(--sl-color-gray-3);
+	--slsg-node-color-hover: var(--sl-color-accent);
+	--slsg-node-color-muted: var(--sl-color-gray-5);
+
+	--slsg-node-color-current: var(--sl-color-green);
+	--slsg-node-color-visited: var(--sl-color-purple);
+
+	--slsg-link-color: var(--sl-color-gray-5);
+	--slsg-link-color-hover: var(--sl-color-accent);
+	--slsg-link-color-muted: var(--sl-color-gray-6);
+}
+
 /* =================================== Graph Container Styling ============================================== */
 .graph-panel {
 	padding: 1rem var(--sl-sidebar-pad-x);

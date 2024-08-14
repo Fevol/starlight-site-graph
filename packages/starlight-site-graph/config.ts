@@ -21,16 +21,6 @@ export const defaultGraphConfig: GraphConfig = {
 	showTags: false,
 	removeTags: [],
 	customFolderTags: {},
-
-	regularNodeColor: '#FFFFFF',
-	hoveredNodeColor: '#815CEC',
-	unhoveredNodeColor: '#3C3C3C',
-	currentNodeColor: '#28954B',
-	visitedNodeColor: '#1F9389',
-
-	regularLinkColor: '#8C8C8C',
-	hoveredLinkColor: '#815CEC',
-	unhoveredLinkColor: '#3C3C3C',
 };
 
 export type GraphConfig = {
@@ -53,16 +43,6 @@ export type GraphConfig = {
 	customFolderTags: Record<string, string>;
 	showTags: boolean;
 	removeTags: string[];
-
-	regularNodeColor: string;
-	hoveredNodeColor: string;
-	unhoveredNodeColor: string;
-	currentNodeColor: string;
-	visitedNodeColor: string;
-
-	regularLinkColor: string;
-	hoveredLinkColor: string;
-	unhoveredLinkColor: string;
 };
 
 export const starlightSiteGraphConfigSchema = z
@@ -122,16 +102,6 @@ export const starlightSiteGraphConfigSchema = z
 				showTags: z.boolean().default(defaultGraphConfig.showTags),
 				removeTags: z.array(z.string()).default(defaultGraphConfig.removeTags),
 				customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
-
-				regularNodeColor: z.string().default(defaultGraphConfig.regularNodeColor),
-				hoveredNodeColor: z.string().default(defaultGraphConfig.hoveredNodeColor),
-				unhoveredNodeColor: z.string().default(defaultGraphConfig.unhoveredNodeColor),
-				currentNodeColor: z.string().default(defaultGraphConfig.currentNodeColor),
-				visitedNodeColor: z.string().default(defaultGraphConfig.visitedNodeColor),
-
-				regularLinkColor: z.string().default(defaultGraphConfig.regularLinkColor),
-				hoveredLinkColor: z.string().default(defaultGraphConfig.hoveredLinkColor),
-				unhoveredLinkColor: z.string().default(defaultGraphConfig.unhoveredLinkColor),
 			})
 			.default(defaultGraphConfig),
 		sitemap: z

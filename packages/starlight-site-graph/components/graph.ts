@@ -10,6 +10,7 @@ import { ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } 
 import { animatables } from './animatables';
 import { icons } from './icons';
 import { ensureLeadingSlash } from '../integrationUtil';
+import { getGraphColors } from '../color';
 
 const MAX_DEPTH = 6;
 
@@ -26,7 +27,7 @@ export class GraphComponent extends HTMLElement {
 	centerTransform: d3.ZoomTransform;
 	transform: d3.ZoomTransform;
 	userZoomed: boolean = false;
-	currentNode!: NodeData;
+	currentNode: NodeData | undefined;
 
 	links!: Graphics;
 	arrows!: Graphics;
@@ -74,7 +75,9 @@ export class GraphComponent extends HTMLElement {
 		this.blurContainer = document.createElement('div');
 		this.blurContainer.classList.add('background-blur');
 
-		this.animator = new Animator<ReturnType<typeof animatables>>(animatables(config.graphConfig));
+		const colors = getGraphColors();
+
+		this.animator = new Animator<ReturnType<typeof animatables>>(animatables(config.graphConfig, colors));
 
 		this.mountGraph().then(() => {
 			this.setup();
@@ -410,8 +413,7 @@ export class GraphComponent extends HTMLElement {
 
 		this.processedData = this.processSitemapData(config.sitemap as Record<string, ContentDetails>);
 
-		this.currentNode =
-			this.processedData.nodes.find(node => node.id === this.currentPage) ?? this.processedData.nodes[0]!;
+		this.currentNode = this.processedData.nodes.find(node => node.id === this.currentPage);
 
 		this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
 		this.simulationUpdate();
