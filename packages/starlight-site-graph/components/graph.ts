@@ -16,6 +16,7 @@ import type { ContentDetails, LinkData, NodeData } from './types';
 import { LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } from './constants';
 import { animatables } from './animatables';
 import { icons } from './icons';
+import { ensureLeadingSlash } from '../integrationUtil';
 
 const MAX_DEPTH = 6;
 
@@ -503,7 +504,7 @@ export class GraphComponent extends HTMLElement {
 			const closestNode = this.findOverlappingNode(x, y);
 			if (closestNode) {
 				addToVisitedEndpoints(closestNode.id);
-				window.location.assign(getRelativePath(this.currentPage, closestNode.id));
+                window.open(ensureLeadingSlash(closestNode.id), '_self');
 			}
 		});
 
