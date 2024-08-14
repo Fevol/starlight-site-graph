@@ -132,7 +132,7 @@ export class GraphComponent extends HTMLElement {
 
 	renderActionContainer() {
 		this.actionContainer.replaceChildren();
-		for (const action of ['fullscreen', 'depth', 'reset-zoom']) {
+		for (const action of ['fullscreen', 'depth', 'reset-zoom', 'render-arrows']) {
 			const actionElement = document.createElement('button');
 			actionElement.classList.add('graph-action-button');
 			this.actionContainer.appendChild(actionElement);
@@ -151,12 +151,16 @@ export class GraphComponent extends HTMLElement {
 						{ text: 'Maximize', icon: icons.maximize, onClick: () => this.enableFullscreen() },
 					]);
 				};
-			} else if (action === 'depth') {
+			}
+
+			else if (action === 'depth') {
 				actionElement.innerHTML = icons[('graph' + this.config.depth) as keyof typeof icons];
-				actionElement.onclick = () => {
+				actionElement.onclick = (e) => {
 					this.config.depth = (this.config.depth + 1) % MAX_DEPTH;
 					this.setup();
 					this.renderActionContainer();
+					this.resetZoom();
+					e.stopPropagation();
 				};
 				actionElement.oncontextmenu = e => {
 					e.preventDefault();
@@ -178,15 +182,28 @@ export class GraphComponent extends HTMLElement {
 									this.config.depth = i;
 									this.setup();
 									this.renderActionContainer();
+									this.resetZoom();
 								}
 							},
 						})),
 					);
 				};
-			} else if (action === 'reset-zoom') {
+			}
+
+			else if (action === 'reset-zoom') {
 				actionElement.innerHTML = icons.focus;
-				actionElement.onclick = () => {
+				actionElement.onclick = (e) => {
 					this.resetZoom();
+					e.stopPropagation();
+				};
+			}
+
+			else if (action === 'render-arrows') {
+				actionElement.innerHTML = this.config.renderArrows ? icons.arrow : icons.line;
+				actionElement.onclick = (e) => {
+					this.config.renderArrows = !this.config.renderArrows;
+					this.renderActionContainer();
+					e.stopPropagation();
 				};
 			}
 		}
