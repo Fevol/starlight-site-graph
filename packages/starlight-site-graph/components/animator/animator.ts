@@ -27,9 +27,9 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 			// @ts-ignore
 			this.animations[key] = {
 				progress: 0,
-				sourceValue: initialValue,
+				sourceValue: undefined,
+				targetValue: undefined,
 				interpolatedValue: initialValue,
-				targetValue: initialValue,
 			};
 		}
 	}
@@ -131,6 +131,13 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	isAnimating(key: keyof T): boolean {
 		const animation = this.animations[key]!;
 		return animation.targetValue !== undefined;
+	}
+
+	isAnimatingMultiple(keys: (keyof T)[]): boolean {
+		for (const key of keys) {
+			if (this.isAnimating(key)) return true;
+		}
+		return false;
 	}
 
 	getValue<K extends keyof T>(key: K): ConfigValueType<T[K]> {

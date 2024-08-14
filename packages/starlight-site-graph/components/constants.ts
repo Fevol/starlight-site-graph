@@ -4,7 +4,7 @@ export const ZOOM_EASER = new EaseOutQuad();
 export const ZOOM_DURATION = 75;
 export const HOVER_EASER = new EaseOutQuad();
 export const HOVER_DURATION = 200;
-export const LABEL_OFFSET = 12;
+export const LABEL_OFFSET = 8;
 /**
  * The default size of a node.
  */

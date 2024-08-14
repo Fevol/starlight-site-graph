@@ -6,6 +6,7 @@ import graph2 from '../assets/svgs/graph-2.svg?raw';
 import graph3 from '../assets/svgs/graph-3.svg?raw';
 import graph4 from '../assets/svgs/graph-4.svg?raw';
 import graph5 from '../assets/svgs/graph-5.svg?raw';
+import focus from '../assets/svgs/focus.svg?raw';
 
 export const icons = {
 	minimize: minimize,
@@ -16,4 +17,5 @@ export const icons = {
 	graph3: graph3,
 	graph4: graph4,
 	graph5: graph5,
+	focus: focus,
 };

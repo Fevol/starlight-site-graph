@@ -113,11 +113,7 @@ export class GraphComponent extends HTMLElement {
 
 		this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 
-		this.userZoomed = false;
-		// @ts-ignore
-		this.app.canvas.__zoom = d3.zoomIdentity;
-		this.zoomTransform = d3.zoomIdentity;
-		this.updateCenterTransform(true);
+		this.resetZoom(true);
 	}
 
 	disableFullscreen() {
@@ -136,16 +132,12 @@ export class GraphComponent extends HTMLElement {
 
 		this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 
-		this.userZoomed = false;
-		// @ts-ignore
-		this.app.canvas.__zoom = d3.zoomIdentity;
-		this.zoomTransform = d3.zoomIdentity;
-		this.updateCenterTransform(true);
+		this.resetZoom(true);
 	}
 
 	renderActionContainer() {
 		this.actionContainer.replaceChildren();
-		for (const action of ['fullscreen', 'depth']) {
+		for (const action of ['fullscreen', 'depth', 'reset-zoom']) {
 			const actionElement = document.createElement('button');
 			actionElement.classList.add('graph-action-button');
 			this.actionContainer.appendChild(actionElement);
@@ -195,6 +187,11 @@ export class GraphComponent extends HTMLElement {
 							},
 						})),
 					);
+				};
+			} else if (action === 'reset-zoom') {
+				actionElement.innerHTML = icons.focus;
+				actionElement.onclick = () => {
+					this.resetZoom();
 				};
 			}
 		}
@@ -332,11 +329,18 @@ export class GraphComponent extends HTMLElement {
 			linkOpacityHover: 'default',
 			linkOpacity: 'default',
 
-			labelOpacityHover: 'default',
-			labelOpacity: 'default',
 			labelOffset: 'default',
 		});
 		this.animator.startAnimation('labelOpacity', this.getCurrentLabelOpacity());
+		this.animator.startAnimation('labelOpacityHover', this.getCurrentLabelOpacity());
+	}
+
+	resetZoom(immediate: boolean = false) {
+		this.userZoomed = false;
+		// @ts-ignore
+		this.app.canvas.__zoom = d3.zoomIdentity;
+		this.zoomTransform = d3.zoomIdentity;
+		this.updateCenterTransform(immediate);
 	}
 
 	getCurrentLabelOpacity(k: number = this.transform.k): number {
@@ -358,7 +362,7 @@ export class GraphComponent extends HTMLElement {
 		}
 	}
 
-	getColor(node: NodeData, hover: boolean): string {
+	getNodeColor(node: NodeData, hover: boolean): string {
 		let color = '';
 		if (node.id === this.currentPage) {
 			color = 'currentNodeColor';
@@ -388,8 +392,8 @@ export class GraphComponent extends HTMLElement {
 	renderNodes() {
 		for (const node of this.simulation.nodes()) {
 			const nodeDot = new Graphics();
-			nodeDot.zIndex = 0;
-			nodeDot.circle(0, 0, this.getNodeSize(node)).fill(this.getColor(node, false));
+			nodeDot.zIndex = 1;
+			nodeDot.circle(0, 0, this.getNodeSize(node)).fill(this.getNodeColor(node, false));
 
 			const nodeText = new Text({
 				text: node.text || node.id,
@@ -413,8 +417,6 @@ export class GraphComponent extends HTMLElement {
 		this.cleanup();
 
 		this.processedData = this.processSitemapData(config.sitemap as Record<string, ContentDetails>);
-
-		console.log(this.currentPage);
 
 		this.currentNode =
 			this.processedData.nodes.find(node => node.id === this.currentPage) ?? this.processedData.nodes[0]!;
@@ -567,31 +569,39 @@ export class GraphComponent extends HTMLElement {
 
 		// FIXME: Disable redrawing when group "hover" is not animating
 		for (const node of this.simulation.nodes()) {
-			node.label!.scale.set(1);
-			node.label!.alpha = this.animator.getValue('labelOpacity');
+			const nodeSize = this.getNodeSize(node);
+			const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
 
-			if (this.currentlyHovered && node.id === this.currentlyHovered) {
-				node.node!.zIndex = 100;
-				node.label!.position.set(node.x!, node.y! + this.animator.getValue('labelOffset'));
-				node.label!.alpha = this.animator.getValue('labelOpacityHover');
+			const labelOffset = isHovered ? this.animator.getValue('labelOffset') + nodeSize : LABEL_OFFSET + nodeSize;
+			const labelOpacity = isHovered
+				? this.animator.getValue('labelOpacityHover')
+				: this.animator.getValue('labelOpacity');
+			const nodeOpacity = isHovered
+				? this.animator.getValue('nodeOpacityHover')
+				: this.animator.getValue('nodeOpacity');
+			const nodeZIndex = isHovered ? 100 : 1;
 
-				node.node!.clear().circle(0, 0, this.getNodeSize(node)).fill(this.getColor(node, true));
-			} else {
-				node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
-				node.label!.alpha = this.animator.getValue('labelOpacity');
-				node.node!.alpha = this.animator.getValue('nodeOpacity');
-				node.node!.zIndex = 1;
-				node.node!.clear().circle(0, 0, this.getNodeSize(node)).fill(this.getColor(node, false));
+			// nodeColorHover is used here in place for all the different hover color animations
+			if (this.animator.isAnimating('nodeColorHover')) {
+				let nodeColor = this.getNodeColor(node, isHovered);
+
+				node.node!.clear().circle(0, 0, nodeSize).fill(nodeColor);
 			}
 
+			node.label!.scale.set(1);
+			node.label!.position.set(node.x!, node.y! + labelOffset);
+			node.label!.alpha = labelOpacity;
+
 			node.node!.position.set(node.x!, node.y!);
+			node.node!.alpha = nodeOpacity;
+			node.node!.zIndex = nodeZIndex;
 		}
 
 		this.links.clear();
 
 		for (const link of this.processedData.links) {
 			let isAdjacent =
-				this.currentlyHovered &&
+				this.currentlyHovered !== '' &&
 				(link.source.id === this.currentlyHovered || link.target.id === this.currentlyHovered);
 			this.links
 				.moveTo(link.source.x!, link.source.y!)
