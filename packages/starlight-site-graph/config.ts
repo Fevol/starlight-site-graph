@@ -37,7 +37,7 @@ export const defaultGraphConfig: GraphConfig = {
     hoveredLinkColor: "#815CEC",
     unhoveredLinkColor: "#FFFFFF",
 
-    regularLinkOpacity: 1,
+    regularLinkOpacity: 0.2,
     hoveredLinkOpacity: 1,
     unhoveredLinkOpacity: 0.05,
 };
@@ -154,7 +154,7 @@ export const starlightSiteGraphConfigSchema = z
             hoveredLinkColor: z.string().default(defaultGraphConfig.hoveredLinkColor),
             unhoveredLinkColor: z.string().default(defaultGraphConfig.unhoveredLinkColor),
 
-            regularLinkOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
+            regularLinkOpacity: z.number().default(defaultGraphConfig.regularLinkOpacity),
             hoveredLinkOpacity: z.number().default(defaultGraphConfig.hoveredLinkOpacity),
             unhoveredLinkOpacity: z.number().default(defaultGraphConfig.unhoveredLinkOpacity),
 

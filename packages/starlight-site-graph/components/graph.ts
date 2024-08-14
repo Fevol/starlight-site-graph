@@ -287,15 +287,18 @@ export class GraphComponent extends HTMLElement {
 
     simulationUpdate() {
         this.simulation
+            .stop()
             .force(
                 "link",
                 d3.forceLink(this.processedData.links)
                     .id((d: any) => d.id)
-                    .distance(this.config.linkDistance),
+                    .distance(250),
             )
-            .force("charge", d3.forceManyBody().strength(-100 * this.config.repelForce))
-            .force("center", d3.forceCenter().strength(this.config.centerForce))
-            .alpha(1)
+            .force("charge", d3.forceManyBody().distanceMax(500).strength(-1000))
+            .force("forceX", d3.forceX().strength(0.1))
+            .force("forceY", d3.forceY().strength(0.1))
+            .force("center", d3.forceCenter(0, 0))
+            .force("collision", d3.forceCollide().radius(50))
             .restart();
     }
 
@@ -513,8 +516,8 @@ export class GraphComponent extends HTMLElement {
             node.label!.scale.set(1);
             node.label!.alpha = this.animator.getValue('labelOpacity');
 
-            if (this.currentlyHovered) {
-                if (node.id === this.currentlyHovered) {
+            if (this.currentlyHovered && node.id === this.currentlyHovered) {
+                    node.node!.zIndex = 100;
                     node.label!.position.set(node.x!, node.y! + this.animator.getValue('labelOffset'));
                     node.label!.alpha = this.animator.getValue('labelOpacityHover');
 
@@ -522,18 +525,11 @@ export class GraphComponent extends HTMLElement {
                         .clear()
                         .circle(0, 0, this.getNodeSize(node))
                         .fill(this.getColor(node, true));
-                } else {
-                    node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
-                    (node.node!)
-                        .clear()
-                        .circle(0, 0, this.getNodeSize(node))
-                        .fill(this.getColor(node, false));
-                    node.label!.alpha = this.animator.getValue('labelOpacity');
-                    node.node!.alpha = this.animator.getValue('nodeOpacity');
-                }
             } else {
                 node.label!.position.set(node.x!, node.y! + LABEL_OFFSET);
-                node.node!.alpha = 1;
+                node.label!.alpha = this.animator.getValue('labelOpacity');
+                node.node!.alpha = this.animator.getValue('nodeOpacity');
+                node.node!.zIndex = 1;
                 (node.node!)
                     .clear()
                     .circle(0, 0, this.getNodeSize(node))
@@ -546,7 +542,7 @@ export class GraphComponent extends HTMLElement {
         this.links.clear();
 
         for (const link of this.processedData.links) {
-            let isAdjacent = link.source.id === this.currentlyHovered || link.target.id === this.currentlyHovered;
+            let isAdjacent = this.currentlyHovered && (link.source.id === this.currentlyHovered || link.target.id === this.currentlyHovered);
             this.links
                 .moveTo(link.source.x!, link.source.y!)
                 .lineTo(link.target.x!, link.target.y!)
@@ -555,7 +551,21 @@ export class GraphComponent extends HTMLElement {
                     color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
                     width: 1 / this.animator.getValue('zoom'),
                     alpha: (isAdjacent ? this.animator.getValue('linkOpacityHover') : this.animator.getValue('linkOpacity'))
-                })
+                });
+
+            // TODO: Add properly
+            if (this.config.renderArrows) {
+                const arrowHead = new Graphics();
+                arrowHead
+                    .lineTo(-5, 5)
+                    .lineTo(5, 5)
+                    .lineTo(0, 0)
+                    .closePath()
+                    .fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'))
+                    .position.set(link.target.x!, link.target.y!)
+                this.links.addChild(arrowHead);
+                link.target.arrowHead = arrowHead;
+            }
         }
     }
 

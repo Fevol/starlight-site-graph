@@ -18,6 +18,7 @@ type NodeData = {
     node?: Graphics;
     text?: string;
     label?: Text;
+    arrowHead?: Graphics;
     neighborCount?: number;
 } & d3.SimulationNodeDatum
 
