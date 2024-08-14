@@ -1,4 +1,4 @@
-import {EaseOutQuad} from "./animator";
+import { EaseOutQuad } from './animator';
 
 export const ZOOM_EASER = new EaseOutQuad();
 export const ZOOM_DURATION = 75;
