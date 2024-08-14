@@ -61,19 +61,6 @@ export const animatables = (graphConfig: GraphConfig) => {
 			easing: HOVER_EASER,
 		},
 
-		nodeOpacity: {
-			properties: { default: graphConfig.regularNodeOpacity, blur: graphConfig.unhoveredNodeOpacity },
-			interpolator: new NumberInterpolator(),
-			duration: HOVER_DURATION,
-			easing: HOVER_EASER,
-		},
-		nodeOpacityHover: {
-			properties: { default: graphConfig.regularNodeOpacity, hover: graphConfig.hoveredNodeOpacity },
-			interpolator: new NumberInterpolator(),
-			duration: HOVER_DURATION,
-			easing: HOVER_EASER,
-		},
-
 		linkColor: {
 			properties: { default: graphConfig.regularLinkColor, blur: graphConfig.unhoveredLinkColor },
 			interpolator: new ColorInterpolator(),
@@ -83,18 +70,6 @@ export const animatables = (graphConfig: GraphConfig) => {
 		linkColorHover: {
 			properties: { default: graphConfig.regularLinkColor, hover: graphConfig.hoveredLinkColor },
 			interpolator: new ColorInterpolator(),
-			duration: HOVER_DURATION,
-			easing: HOVER_EASER,
-		},
-		linkOpacity: {
-			properties: { default: graphConfig.regularLinkOpacity, blur: graphConfig.unhoveredLinkOpacity },
-			interpolator: new NumberInterpolator(),
-			duration: HOVER_DURATION,
-			easing: HOVER_EASER,
-		},
-		linkOpacityHover: {
-			properties: { default: graphConfig.regularLinkOpacity, hover: graphConfig.hoveredLinkOpacity },
-			interpolator: new NumberInterpolator(),
 			duration: HOVER_DURATION,
 			easing: HOVER_EASER,
 		},

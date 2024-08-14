@@ -28,17 +28,9 @@ export const defaultGraphConfig: GraphConfig = {
 	currentNodeColor: '#28954B',
 	visitedNodeColor: '#1F9389',
 
-	regularNodeOpacity: 1,
-	hoveredNodeOpacity: 1,
-	unhoveredNodeOpacity: 1,
-
-	regularLinkColor: '#FFFFFF',
+	regularLinkColor: '#8C8C8C',
 	hoveredLinkColor: '#815CEC',
-	unhoveredLinkColor: '#FFFFFF',
-
-	regularLinkOpacity: 0.2,
-	hoveredLinkOpacity: 1,
-	unhoveredLinkOpacity: 0.05,
+	unhoveredLinkColor: '#3C3C3C',
 };
 
 export type GraphConfig = {
@@ -68,17 +60,9 @@ export type GraphConfig = {
 	currentNodeColor: string;
 	visitedNodeColor: string;
 
-	regularNodeOpacity: number;
-	hoveredNodeOpacity: number;
-	unhoveredLinkOpacity: number;
-
 	regularLinkColor: string;
 	hoveredLinkColor: string;
 	unhoveredLinkColor: string;
-
-	regularLinkOpacity: number;
-	hoveredLinkOpacity: number;
-	unhoveredNodeOpacity: number;
 };
 
 export const starlightSiteGraphConfigSchema = z
@@ -145,17 +129,9 @@ export const starlightSiteGraphConfigSchema = z
 				currentNodeColor: z.string().default(defaultGraphConfig.currentNodeColor),
 				visitedNodeColor: z.string().default(defaultGraphConfig.visitedNodeColor),
 
-				regularNodeOpacity: z.number().default(defaultGraphConfig.regularNodeOpacity),
-				hoveredNodeOpacity: z.number().default(defaultGraphConfig.hoveredNodeOpacity),
-				unhoveredNodeOpacity: z.number().default(defaultGraphConfig.unhoveredNodeOpacity),
-
 				regularLinkColor: z.string().default(defaultGraphConfig.regularLinkColor),
 				hoveredLinkColor: z.string().default(defaultGraphConfig.hoveredLinkColor),
 				unhoveredLinkColor: z.string().default(defaultGraphConfig.unhoveredLinkColor),
-
-				regularLinkOpacity: z.number().default(defaultGraphConfig.regularLinkOpacity),
-				hoveredLinkOpacity: z.number().default(defaultGraphConfig.hoveredLinkOpacity),
-				unhoveredLinkOpacity: z.number().default(defaultGraphConfig.unhoveredLinkOpacity),
 			})
 			.default(defaultGraphConfig),
 		sitemap: z

@@ -32,6 +32,7 @@ export default defineConfig({
 				starlightSiteGraph({
 					graphConfig: {
 						depth: 8,
+						renderArrows: true
 					},
 					sitemap: {
 						'api/namespaces/augmentations/interfaces/EditableFileView': {
