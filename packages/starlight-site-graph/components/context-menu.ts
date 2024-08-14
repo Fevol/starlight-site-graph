@@ -5,18 +5,28 @@ interface MenuItem {
 	onClick: () => void;
 }
 
+
+let active_menu: HTMLElement | null = null;
+
+function removeMenu() {
+	if (active_menu) {
+		document.body.removeChild(active_menu);
+		active_menu = null;
+	}
+}
+
+window.addEventListener('click', removeMenu);
+
 export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 	e.preventDefault();
+	removeMenu()
+
 	const menu_container = document.createElement('nav');
 	menu_container.className = 'menu-container';
 
 	const menu = document.createElement('div');
 	menu.className = 'menu';
 	menu_container.appendChild(menu);
-
-	function removeMenu() {
-		document.body.removeChild(menu_container);
-	}
 
 	const groupedItems = Object.groupBy(items, ({ group }) => group || '');
 	for (const [key, group] of Object.entries(groupedItems)) {
@@ -66,5 +76,5 @@ export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 	menu_container.style.left = x + 'px';
 	menu_container.style.top = y + 'px';
 
-	window.addEventListener('click', removeMenu, { once: true });
+	active_menu = menu_container;
 }

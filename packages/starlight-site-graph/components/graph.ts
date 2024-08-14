@@ -148,8 +148,6 @@ export class GraphComponent extends HTMLElement {
 					e.stopPropagation();
 				};
 				actionElement.oncontextmenu = e => {
-					e.preventDefault();
-					e.stopPropagation();
 					showContextMenu(e, [
 						{ text: 'Minimize', icon: icons.minimize, onClick: () => this.disableFullscreen() },
 						{ text: 'Maximize', icon: icons.maximize, onClick: () => this.enableFullscreen() },
@@ -165,8 +163,6 @@ export class GraphComponent extends HTMLElement {
 					e.stopPropagation();
 				};
 				actionElement.oncontextmenu = e => {
-					e.preventDefault();
-					e.stopPropagation();
 					showContextMenu(
 						e,
 						Array.from({ length: MAX_DEPTH }, (_, i) => ({
@@ -202,6 +198,12 @@ export class GraphComponent extends HTMLElement {
 					this.config.renderArrows = !this.config.renderArrows;
 					this.renderActionContainer();
 					e.stopPropagation();
+				};
+				actionElement.oncontextmenu = e => {
+					showContextMenu(e, [
+						{ text: 'Render Arrows', icon: icons.arrow, onClick: () => (this.config.renderArrows = true) },
+						{ text: 'Render Lines', icon: icons.line, onClick: () => (this.config.renderArrows = false) },
+					]);
 				};
 			}
 		}
@@ -300,7 +302,7 @@ export class GraphComponent extends HTMLElement {
 					neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
 					size:
 						NODE_SIZE +
-						((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) *
+						(((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) ** 0.8) *
 							NODE_SIZE_MODIFIER,
 				};
 			}),
@@ -317,12 +319,13 @@ export class GraphComponent extends HTMLElement {
 			.stop()
 			.force(
 				'link',
-				d3.forceLink(this.processedData.links).id((d: any) => d.id),
+				d3.forceLink(this.processedData.links).id((d: any) => d.id)
 				// .distance(250),
 			)
-			.force('charge', d3.forceManyBody().distanceMax(500).strength(-100))
-			.force('forceX', d3.forceX().strength(0.01))
-			.force('forceY', d3.forceY().strength(0.01))
+			.force('charge', d3.forceManyBody().distanceMax(500).strength(-200))
+			.force('forceX', d3.forceX().strength(0.05))
+			.force('forceY', d3.forceY().strength(0.05))
+			.force('collision', d3.forceCollide().radius(20))
 			.restart();
 	}
 
