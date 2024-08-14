@@ -20,6 +20,7 @@ type NodeData = {
 	label?: Text;
 	arrowHead?: Graphics;
 	neighborCount?: number;
+	size?: number;
 } & d3.SimulationNodeDatum;
 
 type LinkData = {

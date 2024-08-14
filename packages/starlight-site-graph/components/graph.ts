@@ -13,7 +13,7 @@ import {
 	stripSlashes,
 } from './util';
 import type { ContentDetails, LinkData, NodeData } from './types';
-import { LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } from './constants';
+import {ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER} from './constants';
 import { animatables } from './animatables';
 import { icons } from './icons';
 import { ensureLeadingSlash } from '../integrationUtil';
@@ -36,6 +36,7 @@ export class GraphComponent extends HTMLElement {
 	currentNode!: NodeData;
 
 	links!: Graphics;
+	arrows!: Graphics;
 
 	config!: GraphConfig;
 	processedData!: ReturnType<typeof this.processSitemapData>;
@@ -209,8 +210,10 @@ export class GraphComponent extends HTMLElement {
 		this.graphContainer.appendChild(this.app.canvas);
 
 		this.links = new Graphics();
+		this.arrows = new Graphics();
 		this.app.stage.sortableChildren = true;
 		this.app.stage.addChild(this.links);
+		this.app.stage.addChild(this.arrows);
 		this.app.ticker.add(ticker => {
 			this.tick(ticker);
 		});
@@ -287,6 +290,7 @@ export class GraphComponent extends HTMLElement {
 					text: url.startsWith('tags/') ? '#' + url.substring(5) : (data.get(url)?.title ?? url),
 					tags: data.get(url)?.tags ?? [],
 					neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
+					size: NODE_SIZE + ((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) * NODE_SIZE_MODIFIER
 				};
 			}),
 			links: links.filter(
@@ -308,8 +312,6 @@ export class GraphComponent extends HTMLElement {
 			.force('charge', d3.forceManyBody().distanceMax(500).strength(-100))
 			.force('forceX', d3.forceX().strength(0.01))
 			.force('forceY', d3.forceY().strength(0.01))
-			// .force("center", d3.forceCenter(0, 0))
-			// .force("collision", d3.forceCollide().radius(20).iterations(2))
 			.restart();
 	}
 
@@ -322,13 +324,8 @@ export class GraphComponent extends HTMLElement {
 			currentNodeColorHover: 'default',
 			currentNodeColor: 'default',
 
-			nodeOpacityHover: 'default',
-			nodeOpacity: 'default',
-
 			linkColorHover: 'default',
 			linkColor: 'default',
-			linkOpacityHover: 'default',
-			linkOpacity: 'default',
 
 			labelOffset: 'default',
 		});
@@ -352,7 +349,9 @@ export class GraphComponent extends HTMLElement {
 		if (this.simulation) {
 			this.app.stage.removeChildren();
 			this.app.stage.addChild(this.links);
+			this.app.stage.addChild(this.arrows);
 			this.links.clear();
+			this.arrows.clear();
 			this.simulation.stop();
 			this.simulation.nodes([]);
 			this.simulation.force('link', null);
@@ -376,13 +375,9 @@ export class GraphComponent extends HTMLElement {
 		return this.animator.getValue(color + (hover ? 'Hover' : ''));
 	}
 
-	getNodeSize(node: NodeData): number {
-		return NODE_SIZE + (node.neighborCount ?? 0) * NODE_SIZE_MODIFIER;
-	}
-
 	findOverlappingNode(x: number, y: number): NodeData | undefined {
 		for (const node of this.simulation.nodes()) {
-			if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= this.getNodeSize(node) ** 2) {
+			if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= node.size! ** 2) {
 				return node;
 			}
 		}
@@ -394,7 +389,7 @@ export class GraphComponent extends HTMLElement {
 		for (const node of this.simulation.nodes()) {
 			const nodeDot = new Graphics();
 			nodeDot.zIndex = 1;
-			nodeDot.circle(0, 0, this.getNodeSize(node)).fill(this.getNodeColor(node, false));
+			nodeDot.circle(0, 0, node.size!).fill(this.getNodeColor(node, false));
 
 			const nodeText = new Text({
 				text: node.text || node.id,
@@ -479,13 +474,8 @@ export class GraphComponent extends HTMLElement {
 					currentNodeColorHover: 'hover',
 					currentNodeColor: 'blur',
 
-					nodeOpacityHover: 'hover',
-					nodeOpacity: 'blur',
-
 					linkColorHover: 'hover',
 					linkColor: 'blur',
-					linkOpacityHover: 'hover',
-					linkOpacity: 'blur',
 
 					labelOpacityHover: 'hover',
 					labelOpacity: 'blur',
@@ -544,8 +534,9 @@ export class GraphComponent extends HTMLElement {
 
 	updateCenterTransform(immediate: boolean = false) {
 		const k = 1;
-		const x = this.graphContainer.clientWidth / 2 - this.currentNode.x! * k;
-		const y = this.graphContainer.clientHeight / 2 - this.currentNode.y! * k;
+		const closestNode = this.simulation.find(0, 0)!;
+		const x = this.graphContainer.clientWidth / 2 - closestNode.x! * k;
+		const y = this.graphContainer.clientHeight / 2 - closestNode.y! * k;
 
 		this.centerTransform = new d3.ZoomTransform(k, x, y);
 
@@ -570,23 +561,18 @@ export class GraphComponent extends HTMLElement {
 
 		// FIXME: Disable redrawing when group "hover" is not animating
 		for (const node of this.simulation.nodes()) {
-			const nodeSize = this.getNodeSize(node);
 			const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
 
-			const labelOffset = isHovered ? this.animator.getValue('labelOffset') + nodeSize : LABEL_OFFSET + nodeSize;
+			const labelOffset = isHovered ? this.animator.getValue('labelOffset') + node.size! : LABEL_OFFSET + node.size!;
 			const labelOpacity = isHovered
 				? this.animator.getValue('labelOpacityHover')
 				: this.animator.getValue('labelOpacity');
-			const nodeOpacity = isHovered
-				? this.animator.getValue('nodeOpacityHover')
-				: this.animator.getValue('nodeOpacity');
 			const nodeZIndex = isHovered ? 100 : 1;
 
 			// nodeColorHover is used here in place for all the different hover color animations
 			if (this.animator.isAnimating('nodeColorHover')) {
 				let nodeColor = this.getNodeColor(node, isHovered);
-
-				node.node!.clear().circle(0, 0, nodeSize).fill(nodeColor);
+				node.node!.clear().circle(0, 0, node.size!).fill(nodeColor);
 			}
 
 			node.label!.scale.set(1);
@@ -594,12 +580,11 @@ export class GraphComponent extends HTMLElement {
 			node.label!.alpha = labelOpacity;
 
 			node.node!.position.set(node.x!, node.y!);
-			node.node!.alpha = nodeOpacity;
 			node.node!.zIndex = nodeZIndex;
 		}
 
 		this.links.clear();
-
+		this.arrows.clear();
 		for (const link of this.processedData.links) {
 			let isAdjacent =
 				this.currentlyHovered !== '' &&
@@ -611,23 +596,19 @@ export class GraphComponent extends HTMLElement {
 				.stroke({
 					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
 					width: 1 / this.animator.getValue('zoom'),
-					alpha: isAdjacent
-						? this.animator.getValue('linkOpacityHover')
-						: this.animator.getValue('linkOpacity'),
 				});
 
-			// TODO: Add properly
 			if (this.config.renderArrows) {
-				const arrowHead = new Graphics();
-				arrowHead
-					.lineTo(-5, 5)
-					.lineTo(5, 5)
-					.lineTo(0, 0)
-					.closePath()
-					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'))
-					.position.set(link.target.x!, link.target.y!);
-				this.links.addChild(arrowHead);
-				link.target.arrowHead = arrowHead;
+				let {x, y} = link.target as { x: number, y: number };
+				const angle = (Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!));
+				x -= link.target.size! * Math.cos(angle);
+				y -= link.target.size! * Math.sin(angle);
+				this.arrows
+					.moveTo(x, y)
+					.lineTo(x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE))
+					.lineTo(x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE))
+					.lineTo(x, y)
+					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
 			}
 		}
 	}
