@@ -11,7 +11,7 @@ import arrow from '../assets/svgs/arrow.svg?raw';
 import line from '../assets/svgs/line.svg?raw';
 import settings from '../assets/svgs/settings.svg?raw';
 
-export const icons = {
+export const icons: { [key: string]: string } = {
 	minimize: minimize,
 	maximize: maximize,
 
