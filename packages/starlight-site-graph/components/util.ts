@@ -43,10 +43,11 @@ export function onClickOutside(target: HTMLElement, callback: () => void) {
 	function handleClickOutside(event: MouseEvent) {
 		if (!target.contains(event.target as HTMLElement)) {
 			callback();
+			document.removeEventListener('click', handleClickOutside);
 		}
 	}
 	document.addEventListener('click', handleClickOutside);
-	return () => document.removeEventListener('click', handleClickOutside);
+	return document.removeEventListener.bind(document, 'click', handleClickOutside);
 }
 
 export function getRelativePath(current: string, next: string) {
@@ -57,4 +58,46 @@ export function getRelativePath(current: string, next: string) {
 	let forward = nextSegments.slice(common).join('/');
 	if (!forward.endsWith('/') && !forward.includes('#')) forward += '/';
 	return `${'../'.repeat(back)}${forward}`;
+}
+
+
+export function createValueSlider(
+	label: string,
+	value: number,
+	min: number,
+	max: number,
+	step: number,
+	onChange: (value: number) => void,
+) {
+	const container = document.createElement('div');
+	container.className = 'value-slider';
+
+	const textContainer = document.createElement('div');
+	textContainer.className = 'value-slider-text';
+
+	const labelElement = document.createElement('span');
+	labelElement.className = 'value-slider-label';
+	labelElement.innerText = label;
+	textContainer.appendChild(labelElement);
+
+	const valueElement = document.createElement('span');
+	valueElement.className = 'value-slider-value';
+	valueElement.innerText = value.toString();
+	textContainer.appendChild(valueElement);
+
+	const slider = document.createElement('input');
+	slider.type = 'range';
+	slider.min = min.toString();
+	slider.max = max.toString();
+	slider.step = step.toString();
+	slider.value = value.toString();
+	slider.oninput = () => {
+		valueElement.innerText = slider.value
+		onChange(parseFloat(slider.value));
+	}
+
+	container.appendChild(textContainer);
+	container.appendChild(slider);
+
+	return container;
 }

@@ -9,17 +9,23 @@ import graph5 from '../assets/svgs/graph-5.svg?raw';
 import focus from '../assets/svgs/focus.svg?raw';
 import arrow from '../assets/svgs/arrow.svg?raw';
 import line from '../assets/svgs/line.svg?raw';
+import settings from '../assets/svgs/settings.svg?raw';
 
 export const icons = {
 	minimize: minimize,
 	maximize: maximize,
+
 	graph0: graph0,
 	graph1: graph1,
 	graph2: graph2,
 	graph3: graph3,
 	graph4: graph4,
 	graph5: graph5,
+
 	focus: focus,
+
 	arrow: arrow,
 	line: line,
+
+	settings: settings,
 };

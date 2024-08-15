@@ -4,13 +4,21 @@ import config from 'virtual:starlight-site-graph/config';
 import type { GraphConfig } from '../config';
 import { Animator } from './animator';
 import { showContextMenu } from './context-menu';
-import { addToVisitedEndpoints, getVisitedEndpoints, onClickOutside, simplifySlug, stripSlashes } from './util';
+import {
+	addToVisitedEndpoints,
+	createValueSlider,
+	getVisitedEndpoints,
+	onClickOutside,
+	simplifySlug,
+	stripSlashes
+} from './util';
 import type { ContentDetails, LinkData, NodeData } from './types';
 import { ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, NODE_SIZE, NODE_SIZE_MODIFIER } from './constants';
 import { animatables } from './animatables';
 import { icons } from './icons';
 import { ensureLeadingSlash } from '../integrationUtil';
 import { getGraphColors, type GraphColorConfig } from '../color';
+import {showPopupMenu} from "./popup-menu";
 
 const MAX_DEPTH = 6;
 
@@ -136,18 +144,18 @@ export class GraphComponent extends HTMLElement {
 
 	renderActionContainer() {
 		this.actionContainer.replaceChildren();
-		for (const action of ['fullscreen', 'depth', 'reset-zoom', 'render-arrows']) {
+		for (const action of ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']) {
 			const actionElement = document.createElement('button');
 			actionElement.classList.add('graph-action-button');
 			this.actionContainer.appendChild(actionElement);
 
 			if (action === 'fullscreen') {
 				actionElement.innerHTML = this.isFullscreen ? icons.minimize : icons.maximize;
-				actionElement.onclick = e => {
+				actionElement.onclick = (e) => {
 					this.isFullscreen ? this.disableFullscreen() : this.enableFullscreen();
 					e.stopPropagation();
 				};
-				actionElement.oncontextmenu = e => {
+				actionElement.oncontextmenu = (e) => {
 					showContextMenu(e, [
 						{ text: 'Minimize', icon: icons.minimize, onClick: () => this.disableFullscreen() },
 						{ text: 'Maximize', icon: icons.maximize, onClick: () => this.enableFullscreen() },
@@ -155,14 +163,14 @@ export class GraphComponent extends HTMLElement {
 				};
 			} else if (action === 'depth') {
 				actionElement.innerHTML = icons[('graph' + this.config.depth) as keyof typeof icons];
-				actionElement.onclick = e => {
+				actionElement.onclick = (e) => {
 					this.config.depth = (this.config.depth + 1) % MAX_DEPTH;
 					this.setup();
 					this.renderActionContainer();
 					this.resetZoom();
 					e.stopPropagation();
 				};
-				actionElement.oncontextmenu = e => {
+				actionElement.oncontextmenu = (e) => {
 					showContextMenu(
 						e,
 						Array.from({ length: MAX_DEPTH }, (_, i) => ({
@@ -188,23 +196,53 @@ export class GraphComponent extends HTMLElement {
 				};
 			} else if (action === 'reset-zoom') {
 				actionElement.innerHTML = icons.focus;
-				actionElement.onclick = e => {
+				actionElement.onclick = (e) => {
 					this.resetZoom();
 					e.stopPropagation();
 				};
 			} else if (action === 'render-arrows') {
 				actionElement.innerHTML = this.config.renderArrows ? icons.arrow : icons.line;
-				actionElement.onclick = e => {
+				actionElement.onclick = (e) => {
 					this.config.renderArrows = !this.config.renderArrows;
 					this.renderActionContainer();
 					e.stopPropagation();
 				};
-				actionElement.oncontextmenu = e => {
+				actionElement.oncontextmenu = (e) => {
 					showContextMenu(e, [
 						{ text: 'Render Arrows', icon: icons.arrow, onClick: () => (this.config.renderArrows = true) },
 						{ text: 'Render Lines', icon: icons.line, onClick: () => (this.config.renderArrows = false) },
 					]);
 				};
+			} else if (action === "settings") {
+				actionElement.innerHTML = icons.settings;
+				actionElement.onclick = (e) => {
+					const chargeForceSlider = createValueSlider('Repel Force', this.config.repelForce, 0, 500, 1, (value) => {
+						this.config.repelForce = value;
+						this.simulationUpdate();
+					});
+
+					const centerForceSlider = createValueSlider('Center Force', this.config.centerForce, 0, 200, 1, (value) => {
+						this.config.centerForce = value;
+						this.simulationUpdate();
+					});
+
+					const nodeForceSlider = createValueSlider('Node Force', this.config.nodeForce, 0, 1, 0.01, (value) => {
+						this.config.nodeForce = value;
+						this.simulationUpdate();
+					});
+
+					const collisionForceSlider = createValueSlider('Collision Force', this.config.collisionForce, 0, 100, 1, (value) => {
+						this.config.collisionForce = value;
+						this.simulationUpdate();
+					});
+
+					showPopupMenu(this.actionContainer, [
+						chargeForceSlider,
+						centerForceSlider,
+						nodeForceSlider,
+						collisionForceSlider,
+					]);
+				}
 			}
 		}
 	}
@@ -322,10 +360,12 @@ export class GraphComponent extends HTMLElement {
 				d3.forceLink(this.processedData.links).id((d: any) => d.id)
 				// .distance(250),
 			)
-			.force('charge', d3.forceManyBody().distanceMax(500).strength(-200))
-			.force('forceX', d3.forceX().strength(0.05))
-			.force('forceY', d3.forceY().strength(0.05))
-			.force('collision', d3.forceCollide().radius(20))
+			.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.config.repelForce))
+			.force('forceX', d3.forceX().strength(this.config.nodeForce))
+			.force('forceY', d3.forceY().strength(this.config.nodeForce))
+			.force('collision', d3.forceCollide().radius(this.config.collisionForce))
+			.force('center', d3.forceCenter(this.config.centerForce))
+			.alpha(1)
 			.restart();
 	}
 

@@ -192,3 +192,39 @@ body:has(.background-blur) {
 	font-size: var(--sl-text-xs);
 }
 /* ========================================================================================================== */
+
+
+/* ======================================== Popup Menu Styling ============================================== */
+
+.popup-menu {
+	position: fixed;
+	z-index: 1000;
+	right: 8px;
+	top: 8px;
+
+	background-color: color-mix(in srgb, var(--sl-color-bg) 90%, transparent);
+	border: 1px solid var(--sl-color-gray-6);
+	border-radius: 8px;
+	padding: 8px;
+
+	overflow: hidden;
+
+	backdrop-filter: blur(32px);
+
+
+	.value-slider {
+		display: flex;
+		font-size: var(--sl-text-xs);
+		flex-wrap: wrap;
+
+
+		.value-slider-text {
+			display: flex;
+			gap: 0.5rem;
+		}
+
+		.value-slider-label {
+			font-weight: 900;
+		}
+	}
+}

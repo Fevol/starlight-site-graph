@@ -14,9 +14,11 @@ export const defaultGraphConfig: GraphConfig = {
 	labelOffset: 8,
 	labelHoverOffset: 6,
 
-	repelForce: 0.5,
-	centerForce: 0.3,
+	nodeForce: 0.05,
+	repelForce: 200,
+	centerForce: 0,
 	linkDistance: 30,
+	collisionForce: 20,
 
 	showTags: false,
 	removeTags: [],
@@ -36,6 +38,8 @@ export type GraphConfig = {
 	labelOffset: number;
 	labelHoverOffset: number;
 
+	collisionForce: number;
+	nodeForce: number;
 	repelForce: number;
 	centerForce: number;
 	linkDistance: number;
@@ -95,6 +99,8 @@ export const starlightSiteGraphConfigSchema = z
 				labelOffset: z.number().default(defaultGraphConfig.labelOffset),
 				labelHoverOffset: z.number().default(defaultGraphConfig.labelHoverOffset),
 
+				nodeForce: z.number().default(defaultGraphConfig.nodeForce),
+				collisionForce: z.number().default(defaultGraphConfig.collisionForce),
 				repelForce: z.number().default(defaultGraphConfig.repelForce),
 				centerForce: z.number().default(defaultGraphConfig.centerForce),
 				linkDistance: z.number().default(defaultGraphConfig.linkDistance),
