@@ -30,11 +30,34 @@
 	--slsg-label-color-hover: var(--sl-color-accent);
 }
 
-/* =================================== Graph Container Styling ============================================== */
+
+/* ========================================= Sidebar Styling ================================================ */
 .graph-panel {
 	padding: 1rem var(--sl-sidebar-pad-x);
+
+	h2 {
+		color: var(--sl-color-white);
+		font-size: var(--sl-text-h5);
+		font-weight: 600;
+		line-height: var(--sl-line-height-headings);
+		margin-bottom: 0.5rem;
+	}
 }
 
+
+/* Move graph and other contents in page sidebar into bottom of page */
+@media (max-width: 1152px) {
+	.main-frame > div:has(.graph-panel) {
+		display: flex;
+		flex-direction: column-reverse;
+		.right-sidebar {
+			display: flex;
+		}
+	}
+}
+
+
+/* =================================== Graph Container Styling ============================================== */
 .graph-component {
 	width: 250px;
 	height: 250px;

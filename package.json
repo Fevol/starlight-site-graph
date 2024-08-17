@@ -28,6 +28,13 @@
 		"prettier": "^3.3.3"
 	},
 	"scripts": {
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"release-beta": "bun run scripts/bump-version.ts beta",
+		"release-patch": "bun run scripts/bump-version.ts patch",
+		"release-minor": "bun run scripts/bump-version.ts minor",
+		"release-major": "bun run scripts/bump-version.ts major"
+	},
+	"dependencies": {
+		"@types/node": "^22.4.0"
 	}
 }
