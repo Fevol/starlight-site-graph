@@ -41,7 +41,7 @@ jobs:
           run: |
             mkdir -p dist
             cd packages/starlight-site-graph
-            rm -f bun.lock .npmignore
+            rm -f bun.lockb .npmignore
             zip -r ../../dist/starlight-site-graph-${{ github.ref_name }}.zip .
 
       -   name: Create Release
