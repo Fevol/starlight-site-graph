@@ -13,6 +13,10 @@ export class NumberInterpolator implements Interpolator<number> {
 	clone(x: number): number {
 		return x;
 	}
+
+	isEqual(a: number, b: number): boolean {
+		return a === b;
+	}
 }
 
 export class ColorInterpolator implements Interpolator<string> {
@@ -26,5 +30,9 @@ export class ColorInterpolator implements Interpolator<string> {
 
 	clone(x: string): string {
 		return x;
+	}
+
+	isEqual(a: string, b: string): boolean {
+		return a === b;
 	}
 }

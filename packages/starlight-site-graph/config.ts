@@ -1,9 +1,14 @@
 import { AstroError } from 'astro/errors';
 import { z } from 'astro/zod';
 
+type GraphActionTypes = 'fullscreen' | 'depth' | 'reset-zoom' | 'render-arrows' | 'settings';
+
 export const defaultGraphConfig: GraphConfig = {
+	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
+
 	enableDrag: true,
 	enableZoom: true,
+	enableHover: true,
 	depth: 1,
 	scale: 1.1,
 
@@ -26,8 +31,11 @@ export const defaultGraphConfig: GraphConfig = {
 };
 
 export type GraphConfig = {
+	actions: GraphActionTypes[];
+
 	enableDrag: boolean;
 	enableZoom: boolean;
+	enableHover: boolean;
 	depth: number;
 
 	scale: number;
@@ -64,8 +72,11 @@ export const starlightSiteGraphConfigSchema = z
 		 * Configuration for the graph
 		 *
 		 * @default {
+		 * 	   actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
+		 *
 		 *     enableDrag: true,
 		 *     enableZoom: true,
+		 *     enableHover: true,
 		 *     depth: 1,
 		 *     scale: 1.1,
 		 *
@@ -87,8 +98,11 @@ export const starlightSiteGraphConfigSchema = z
 		 */
 		graphConfig: z
 			.object({
+				actions: z.array(z.string()).default(defaultGraphConfig.actions),
+
 				enableDrag: z.boolean().default(defaultGraphConfig.enableDrag),
 				enableZoom: z.boolean().default(defaultGraphConfig.enableZoom),
+				enableHover: z.boolean().default(defaultGraphConfig.enableHover),
 				depth: z.number().default(defaultGraphConfig.depth),
 				scale: z.number().default(defaultGraphConfig.scale),
 
@@ -110,6 +124,11 @@ export const starlightSiteGraphConfigSchema = z
 				customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
 			})
 			.default(defaultGraphConfig),
+		/**
+		 * Specify a custom sitemap to be used for the PageSidebar graph, if not provided, a sitemap will be generated from the content directory
+		 *
+		 * @default undefined
+		 */
 		sitemap: z
 			.record(
 				z.string(),

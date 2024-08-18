@@ -20,6 +20,16 @@ export interface Interpolator<T> {
 	 * @param x The value to clone.
 	 */
 	clone(x: T): T;
+
+	/**
+	 * Compares two values for equality.
+	 *
+	 * @param a The first value.
+	 * @param b The second value.
+	 *
+	 * @returns Whether the two values are equal.
+	 */
+	isEqual(a: T, b: T): boolean;
 }
 
 export interface AnimationCurve {

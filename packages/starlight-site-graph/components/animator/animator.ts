@@ -65,6 +65,11 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 			console.trace();
 		}
 
+		if (config.interpolator.isEqual(animation.interpolatedValue, targetValue)) {
+			this.setValue(key, targetValue);
+			return;
+		}
+
 		animation.sourceValue = config.interpolator.clone(animation.interpolatedValue) as ConfigValueType<T[keyof T]>;
 		animation.targetValue = targetValue;
 		animation.progress = 0;
@@ -77,10 +82,14 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
+	setValue(key: keyof T, value: ConfigValueType<T[keyof T]>): void {
+		this.resetAnimation(key);
+		this.animations[key].interpolatedValue = value;
+	}
+
 	setValues(values: AnimationsMap<T>): void {
 		for (const key in values) {
-			this.resetAnimation(key);
-			this.animations[key].interpolatedValue = values[key]!;
+			this.setValue(key, values[key]!);
 		}
 	}
 

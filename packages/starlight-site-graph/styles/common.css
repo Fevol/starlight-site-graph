@@ -130,7 +130,7 @@ body:has(.background-blur) {
 
 /* ====================================== Graph Action Styles =============================================== */
 
-.graph-action-container {
+.graph-action-container:not(:empty) {
 	position: absolute;
 	right: 0;
 

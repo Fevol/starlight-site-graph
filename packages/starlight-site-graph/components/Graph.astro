@@ -50,6 +50,7 @@ const { config, sitemap } = Astro.props as
 		links!: Graphics;
 		arrows!: Graphics;
 
+        scale: number;
 		config!: GraphConfig;
 		sitemap!: Record<string, ContentDetails>;
 
@@ -162,7 +163,7 @@ const { config, sitemap } = Astro.props as
 
 		renderActionContainer() {
 			this.actionContainer.replaceChildren();
-			for (const action of ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']) {
+			for (const action of this.config.actions) {
 				const actionElement = document.createElement('button');
 				actionElement.classList.add('graph-action-button');
 				this.actionContainer.appendChild(actionElement);
@@ -488,79 +489,85 @@ const { config, sitemap } = Astro.props as
 			this.processedData = this.processSitemapData(this.sitemap as Record<string, ContentDetails>);
 
 			this.currentNode = this.processedData.nodes.find(node => node.id === this.currentPage);
+            this.scale = this.config.scale;
+            this.zoomTransform.k = this.scale;
 
 			this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
 			this.simulationUpdate();
 
 			this.renderNodes();
 
-			let dragX = 0;
-			let dragY = 0;
-			d3.select(this.app.canvas).call(
-				(d3.drag().container(this.app.canvas) as unknown as d3.DragBehavior<HTMLCanvasElement, unknown, unknown>)
-					.subject(event => {
-						const [x, y] = this.transform.invert([event.x, event.y]);
-						return this.findOverlappingNode(x, y);
-					})
-					.on('start', e => {
-						if (!e.subject) return;
+            if (this.config.enableDrag) {
+                let dragX = 0;
+                let dragY = 0;
+                d3.select(this.app.canvas).call(
+                    (d3.drag().container(this.app.canvas) as unknown as d3.DragBehavior<HTMLCanvasElement, unknown, unknown>)
+                        .subject(event => {
+                            const [x, y] = this.transform.invert([event.x, event.y]);
+                            return this.findOverlappingNode(x, y);
+                        })
+                        .on('start', e => {
+                            if (!e.subject) return;
 
-						this.userZoomed = true;
+                            this.userZoomed = true;
 
-						if (!e.active) this.simulation.alphaTarget(0.3).restart();
+                            if (!e.active) this.simulation.alphaTarget(0.3).restart();
 
-						e.subject.fx = e.subject.x;
-						e.subject.fy = e.subject.y;
-						dragX = e.x;
-						dragY = e.y;
-					})
-					.on('drag', e => {
-						if (!e.subject) return;
+                            e.subject.fx = e.subject.x;
+                            e.subject.fy = e.subject.y;
+                            dragX = e.x;
+                            dragY = e.y;
+                        })
+                        .on('drag', e => {
+                            if (!e.subject) return;
 
-						dragX += e.dx / this.animator.getValue('zoom');
-						dragY += e.dy / this.animator.getValue('zoom');
+                            dragX += e.dx / this.animator.getValue('zoom');
+                            dragY += e.dy / this.animator.getValue('zoom');
 
-						e.subject.fx = dragX;
-						e.subject.fy = dragY;
-					})
-					.on('end', e => {
-						if (!e.subject) return;
+                            e.subject.fx = dragX;
+                            e.subject.fy = dragY;
+                        })
+                        .on('end', e => {
+                            if (!e.subject) return;
 
-						if (!e.active) this.simulation.alphaTarget(0);
-						e.subject.fx = null;
-						e.subject.fy = null;
-					}),
-			);
+                            if (!e.active) this.simulation.alphaTarget(0);
+                            e.subject.fx = null;
+                            e.subject.fy = null;
+                        }),
+                );
+            }
 
-			d3.select(this.app.canvas).on('mousemove', (e: MouseEvent) => {
-				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
-				const closestNode = this.findOverlappingNode(x, y);
+            if (this.config.enableHover) {
+                d3.select(this.app.canvas).on('mousemove', (e: MouseEvent) => {
+                    const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
+                    const closestNode = this.findOverlappingNode(x, y);
 
-				if (closestNode) {
-					this.currentlyHovered = closestNode.id;
-					this.animator.startAnimationsTo({
-						nodeColorHover: 'hover',
-						nodeColor: 'blur',
-						visitedNodeColorHover: 'hover',
-						visitedNodeColor: 'blur',
-						currentNodeColorHover: 'hover',
-						currentNodeColor: 'blur',
+                    if (closestNode) {
+                        this.currentlyHovered = closestNode.id;
+                        this.animator.startAnimationsTo({
+                            nodeColorHover: 'hover',
+                            nodeColor: 'blur',
+                            visitedNodeColorHover: 'hover',
+                            visitedNodeColor: 'blur',
+                            currentNodeColorHover: 'hover',
+                            currentNodeColor: 'blur',
 
-						linkColorHover: 'hover',
-						linkColor: 'blur',
+                            linkColorHover: 'hover',
+                            linkColor: 'blur',
 
-						labelOpacityHover: 'hover',
-						labelOpacity: 'blur',
-						labelOffset: 'hover',
-						labelColorHover: 'hover',
-					});
-				} else if (this.currentlyHovered) {
-					this.resetStyle();
-					this.animator.setOnFinished('nodeColorHover', () => {
-						this.currentlyHovered = '';
-					});
-				}
-			});
+                            labelOpacityHover: 'hover',
+                            labelOpacity: 'blur',
+                            labelOffset: 'hover',
+                            labelColorHover: 'hover',
+                        });
+                    } else if (this.currentlyHovered) {
+                        this.resetStyle();
+                        this.animator.setOnFinished('nodeColorHover', () => {
+                            this.currentlyHovered = '';
+                        });
+                    }
+                });
+            }
 
 			d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
 				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
@@ -571,16 +578,18 @@ const { config, sitemap } = Astro.props as
 				}
 			});
 
-			d3.select(this.app.canvas as HTMLCanvasElement).call(
-				(this.zoomBehavior = (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
-					.scaleExtent([0.05, 4])
-					.on('zoom', ({ transform }: { transform: d3.ZoomTransform }) => {
-						this.userZoomed = true;
+            if (this.config.enableZoom) {
+                d3.select(this.app.canvas as HTMLCanvasElement).call(
+                    (this.zoomBehavior = (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
+                        .scaleExtent([0.05, 4])
+                        .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
+                            this.userZoomed = true;
 
-						this.zoomTransform = transform;
-						this.updateTransform();
-					})),
-			);
+                            this.zoomTransform = transform;
+                            this.updateTransform();
+                        })),
+                );
+            }
 		}
 
 		updateTransform(immediate: boolean = false) {
@@ -603,25 +612,32 @@ const { config, sitemap } = Astro.props as
 					labelOpacity: this.getCurrentLabelOpacity(this.transform.k),
 				});
 			}
+
+            this.animator.setOnFinished('zoom', () => { this.userZoomed = true });
 		}
 
+        // FIXME: Called too often in the beginning
 		updateCenterTransform(immediate: boolean = false) {
-			const k = 1;
 			let x;
 			let y;
 
+            console.log("FINISHED")
 			if (this.currentNode) {
-				x = this.graphContainer.clientWidth / 2 - this.currentNode.x! * k;
-				y = this.graphContainer.clientHeight / 2 - this.currentNode.y! * k;
+				x = this.graphContainer.clientWidth / (2 * this.scale) - this.scale * this.currentNode.x!;
+				y = this.graphContainer.clientHeight / (2 * this.scale) - this.scale * this.currentNode.y!;
 			} else {
-				x = this.graphContainer.clientWidth / 2;
-				y = this.graphContainer.clientHeight / 2;
+				x = this.graphContainer.clientWidth / (2 * this.scale);
+				y = this.graphContainer.clientHeight / (2 * this.scale);
 			}
 
-			this.centerTransform = new d3.ZoomTransform(k, x, y);
+			this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
 
 			this.updateTransform(immediate);
 		}
+
+        zoomAnimating() {
+            return this.animator.isAnimating('zoom') || this.animator.isAnimating('transformX') || this.animator.isAnimating('transformY');
+        }
 
 		tick(ticker: Ticker) {
 			this.animator.update(ticker.deltaMS);
@@ -630,7 +646,7 @@ const { config, sitemap } = Astro.props as
 				this.updateCenterTransform();
 			}
 
-			if (this.animator.isAnimating('zoom')) {
+			if (this.zoomAnimating()) {
 				this.app.stage.updateTransform({
 					scaleX: this.animator.getValue('zoom'),
 					scaleY: this.animator.getValue('zoom'),
