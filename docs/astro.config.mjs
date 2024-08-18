@@ -34,7 +34,6 @@ export default defineConfig({
 						actions: ["settings"],
 						depth: 8,
 						renderArrows: true,
-						scale: 1
 					},
 				}),
 			],

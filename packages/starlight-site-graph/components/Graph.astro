@@ -23,12 +23,14 @@ const { config, sitemap } = Astro.props as
 		stripSlashes
 	} from './util';
 	import type { ContentDetails, LinkData, NodeData } from './types';
-	import { ARROW_ANGLE, ARROW_SIZE, LABEL_OFFSET, MAX_DEPTH, NODE_SIZE, NODE_SIZE_MODIFIER } from './constants';
 	import { animatables } from './animatables';
 	import { icons } from './icons';
 	import { ensureLeadingSlash } from '../integrationUtil';
 	import { getGraphColors, type GraphColorConfig } from '../color';
 	import {showPopupMenu} from "./popup-menu";
+
+
+    const MAX_DEPTH = 6;
 
 	export class GraphComponent extends HTMLElement {
 		static observedValues = ["config", "sitemap"];
@@ -358,9 +360,9 @@ const { config, sitemap } = Astro.props as
 						tags: data.get(url)?.tags ?? [],
 						neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
 						size:
-							NODE_SIZE +
+							this.config.nodeSize +
 							(((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) ** 0.8) *
-							NODE_SIZE_MODIFIER,
+                            this.config.nodeSizeLinkScale,
 					};
 				}),
 				links: links.filter(
@@ -416,7 +418,7 @@ const { config, sitemap } = Astro.props as
 		}
 
 		getCurrentLabelOpacity(k: number = this.transform.k): number {
-			return Math.max((k * this.config.opacityScale - 1) / 3.75, 0);
+			return Math.max((k * this.config.labelOpacityScale - 1) / 3.75, 0);
 		}
 
 		cleanup() {
@@ -469,7 +471,7 @@ const { config, sitemap } = Astro.props as
 					text: node.text || node.id,
 					style: {
 						fill: 0xffffff,
-						fontSize: 12,
+						fontSize: this.config.labelFontSize,
 					},
 					zIndex: 100,
 				});
@@ -477,9 +479,11 @@ const { config, sitemap } = Astro.props as
 				nodeText.alpha = this.animator.getValue('labelOpacity');
 
 				node.node = nodeDot;
-				node.label = nodeText;
-				this.app.stage.addChild(nodeText);
-				this.app.stage.addChild(nodeDot);
+                this.app.stage.addChild(nodeDot);
+                if (this.config.renderLabels) {
+                    node.label = nodeText;
+                    this.app.stage.addChild(nodeText);
+                }
 			}
 		}
 
@@ -581,7 +585,7 @@ const { config, sitemap } = Astro.props as
             if (this.config.enableZoom) {
                 d3.select(this.app.canvas as HTMLCanvasElement).call(
                     (this.zoomBehavior = (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
-                        .scaleExtent([0.05, 4])
+                        .scaleExtent([this.config.minZoom, this.config.maxZoom])
                         .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
                             this.userZoomed = true;
 
@@ -660,23 +664,24 @@ const { config, sitemap } = Astro.props as
 			for (const node of this.simulation.nodes()) {
 				const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
 
-				const labelOffset = isHovered
-					? this.animator.getValue('labelOffset') + node.size!
-					: LABEL_OFFSET + node.size!;
-				const labelOpacity = isHovered
-					? this.animator.getValue('labelOpacityHover')
-					: this.animator.getValue('labelOpacity');
-				const labelColor = isHovered ? this.animator.getValue('labelColorHover') : this.colors.labelColor;
-				const nodeZIndex = isHovered ? 100 : 1;
+                if (this.config.renderLabels) {
+                    const labelOffset = isHovered
+                        ? this.animator.getValue('labelOffset') + node.size!
+                        : this.config.labelOffset + node.size!;
+                    const labelOpacity = isHovered
+                        ? this.animator.getValue('labelOpacityHover')
+                        : this.animator.getValue('labelOpacity');
+                    const labelColor = isHovered ? this.animator.getValue('labelColorHover') : this.colors.labelColor;
 
-				const nodeColor = this.getNodeColor(node, isHovered);
+                    node.label!.scale.set(1);
+                    node.label!.position.set(node.x!, node.y! + labelOffset);
+                    node.label!.alpha = labelOpacity;
+                    node.label!.tint = labelColor;
+                }
+
+                const nodeZIndex = isHovered ? 100 : 1;
+                const nodeColor = this.getNodeColor(node, isHovered);
 				node.node!.tint = nodeColor;
-
-				node.label!.scale.set(1);
-				node.label!.position.set(node.x!, node.y! + labelOffset);
-				node.label!.alpha = labelOpacity;
-				node.label!.tint = labelColor;
-
 				node.node!.position.set(node.x!, node.y!);
 				node.node!._zIndex = nodeZIndex;
 			}
@@ -703,24 +708,34 @@ const { config, sitemap } = Astro.props as
 		}
 
 		renderArrow(link: LinkData, isAdjacent: boolean): void {
+            const linkZoomLevel = this.config.scaleLinks ? this.animator.getValue('zoom') : 1;
+            const arrowZoomLevel = this.config.scaleArrows ? this.animator.getValue('zoom') : 2;
+
 			this.links
 				.moveTo(link.source.x!, link.source.y!)
 				.lineTo(link.target.x!, link.target.y!)
 				.fill()
 				.stroke({
 					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
-					width: 1 / this.animator.getValue('zoom'),
+					width: this.config.linkWidth / linkZoomLevel,
 				});
 
 			if (this.config.renderArrows) {
 				let { x, y } = link.target as { x: number; y: number };
 				const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
-				x -= link.target.size! * Math.cos(angle);
-				y -= link.target.size! * Math.sin(angle);
+				x -= (link.target.size! - this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(angle);
+				y -= (link.target.size! - this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(angle);
+                const arrowSize = 1.5 * this.config.arrowSize / arrowZoomLevel;
 				this.links
 					.moveTo(x, y)
-					.lineTo(x - ARROW_SIZE * Math.cos(angle - ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle - ARROW_ANGLE))
-					.lineTo(x - ARROW_SIZE * Math.cos(angle + ARROW_ANGLE), y - ARROW_SIZE * Math.sin(angle + ARROW_ANGLE))
+					.lineTo(
+                        (x - arrowSize * Math.cos(angle - this.config.arrowAngle)),
+                        (y - arrowSize * Math.sin(angle - this.config.arrowAngle))
+                    )
+					.lineTo(
+                        (x - arrowSize * Math.cos(angle + this.config.arrowAngle)),
+                        (y - arrowSize * Math.sin(angle + this.config.arrowAngle))
+                    )
 					.lineTo(x, y)
 					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
 			}

@@ -2,6 +2,7 @@ import { AstroError } from 'astro/errors';
 import { z } from 'astro/zod';
 
 type GraphActionTypes = 'fullscreen' | 'depth' | 'reset-zoom' | 'render-arrows' | 'settings';
+type EaseTypes = 'in_quad' | 'out_quad' | 'in_out_quad' | 'linear';
 
 export const defaultGraphConfig: GraphConfig = {
 	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
@@ -11,13 +12,32 @@ export const defaultGraphConfig: GraphConfig = {
 	enableHover: true,
 	depth: 1,
 	scale: 1.1,
+	minZoom: 0.05,
+	maxZoom: 4,
 
-	opacityScale: 1.3,
-	autoScale: true,
-	focusOnHover: true,
+	renderLabels: true,
 	renderArrows: false,
-	labelOffset: 8,
-	labelHoverOffset: 6,
+
+	scaleLinks: true,
+	scaleArrows: true,
+
+	labelOpacityScale: 1.3,
+	labelFontSize: 12,
+	labelOffset: 10,
+	labelHoverOffset: 14,
+
+	zoomDuration: 75,
+	zoomEase: "out_quad",
+	hoverDuration: 200,
+	hoverEase: "out_quad",
+
+	nodeSize: 10,
+	nodeSizeLinkScale: 0.2,
+
+	linkWidth: 1,
+
+	arrowSize: 6,
+	arrowAngle: Math.PI / 6,
 
 	nodeForce: 0.05,
 	repelForce: 200,
@@ -37,14 +57,33 @@ export type GraphConfig = {
 	enableZoom: boolean;
 	enableHover: boolean;
 	depth: number;
-
 	scale: number;
-	autoScale: boolean;
+	minZoom: number;
+	maxZoom: number;
+
+	renderLabels: boolean;
 	renderArrows: boolean;
-	opacityScale: number;
-	focusOnHover: boolean;
+
+	scaleLinks: boolean;
+	scaleArrows: boolean;
+
+	labelOpacityScale: number;
+	labelFontSize: number;
 	labelOffset: number;
 	labelHoverOffset: number;
+
+	zoomDuration: number;
+	zoomEase: EaseTypes;
+	hoverDuration: number;
+	hoverEase: EaseTypes;
+
+	nodeSize: number;
+	nodeSizeLinkScale: number;
+
+	linkWidth: number;
+
+	arrowSize: number;
+	arrowAngle: number;
 
 	collisionForce: number;
 	nodeForce: number;
@@ -56,6 +95,21 @@ export type GraphConfig = {
 	showTags: boolean;
 	removeTags: string[];
 };
+
+const easing_types = z.union([
+	z.literal('in_quad'),
+	z.literal('out_quad'),
+	z.literal('in_out_quad'),
+	z.literal('linear'),
+]);
+
+const action_types = z.union([
+	z.literal('fullscreen'),
+	z.literal('depth'),
+	z.literal('reset-zoom'),
+	z.literal('render-arrows'),
+	z.literal('settings'),
+]);
 
 export const starlightSiteGraphConfigSchema = z
 	.object({
@@ -79,13 +133,32 @@ export const starlightSiteGraphConfigSchema = z
 		 *     enableHover: true,
 		 *     depth: 1,
 		 *     scale: 1.1,
+		 *     minZoom: 0.05,
+		 *     maxZoom: 4,
 		 *
-		 *     opacityScale: 1.3,
-		 *     autoScale: true,
-		 *     focusOnHover: true,
-		 *     renderArrows: false,
-		 *     labelOffset: 8,
-		 *     labelHoverOffset: 6,
+		 *     renderLabels: true,
+		 *     renderArrows: true,
+		 *
+		 *     scaleLinks: true,
+		 *     scaleArrows: false,
+		 *
+		 *     labelOpacityScale: 1.3,
+		 *     labelFontSize: 12,
+		 *     labelOffset: 10,
+		 *     labelHoverOffset: 14,
+		 *
+		 *     zoomDuration: 75,
+		 *     zoomEase: "out_quad",
+		 *     hoverDuration: 200,
+		 *     hoverEase: "out_quad",
+		 *
+		 *     nodeSize: 10,
+		 *     nodeSizeLinkScale: 0.2,
+		 *
+		 *     linkWidth: 1,
+		 *
+		 *     arrowSize: 6,
+		 *     arrowAngle: Math.PI / 6,
 		 *
 		 *     repelForce: 0.5,
 		 *     centerForce: 0.3,
@@ -98,20 +171,39 @@ export const starlightSiteGraphConfigSchema = z
 		 */
 		graphConfig: z
 			.object({
-				actions: z.array(z.string()).default(defaultGraphConfig.actions),
+				actions: z.array(action_types).default(defaultGraphConfig.actions),
 
 				enableDrag: z.boolean().default(defaultGraphConfig.enableDrag),
 				enableZoom: z.boolean().default(defaultGraphConfig.enableZoom),
 				enableHover: z.boolean().default(defaultGraphConfig.enableHover),
 				depth: z.number().default(defaultGraphConfig.depth),
 				scale: z.number().default(defaultGraphConfig.scale),
+				minZoom: z.number().default(defaultGraphConfig.minZoom),
+				maxZoom: z.number().default(defaultGraphConfig.maxZoom),
 
-				opacityScale: z.number().default(defaultGraphConfig.opacityScale),
-				autoScale: z.boolean().default(defaultGraphConfig.autoScale),
-				focusOnHover: z.boolean().default(defaultGraphConfig.focusOnHover),
+				renderLabels: z.boolean().default(defaultGraphConfig.renderLabels),
 				renderArrows: z.boolean().default(defaultGraphConfig.renderArrows),
+
+				scaleLinks: z.boolean().default(defaultGraphConfig.scaleLinks),
+				scaleArrows: z.boolean().default(defaultGraphConfig.scaleArrows),
+
+				labelOpacityScale: z.number().default(defaultGraphConfig.labelOpacityScale),
+				labelFontSize: z.number().default(defaultGraphConfig.labelFontSize),
 				labelOffset: z.number().default(defaultGraphConfig.labelOffset),
 				labelHoverOffset: z.number().default(defaultGraphConfig.labelHoverOffset),
+
+				zoomDuration: z.number().default(defaultGraphConfig.zoomDuration),
+				zoomEase: easing_types.default(defaultGraphConfig.zoomEase),
+				hoverDuration: z.number().default(defaultGraphConfig.hoverDuration),
+				hoverEase: easing_types.default(defaultGraphConfig.hoverEase),
+
+				nodeSize: z.number().default(defaultGraphConfig.nodeSize),
+				nodeSizeLinkScale: z.number().default(defaultGraphConfig.nodeSizeLinkScale),
+
+				linkWidth: z.number().default(defaultGraphConfig.linkWidth),
+
+				arrowSize: z.number().default(defaultGraphConfig.arrowSize),
+				arrowAngle: z.number().default(defaultGraphConfig.arrowAngle),
 
 				nodeForce: z.number().default(defaultGraphConfig.nodeForce),
 				collisionForce: z.number().default(defaultGraphConfig.collisionForce),
