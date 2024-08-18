@@ -5,6 +5,7 @@ export type GraphColorConfig = {
 
 	nodeColorCurrent: string;
 	nodeColorVisited: string;
+	nodeColorUnresolved: string;
 
 	linkColor: string;
 	linkColorHover: string;
@@ -23,6 +24,7 @@ export function getGraphColors(): GraphColorConfig {
 
 		nodeColorCurrent: style.getPropertyValue('--slsg-node-color-current'),
 		nodeColorVisited: style.getPropertyValue('--slsg-node-color-visited'),
+		nodeColorUnresolved: style.getPropertyValue('--slsg-node-color-unresolved'),
 
 		linkColor: style.getPropertyValue('--slsg-link-color'),
 		linkColorHover: style.getPropertyValue('--slsg-link-color-hover'),

@@ -292,9 +292,12 @@ const { config, sitemap } = Astro.props as
 			let slug = this.currentPage;
 			const links: LinkData[] = [];
 			const tags: string[] = [];
-			const data: Map<string, ContentDetails> = new Map(
-				Object.entries<ContentDetails>(siteData).map(([k, v]) => [simplifySlug(k), v]),
-			);
+            let corrected_data = Object.entries(siteData)
+                .map(([k, v]) => [simplifySlug(k), v]);
+            if (!this.config.renderUnresolved) {
+                corrected_data = corrected_data.filter(([k, v]) => (v as ContentDetails).exists);
+            }
+            const data = new Map(corrected_data);
 
 			let depth = this.config.depth;
 			if (depth >= 5) depth = -1;
@@ -354,14 +357,16 @@ const { config, sitemap } = Astro.props as
 
 			return {
 				nodes: [...neighbourhood].map(url => {
+                    const node = data.get(url)!;
 					return {
 						id: url,
-						text: url.startsWith('tags/') ? '#' + url.substring(5) : (data.get(url)?.title ?? url),
-						tags: data.get(url)?.tags ?? [],
-						neighborCount: (data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0),
+                        exists: node.exists,
+						text: url.startsWith('tags/') ? '#' + url.substring(5) : (node.title ?? url),
+						tags: node.tags ?? [],
+						neighborCount: (node.links?.length ?? 0) + (node.backlinks?.length ?? 0),
 						size:
 							this.config.nodeSize +
-							(((data.get(url)?.links?.length ?? 0) + (data.get(url)?.backlinks?.length ?? 0)) ** 0.8) *
+							(((node.links?.length ?? 0) + (node.backlinks?.length ?? 0)) ** 0.8) *
                             this.config.nodeSizeLinkScale,
 					};
 				}),
@@ -398,6 +403,8 @@ const { config, sitemap } = Astro.props as
 				visitedNodeColor: 'default',
 				currentNodeColorHover: 'default',
 				currentNodeColor: 'default',
+                unresolvedNodeColor: 'default',
+                unresolvedNodeColorHover: 'default',
 
 				linkColorHover: 'default',
 				linkColor: 'default',
@@ -440,7 +447,9 @@ const { config, sitemap } = Astro.props as
 
 		getNodeColor(node: NodeData, hover: boolean): string {
 			let color = '';
-			if (node.id === this.currentPage) {
+			if (!node.exists) {
+                color = 'unresolvedNodeColor';
+            } else if (node.id === this.currentPage) {
 				color = 'currentNodeColor';
 			} else if (this.visitedPages.has(node.id)) {
 				color = 'visitedNodeColor';
@@ -555,6 +564,8 @@ const { config, sitemap } = Astro.props as
                             visitedNodeColor: 'blur',
                             currentNodeColorHover: 'hover',
                             currentNodeColor: 'blur',
+                            unresolvedNodeColorHover: 'hover',
+                            unresolvedNodeColor: 'blur',
 
                             linkColorHover: 'hover',
                             linkColor: 'blur',

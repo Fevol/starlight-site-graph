@@ -72,6 +72,18 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
 		},
+		unresolvedNodeColor: {
+			properties: { default: colorConfig.nodeColorUnresolved, blur: colorConfig.nodeColorMuted },
+			interpolator: new ColorInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
+		unresolvedNodeColorHover: {
+			properties: { default: colorConfig.nodeColorUnresolved, hover: colorConfig.nodeColorHover },
+			interpolator: new ColorInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
 
 		linkColor: {
 			properties: { default: colorConfig.linkColor, blur: colorConfig.linkColorMuted },

@@ -17,6 +17,7 @@ export const defaultGraphConfig: GraphConfig = {
 
 	renderLabels: true,
 	renderArrows: false,
+	renderUnresolved: false,
 
 	scaleLinks: true,
 	scaleArrows: true,
@@ -63,6 +64,7 @@ export type GraphConfig = {
 
 	renderLabels: boolean;
 	renderArrows: boolean;
+	renderUnresolved: boolean;
 
 	scaleLinks: boolean;
 	scaleArrows: boolean;
@@ -138,6 +140,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 *     renderLabels: true,
 		 *     renderArrows: true,
+		 *     renderUnresolved: false,
 		 *
 		 *     scaleLinks: true,
 		 *     scaleArrows: false,
@@ -183,6 +186,7 @@ export const starlightSiteGraphConfigSchema = z
 
 				renderLabels: z.boolean().default(defaultGraphConfig.renderLabels),
 				renderArrows: z.boolean().default(defaultGraphConfig.renderArrows),
+				renderUnresolved: z.boolean().default(defaultGraphConfig.renderUnresolved),
 
 				scaleLinks: z.boolean().default(defaultGraphConfig.scaleLinks),
 				scaleArrows: z.boolean().default(defaultGraphConfig.scaleArrows),

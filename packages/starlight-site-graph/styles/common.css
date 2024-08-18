@@ -5,6 +5,7 @@
 
 	--slsg-node-color-current: var(--sl-color-green-high);
 	--slsg-node-color-visited: var(--sl-color-purple-high);
+	--slsg-node-color-unresolved: var(--sl-color-red-high);
 
 	--slsg-link-color: var(--sl-color-gray-4);
 	--slsg-link-color-hover: var(--sl-color-accent-high);
@@ -21,6 +22,7 @@
 
 	--slsg-node-color-current: var(--sl-color-green);
 	--slsg-node-color-visited: var(--sl-color-purple);
+	--slsg-node-color-unresolved: var(--sl-color-red);
 
 	--slsg-link-color: var(--sl-color-gray-5);
 	--slsg-link-color-hover: var(--sl-color-accent);

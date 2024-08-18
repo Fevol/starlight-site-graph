@@ -1,11 +1,8 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import * as d3 from 'd3';
+import type {SitemapEntry} from "../types";
 
-type ContentDetails = {
-	title: string;
-	links: string[];
-	backlinks: string[];
-	tags: string[];
+type ContentDetails = SitemapEntry & {
 	content: string;
 	richContent?: string;
 	date?: Date;
@@ -14,7 +11,7 @@ type ContentDetails = {
 
 type NodeData = {
 	id: string;
-	tags: string[];
+	exists: boolean;
 	node?: Graphics;
 	text?: string;
 	label?: Text;
@@ -39,6 +36,8 @@ interface AnimatedValues {
 	currentNodeColorHover: string;
 	visitedNodeColor: string;
 	visitedNodeColorHover: string;
+	unresolvedNodeColor: string;
+	unresolvedNodeColorHover: string;
 
 	linkColor: string;
 	linkColorHover: string;

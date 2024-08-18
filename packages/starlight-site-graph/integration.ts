@@ -1,10 +1,17 @@
-import { defineIntegration, addVirtualImports } from 'astro-integration-kit';
-import { starlightSiteGraphConfigSchema } from './config';
+import {addVirtualImports, defineIntegration} from 'astro-integration-kit';
+import {starlightSiteGraphConfigSchema} from './config';
 import matter from 'gray-matter';
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash } from './integrationUtil';
+import {
+	ensureTrailingSlash,
+	fileExists,
+	resolveIndex,
+	slugifyPath,
+	stripLeadingSlash
+} from './integrationUtil';
+import type {Sitemap} from "./types";
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {
@@ -14,22 +21,13 @@ async function* walk(dir: string): AsyncGenerator<string> {
 	}
 }
 
-interface SitemapEntry {
-	title: string;
-	content: string;
-	links: string[];
-	backlinks: string[];
-	tags: string[];
-}
-
-type Sitemap = Record<string, SitemapEntry>;
-
 function siteMapDict() {
 	const handler = {
 		get: function (target: Sitemap, key: string) {
 			if (!(key in target)) {
 				const path = key.toString(); // Assuming the key is the path
 				target[key] = {
+					exists: false,
 					title: path.split('/').pop()!,
 					content: '',
 					links: [],
@@ -58,7 +56,7 @@ export default defineIntegration({
 						params.logger.info('Generating sitemap from content links');
 						const sitemap = siteMapDict();
 						for await (const p of walk(options.contentRoot)) {
-							if (!p.endsWith('.md') && !p.endsWith('.mdx')) continue;
+							if (!(p.endsWith('.md') || p.endsWith('.mdx'))) continue;
 
 							const content = await fs.promises.readFile(p, 'utf8');
 							const links = content.match(/\[.*?]\((.*?)\)/g);
@@ -112,12 +110,10 @@ export default defineIntegration({
 												// resolve relative links
 												if (link.startsWith('.')) {
 													link = path.join(relative_path, link);
-													link = ensureTrailingSlash(link);
-													console.log('link', link, relative_path);
 												}
 
-												// remove the hash and everything after it
-												return link.split('#')[0]!;
+												// Remove the hash and everything after it
+												return ensureTrailingSlash(link.split('#')[0]!);
 											})
 											.filter(link => link !== relative_path),
 									]),
@@ -131,6 +127,10 @@ export default defineIntegration({
 						for (const entry of Object.keys(sitemap)) {
 							const sitemap_entry = sitemap[entry]!;
 							sitemap_entry.backlinks = [...new Set(sitemap_entry.backlinks)];
+							const file_path = path.join(options.contentRoot, entry);
+							const found_file = await fileExists(path.dirname(file_path), path.basename(file_path));
+							sitemap_entry.exists = found_file !== null;
+
 							sitemap[entry] = sitemap_entry;
 						}
 
