@@ -1,44 +1,44 @@
 {
-	"name": "starlight-site-graph",
-	"author": "Fevol",
-	"version": "0.0.4",
-	"license": "MIT",
-	"description": "Starlight plugin adding a graph component to the site's right-sidebar",
-	"type": "module",
-	"exports": {
-		".": "./index.ts",
-		"./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
-		"./components/Graph.astro": "./components/Graph.astro",
-		"./styles/common.css": "./styles/common.css"
-	},
-	"scripts": {},
-	"devDependencies": {
-		"@astrojs/starlight": "^0.25.3",
-		"astro": "^4.12.3"
-	},
-	"peerDependencies": {
-		"@astrojs/starlight": ">=0.25.0",
-		"astro": ">=4.0.0"
-	},
-	"dependencies": {
-		"@types/d3": "^7.4.3",
-		"astro-integration-kit": "^0.16.0",
-		"d3": "^7.9.0",
-		"pixi.js": "^8.3.2",
-		"svelte": "^5.0.0-next.210"
-	},
-	"keywords": [
-		"starlight",
-		"plugin",
-		"graph",
-		"astro",
-		"astro-component",
-		"withastro"
-	],
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/fevol/starlight-site-graph.git",
-		"directory": "packages/starlight-site-graph"
-	},
-	"bugs": "https://github.com/fevol/starlight-site-graph/issues"
+    "name": "starlight-site-graph",
+    "author": "Fevol",
+    "version": "0.0.5",
+    "license": "MIT",
+    "description": "Starlight plugin adding a graph component to the site's right-sidebar",
+    "type": "module",
+    "exports": {
+        ".": "./index.ts",
+        "./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
+        "./components/Graph.astro": "./components/Graph.astro",
+        "./styles/common.css": "./styles/common.css"
+    },
+    "scripts": {},
+    "devDependencies": {
+        "@astrojs/starlight": "^0.25.3",
+        "astro": "^4.12.3"
+    },
+    "peerDependencies": {
+        "@astrojs/starlight": ">=0.25.0",
+        "astro": ">=4.0.0"
+    },
+    "dependencies": {
+        "@types/d3": "^7.4.3",
+        "astro-integration-kit": "^0.16.0",
+        "d3": "^7.9.0",
+        "pixi.js": "^8.3.2",
+        "svelte": "^5.0.0-next.210"
+    },
+    "keywords": [
+        "starlight",
+        "plugin",
+        "graph",
+        "astro",
+        "astro-component",
+        "withastro"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/fevol/starlight-site-graph.git",
+        "directory": "packages/starlight-site-graph"
+    },
+    "bugs": "https://github.com/fevol/starlight-site-graph/issues"
 }
