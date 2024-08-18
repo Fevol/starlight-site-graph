@@ -1,11 +1,10 @@
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import { starlightSiteGraphConfigSchema } from './config';
 import matter from 'gray-matter';
-
 import fs from 'node:fs';
 import path from 'node:path';
-import { ensureTrailingSlash, fileExists, resolveIndex, slugifyPath, stripLeadingSlash } from './integrationUtil';
-import type { Sitemap } from './types';
+import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash, trimSlashes } from './integrationUtil';
+import type { Sitemap, SitemapEntry } from './types';
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {
@@ -15,24 +14,156 @@ async function* walk(dir: string): AsyncGenerator<string> {
 	}
 }
 
-function siteMapDict() {
-	const handler = {
-		get: function (target: Sitemap, key: string) {
-			if (!(key in target)) {
-				const path = key.toString(); // Assuming the key is the path
-				target[key] = {
-					exists: false,
-					title: path.split('/').pop()!,
-					content: '',
-					links: [],
-					backlinks: [],
-					tags: [],
-				};
+interface IntermediateSitemapEntry {
+	filePath: string | undefined;
+	linkPath: string;
+	title: string;
+	tags: Set<string>;
+	links: Set<string>;
+	backlinks: Set<string>;
+}
+
+class SiteMapBuilder {
+	map: Map<string, IntermediateSitemapEntry>;
+	contentRoot: string;
+	basePath: string;
+
+	constructor(contentRoot: string, basePath: string) {
+		this.map = new Map();
+		this.contentRoot = trimSlashes(contentRoot);
+		this.basePath = trimSlashes(basePath);
+	}
+
+	async add(filePath: string) {
+		const extname = path.extname(filePath);
+		if (extname !== '.md' && extname !== '.mdx') return;
+
+		const content = await fs.promises.readFile(filePath, 'utf8');
+		// FIXME: Catch links that are not formatted as [text](link)
+		const linkMatches = content.match(/\[.*?]\((.*?)\)/g);
+
+		const linkPath = this.getLinkPath(filePath);
+
+		let title = path.basename(linkPath, extname);
+		const links = new Set<string>();
+		const tags = new Set<string>();
+
+		const frontmatter: { data: { title?: string; links?: string[]; tags?: string[] | string } } = matter(content);
+		if (frontmatter.data) {
+			title = frontmatter.data.title ?? title;
+
+			if (frontmatter.data.links) {
+				for (const link of frontmatter.data.links) {
+					links.add(link);
+				}
 			}
-			return target[key];
-		},
-	};
-	return new Proxy({}, handler);
+
+			if (frontmatter.data.tags) {
+				if (typeof frontmatter.data.tags === 'string') {
+					tags.add(frontmatter.data.tags);
+				} else {
+					for (const tag of frontmatter.data.tags) {
+						tags.add(tag);
+					}
+				}
+			}
+		}
+
+		if (linkMatches) {
+			for (const match of linkMatches) {
+				let link = match.match(/\((.*?)\)/)![1]!;
+
+				// FIXME: better detection of external links
+				if (link.startsWith('http')) continue;
+
+				// remove the leading slash
+				link = link.slice(1);
+
+				if (link.startsWith('.')) {
+					link = path.join(linkPath, link);
+				}
+
+				link = ensureTrailingSlash(link.split('#')[0]!);
+
+				if (link !== linkPath) {
+					links.add(link);
+				}
+			}
+		}
+
+		this.map.set(linkPath, {
+			filePath,
+			linkPath,
+			title,
+			tags,
+			links,
+			backlinks: new Set<string>(),
+		});
+	}
+
+	process() {
+		// add all links that are not in the map
+		// these are the unresolved links
+		for (const [_, entry] of this.map) {
+			for (const link of entry.links) {
+				if (!this.map.has(link)) {
+					this.map.set(link, {
+						filePath: undefined,
+						linkPath: link,
+						title: path.basename(link),
+						tags: new Set(),
+						links: new Set(),
+						backlinks: new Set(),
+					});
+				}
+			}
+		}
+
+		// calculate backlinks for each entry
+		for (const [_, entry] of this.map) {
+			for (const link of entry.links) {
+				this.map.get(link)!.backlinks.add(entry.linkPath);
+			}
+		}
+	}
+
+	toSitemap(): Sitemap {
+		const sitemap: Sitemap = {};
+
+		for (const [_, entry] of this.map) {
+			const sitemapEntry: SitemapEntry = {
+				exists: entry.filePath !== undefined,
+				title: entry.title,
+				tags: [...entry.tags],
+				links: [...entry.links],
+				backlinks: [...entry.backlinks],
+			};
+
+			sitemap[entry.linkPath] = sitemapEntry;
+		}
+
+		return sitemap;
+	}
+
+	private getLinkPath(filePath: string) {
+		// we get the relative path and then remove the extension
+		let relative_path = path
+			.relative(this.contentRoot, filePath)
+			.replace(/\\/g, '/')
+			.split('.')
+			.slice(0, -1)
+			.join('.');
+		// make sure the slashes are correct and honor the base option
+		relative_path = ensureTrailingSlash(
+			this.basePath === '' ? stripLeadingSlash(relative_path) : path.join(this.basePath, relative_path),
+		);
+
+		// slugify the path, keeping slashes
+		relative_path = slugifyPath(relative_path);
+
+		// remove index from the end of the path
+		return resolveIndex(relative_path);
+	}
 }
 
 /**
@@ -48,85 +179,13 @@ export default defineIntegration({
 				'astro:config:setup': async params => {
 					if (!options.sitemap) {
 						params.logger.info('Generating sitemap from content links');
-						const sitemap = siteMapDict();
+
+						const builder = new SiteMapBuilder(options.contentRoot, params.config.base);
 						for await (const p of walk(options.contentRoot)) {
-							if (!(p.endsWith('.md') || p.endsWith('.mdx'))) continue;
-
-							const content = await fs.promises.readFile(p, 'utf8');
-							const links = content.match(/\[.*?]\((.*?)\)/g);
-
-							// we get the relative path and then remove the extension
-							let relative_path = path
-								.relative(options.contentRoot, p)
-								.replace(/\\/g, '/')
-								.split('.')
-								.slice(0, -1)
-								.join('.');
-							// make sure the slashes are correct and honor the base option
-							relative_path = ensureTrailingSlash(
-								params.config.base === '/'
-									? stripLeadingSlash(relative_path)
-									: path.join(stripLeadingSlash(params.config.base), relative_path),
-							);
-
-							// slugify the path, keeping slashes
-							relative_path = slugifyPath(relative_path);
-
-							// remove index from the end of the path
-							relative_path = resolveIndex(relative_path);
-
-							const sitemap_entry = sitemap[relative_path]!;
-
-							const frontmatter: { data: { title?: string; links?: string[] } } = matter(content);
-							if (frontmatter.data) {
-								sitemap_entry.title = frontmatter.data.title ?? relative_path.split('/').pop()!;
-								sitemap_entry.links = frontmatter.data.links ?? [];
-							} else {
-								sitemap_entry.title ??= relative_path.split('/').pop()!;
-							}
-
-							if (links) {
-								// FIXME: Catch links that are not formatted as [text](link)
-								sitemap_entry.links = [
-									...new Set([
-										...sitemap_entry.links,
-										...links
-											.reduce((acc: string[], link: string) => {
-												const url = link.match(/\((.*?)\)/)![1]!;
-
-												if (!url.startsWith('http')) {
-													// remove the leading slash
-													acc.push(url.slice(1));
-												}
-												return acc;
-											}, [])
-											.map((link: string) => {
-												// resolve relative links
-												if (link.startsWith('.')) {
-													link = path.join(relative_path, link);
-												}
-
-												// Remove the hash and everything after it
-												return ensureTrailingSlash(link.split('#')[0]!);
-											})
-											.filter(link => link !== relative_path),
-									]),
-								];
-
-								for (const link of sitemap_entry.links) sitemap[link]!.backlinks.push(relative_path);
-							}
-							sitemap[relative_path] = sitemap_entry;
+							await builder.add(p);
 						}
-
-						for (const entry of Object.keys(sitemap)) {
-							const sitemap_entry = sitemap[entry]!;
-							sitemap_entry.backlinks = [...new Set(sitemap_entry.backlinks)];
-							const file_path = path.join(options.contentRoot, entry);
-							const found_file = await fileExists(path.dirname(file_path), path.basename(file_path));
-							sitemap_entry.exists = found_file !== null;
-
-							sitemap[entry] = sitemap_entry;
-						}
+						builder.process();
+						const sitemap = builder.toSitemap();
 
 						options.sitemap = { ...sitemap };
 						params.logger.info('Finished generating sitemap');

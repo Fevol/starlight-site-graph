@@ -31,6 +31,13 @@ export function stripLeadingSlash(path: string) {
 	return path.replace(/^\//, '');
 }
 
+export function trimSlashes(path: string) {
+	while (path.startsWith('/')) path = path.slice(1);
+	while (path.endsWith('/')) path = path.slice(0, -1);
+	return path;
+}
+
+// FIXME: The filename passed in here might be slugified, the only way seems to also slugify the names of the files in the directory
 export async function fileExists(directory: string, fileName: string): Promise<string | null> {
 	try {
 		if (!fs.existsSync(directory)) {

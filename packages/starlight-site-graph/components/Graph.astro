@@ -1,8 +1,8 @@
 ---
-import type { ContentDetails } from './types';
 import type { GraphConfig } from '../config';
+import type { Sitemap } from '../types';
 const { config, sitemap } = Astro.props as
-	{ config: GraphConfig, sitemap: Record<string, ContentDetails> };
+	{ config: GraphConfig, sitemap: Sitemap };
 ---
 
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)}></graph-component>
@@ -21,13 +21,13 @@ const { config, sitemap } = Astro.props as
 		simplifySlug,
 		stripSlashes
 	} from './util';
-	import type { ContentDetails, LinkData, NodeData } from './types';
+	import type { LinkData, NodeData } from './types';
+	import type { Sitemap } from '../types';
 	import { animatables } from './animatables';
 	import { icons } from './icons';
 	import { ensureLeadingSlash } from '../integrationUtil';
 	import { getGraphColors, type GraphColorConfig } from '../color';
 	import {showPopupMenu} from "./popup-menu";
-
 
     const MAX_DEPTH = 6;
 
@@ -44,6 +44,7 @@ const { config, sitemap } = Astro.props as
 		zoomBehavior!: d3.ZoomBehavior<HTMLCanvasElement, unknown>;
 		zoomTransform: d3.ZoomTransform;
 		centerTransform: d3.ZoomTransform;
+		animateZoomOverride: boolean = false;
 		transform: d3.ZoomTransform;
 		userZoomed: boolean = false;
 		currentNode: NodeData | undefined;
@@ -53,7 +54,7 @@ const { config, sitemap } = Astro.props as
 
         scale!: number;
 		config!: GraphConfig;
-		sitemap!: Record<string, ContentDetails>;
+		sitemap!: Sitemap;
 
 		colors!: GraphColorConfig;
 		processedData!: ReturnType<typeof this.processSitemapData>;
@@ -287,14 +288,16 @@ const { config, sitemap } = Astro.props as
 			});
 		}
 
-		processSitemapData(siteData: Record<string, ContentDetails>): { nodes: NodeData[]; links: LinkData[] } {
+		processSitemapData(siteData: Sitemap): { nodes: NodeData[]; links: LinkData[] } {
 			let slug = this.currentPage;
+
 			const links: LinkData[] = [];
-			const tags: string[] = [];
+			const tags: Set<string> = new Set();
+
             let corrected_data = Object.entries(siteData)
                 .map(([k, v]) => [simplifySlug(k), v] as const);
             if (!this.config.renderUnresolved) {
-                corrected_data = corrected_data.filter(([_, v]) => (v as ContentDetails).exists);
+                corrected_data = corrected_data.filter(([_, v]) => v.exists);
             }
             const data = new Map(corrected_data);
 
@@ -313,11 +316,11 @@ const { config, sitemap } = Astro.props as
 				if (this.config.showTags) {
 					const localTags = details.tags
 						.filter(tag => !this.config.removeTags.includes(tag))
-						.map(tag => simplifySlug('tags/' + tag));
-
-					tags.push(...localTags.filter(tag => !tags.includes(tag)));
+						.map(tag => tag.startsWith('#') ? tag : '#' + tag);
 
 					for (const tag of localTags) {
+						tags.add(tag);
+
 						links.push({ source: source as unknown as NodeData, target: tag as unknown as NodeData });
 					}
 				}
@@ -341,12 +344,18 @@ const { config, sitemap } = Astro.props as
 						continue;
 					} else {
 						neighbourhood.add(current);
-						const outgoing = links.filter(l => (l.source as unknown as string) === current);
-						const incoming = links.filter(l => (l.target as unknown as string) === current);
-						queue.push(
-							...outgoing.map(l => l.target as unknown as string),
-							...incoming.map(l => l.source as unknown as string),
-						);
+
+						for (const l of links) {
+							const source = l.source as unknown as string;
+							const target = l.target as unknown as string;
+
+							if (source === current) {
+								queue.push(target);
+							}
+							if (target === current) {
+								queue.push(source);
+							}
+						}
 					}
 				}
 			} else {
@@ -354,21 +363,37 @@ const { config, sitemap } = Astro.props as
 				if (this.config.showTags) tags.forEach(tag => neighbourhood.add(tag));
 			}
 
+			const nodes: NodeData[] = [];
+
+			for (const id of neighbourhood) {
+				const node = data.get(id);
+				if (!node) continue;
+
+				const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
+
+				nodes.push({
+					id: id,
+					exists: node.exists,
+					text: node.title,
+					tags: node.tags ?? [],
+					neighborCount: neighborCount,
+					size: this.config.nodeSize + (neighborCount ** 0.8) * this.config.nodeSizeLinkScale,
+				});
+			}
+
+			for (const tag of tags) {
+				nodes.push({
+					id: tag,
+					exists: false,
+					text: tag,
+					tags: [tag],
+					neighborCount: 0,
+					size: this.config.nodeSize,
+				});
+			}
+
 			return {
-				nodes: [...neighbourhood].map(url => {
-                    const node = data.get(url)!;
-					return {
-						id: url,
-                        exists: node.exists,
-						text: url.startsWith('tags/') ? '#' + url.substring(5) : (node.title ?? url),
-						tags: node.tags ?? [],
-						neighborCount: (node.links?.length ?? 0) + (node.backlinks?.length ?? 0),
-						size:
-							this.config.nodeSize +
-							(((node.links?.length ?? 0) + (node.backlinks?.length ?? 0)) ** 0.8) *
-                            this.config.nodeSizeLinkScale,
-					};
-				}),
+				nodes,
 				links: links.filter(
 					l =>
 						neighbourhood.has(l.source as unknown as string) &&
@@ -413,14 +438,6 @@ const { config, sitemap } = Astro.props as
 			});
 			this.animator.startAnimation('labelOpacity', this.getCurrentLabelOpacity());
 			this.animator.startAnimation('labelOpacityHover', this.getCurrentLabelOpacity());
-		}
-
-		resetZoom(immediate: boolean = false) {
-			this.userZoomed = false;
-			// @ts-ignore
-			this.app.canvas.__zoom = d3.zoomIdentity;
-			this.zoomTransform = d3.zoomIdentity;
-			this.updateCenterTransform(immediate);
 		}
 
 		getCurrentLabelOpacity(k: number = this.transform.k): number {
@@ -498,7 +515,7 @@ const { config, sitemap } = Astro.props as
 		setup() {
 			this.cleanup();
 
-			this.processedData = this.processSitemapData(this.sitemap as Record<string, ContentDetails>);
+			this.processedData = this.processSitemapData(this.sitemap);
 
 			this.currentNode = this.processedData.nodes.find(node => node.id === this.currentPage);
             this.scale = this.config.scale;
@@ -586,7 +603,7 @@ const { config, sitemap } = Astro.props as
 			d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
 				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 				const closestNode = this.findOverlappingNode(x, y);
-				if (closestNode) {
+				if (closestNode && closestNode.exists) {
 					addToVisitedEndpoints(closestNode.id);
 					window.open(ensureLeadingSlash(closestNode.id), '_self');
 				}
@@ -606,12 +623,23 @@ const { config, sitemap } = Astro.props as
             }
 		}
 
+		resetZoom(immediate: boolean = false) {
+			this.userZoomed = false;
+			// @ts-ignore
+			this.app.canvas.__zoom = d3.zoomIdentity;
+			this.zoomTransform = d3.zoomIdentity.scale(this.scale);
+			this.updateCenterTransform();
+
+			this.updateTransform(immediate);
+		}
+
 		updateTransform(immediate: boolean = false) {
 			this.transform = this.zoomTransform
 				.translate(this.centerTransform.x, this.centerTransform.y)
 				.scale(this.centerTransform.k);
 
 			if (immediate) {
+				this.animateZoomOverride = true;
 				this.animator.setValues({
 					zoom: this.transform.k,
 					transformX: this.transform.x,
@@ -628,8 +656,11 @@ const { config, sitemap } = Astro.props as
 			}
         }
 
-        // FIXME: Called too often in the beginning
-		updateCenterTransform(immediate: boolean = false) {
+		/**
+		 * Updates the center transform to keep the current node in the center of the screen.
+		 * @returns {boolean} Whether the transform was updated.
+		 */
+		updateCenterTransform(): boolean {
 			let x;
 			let y;
 
@@ -641,17 +672,18 @@ const { config, sitemap } = Astro.props as
 				y = this.graphContainer.clientHeight / (2 * this.scale);
 			}
 
-			this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
+			if (this.centerTransform.x !== x || this.centerTransform.y !== y) {
+				this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
+				return true;
+			}
 
-			this.updateTransform(immediate);
-            if (!this.userZoomed) {
-                this.animator.setOnMultipleFinished(['zoom', 'transformX', 'transformY'], () => {
-                    this.userZoomed = true
-                });
-            }
+			return false;
 		}
 
         zoomAnimating() {
+			if (this.animateZoomOverride) {
+				return true;
+			}
             return this.animator.isAnimating('zoom') || this.animator.isAnimating('transformX') || this.animator.isAnimating('transformY');
         }
 
@@ -659,7 +691,10 @@ const { config, sitemap } = Astro.props as
 			this.animator.update(ticker.deltaMS);
 
 			if (!this.userZoomed) {
-				this.updateCenterTransform();
+				const updated = this.updateCenterTransform();
+				if (updated) {
+					this.updateTransform();
+				}
 			}
 
 			if (this.zoomAnimating()) {
@@ -669,6 +704,7 @@ const { config, sitemap } = Astro.props as
 					x: this.animator.getValue('transformX'),
 					y: this.animator.getValue('transformY'),
 				});
+				this.animateZoomOverride = false;
 			}
 
 			for (const node of this.simulation.nodes()) {

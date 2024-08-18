@@ -1,19 +1,12 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import * as d3 from 'd3';
-import type { SitemapEntry } from '../types';
-
-type ContentDetails = SitemapEntry & {
-	content: string;
-	richContent?: string;
-	date?: Date;
-	description?: string;
-};
 
 type NodeData = {
 	id: string;
 	exists: boolean;
 	node?: Graphics;
 	text?: string;
+	tags?: string[];
 	label?: Text;
 	arrowHead?: Graphics;
 	neighborCount?: number;

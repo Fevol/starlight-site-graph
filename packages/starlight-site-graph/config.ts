@@ -229,8 +229,8 @@ export const starlightSiteGraphConfigSchema = z
 			.record(
 				z.string(),
 				z.object({
+					exists: z.boolean(),
 					title: z.string(),
-					content: z.string().optional(),
 					links: z.array(z.string()),
 					backlinks: z.array(z.string()),
 					tags: z.array(z.string()),
