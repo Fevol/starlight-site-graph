@@ -19,13 +19,13 @@ const { config, sitemap } = Astro.props as
 		getVisitedEndpoints,
 		onClickOutside,
 		simplifySlug,
-		stripSlashes
+		stripSlashes,
+		ensureLeadingSlash
 	} from './util';
 	import type { LinkData, NodeData } from './types';
 	import type { Sitemap } from '../types';
 	import { animatables } from './animatables';
 	import { icons } from './icons';
-	import { ensureLeadingSlash } from '../integrationUtil';
 	import { getGraphColors, type GraphColorConfig } from '../color';
 	import {showPopupMenu} from "./popup-menu";
 

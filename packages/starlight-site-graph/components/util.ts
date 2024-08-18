@@ -50,6 +50,10 @@ export function onClickOutside(target: HTMLElement, callback: () => void) {
 	return document.removeEventListener.bind(document, 'click', handleClickOutside as EventListener);
 }
 
+export function ensureLeadingSlash(path: string): string {
+	return path.startsWith('/') ? path : `/${path}`;
+}
+
 export function getRelativePath(current: string, next: string) {
 	const currentSegments = current.split('/');
 	const nextSegments = next.split('/');
