@@ -11,7 +11,7 @@ import arrow from '../assets/svgs/arrow.svg?raw';
 import line from '../assets/svgs/line.svg?raw';
 import settings from '../assets/svgs/settings.svg?raw';
 
-export const icons: { [key: string]: string } = {
+export const icons = {
 	minimize: minimize,
 	maximize: maximize,
 
@@ -28,4 +28,4 @@ export const icons: { [key: string]: string } = {
 	line: line,
 
 	settings: settings,
-};
+} as const satisfies Record<string, string>;

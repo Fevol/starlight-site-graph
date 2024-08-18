@@ -1,6 +1,6 @@
 import { Container, Graphics, Text } from 'pixi.js';
 import * as d3 from 'd3';
-import type {SitemapEntry} from "../types";
+import type { SitemapEntry } from '../types';
 
 type ContentDetails = SitemapEntry & {
 	content: string;

@@ -5,7 +5,6 @@ interface MenuItem {
 	onClick: () => void;
 }
 
-
 let active_menu: HTMLElement | null = null;
 
 function removeMenu() {
@@ -19,7 +18,7 @@ window.addEventListener('click', removeMenu);
 
 export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 	e.preventDefault();
-	removeMenu()
+	removeMenu();
 
 	const menu_container = document.createElement('nav');
 	menu_container.className = 'menu-container';

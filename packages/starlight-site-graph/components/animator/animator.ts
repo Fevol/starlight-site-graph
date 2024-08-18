@@ -11,7 +11,8 @@ type AnimationsMap<T extends Record<string, AnimationConfig<unknown>>> = {
 export class Animator<const T extends Record<string, AnimationConfig<unknown>>> {
 	private readonly configs: T;
 	private animations: Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
-	private onMultipleFinished: {keys: (keyof T)[], onFinished: (values: ConfigValueType<T[keyof T]>[]) => void}[] = [];
+	private onMultipleFinished: { keys: (keyof T)[]; onFinished: (values: ConfigValueType<T[keyof T]>[]) => void }[] =
+		[];
 
 	/**
 	 *
@@ -133,7 +134,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 			}
 		}
 
-		for (const {keys, onFinished} of this.onMultipleFinished) {
+		for (const { keys, onFinished } of this.onMultipleFinished) {
 			if (!this.isAnimatingMultiple(keys)) {
 				onFinished(keys.map(key => this.getValue(key)));
 				this.onMultipleFinished = this.onMultipleFinished.filter(x => x.onFinished !== onFinished);
@@ -146,7 +147,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	}
 
 	setOnMultipleFinished(keys: (keyof T)[], onFinished: (values: ConfigValueType<T[keyof T]>[]) => void): void {
-		this.onMultipleFinished.push({keys, onFinished});
+		this.onMultipleFinished.push({ keys, onFinished });
 	}
 
 	isAnimating(key: keyof T): boolean {

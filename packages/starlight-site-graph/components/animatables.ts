@@ -1,19 +1,22 @@
 import type { GraphConfig } from '../config';
 import type { AnimatedValues } from './types';
 import {
-	ColorInterpolator, NumberInterpolator,
+	ColorInterpolator,
+	NumberInterpolator,
 	type AnimationConfig,
-	EaseInQuad, EaseInOutQuad, EaseLinear, EaseOutQuad
+	EaseInQuad,
+	EaseInOutQuad,
+	EaseLinear,
+	EaseOutQuad,
 } from './animator';
 import type { GraphColorConfig } from '../color';
 
-
 const easing_functions = {
-	"in_quad": new EaseInQuad(),
-	"out_quad": new EaseOutQuad(),
-	"in_out_quad": new EaseInOutQuad(),
-	"linear": new EaseLinear()
-}
+	in_quad: new EaseInQuad(),
+	out_quad: new EaseOutQuad(),
+	in_out_quad: new EaseInOutQuad(),
+	linear: new EaseLinear(),
+};
 
 export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
 	return {

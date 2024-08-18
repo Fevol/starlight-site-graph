@@ -31,7 +31,7 @@ export default defineConfig({
 			plugins: [
 				starlightSiteGraph({
 					graphConfig: {
-						actions: ["settings"],
+						actions: ['settings'],
 						depth: 8,
 						renderArrows: true,
 					},

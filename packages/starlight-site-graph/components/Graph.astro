@@ -1,10 +1,9 @@
 ---
-import { ContentDetails } from './types';
-import { GraphConfig } from '../config';
+import type { ContentDetails } from './types';
+import type { GraphConfig } from '../config';
 const { config, sitemap } = Astro.props as
 	{ config: GraphConfig, sitemap: Record<string, ContentDetails> };
 ---
-
 
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)}></graph-component>
 
@@ -52,7 +51,7 @@ const { config, sitemap } = Astro.props as
 		links!: Graphics;
 		arrows!: Graphics;
 
-        scale: number;
+        scale!: number;
 		config!: GraphConfig;
 		sitemap!: Record<string, ContentDetails>;
 
@@ -62,7 +61,7 @@ const { config, sitemap } = Astro.props as
 
 		currentlyHovered: string = '';
 		isFullscreen: boolean = false;
-		fullscreenExitHandler?: (options: (boolean | EventListenerOptions | undefined)) => void;
+		fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
 
 		currentPage: string = stripSlashes(location.pathname) + '/';
 
@@ -72,11 +71,11 @@ const { config, sitemap } = Astro.props as
 			super();
 
 			try {
-				this.config = JSON.parse(this.dataset.config || '{}');
-			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + e.message); }
+				this.config = JSON.parse(this.dataset['config'] || '{}');
+			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
 			try {
-				this.sitemap = JSON.parse(this.dataset.sitemap || '{}');
-			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + e.message); }
+				this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
+			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
 
 			this.config.depth = Math.min(this.config.depth, 5);
 
@@ -293,9 +292,9 @@ const { config, sitemap } = Astro.props as
 			const links: LinkData[] = [];
 			const tags: string[] = [];
             let corrected_data = Object.entries(siteData)
-                .map(([k, v]) => [simplifySlug(k), v]);
+                .map(([k, v]) => [simplifySlug(k), v] as const);
             if (!this.config.renderUnresolved) {
-                corrected_data = corrected_data.filter(([k, v]) => (v as ContentDetails).exists);
+                corrected_data = corrected_data.filter(([_, v]) => (v as ContentDetails).exists);
             }
             const data = new Map(corrected_data);
 
@@ -503,7 +502,7 @@ const { config, sitemap } = Astro.props as
 
 			this.currentNode = this.processedData.nodes.find(node => node.id === this.currentPage);
             this.scale = this.config.scale;
-            this.zoomTransform.k = this.scale;
+            this.zoomTransform = this.zoomTransform.scale(this.scale);
 
 			this.simulation = d3.forceSimulation<NodeData>(this.processedData.nodes);
 			this.simulationUpdate();

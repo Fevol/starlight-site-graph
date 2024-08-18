@@ -28,9 +28,9 @@ export const defaultGraphConfig: GraphConfig = {
 	labelHoverOffset: 14,
 
 	zoomDuration: 75,
-	zoomEase: "out_quad",
+	zoomEase: 'out_quad',
 	hoverDuration: 200,
-	hoverEase: "out_quad",
+	hoverEase: 'out_quad',
 
 	nodeSize: 10,
 	nodeSizeLinkScale: 0.2,

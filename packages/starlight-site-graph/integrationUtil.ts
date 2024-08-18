@@ -1,5 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 export function slugifyPath(path: string) {
 	return (
@@ -37,10 +37,9 @@ export async function fileExists(directory: string, fileName: string): Promise<s
 			return Promise.resolve(null);
 		}
 		const files = await fs.promises.readdir(directory);
-		const file = files.find((file_1) => file_1.startsWith(fileName));
+		const file = files.find(file_1 => file_1.startsWith(fileName));
 		return file ? path.join(directory, file) : null;
 	} catch (e) {
 		return Promise.resolve(null);
 	}
 }
-

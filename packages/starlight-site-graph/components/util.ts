@@ -47,7 +47,7 @@ export function onClickOutside(target: HTMLElement, callback: () => void) {
 		}
 	}
 	document.addEventListener('click', handleClickOutside);
-	return document.removeEventListener.bind(document, 'click', handleClickOutside);
+	return document.removeEventListener.bind(document, 'click', handleClickOutside as EventListener);
 }
 
 export function getRelativePath(current: string, next: string) {
@@ -59,7 +59,6 @@ export function getRelativePath(current: string, next: string) {
 	if (!forward.endsWith('/') && !forward.includes('#')) forward += '/';
 	return `${'../'.repeat(back)}${forward}`;
 }
-
 
 export function createValueSlider(
 	label: string,
@@ -92,9 +91,9 @@ export function createValueSlider(
 	slider.step = step.toString();
 	slider.value = value.toString();
 	slider.oninput = () => {
-		valueElement.innerText = slider.value
+		valueElement.innerText = slider.value;
 		onChange(parseFloat(slider.value));
-	}
+	};
 
 	container.appendChild(textContainer);
 	container.appendChild(slider);

@@ -1,17 +1,11 @@
-import {addVirtualImports, defineIntegration} from 'astro-integration-kit';
-import {starlightSiteGraphConfigSchema} from './config';
+import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
+import { starlightSiteGraphConfigSchema } from './config';
 import matter from 'gray-matter';
 
 import fs from 'node:fs';
 import path from 'node:path';
-import {
-	ensureTrailingSlash,
-	fileExists,
-	resolveIndex,
-	slugifyPath,
-	stripLeadingSlash
-} from './integrationUtil';
-import type {Sitemap} from "./types";
+import { ensureTrailingSlash, fileExists, resolveIndex, slugifyPath, stripLeadingSlash } from './integrationUtil';
+import type { Sitemap } from './types';
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {

@@ -32,7 +32,6 @@
 	--slsg-label-color-hover: var(--sl-color-accent);
 }
 
-
 /* ========================================= Sidebar Styling ================================================ */
 .graph-panel {
 	padding: 1rem var(--sl-sidebar-pad-x);
@@ -46,7 +45,6 @@
 	}
 }
 
-
 /* Move graph and other contents in page sidebar into bottom of page */
 @media (max-width: 1152px) {
 	.main-frame > div:has(.graph-panel) {
@@ -57,7 +55,6 @@
 		}
 	}
 }
-
 
 /* =================================== Graph Container Styling ============================================== */
 .graph-component {
@@ -218,7 +215,6 @@ body:has(.background-blur) {
 }
 /* ========================================================================================================== */
 
-
 /* ======================================== Popup Menu Styling ============================================== */
 
 .popup-menu {
@@ -236,12 +232,10 @@ body:has(.background-blur) {
 
 	backdrop-filter: blur(32px);
 
-
 	.value-slider {
 		display: flex;
 		font-size: var(--sl-text-xs);
 		flex-wrap: wrap;
-
 
 		.value-slider-text {
 			display: flex;
