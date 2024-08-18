@@ -612,16 +612,13 @@ const { config, sitemap } = Astro.props as
 					labelOpacity: this.getCurrentLabelOpacity(this.transform.k),
 				});
 			}
-
-            this.animator.setOnFinished('zoom', () => { this.userZoomed = true });
-		}
+        }
 
         // FIXME: Called too often in the beginning
 		updateCenterTransform(immediate: boolean = false) {
 			let x;
 			let y;
 
-            console.log("FINISHED")
 			if (this.currentNode) {
 				x = this.graphContainer.clientWidth / (2 * this.scale) - this.scale * this.currentNode.x!;
 				y = this.graphContainer.clientHeight / (2 * this.scale) - this.scale * this.currentNode.y!;
@@ -633,6 +630,11 @@ const { config, sitemap } = Astro.props as
 			this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
 
 			this.updateTransform(immediate);
+            if (!this.userZoomed) {
+                this.animator.setOnMultipleFinished(['zoom', 'transformX', 'transformY'], () => {
+                    this.userZoomed = true
+                });
+            }
 		}
 
         zoomAnimating() {

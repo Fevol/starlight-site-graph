@@ -15,7 +15,7 @@ export class NumberInterpolator implements Interpolator<number> {
 	}
 
 	isEqual(a: number, b: number): boolean {
-		return a === b;
+		return Math.abs(a - b) < 1e-6;
 	}
 }
 
