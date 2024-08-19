@@ -125,6 +125,45 @@ export const starlightSiteGraphConfigSchema = z
 		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
 
 		/**
+		 * Show the graph component in the sidebar only for _slugs_ matching specified glob patterns
+		 * This option takes precedence over `hide_graph`
+		 *
+		 * @default []
+		 * @example ["your-folder/*.md"]
+		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+		 */
+		show_graph: z.array(z.string()).default([]),
+		/**
+		 * Hide the graph component in the sidebar for _slugs_ matching specified glob patterns
+		 * This option is ignored if `show_graph` is set
+		 *
+		 * @default []
+		 * @example ["your-folder/*.md"]
+		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+		 */
+		hide_graph: z.array(z.string()).default([]),
+
+		/**
+		 * Parse files to the sitemap if their paths that match specified glob patterns
+		 * This option takes precedence over `exclude_sitemap`
+		 *
+		 * @default []
+		 * @example ["your-folder/*.md"]
+		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+		 */
+		include_sitemap: z.array(z.string()).default([]),
+		/**
+		 * Exclude files from the sitemap if their paths that match specified glob patterns
+		 * This option is ignored if `include_sitemap` is set
+		 *
+		 * @default []
+		 * @example ["your-folder/*.md"]
+		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+		 */
+		exclude_sitemap: z.array(z.string()).default([]),
+
+
+		/**
 		 * Configuration for the graph
 		 *
 		 * @default {
@@ -222,6 +261,7 @@ export const starlightSiteGraphConfigSchema = z
 			.default(defaultGraphConfig),
 		/**
 		 * Specify a custom sitemap to be used for the PageSidebar graph, if not provided, a sitemap will be generated from the content directory
+		 * including/excluding files based on the `include_sitemap` and `exclude_sitemap` options
 		 *
 		 * @default undefined
 		 */

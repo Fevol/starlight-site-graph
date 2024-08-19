@@ -1,8 +1,11 @@
-import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
-import { starlightSiteGraphConfigSchema } from './config';
-import matter from 'gray-matter';
 import fs from 'node:fs';
 import path from 'node:path';
+import { globby } from 'globby';
+
+import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
+import matter from 'gray-matter';
+
+import { starlightSiteGraphConfigSchema } from './config';
 import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash, trimSlashes } from './integrationUtil';
 import type { Sitemap, SitemapEntry } from './types';
 
@@ -48,8 +51,12 @@ class SiteMapBuilder {
 		const links = new Set<string>();
 		const tags = new Set<string>();
 
-		const frontmatter: { data: { title?: string; links?: string[]; tags?: string[] | string } } = matter(content);
+		const frontmatter: { data: { title?: string; links?: string[]; tags?: string[] | string, graph: { exclude: boolean } | undefined } } = matter(content);
 		if (frontmatter.data) {
+			if (frontmatter.data.graph?.exclude) {
+				return;
+			}
+
 			title = frontmatter.data.title ?? title;
 
 			if (frontmatter.data.links) {
@@ -177,12 +184,34 @@ export default defineIntegration({
 		return {
 			hooks: {
 				'astro:config:setup': async params => {
+					if (options.show_graph.length && options.hide_graph.length) {
+						params.logger.warn('Both show_graph and hide_graph are set, hide_graph setting is ignored');
+					}
+
 					if (!options.sitemap) {
-						params.logger.info('Generating sitemap from content links');
+						if (options.include_sitemap.length && options.exclude_sitemap.length) {
+							params.logger.warn('Both include_sitemap and exclude_sitemap are set, exclude_sitemap setting is ignored');
+						}
+
+						params.logger.info('Generating sitemap from content links' +
+							(options.include_sitemap.length ? ` (with patterns ${options.include_sitemap.join(', ')})` :
+							options.exclude_sitemap.length ? ` (excluding patterns ${options.exclude_sitemap.join(', ')})` : ''));
+
 
 						const builder = new SiteMapBuilder(options.contentRoot, params.config.base);
-						for await (const p of walk(options.contentRoot)) {
-							await builder.add(p);
+						let files: string[] = [];
+						if (options.include_sitemap.length) {
+							files = await globby(options.include_sitemap, {
+								cwd: options.contentRoot,
+							});
+						} else {
+							files = await globby('**', {
+								cwd: options.contentRoot,
+								ignore: options.exclude_sitemap,
+							});
+						}
+						for (const file of files) {
+							await builder.add(path.join(options.contentRoot, file));
 						}
 						builder.process();
 						const sitemap = builder.toSitemap();

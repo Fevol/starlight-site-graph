@@ -3,10 +3,11 @@ import {AstroError} from "astro/errors";
 
 export const graphConfigSchema = z.object({
     graph: z.object({
-        hidden: z.boolean().default(false),
+        hidden: z.boolean().optional(),
         depth: z.number().optional(),
+        exclude: z.boolean().default(false),
     }).default({
-        hidden: false,
+        exclude: false,
     }),
 });
 

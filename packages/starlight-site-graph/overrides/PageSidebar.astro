@@ -3,14 +3,16 @@
 import Default from "@astrojs/starlight/components/PageSidebar.astro";
 import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config'
+import micromatch from 'micromatch';
 
 import Graph from "../components/Graph.astro";
 
 const graphData = Astro.props.entry.data.graph;
-
+const showGraph = !(graphData.hidden ?? config.show_graph.length ?
+        !config.show_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)) :
+        config.hide_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)));
 ---
-
-{!graphData.hidden &&
+{showGraph &&
     <div class="right-sidebar-panel graph-panel">
         <h2>Graph View</h2>
         <Graph sitemap={config.sitemap} config={{
