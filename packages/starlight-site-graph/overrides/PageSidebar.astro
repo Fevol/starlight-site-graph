@@ -5,12 +5,20 @@ import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config'
 
 import Graph from "../components/Graph.astro";
+
+const graphData = Astro.props.entry.data.graph;
+
 ---
 
-<div class="right-sidebar-panel graph-panel">
-    <h2>Graph View</h2>
-    <Graph sitemap={config.sitemap} config={config.graphConfig} />
-</div>
+{!graphData.hidden &&
+    <div class="right-sidebar-panel graph-panel">
+        <h2>Graph View</h2>
+        <Graph sitemap={config.sitemap} config={{
+            ...config.graphConfig,
+            depth: graphData.depth ?? config.graphConfig.depth,
+        }} />
+    </div>
+}
 
 
 <Default {...Astro.props}>

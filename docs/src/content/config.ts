@@ -1,6 +1,11 @@
 import { docsSchema } from '@astrojs/starlight/schema';
 import { defineCollection } from 'astro:content';
+import { graphSchema } from 'starlight-site-graph/schema';
 
 export const collections = {
-	docs: defineCollection({ schema: docsSchema() }),
+	docs: defineCollection({
+		schema: docsSchema({
+			extend: (context) => graphSchema(context)
+		})
+	}),
 };
