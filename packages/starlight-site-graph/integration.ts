@@ -51,7 +51,14 @@ class SiteMapBuilder {
 		const links = new Set<string>();
 		const tags = new Set<string>();
 
-		const frontmatter: { data: { title?: string; links?: string[]; tags?: string[] | string, graph: { exclude: boolean } | undefined } } = matter(content);
+		const frontmatter: {
+			data: {
+				title?: string;
+				links?: string[];
+				tags?: string[] | string;
+				graph: { exclude: boolean } | undefined;
+			};
+		} = matter(content);
 		if (frontmatter.data) {
 			if (frontmatter.data.graph?.exclude) {
 				return;
@@ -190,13 +197,19 @@ export default defineIntegration({
 
 					if (!options.sitemap) {
 						if (options.include_sitemap.length && options.exclude_sitemap.length) {
-							params.logger.warn('Both include_sitemap and exclude_sitemap are set, exclude_sitemap setting is ignored');
+							params.logger.warn(
+								'Both include_sitemap and exclude_sitemap are set, exclude_sitemap setting is ignored',
+							);
 						}
 
-						params.logger.info('Generating sitemap from content links' +
-							(options.include_sitemap.length ? ` (with patterns ${options.include_sitemap.join(', ')})` :
-							options.exclude_sitemap.length ? ` (excluding patterns ${options.exclude_sitemap.join(', ')})` : ''));
-
+						params.logger.info(
+							'Generating sitemap from content links' +
+								(options.include_sitemap.length
+									? ` (with patterns ${options.include_sitemap.join(', ')})`
+									: options.exclude_sitemap.length
+										? ` (excluding patterns ${options.exclude_sitemap.join(', ')})`
+										: ''),
+						);
 
 						const builder = new SiteMapBuilder(options.contentRoot, params.config.base);
 						let files: string[] = [];

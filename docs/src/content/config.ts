@@ -5,7 +5,7 @@ import { graphSchema } from 'starlight-site-graph/schema';
 export const collections = {
 	docs: defineCollection({
 		schema: docsSchema({
-			extend: (context) => graphSchema(context)
-		})
+			extend: context => graphSchema(context),
+		}),
 	}),
 };

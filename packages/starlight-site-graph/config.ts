@@ -162,7 +162,6 @@ export const starlightSiteGraphConfigSchema = z
 		 */
 		exclude_sitemap: z.array(z.string()).default([]),
 
-
 		/**
 		 * Configuration for the graph
 		 *

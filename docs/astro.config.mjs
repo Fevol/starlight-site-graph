@@ -1,14 +1,12 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph';
-import svelte from '@astrojs/svelte';
 
 export default defineConfig({
 	redirects: {
 		'/': '/intro',
 	},
 	integrations: [
-		svelte(),
 		starlight({
 			title: 'Starlight Site Graph',
 			credits: true,
