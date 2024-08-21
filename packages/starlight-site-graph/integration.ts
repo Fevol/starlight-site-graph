@@ -56,7 +56,7 @@ class SiteMapBuilder {
 				title?: string;
 				links?: string[];
 				tags?: string[] | string;
-				graph: { exclude: boolean } | undefined;
+				graph?: { exclude: boolean } | undefined;
 			};
 		} = matter(content);
 		if (frontmatter.data) {

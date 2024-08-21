@@ -7,8 +7,12 @@ import micromatch from 'micromatch';
 
 import Graph from "../components/Graph.astro";
 
-const graphData = Astro.props.entry.data.graph;
-const showGraph = !(graphData.hidden ?? config.show_graph.length ?
+const graphData: {
+    hidden?: boolean;
+    depth?: number;
+} | undefined = Astro.props.entry['data'].graph;
+
+const showGraph = !(graphData?.hidden ?? config.show_graph.length ?
         !config.show_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)) :
         config.hide_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)));
 ---
@@ -17,7 +21,7 @@ const showGraph = !(graphData.hidden ?? config.show_graph.length ?
         <h2>Graph View</h2>
         <Graph sitemap={config.sitemap} config={{
             ...config.graphConfig,
-            depth: graphData.depth ?? config.graphConfig.depth,
+            depth: graphData?.depth ?? config.graphConfig.depth,
         }} />
     </div>
 }

@@ -15,6 +15,7 @@
 	"scripts": {},
 	"devDependencies": {
 		"@astrojs/starlight": "^0.25.3",
+		"@types/micromatch": "^4.0.9",
 		"astro": "^4.12.3"
 	},
 	"peerDependencies": {
@@ -27,8 +28,7 @@
 		"d3": "^7.9.0",
 		"globby": "^14.0.2",
 		"micromatch": "^4.0.7",
-		"pixi.js": "^8.3.2",
-		"svelte": "^5.0.0-next.210"
+		"pixi.js": "^8.3.2"
 	},
 	"keywords": [
 		"starlight",
