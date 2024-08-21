@@ -49,6 +49,8 @@ export const defaultGraphConfig: GraphConfig = {
 	showTags: false,
 	removeTags: [],
 	customFolderTags: {},
+
+	trackVisitedPages: true,
 };
 
 export type GraphConfig = {
@@ -96,6 +98,8 @@ export type GraphConfig = {
 	customFolderTags: Record<string, string>;
 	showTags: boolean;
 	removeTags: string[];
+
+	trackVisitedPages: boolean;
 };
 
 const easing_types = z.union([
@@ -256,6 +260,8 @@ export const starlightSiteGraphConfigSchema = z
 				showTags: z.boolean().default(defaultGraphConfig.showTags),
 				removeTags: z.array(z.string()).default(defaultGraphConfig.removeTags),
 				customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
+
+				trackVisitedPages: z.boolean().default(defaultGraphConfig.trackVisitedPages),
 			})
 			.default(defaultGraphConfig),
 		/**
