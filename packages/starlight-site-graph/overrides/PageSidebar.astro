@@ -15,8 +15,8 @@ let showGraph: boolean;
 if (graphData?.hidden !== undefined) {
     showGraph = graphData.hidden;
 } else {
-    showGraph = !config.hide_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern))
-        || config.show_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern));
+    showGraph = !config.hide_graph.some((pattern) => pattern === '' ? Astro.props.slug === '' : micromatch.isMatch(Astro.props.slug, pattern))
+        || config.show_graph.some((pattern) => pattern === '' ? Astro.props.slug === '' : micromatch.isMatch(Astro.props.slug, pattern));
 }
 ---
 
