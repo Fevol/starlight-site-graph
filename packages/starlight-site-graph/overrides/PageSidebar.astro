@@ -10,9 +10,14 @@ const graphData: {
     depth?: number;
 } | undefined = Astro.props.entry['data'].graph;
 
-const showGraph = !(graphData?.hidden ?? config.show_graph.length ?
-        !config.show_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)) :
-        config.hide_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern)));
+
+let showGraph: boolean;
+if (graphData?.hidden !== undefined) {
+    showGraph = graphData.hidden;
+} else {
+    showGraph = !config.hide_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern))
+        || config.show_graph.some((pattern) => micromatch.isMatch(Astro.props.slug, pattern));
+}
 ---
 
 {showGraph &&
