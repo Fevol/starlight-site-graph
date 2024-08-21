@@ -1,6 +1,6 @@
 {
 	"name": "starlight-site-graph",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"license": "MIT",
 	"description": "Starlight plugin adding a graph component to the site's right-sidebar",
 	"author": "Fevol",
