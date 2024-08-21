@@ -9,7 +9,7 @@ const { config, sitemap } = Astro.props as
 
 <script>
 	import * as d3 from 'd3';
-	import { Application, type ApplicationOptions, Graphics, Text, Ticker } from 'pixi.js';
+	import * as PIXI from './pixi/pixi';
 	import type { GraphConfig } from '../config';
 	import { Animator } from './animator';
 	import { showContextMenu } from './context-menu';
@@ -39,7 +39,7 @@ const { config, sitemap } = Astro.props as
 		actionContainer: HTMLElement;
 		blurContainer: HTMLElement;
 
-		app!: Application;
+		app!: PIXI.Application;
 		simulation!: d3.Simulation<NodeData, undefined>;
 		zoomBehavior!: d3.ZoomBehavior<HTMLCanvasElement, unknown>;
 		zoomTransform: d3.ZoomTransform;
@@ -49,8 +49,8 @@ const { config, sitemap } = Astro.props as
 		userZoomed: boolean = false;
 		currentNode: NodeData | undefined;
 
-		links!: Graphics;
-		arrows!: Graphics;
+		links!: PIXI.Graphics;
+		arrows!: PIXI.Graphics;
 
         scale!: number;
 		config!: GraphConfig;
@@ -269,17 +269,17 @@ const { config, sitemap } = Astro.props as
 		}
 
 		async mountGraph() {
-			this.app = new Application();
+			this.app = new PIXI.Application();
 			await this.app.init({
 				antialias: true,
 				backgroundAlpha: 0,
 				resolution: 4,
 				resizeTo: this.graphContainer,
-			} as ApplicationOptions);
+			} as PIXI.ApplicationOptions);
 			this.graphContainer.appendChild(this.app.canvas);
 
-			this.links = new Graphics();
-			this.arrows = new Graphics();
+			this.links = new PIXI.Graphics();
+			this.arrows = new PIXI.Graphics();
 			this.app.stage.sortableChildren = true;
 			this.app.stage.addChild(this.links);
 			this.app.stage.addChild(this.arrows);
@@ -488,11 +488,11 @@ const { config, sitemap } = Astro.props as
 
 		renderNodes() {
 			for (const node of this.simulation.nodes()) {
-				const nodeDot = new Graphics();
+				const nodeDot = new PIXI.Graphics();
 				nodeDot._zIndex = 1;
 				nodeDot.circle(0, 0, node.size!).fill(0xffffff);
 
-				const nodeText = new Text({
+				const nodeText = new PIXI.Text({
 					text: node.text || node.id,
 					style: {
 						fill: 0xffffff,
@@ -687,7 +687,7 @@ const { config, sitemap } = Astro.props as
             return this.animator.isAnimating('zoom') || this.animator.isAnimating('transformX') || this.animator.isAnimating('transformY');
         }
 
-		tick(ticker: Ticker) {
+		tick(ticker: PIXI.Ticker) {
 			this.animator.update(ticker.deltaMS);
 
 			if (!this.userZoomed) {

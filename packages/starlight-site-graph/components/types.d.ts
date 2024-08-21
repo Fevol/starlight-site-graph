@@ -1,14 +1,14 @@
-import { Container, Graphics, Text } from 'pixi.js';
+import * as PIXI from './pixi/pixi';
 import * as d3 from 'd3';
 
 type NodeData = {
 	id: string;
 	exists: boolean;
-	node?: Graphics;
+	node?: PIXI.Graphics;
 	text?: string;
 	tags?: string[];
-	label?: Text;
-	arrowHead?: Graphics;
+	label?: PIXI.Text;
+	arrowHead?: PIXI.Graphics;
 	neighborCount?: number;
 	size?: number;
 } & d3.SimulationNodeDatum;
