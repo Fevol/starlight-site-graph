@@ -1,7 +1,7 @@
 {
 	"name": "starlight-site-graph",
 	"author": "Fevol",
-	"version": "0.0.8",
+	"version": "0.0.9",
 	"license": "MIT",
 	"description": "Starlight plugin adding a graph component to the site's right-sidebar",
 	"type": "module",
@@ -27,8 +27,7 @@
 		"astro-integration-kit": "^0.16.0",
 		"d3": "^7.9.0",
 		"globby": "^14.0.2",
-		"micromatch": "^4.0.7",
-		"pixi.js": "^8.3.2"
+		"micromatch": "^4.0.7"
 	},
 	"keywords": [
 		"starlight",
