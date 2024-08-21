@@ -40,7 +40,7 @@ for (const file of package_files) {
 	const json = JSON.parse(content);
 
 	json.version = newVersion;
-	writeFileSync(file, JSON.stringify(json, null, 4).replace(/\n/g, '\r\n'));
+	writeFileSync(file, JSON.stringify(json, null, '\t').replace(/\n/g, '\r\n'));
 	console.log(`Updated ${file} to version ${newVersion}`);
 
 	try {

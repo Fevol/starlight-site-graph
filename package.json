@@ -1,40 +1,40 @@
 {
-    "name": "starlight-site-graph",
-    "version": "0.0.7",
-    "license": "MIT",
-    "description": "Starlight plugin adding a graph component to the site's right-sidebar",
-    "author": "Fevol",
-    "type": "module",
-    "engines": {
-        "node": ">=18"
-    },
-    "private": true,
-    "sideEffects": false,
-    "keywords": [
-        "starlight",
-        "plugin",
-        "graph",
-        "astro",
-        "astro-component",
-        "withastro"
-    ],
-    "homepage": "https://github.com/fevol/starlight-site-graph",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/fevol/starlight-site-graph.git"
-    },
-    "bugs": "https://github.com/fevol/starlight-site-graph/issues",
-    "devDependencies": {
-        "prettier": "^3.3.3"
-    },
-    "scripts": {
-        "format": "prettier --write .",
-        "release-beta": "bun run scripts/bump-version.ts beta",
-        "release-patch": "bun run scripts/bump-version.ts patch",
-        "release-minor": "bun run scripts/bump-version.ts minor",
-        "release-major": "bun run scripts/bump-version.ts major"
-    },
-    "dependencies": {
-        "@types/node": "^22.4.0"
-    }
+	"name": "starlight-site-graph",
+	"version": "0.0.7",
+	"license": "MIT",
+	"description": "Starlight plugin adding a graph component to the site's right-sidebar",
+	"author": "Fevol",
+	"type": "module",
+	"engines": {
+		"node": ">=18"
+	},
+	"private": true,
+	"sideEffects": false,
+	"keywords": [
+		"starlight",
+		"plugin",
+		"graph",
+		"astro",
+		"astro-component",
+		"withastro"
+	],
+	"homepage": "https://github.com/fevol/starlight-site-graph",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fevol/starlight-site-graph.git"
+	},
+	"bugs": "https://github.com/fevol/starlight-site-graph/issues",
+	"devDependencies": {
+		"prettier": "^3.3.3"
+	},
+	"scripts": {
+		"format": "prettier --write .",
+		"release-beta": "bun run scripts/bump-version.ts beta",
+		"release-patch": "bun run scripts/bump-version.ts patch",
+		"release-minor": "bun run scripts/bump-version.ts minor",
+		"release-major": "bun run scripts/bump-version.ts major"
+	},
+	"dependencies": {
+		"@types/node": "^22.4.0"
+	}
 }
