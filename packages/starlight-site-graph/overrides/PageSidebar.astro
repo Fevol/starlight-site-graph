@@ -15,8 +15,21 @@ let showGraph: boolean;
 if (graphData?.hidden !== undefined) {
     showGraph = graphData.hidden;
 } else {
-    showGraph = !config.hide_graph.some((pattern) => pattern === '' ? Astro.props.slug === '' : micromatch.isMatch(Astro.props.slug, pattern))
-        || config.show_graph.some((pattern) => pattern === '' ? Astro.props.slug === '' : micromatch.isMatch(Astro.props.slug, pattern));
+    showGraph = true;
+    if (config.graphVisibilityRules) {
+        for (const pattern of config.graphVisibilityRules) {
+            if (pattern === "")  {
+                showGraph = Astro.props.slug === '';
+                break;
+            }
+
+            const negated = pattern.startsWith('!');
+            if (micromatch.isMatch(Astro.props.slug, negated ? pattern.slice(1) : pattern)) {
+                showGraph = !negated;
+                break;
+            }
+        }
+    }
 }
 ---
 

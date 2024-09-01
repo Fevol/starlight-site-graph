@@ -6,6 +6,7 @@ type EaseTypes = 'in_quad' | 'out_quad' | 'in_out_quad' | 'linear';
 
 export const defaultGraphConfig: GraphConfig = {
 	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
+	trackVisitedPages: true,
 	clickMode: 'auto',
 
 	enableDrag: true,
@@ -50,12 +51,11 @@ export const defaultGraphConfig: GraphConfig = {
 	showTags: false,
 	removeTags: [],
 	customFolderTags: {},
-
-	trackVisitedPages: true,
 };
 
 export type GraphConfig = {
 	actions: GraphActionTypes[];
+	trackVisitedPages: boolean;
 	clickMode: 'auto' | 'click' | 'dblclick';
 
 	enableDrag: boolean;
@@ -100,8 +100,6 @@ export type GraphConfig = {
 	customFolderTags: Record<string, string>;
 	showTags: boolean;
 	removeTags: string[];
-
-	trackVisitedPages: boolean;
 };
 
 const easing_types = z.union([
@@ -131,42 +129,36 @@ export const starlightSiteGraphConfigSchema = z
 		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
 
 		/**
-		 * Show the graph component in the sidebar only for _slugs_ matching specified glob patterns
-		 * This option takes precedence over `hide_graph`
+		 * Configure the visibility of the graph component in the sidebar with an ordered list of rules.
+		 * The graph is hidden/shown if the page's _slug_ matches one of the rules.
+		 * When a rule starts with `!`, the graph is _hidden_ if matched.
+		 * Rules are evaluated in order, the first matching rule determines the visibility of the page.
+		 * If visibility of the page was specified in the page frontmatter, it will take precedence over these rules.
 		 *
-		 * @default []
-		 * @example ["your-folder/*.md"]
+		 * @default Graph is visible for all pages
+		 * ["**\/*"]
+		 * @example Only show graph for pages in the "api" folder:
+		 * ["api/**", "!**\/*"]
+		 * @example Show graph for all pages except those in the "secret" folder:
+		 * ["!secret/**", "**\/*"]
 		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 		 */
-		show_graph: z.array(z.string()).default([]),
+		graphVisibilityRules: z.array(z.string()).default(["**/*"]),
 		/**
-		 * Hide the graph component in the sidebar for _slugs_ matching specified glob patterns
-		 * This option is ignored if `show_graph` is set
+		 * Configure the inclusion of files in the sitemap with an ordered list of rules.
+		 * The page is included/excluded if the file's _path_ matches one of the rules.
+		 * When a rule starts with `!`, the file is _excluded_ if matched.
+		 * Rules are evaluated in order, the first matching rule determines the inclusion of the file.
+		 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
 		 *
-		 * @default []
-		 * @example ["your-folder/*.md"]
-		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+		 * @default Sitemap includes all files by default
+		 * ["**\/*"]
+		 * @example Only include files in the "api" folder:
+		 * ["api/**", "!**\/*"]
+		 * @example Include all files except those in the "secret" folder:
+		 * ["!secret/**", "**\/*"]
 		 */
-		hide_graph: z.array(z.string()).default([]),
-
-		/**
-		 * Parse files to the sitemap if their paths that match specified glob patterns
-		 * This option takes precedence over `exclude_sitemap`
-		 *
-		 * @default []
-		 * @example ["your-folder/*.md"]
-		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
-		 */
-		include_sitemap: z.array(z.string()).default([]),
-		/**
-		 * Exclude files from the sitemap if their paths that match specified glob patterns
-		 * This option is ignored if `include_sitemap` is set
-		 *
-		 * @default []
-		 * @example ["your-folder/*.md"]
-		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
-		 */
-		exclude_sitemap: z.array(z.string()).default([]),
+		sitemapInclusionRules: z.array(z.string()).default(["**/*"]),
 
 		/**
 		 * Configuration for the graph
@@ -220,6 +212,7 @@ export const starlightSiteGraphConfigSchema = z
 		graphConfig: z
 			.object({
 				actions: z.array(action_types).default(defaultGraphConfig.actions),
+				trackVisitedPages: z.boolean().default(defaultGraphConfig.trackVisitedPages),
 				clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default(
 					defaultGraphConfig.clickMode,
 				),
@@ -266,8 +259,6 @@ export const starlightSiteGraphConfigSchema = z
 				showTags: z.boolean().default(defaultGraphConfig.showTags),
 				removeTags: z.array(z.string()).default(defaultGraphConfig.removeTags),
 				customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
-
-				trackVisitedPages: z.boolean().default(defaultGraphConfig.trackVisitedPages),
 			})
 			.default(defaultGraphConfig),
 		/**
@@ -292,6 +283,8 @@ export const starlightSiteGraphConfigSchema = z
 	.default({
 		contentRoot: './src/content/docs',
 		graphConfig: defaultGraphConfig,
+		graphVisibilityRules: ["**/*"],
+		sitemapInclusionRules: ["**/*"],
 	});
 
 export type StarlightSiteGraphConfig = z.infer<typeof starlightSiteGraphConfigSchema>;

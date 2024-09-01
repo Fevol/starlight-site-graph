@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { globby } from 'globby';
+import micromatch from 'micromatch';
 
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import matter from 'gray-matter';
@@ -191,39 +192,32 @@ export default defineIntegration({
 		return {
 			hooks: {
 				'astro:config:setup': async params => {
-					if (options.show_graph.length && options.hide_graph.length) {
-						params.logger.warn('Both show_graph and hide_graph are set, hide_graph setting is ignored');
-					}
-
 					if (!options.sitemap) {
-						if (options.include_sitemap.length && options.exclude_sitemap.length) {
-							params.logger.warn(
-								'Both include_sitemap and exclude_sitemap are set, exclude_sitemap setting is ignored',
-							);
-						}
-
 						params.logger.info(
 							'Generating sitemap from content links' +
-								(options.include_sitemap.length
-									? ` (with patterns ${options.include_sitemap.join(', ')})`
-									: options.exclude_sitemap.length
-										? ` (excluding patterns ${options.exclude_sitemap.join(', ')})`
-										: ''),
+								(options.sitemapInclusionRules.length
+									? ` (with patterns ${options.sitemapInclusionRules.join(', ')})`
+									: ''),
 						);
 
 						const builder = new SiteMapBuilder(options.contentRoot, params.config.base);
-						let files: string[] = [];
-						if (options.include_sitemap.length) {
-							files = await globby(options.include_sitemap, {
-								cwd: options.contentRoot,
-							});
-						} else {
-							files = await globby('**', {
-								cwd: options.contentRoot,
-								ignore: options.exclude_sitemap,
-							});
+						let file_set = new Set<string>();
+						if (options.sitemapInclusionRules?.length) {
+							for (let i = options.sitemapInclusionRules.length - 1; i >= 0; i--) {
+								const rule = options.sitemapInclusionRules[i]!;
+								if (rule.startsWith('!')) {
+									file_set = new Set(micromatch([...file_set], rule));
+								} else {
+									const rule_files = await globby(rule, {
+										cwd: options.contentRoot,
+									});
+									for (const file of rule_files) {
+										file_set.add(file);
+									}
+								}
+							}
 						}
-						for (const file of files) {
+						for (const file of file_set) {
 							await builder.add(path.join(options.contentRoot, file));
 						}
 						builder.process();
