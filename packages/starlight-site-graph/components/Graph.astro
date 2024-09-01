@@ -8,6 +8,7 @@ const { config, sitemap } = Astro.props as
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)}></graph-component>
 
 <script>
+	import { prefetch } from 'astro:prefetch';
 	import * as d3 from 'd3';
 	import * as PIXI from './pixi/pixi';
 	import type { GraphConfig } from '../config';
@@ -585,6 +586,7 @@ const { config, sitemap } = Astro.props as
 
                     if (closestNode) {
                         this.currentlyHovered = closestNode.id;
+						prefetch(ensureLeadingSlash(closestNode.id));
                         this.animator.startAnimationsTo({
                             nodeColorHover: 'hover',
                             nodeColor: 'blur',
