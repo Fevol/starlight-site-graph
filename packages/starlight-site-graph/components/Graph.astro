@@ -13,15 +13,17 @@ const { config, sitemap } = Astro.props as
 	import type { GraphConfig } from '../config';
 	import { Animator } from './animator';
 	import { showContextMenu } from './context-menu';
-	import {
-		addToVisitedEndpoints,
-		createValueSlider,
-		getVisitedEndpoints,
-		onClickOutside,
-		simplifySlug,
-		stripSlashes,
-		ensureLeadingSlash
-	} from './util';
+		import {
+			addToVisitedEndpoints,
+			createValueSlider,
+			getVisitedEndpoints,
+			onClickOutside,
+			simplifySlug,
+			stripSlashes,
+			ensureLeadingSlash,
+			isMobileDevice,
+			hasTouch
+			} from './util';
 	import type { LinkData, NodeData } from './types';
 	import type { Sitemap } from '../types';
 	import { animatables } from './animatables';
@@ -48,6 +50,8 @@ const { config, sitemap } = Astro.props as
 		transform: d3.ZoomTransform;
 		userZoomed: boolean = false;
 		currentNode: NodeData | undefined;
+		lastClick: number = 0;
+		lastClickedNode: NodeData | undefined;
 
 		links!: PIXI.Graphics;
 		arrows!: PIXI.Graphics;
@@ -65,6 +69,7 @@ const { config, sitemap } = Astro.props as
 		fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
 
 		currentPage: string = stripSlashes(location.pathname) + '/';
+		requireDblClick: boolean;
 
 		visitedPages: Set<string>;
 
@@ -114,6 +119,7 @@ const { config, sitemap } = Astro.props as
 			this.colors = getGraphColors();
 
 			this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
+			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
 
 			this.mountGraph().then(() => {
 				this.setup();
@@ -610,10 +616,15 @@ const { config, sitemap } = Astro.props as
 				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 				const closestNode = this.findOverlappingNode(x, y);
 				if (closestNode && closestNode.exists) {
-					if (this.config.trackVisitedPages) {
-						addToVisitedEndpoints(closestNode.id);
+					const clickTime = Date.now();
+					if (!this.requireDblClick || (clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)) {
+						if (this.config.trackVisitedPages) {
+							addToVisitedEndpoints(closestNode.id);
+						}
+						window.open(ensureLeadingSlash(closestNode.id), '_self');
 					}
-					window.open(ensureLeadingSlash(closestNode.id), '_self');
+					this.lastClick = clickTime;
+					this.lastClickedNode = closestNode;
 				}
 			});
 

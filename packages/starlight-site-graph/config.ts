@@ -6,6 +6,7 @@ type EaseTypes = 'in_quad' | 'out_quad' | 'in_out_quad' | 'linear';
 
 export const defaultGraphConfig: GraphConfig = {
 	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
+	clickMode: 'auto',
 
 	enableDrag: true,
 	enableZoom: true,
@@ -55,6 +56,7 @@ export const defaultGraphConfig: GraphConfig = {
 
 export type GraphConfig = {
 	actions: GraphActionTypes[];
+	clickMode: 'auto' | 'click' | 'dblclick';
 
 	enableDrag: boolean;
 	enableZoom: boolean;
@@ -171,6 +173,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 * @default {
 		 * 	   actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
+		 * 	   clickMode: 'auto',
 		 *
 		 *     enableDrag: true,
 		 *     enableZoom: true,
@@ -217,6 +220,9 @@ export const starlightSiteGraphConfigSchema = z
 		graphConfig: z
 			.object({
 				actions: z.array(action_types).default(defaultGraphConfig.actions),
+				clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default(
+					defaultGraphConfig.clickMode,
+				),
 
 				enableDrag: z.boolean().default(defaultGraphConfig.enableDrag),
 				enableZoom: z.boolean().default(defaultGraphConfig.enableZoom),

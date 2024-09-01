@@ -5,6 +5,7 @@
 	"version": "0.0.13",
 	"scripts": {
 		"dev": "astro dev",
+		"dev-host": "astro dev --host",
 		"start": "astro dev",
 		"build": "astro check && astro build",
 		"preview": "astro preview",
