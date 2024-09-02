@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import micromatch from 'micromatch';
 
 export function slugifyPath(path: string) {
 	return (
@@ -35,6 +36,16 @@ export function trimSlashes(path: string) {
 	while (path.startsWith('/')) path = path.slice(1);
 	while (path.endsWith('/')) path = path.slice(0, -1);
 	return path;
+}
+
+export function firstMatchingPattern(text: string, patterns: string | string[], defaultMatch = true): boolean {
+	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
+	for (const pattern of patternList) {
+		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
+			return !pattern.startsWith('!');
+		}
+	}
+	return defaultMatch;
 }
 
 // FIXME: The filename passed in here might be slugified, the only way seems to also slugify the names of the files in the directory

@@ -117,6 +117,61 @@ const action_types = z.union([
 	z.literal('settings'),
 ]);
 
+
+export const graphConfigSchema = z
+	.object({
+		actions: z.array(action_types).default(defaultGraphConfig.actions),
+		trackVisitedPages: z.boolean().default(defaultGraphConfig.trackVisitedPages),
+		clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default(
+			defaultGraphConfig.clickMode,
+		),
+
+		enableDrag: z.boolean().default(defaultGraphConfig.enableDrag),
+		enableZoom: z.boolean().default(defaultGraphConfig.enableZoom),
+		enableHover: z.boolean().default(defaultGraphConfig.enableHover),
+		depth: z.number().default(defaultGraphConfig.depth),
+		scale: z.number().default(defaultGraphConfig.scale),
+		minZoom: z.number().default(defaultGraphConfig.minZoom),
+		maxZoom: z.number().default(defaultGraphConfig.maxZoom),
+
+		renderLabels: z.boolean().default(defaultGraphConfig.renderLabels),
+		renderArrows: z.boolean().default(defaultGraphConfig.renderArrows),
+		renderUnresolved: z.boolean().default(defaultGraphConfig.renderUnresolved),
+
+		scaleLinks: z.boolean().default(defaultGraphConfig.scaleLinks),
+		scaleArrows: z.boolean().default(defaultGraphConfig.scaleArrows),
+
+		labelOpacityScale: z.number().default(defaultGraphConfig.labelOpacityScale),
+		labelFontSize: z.number().default(defaultGraphConfig.labelFontSize),
+		labelOffset: z.number().default(defaultGraphConfig.labelOffset),
+		labelHoverOffset: z.number().default(defaultGraphConfig.labelHoverOffset),
+
+		zoomDuration: z.number().default(defaultGraphConfig.zoomDuration),
+		zoomEase: easing_types.default(defaultGraphConfig.zoomEase),
+		hoverDuration: z.number().default(defaultGraphConfig.hoverDuration),
+		hoverEase: easing_types.default(defaultGraphConfig.hoverEase),
+
+		nodeSize: z.number().default(defaultGraphConfig.nodeSize),
+		nodeSizeLinkScale: z.number().default(defaultGraphConfig.nodeSizeLinkScale),
+
+		linkWidth: z.number().default(defaultGraphConfig.linkWidth),
+
+		arrowSize: z.number().default(defaultGraphConfig.arrowSize),
+		arrowAngle: z.number().default(defaultGraphConfig.arrowAngle),
+
+		nodeForce: z.number().default(defaultGraphConfig.nodeForce),
+		collisionForce: z.number().default(defaultGraphConfig.collisionForce),
+		repelForce: z.number().default(defaultGraphConfig.repelForce),
+		centerForce: z.number().default(defaultGraphConfig.centerForce),
+		linkDistance: z.number().default(defaultGraphConfig.linkDistance),
+
+		showTags: z.boolean().default(defaultGraphConfig.showTags),
+		removeTags: z.array(z.string()).default(defaultGraphConfig.removeTags),
+		customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
+	})
+
+
+
 export const starlightSiteGraphConfigSchema = z
 	.object({
 		/**
@@ -159,6 +214,22 @@ export const starlightSiteGraphConfigSchema = z
 		 * ["!secret/**", "**\/*"]
 		 */
 		sitemapInclusionRules: z.array(z.string()).default(["**/*"]),
+
+		/**
+		 * Configure the rules for which links are included in the sitemap per page.
+		 * The link is included/excluded if the link's target _path_ matches one of the rules.
+		 * When a rule starts with `!`, the link is _excluded_ if matched.
+		 * Rules are evaluated in order, the first matching rule determines the inclusion of the link.
+		 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
+		 *
+		 * @default Sitemap includes all links by default
+		 * ["**\/*"]
+		 * @example Only include links to endpoints in the "api" subdirectory:
+		 * ["api/**", "!**\/*"]
+		 * @example Include all links except those to the "secret" subdirectory:
+		 * ["!secret/**", "**\/*"]
+		 */
+		sitemapLinkRules: z.array(z.string()).default(["**/*"]),
 
 		/**
 		 * Configuration for the graph
@@ -209,58 +280,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     customFolderTags: {},
 		 * }
 		 */
-		graphConfig: z
-			.object({
-				actions: z.array(action_types).default(defaultGraphConfig.actions),
-				trackVisitedPages: z.boolean().default(defaultGraphConfig.trackVisitedPages),
-				clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default(
-					defaultGraphConfig.clickMode,
-				),
-
-				enableDrag: z.boolean().default(defaultGraphConfig.enableDrag),
-				enableZoom: z.boolean().default(defaultGraphConfig.enableZoom),
-				enableHover: z.boolean().default(defaultGraphConfig.enableHover),
-				depth: z.number().default(defaultGraphConfig.depth),
-				scale: z.number().default(defaultGraphConfig.scale),
-				minZoom: z.number().default(defaultGraphConfig.minZoom),
-				maxZoom: z.number().default(defaultGraphConfig.maxZoom),
-
-				renderLabels: z.boolean().default(defaultGraphConfig.renderLabels),
-				renderArrows: z.boolean().default(defaultGraphConfig.renderArrows),
-				renderUnresolved: z.boolean().default(defaultGraphConfig.renderUnresolved),
-
-				scaleLinks: z.boolean().default(defaultGraphConfig.scaleLinks),
-				scaleArrows: z.boolean().default(defaultGraphConfig.scaleArrows),
-
-				labelOpacityScale: z.number().default(defaultGraphConfig.labelOpacityScale),
-				labelFontSize: z.number().default(defaultGraphConfig.labelFontSize),
-				labelOffset: z.number().default(defaultGraphConfig.labelOffset),
-				labelHoverOffset: z.number().default(defaultGraphConfig.labelHoverOffset),
-
-				zoomDuration: z.number().default(defaultGraphConfig.zoomDuration),
-				zoomEase: easing_types.default(defaultGraphConfig.zoomEase),
-				hoverDuration: z.number().default(defaultGraphConfig.hoverDuration),
-				hoverEase: easing_types.default(defaultGraphConfig.hoverEase),
-
-				nodeSize: z.number().default(defaultGraphConfig.nodeSize),
-				nodeSizeLinkScale: z.number().default(defaultGraphConfig.nodeSizeLinkScale),
-
-				linkWidth: z.number().default(defaultGraphConfig.linkWidth),
-
-				arrowSize: z.number().default(defaultGraphConfig.arrowSize),
-				arrowAngle: z.number().default(defaultGraphConfig.arrowAngle),
-
-				nodeForce: z.number().default(defaultGraphConfig.nodeForce),
-				collisionForce: z.number().default(defaultGraphConfig.collisionForce),
-				repelForce: z.number().default(defaultGraphConfig.repelForce),
-				centerForce: z.number().default(defaultGraphConfig.centerForce),
-				linkDistance: z.number().default(defaultGraphConfig.linkDistance),
-
-				showTags: z.boolean().default(defaultGraphConfig.showTags),
-				removeTags: z.array(z.string()).default(defaultGraphConfig.removeTags),
-				customFolderTags: z.record(z.string()).default(defaultGraphConfig.customFolderTags),
-			})
-			.default(defaultGraphConfig),
+		graphConfig: graphConfigSchema.default(defaultGraphConfig),
 		/**
 		 * Specify a custom sitemap to be used for the PageSidebar graph, if not provided, a sitemap will be generated from the content directory
 		 * including/excluding files based on the `include_sitemap` and `exclude_sitemap` options
@@ -285,6 +305,7 @@ export const starlightSiteGraphConfigSchema = z
 		graphConfig: defaultGraphConfig,
 		graphVisibilityRules: ["**/*"],
 		sitemapInclusionRules: ["**/*"],
+		sitemapLinkRules: ["**/*"],
 	});
 
 export type StarlightSiteGraphConfig = z.infer<typeof starlightSiteGraphConfigSchema>;

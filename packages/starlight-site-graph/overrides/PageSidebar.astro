@@ -2,34 +2,17 @@
 import Default from "@astrojs/starlight/components/PageSidebar.astro";
 import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config'
-import micromatch from 'micromatch';
 import Graph from "../components/Graph.astro";
+import {firstMatchingPattern} from "../integrationUtil";
+import {type PageGraphConfig} from "../schema";
 
-const graphData: {
-    hidden?: boolean;
-    depth?: number;
-} | undefined = Astro.props.entry['data'].graph;
-
+const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
 
 let showGraph: boolean;
-if (graphData?.hidden !== undefined) {
-    showGraph = graphData.hidden;
+if (graphData?.visible !== undefined) {
+    showGraph = graphData.visible;
 } else {
-    showGraph = true;
-    if (config.graphVisibilityRules) {
-        for (const pattern of config.graphVisibilityRules) {
-            if (pattern === "")  {
-                showGraph = Astro.props.slug === '';
-                break;
-            }
-
-            const negated = pattern.startsWith('!');
-            if (micromatch.isMatch(Astro.props.slug, negated ? pattern.slice(1) : pattern)) {
-                showGraph = !negated;
-                break;
-            }
-        }
-    }
+    showGraph = config.graphVisibilityRules ? firstMatchingPattern(Astro.props.slug, config.graphVisibilityRules, true) : true;
 }
 ---
 
@@ -38,7 +21,7 @@ if (graphData?.hidden !== undefined) {
         <h2>Graph View</h2>
         <Graph sitemap={config.sitemap} config={{
             ...config.graphConfig,
-            depth: graphData?.depth ?? config.graphConfig.depth,
+            ...graphData
         }} />
     </div>
 }

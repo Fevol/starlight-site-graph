@@ -26,7 +26,6 @@
 		"@types/d3": "^7.4.3",
 		"astro-integration-kit": "^0.16.0",
 		"d3": "^7.9.0",
-		"globby": "^14.0.2",
 		"micromatch": "^4.0.7"
 	},
 	"keywords": [

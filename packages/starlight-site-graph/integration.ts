@@ -1,14 +1,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { globby } from 'globby';
-import micromatch from 'micromatch';
 
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import matter from 'gray-matter';
 
 import { starlightSiteGraphConfigSchema } from './config';
-import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash, trimSlashes } from './integrationUtil';
+import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash, trimSlashes, firstMatchingPattern } from './integrationUtil';
 import type { Sitemap, SitemapEntry } from './types';
+import type {PageConfig} from "./schema";
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {
@@ -31,11 +30,13 @@ class SiteMapBuilder {
 	map: Map<string, IntermediateSitemapEntry>;
 	contentRoot: string;
 	basePath: string;
+	globalLinkRules: string[];
 
-	constructor(contentRoot: string, basePath: string) {
+	constructor(contentRoot: string, basePath: string, excludedLinkRules: string[] = []) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(contentRoot);
 		this.basePath = trimSlashes(basePath);
+		this.globalLinkRules = excludedLinkRules;
 	}
 
 	async add(filePath: string) {
@@ -49,40 +50,10 @@ class SiteMapBuilder {
 		const linkPath = this.getLinkPath(filePath);
 
 		let title = path.basename(linkPath, extname);
-		const links = new Set<string>();
+		let links = new Set<string>();
 		const tags = new Set<string>();
 
-		const frontmatter: {
-			data: {
-				title?: string;
-				links?: string[];
-				tags?: string[] | string;
-				graph?: { exclude: boolean } | undefined;
-			};
-		} = matter(content);
-		if (frontmatter.data) {
-			if (frontmatter.data.graph?.exclude) {
-				return;
-			}
-
-			title = frontmatter.data.title ?? title;
-
-			if (frontmatter.data.links) {
-				for (const link of frontmatter.data.links) {
-					links.add(link);
-				}
-			}
-
-			if (frontmatter.data.tags) {
-				if (typeof frontmatter.data.tags === 'string') {
-					tags.add(frontmatter.data.tags);
-				} else {
-					for (const tag of frontmatter.data.tags) {
-						tags.add(tag);
-					}
-				}
-			}
-		}
+		const frontmatter = matter(content) as unknown as { data: PageConfig };
 
 		if (linkMatches) {
 			for (const match of linkMatches) {
@@ -105,6 +76,34 @@ class SiteMapBuilder {
 				}
 			}
 		}
+
+		if (frontmatter.data) {
+			if (frontmatter.data.sitemap?.include === false) {
+				return;
+			}
+
+			title = frontmatter.data.title ?? title;
+		}
+
+		const currentLinkRules = (frontmatter.data?.sitemap?.linkRules ?? []).concat(this.globalLinkRules);
+		if (currentLinkRules.length) {
+			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, true)));
+		}
+
+		if (frontmatter.data) {
+			if (frontmatter.data.links) {
+				for (const link of [].concat(frontmatter.data.links)) {
+					links.add(link);
+				}
+			}
+
+			if (frontmatter.data.tags) {
+				for (const tag of [].concat(frontmatter.data.tags)) {
+					tags.add(tag);
+				}
+			}
+		}
+
 
 		this.map.set(linkPath, {
 			filePath,
@@ -200,26 +199,13 @@ export default defineIntegration({
 									: ''),
 						);
 
-						const builder = new SiteMapBuilder(options.contentRoot, params.config.base);
-						let file_set = new Set<string>();
-						if (options.sitemapInclusionRules?.length) {
-							for (let i = options.sitemapInclusionRules.length - 1; i >= 0; i--) {
-								const rule = options.sitemapInclusionRules[i]!;
-								if (rule.startsWith('!')) {
-									file_set = new Set(micromatch([...file_set], rule));
-								} else {
-									const rule_files = await globby(rule, {
-										cwd: options.contentRoot,
-									});
-									for (const file of rule_files) {
-										file_set.add(file);
-									}
-								}
+						const builder = new SiteMapBuilder(options.contentRoot, params.config.base, options.sitemapLinkRules);
+						for await (const p of walk(options.contentRoot)) {
+							if (firstMatchingPattern(p, options.sitemapInclusionRules, true)) {
+								await builder.add(p);
 							}
 						}
-						for (const file of file_set) {
-							await builder.add(path.join(options.contentRoot, file));
-						}
+
 						builder.process();
 						const sitemap = builder.toSitemap();
 
