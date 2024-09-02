@@ -1,11 +1,18 @@
 ---
 import type { GraphConfig } from '../config';
 import type { Sitemap } from '../types';
-const { config, sitemap } = Astro.props as
-	{ config: GraphConfig, sitemap: Sitemap };
+
+interface Props {
+    slug: string;
+    config: GraphConfig;
+    sitemap: Sitemap | undefined;
+}
+
+
+const { config, sitemap, slug } = Astro.props;
 ---
 
-<graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)}></graph-component>
+<graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug}></graph-component>
 
 <script>
 	import { prefetch } from 'astro:prefetch';
@@ -22,6 +29,7 @@ const { config, sitemap } = Astro.props as
 			simplifySlug,
 			stripSlashes,
 			ensureLeadingSlash,
+            ensureTrailingSlash,
 			isMobileDevice,
 			hasTouch
 			} from './util';
@@ -69,7 +77,7 @@ const { config, sitemap } = Astro.props as
 		isFullscreen: boolean = false;
 		fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
 
-		currentPage: string = stripSlashes(location.pathname) + '/';
+		currentPage!: string;
 		requireDblClick: boolean;
 
 		visitedPages: Set<string>;
@@ -83,6 +91,9 @@ const { config, sitemap } = Astro.props as
 			try {
 				this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
+            try {
+                this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
+            } catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
 
 			this.config.depth = Math.min(this.config.depth, 5);
 

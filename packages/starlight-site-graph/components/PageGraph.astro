@@ -1,0 +1,38 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import config from 'virtual:starlight-site-graph/config'
+import Graph from "../components/Graph.astro";
+import {firstMatchingPattern} from "../integrationUtil";
+import {type PageGraphConfig} from "../schema";
+
+const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
+
+interface CurrentProps extends Props {
+    showGraph?: boolean;
+}
+
+let { slug, showGraph, class: className } = Astro.props as CurrentProps;
+
+if (showGraph === undefined) {
+    if (graphData?.visible !== undefined) {
+        showGraph = graphData.visible;
+    } else {
+        showGraph = config.graphConfig.visibilityRules ? firstMatchingPattern(slug, config.graphConfig.visibilityRules, false) : true;
+    }
+}
+
+---
+
+{showGraph &&
+    <div class:list={className}>
+        <slot name="title"/>
+        <Graph
+            slug={slug}
+            sitemap={config.sitemapConfig.sitemap}
+            config={{
+                ...config.graphConfig,
+                ...graphData
+            }}
+        />
+    </div>
+}
