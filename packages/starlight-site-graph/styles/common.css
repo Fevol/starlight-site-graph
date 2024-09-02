@@ -1,3 +1,8 @@
+:root {
+	--slsg-graph-width: 250px;
+	--slsg-graph-height: 250px;
+}
+
 :root[data-theme='dark'] {
 	--slsg-node-color: var(--sl-color-white);
 	--slsg-node-color-hover: var(--sl-color-accent-high);
@@ -54,14 +59,29 @@
 		.right-sidebar {
 			display: flex;
 			flex-wrap: wrap;
+
+			.graph-panel {
+				flex-grow: 1;
+				width: 50%;
+				min-width: var(--slsg-graph-width);
+
+				.graph-component {
+					width: 100%;
+				}
+			}
+
+			.backlinks-panel {
+				flex-grow: 1;
+				width: 50%;
+			}
 		}
 	}
 }
 
 /* =================================== Graph Container Styling ============================================== */
 .graph-component {
-	width: 250px;
-	height: 250px;
+	width: var(--slsg-graph-width);
+	height: var(--slsg-graph-height);
 }
 
 .graph-container {
