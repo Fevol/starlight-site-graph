@@ -188,6 +188,11 @@ const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
 	visibilityRules: z.array(z.string()).default(["**/*"]),
+
+	/**
+	 * Whether to track pages that were visited in the sidebar graph component.
+	 */
+	trackVisitedPages: z.boolean().default(true),
 });
 
 const globalBacklinksConfigSchema = z.object({
@@ -271,7 +276,13 @@ const globalSitemapConfigSchema = z.object({
 
 export const starlightSiteGraphConfigSchema = z
 	.object({
+		/**
+		 * The key used to store the visited pages in the browser's storage.
+		 */
 		storageKey: z.string().default('graph-'),
+		/**
+		 * The location where the visited pages are stored.
+		 */
 		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
 
 		/**
@@ -279,6 +290,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 * @default {
 		 * 	   visibilityRules: ["**\/*"],
+		 * 	   trackVisitedPages: true,
 		 *
 		 * 	   actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
 		 * 	   clickMode: 'auto',
@@ -330,11 +342,17 @@ export const starlightSiteGraphConfigSchema = z
 			visibilityRules: ["**/*"],
 		}),
 
+		/**
+		 * Configuration for the sitemap generation.
+		 */
 		sitemapConfig: globalSitemapConfigSchema.default({
 			pageInclusionRules: ["**/*"],
 			linkInclusionRules: ["**/*"],
 		}),
 
+		/**
+		 * Configuration for the PageSidebar backlinks component.
+		 */
 		backlinksConfig: globalBacklinksConfigSchema.default({
 			visibilityRules: ["**/*"],
 		}),
@@ -342,6 +360,7 @@ export const starlightSiteGraphConfigSchema = z
 	.default({
 		graphConfig: {
 			...defaultGraphConfig,
+			trackVisitedPages: true,
 			visibilityRules: ["**/*"],
 		},
 		sitemapConfig: {

@@ -1,6 +1,8 @@
 import config from 'virtual:starlight-site-graph/config';
 
 export function getVisitedEndpoints(): Set<string> {
+	if (!config.graphConfig.trackVisitedPages) return new Set();
+
 	return new Set(
 		JSON.parse(
 			(config.storageLocation === 'session' ? sessionStorage : localStorage).getItem(
@@ -11,6 +13,8 @@ export function getVisitedEndpoints(): Set<string> {
 }
 
 export function addToVisitedEndpoints(slug: string) {
+	if (!config.graphConfig.trackVisitedPages) return;
+
 	const visited = getVisitedEndpoints();
 	visited.add(slug);
 	(config.storageLocation === 'session' ? sessionStorage : localStorage).setItem(
