@@ -12,14 +12,14 @@ let showGraph: boolean;
 if (graphData?.visible !== undefined) {
     showGraph = graphData.visible;
 } else {
-    showGraph = config.graphVisibilityRules ? firstMatchingPattern(Astro.props.slug, config.graphVisibilityRules, false) : true;
+    showGraph = config.graphConfig.visibilityRules ? firstMatchingPattern(Astro.props.slug, config.graphConfig.visibilityRules, false) : true;
 }
 ---
 
 {showGraph &&
     <div class="right-sidebar-panel graph-panel">
         <h2>Graph View</h2>
-        <Graph sitemap={config.sitemap} config={{
+        <Graph sitemap={config.sitemapConfig.sitemap} config={{
             ...config.graphConfig,
             ...graphData
         }} />

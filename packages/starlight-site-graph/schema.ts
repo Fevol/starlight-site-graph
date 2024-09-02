@@ -9,7 +9,7 @@ export interface PageGraphConfig extends GraphConfig {
 
 export interface PageSitemapConfig {
 	include: boolean;
-	linkRules: string[];
+	linkInclusionRules: string[];
 }
 
 export interface PageConfig {
@@ -36,11 +36,11 @@ export const pageConfigSchema = z.object({
 		 */
 		include: z.boolean().optional(),
 		/**
-		 * Which links of this page can be included in the sitemap
+		 * Which links of this page may be included in the sitemap
 		 */
-		linkRules: z.array(z.string()).default(["**/*"]),
+		linkInclusionRules: z.array(z.string()).default(["**/*"]),
 	}).default({
-		linkRules: ["**/*"],
+		linkInclusionRules: ["**/*"],
 	}),
 	graph: graphConfigSchema.extend({
 		/**

@@ -85,7 +85,7 @@ class SiteMapBuilder {
 			title = frontmatter.data.title ?? title;
 		}
 
-		const currentLinkRules = (frontmatter.data?.sitemap?.linkRules ?? []).concat(this.globalLinkRules);
+		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(this.globalLinkRules);
 		if (currentLinkRules.length) {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
@@ -191,17 +191,18 @@ export default defineIntegration({
 		return {
 			hooks: {
 				'astro:config:setup': async params => {
-					if (!options.sitemap) {
+					const { sitemapConfig } = options;
+					if (!options.sitemapConfig.sitemap) {
 						params.logger.info(
 							'Generating sitemap from content links' +
-								(options.sitemapInclusionRules.length
-									? ` (with patterns ${options.sitemapInclusionRules.join(', ')})`
+								(sitemapConfig.pageInclusionRules.length
+									? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
 									: ''),
 						);
 
-						const builder = new SiteMapBuilder(options.contentRoot, params.config.base, options.sitemapLinkRules);
-						for await (const p of walk(options.contentRoot)) {
-							if (firstMatchingPattern(p, options.sitemapInclusionRules, false)) {
+						const builder = new SiteMapBuilder(sitemapConfig.contentRoot, params.config.base, sitemapConfig.pageInclusionRules);
+						for await (const p of walk(sitemapConfig.contentRoot)) {
+							if (firstMatchingPattern(p, sitemapConfig.pageInclusionRules, false)) {
 								await builder.add(p);
 							}
 						}
@@ -209,7 +210,7 @@ export default defineIntegration({
 						builder.process();
 						const sitemap = builder.toSitemap();
 
-						options.sitemap = { ...sitemap };
+						options.sitemapConfig.sitemap = { ...sitemap };
 						params.logger.info('Finished generating sitemap');
 					} else {
 						params.logger.info('Using applied sitemap');

@@ -171,70 +171,96 @@ export const graphConfigSchema = z
 	})
 
 
+const globalGraphConfigSchema = graphConfigSchema.extend({
+	/**
+	 * Configure the visibility of the graph component in the sidebar with an ordered list of rules.
+	 * The graph is hidden/shown if the page's _slug_ matches one of the rules.
+	 * When a rule starts with `!`, the graph is _hidden_ if matched.
+	 * Rules are evaluated in order, the first matching rule determines the visibility of the page.
+	 * If visibility of the page was specified in the page frontmatter, it will take precedence over these rules.
+	 *
+	 * @default Graph is visible for all pages
+	 * ["**\/*"]
+	 * @example Only show graph for pages in the "api" folder:
+	 * ["api/**"]
+	 * @example Show graph for all pages except those in the "secret" folder:
+	 * ["!secret/**", "**\/*"]
+	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+	 */
+	visibilityRules: z.array(z.string()).default(["**/*"]),
+});
+
+
+const globalSitemapConfigSchema = z.object({
+	/**
+	 * The root directory of the content used to generate links from for the sitemap
+	 *
+	 * @default "./src/content/docs"
+	 */
+	contentRoot: z.string().default('./src/content/docs'),
+
+	/**
+	 * Specify a custom sitemap to be used for the PageSidebar graph component.
+	 * If unspecified, a sitemap will be generated from the content directory (see `contentRoot`), using the `pageInclusionRules` and `linkInclusionRules`.
+	 *
+	 * @default undefined
+	 */
+	sitemap: z.record(
+		z.string(),
+		z.object({
+			exists: z.boolean(),
+			title: z.string(),
+			links: z.array(z.string()),
+			backlinks: z.array(z.string()),
+			tags: z.array(z.string()),
+		}),
+	).optional(),
+
+	/**
+	 * Configure the inclusion of files in the sitemap with an ordered list of rules.
+	 * The page is included/excluded if the file's _path_ matches one of the rules.
+	 * When a rule starts with `!`, the file is _excluded_ if matched.
+	 * Rules are evaluated in order, the first matching rule determines the inclusion of the file.
+	 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
+	 *
+	 * @default Sitemap includes all files by default
+	 * ["**\/*"]
+	 * @example Only include files in the "api" folder:
+	 * ["api/**", "!**\/*"]
+	 * @example Include all files except those in the "secret" folder:
+	 * ["!secret/**", "**\/*"]
+	 */
+	pageInclusionRules: z.array(z.string()).default(["**/*"]),
+
+	/**
+	 * Configure the rules for which links are included in the sitemap for every page.
+	 * The link is included/excluded if the link's target _path_ matches one of the rules.
+	 * When a rule starts with `!`, the link is _excluded_ if matched.
+	 * Rules are evaluated in order, the first matching rule determines the inclusion of the link.
+	 * Link rules specified in the page frontmatter take precedence over these rules.
+	 *
+	 * @default Sitemap includes all links by default
+	 * ["**\/*"]
+	 * @example Only include links to endpoints in the "api" subdirectory:
+	 * ["api/**"]
+	 * @example Include all links except those to the "secret" subdirectory:
+	 * ["!secret/**", "**\/*"]
+	 */
+	linkInclusionRules: z.array(z.string()).default(["**/*"]),
+})
+
 
 export const starlightSiteGraphConfigSchema = z
 	.object({
-		/**
-		 * The root directory of the content to generate links from
-		 *
-		 * @default "docs"
-		 */
-		contentRoot: z.string().default('./src/content/docs'),
 		storageKey: z.string().default('graph-'),
 		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
 
 		/**
-		 * Configure the visibility of the graph component in the sidebar with an ordered list of rules.
-		 * The graph is hidden/shown if the page's _slug_ matches one of the rules.
-		 * When a rule starts with `!`, the graph is _hidden_ if matched.
-		 * Rules are evaluated in order, the first matching rule determines the visibility of the page.
-		 * If visibility of the page was specified in the page frontmatter, it will take precedence over these rules.
-		 *
-		 * @default Graph is visible for all pages
-		 * ["**\/*"]
-		 * @example Only show graph for pages in the "api" folder:
-		 * ["api/**"]
-		 * @example Show graph for all pages except those in the "secret" folder:
-		 * ["!secret/**", "**\/*"]
-		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
-		 */
-		graphVisibilityRules: z.array(z.string()).default(["**/*"]),
-		/**
-		 * Configure the inclusion of files in the sitemap with an ordered list of rules.
-		 * The page is included/excluded if the file's _path_ matches one of the rules.
-		 * When a rule starts with `!`, the file is _excluded_ if matched.
-		 * Rules are evaluated in order, the first matching rule determines the inclusion of the file.
-		 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
-		 *
-		 * @default Sitemap includes all files by default
-		 * ["**\/*"]
-		 * @example Only include files in the "api" folder:
-		 * ["api/**", "!**\/*"]
-		 * @example Include all files except those in the "secret" folder:
-		 * ["!secret/**", "**\/*"]
-		 */
-		sitemapInclusionRules: z.array(z.string()).default(["**/*"]),
-
-		/**
-		 * Configure the rules for which links are included in the sitemap per page.
-		 * The link is included/excluded if the link's target _path_ matches one of the rules.
-		 * When a rule starts with `!`, the link is _excluded_ if matched.
-		 * Rules are evaluated in order, the first matching rule determines the inclusion of the link.
-		 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
-		 *
-		 * @default Sitemap includes all links by default
-		 * ["**\/*"]
-		 * @example Only include links to endpoints in the "api" subdirectory:
-		 * ["api/**"]
-		 * @example Include all links except those to the "secret" subdirectory:
-		 * ["!secret/**", "**\/*"]
-		 */
-		sitemapLinkRules: z.array(z.string()).default(["**/*"]),
-
-		/**
-		 * Configuration for the graph
+		 * Configuration for the PageSidebar graph component.
 		 *
 		 * @default {
+		 * 	   visibilityRules: ["**\/*"],
+		 *
 		 * 	   actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
 		 * 	   clickMode: 'auto',
 		 *
@@ -280,32 +306,26 @@ export const starlightSiteGraphConfigSchema = z
 		 *     customFolderTags: {},
 		 * }
 		 */
-		graphConfig: graphConfigSchema.default(defaultGraphConfig),
-		/**
-		 * Specify a custom sitemap to be used for the PageSidebar graph, if not provided, a sitemap will be generated from the content directory
-		 * including/excluding files based on the `include_sitemap` and `exclude_sitemap` options
-		 *
-		 * @default undefined
-		 */
-		sitemap: z
-			.record(
-				z.string(),
-				z.object({
-					exists: z.boolean(),
-					title: z.string(),
-					links: z.array(z.string()),
-					backlinks: z.array(z.string()),
-					tags: z.array(z.string()),
-				}),
-			)
-			.optional(),
+		graphConfig: globalGraphConfigSchema.default({
+			...defaultGraphConfig,
+			visibilityRules: ["**/*"],
+		}),
+
+		sitemapConfig: globalSitemapConfigSchema.default({
+			pageInclusionRules: ["**/*"],
+			linkInclusionRules: ["**/*"],
+		}),
 	})
 	.default({
-		contentRoot: './src/content/docs',
-		graphConfig: defaultGraphConfig,
-		graphVisibilityRules: ["**/*"],
-		sitemapInclusionRules: ["**/*"],
-		sitemapLinkRules: ["**/*"],
+		graphConfig: {
+			...defaultGraphConfig,
+			visibilityRules: ["**/*"],
+		},
+		sitemapConfig: {
+			contentRoot: './src/content/docs',
+			pageInclusionRules: ["**/*"],
+			linkInclusionRules: ["**/*"],
+		},
 	});
 
 export type StarlightSiteGraphConfig = z.infer<typeof starlightSiteGraphConfigSchema>;
