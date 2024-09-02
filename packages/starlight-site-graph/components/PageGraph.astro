@@ -8,6 +8,7 @@ import {type PageGraphConfig} from "../schema";
 const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
 
 interface CurrentProps extends Props {
+    class: string;
     showGraph?: boolean;
 }
 

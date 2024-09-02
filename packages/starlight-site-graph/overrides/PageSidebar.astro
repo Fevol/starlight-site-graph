@@ -3,6 +3,7 @@ import Default from "@astrojs/starlight/components/PageSidebar.astro";
 import type { Props } from '@astrojs/starlight/props';
 
 import PageGraph from "../components/PageGraph.astro";
+import Backlinks from "../components/Backlinks.astro";
 
 ---
 
@@ -13,3 +14,7 @@ import PageGraph from "../components/PageGraph.astro";
 <Default {...Astro.props}>
     <slot />
 </Default>
+
+<Backlinks {...Astro.props} class="right-sidebar-panel backlinks-panel">
+    <h2 slot="title">Backlinks</h2>
+</Backlinks>

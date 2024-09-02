@@ -48,6 +48,12 @@ export const pageConfigSchema = z.object({
 		 */
 		visible: z.boolean().optional(),
 	}).partial().optional(),
+	backlinks: z.object({
+		/**
+		 * Whether the backlinks component should be visible for this page, has precedence over global rules
+		 */
+		visible: z.boolean().optional(),
+	}).partial().optional(),
 });
 
 interface SchemaContext {

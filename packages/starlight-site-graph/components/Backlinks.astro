@@ -1,0 +1,42 @@
+---
+import type { Props } from '@astrojs/starlight/props';
+import config from 'virtual:starlight-site-graph/config'
+import {ensureTrailingSlash, getRelativePath} from "./util";
+import {firstMatchingPattern} from "../integrationUtil";
+
+interface CurrentProps extends Props {
+    class: string;
+    showBacklinks?: boolean;
+}
+
+let { slug, showBacklinks, class: className } = Astro.props as CurrentProps;
+
+const backlinksData = Astro.props.entry['data'].backlinks;
+const sitemap = config.sitemapConfig.sitemap!;
+const sitemap_entry = sitemap[ensureTrailingSlash(slug)]!;
+const backlinks = sitemap_entry?.backlinks.sort((a, b) => sitemap[a]!.title.localeCompare(sitemap[b]!.title));
+
+if (showBacklinks === undefined) {
+    if (backlinksData?.visible !== undefined) {
+        showBacklinks = backlinksData.visible;
+    } else {
+        showBacklinks = config.backlinksConfig.visibilityRules ? firstMatchingPattern(slug, config.backlinksConfig.visibilityRules, false) : true;
+    }
+}
+
+---
+
+{showBacklinks && backlinks?.length > 0 &&
+    <div class:list={className}>
+        <slot name="title"/>
+        {backlinks.map((link) => (
+                <ul class="backlink" style="--depth: 0;">
+                    <li style="--depth: 0;">
+                        <a href={getRelativePath(slug, link)} style="--depth: 0;", target="_self">
+                            <span style="--depth: 0;">{sitemap[link]!.title}</span>
+                        </a>
+                    </li>
+                </ul>
+        ))}
+    </div>
+}

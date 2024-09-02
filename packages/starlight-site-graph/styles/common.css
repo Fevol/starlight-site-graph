@@ -33,7 +33,7 @@
 }
 
 /* ========================================= Sidebar Styling ================================================ */
-.graph-panel {
+.graph-panel, .backlinks-panel {
 	padding: 1rem var(--sl-sidebar-pad-x);
 
 	h2 {
@@ -45,6 +45,7 @@
 	}
 }
 
+
 /* Move graph and other contents in page sidebar into bottom of page */
 @media (max-width: 1152px) {
 	.main-frame > div:has(.graph-panel) {
@@ -52,6 +53,7 @@
 		flex-direction: column-reverse;
 		.right-sidebar {
 			display: flex;
+			flex-wrap: wrap;
 		}
 	}
 }
@@ -170,6 +172,34 @@ body:has(.background-blur) {
 	svg {
 		width: 16px;
 		height: 16px;
+	}
+}
+
+/* ========================================================================================================== */
+
+/* ======================================== Backlink Styling ================================================ */
+
+.backlink {
+	padding: 0;
+	list-style: none;
+
+	a {
+		display: block;
+		font-size: var(--sl-text-xs);
+		text-decoration: none;
+		color:var(--sl-color-text-accent);
+		overflow-wrap: anywhere;
+
+		&:hover {
+			color: var(--sl-color-white);
+			text-decoration: underline;
+		}
+
+		--pad-inline: 0.5rem;
+		border-radius: 0.25rem;
+		padding-block: 0.25rem;
+		padding-inline: calc(1rem * var(--depth) + var(--pad-inline)) var(--pad-inline);
+		line-height: 1.25;
 	}
 }
 

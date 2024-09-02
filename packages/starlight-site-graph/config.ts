@@ -177,13 +177,32 @@ const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * The graph is hidden/shown if the page's _slug_ matches one of the rules.
 	 * When a rule starts with `!`, the graph is _hidden_ if matched.
 	 * Rules are evaluated in order, the first matching rule determines the visibility of the page.
-	 * If visibility of the page was specified in the page frontmatter, it will take precedence over these rules.
+	 * If visibility of the graph was specified in the page frontmatter, it will take precedence over these rules.
 	 *
 	 * @default Graph is visible for all pages
 	 * ["**\/*"]
 	 * @example Only show graph for pages in the "api" folder:
 	 * ["api/**"]
 	 * @example Show graph for all pages except those in the "secret" folder:
+	 * ["!secret/**", "**\/*"]
+	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
+	 */
+	visibilityRules: z.array(z.string()).default(["**/*"]),
+});
+
+const globalBacklinksConfigSchema = z.object({
+	/**
+	 * Configure the visibility of the backlinks component in the sidebar with an ordered list of rules.
+	 * The backlinks are hidden/shown if the page's _slug_ matches one of the rules.
+	 * When a rule starts with `!`, the backlinks are _hidden_ if matched.
+	 * Rules are evaluated in order, the first matching rule determines the visibility of the page.
+	 * If visibility of the backlinks was specified in the page frontmatter, it will take precedence over these rules.
+	 *
+	 * @default Backlinks are visible for all pages
+	 * ["**\/*"]
+	 * @example Only show backlinks for pages in the "api" folder:
+	 * ["api/**"]
+	 * @example Show backlinks for all pages except those in the "secret" folder:
 	 * ["!secret/**", "**\/*"]
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
@@ -315,6 +334,10 @@ export const starlightSiteGraphConfigSchema = z
 			pageInclusionRules: ["**/*"],
 			linkInclusionRules: ["**/*"],
 		}),
+
+		backlinksConfig: globalBacklinksConfigSchema.default({
+			visibilityRules: ["**/*"],
+		}),
 	})
 	.default({
 		graphConfig: {
@@ -325,6 +348,9 @@ export const starlightSiteGraphConfigSchema = z
 			contentRoot: './src/content/docs',
 			pageInclusionRules: ["**/*"],
 			linkInclusionRules: ["**/*"],
+		},
+		backlinksConfig: {
+			visibilityRules: ["**/*"],
 		},
 	});
 
