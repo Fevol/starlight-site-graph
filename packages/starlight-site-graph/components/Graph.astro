@@ -444,7 +444,7 @@ const { config, sitemap, slug } = Astro.props;
 				.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.config.repelForce))
 				.force('forceX', d3.forceX().strength(this.config.nodeForce))
 				.force('forceY', d3.forceY().strength(this.config.nodeForce))
-				.force('collision', d3.forceCollide().radius(this.config.collisionForce))
+				.force('collision', d3.forceCollide().radius((node) => ((node as NodeData).size! / this.config.nodeSize) ** 2 * this.config.collisionForce))
 				.force('center', d3.forceCenter(this.config.centerForce))
 				.alpha(1)
 				.restart();
