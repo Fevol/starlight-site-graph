@@ -5,9 +5,16 @@ import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import matter from 'gray-matter';
 
 import { starlightSiteGraphConfigSchema } from './config';
-import { ensureTrailingSlash, resolveIndex, slugifyPath, stripLeadingSlash, trimSlashes, firstMatchingPattern } from './integrationUtil';
+import {
+	ensureTrailingSlash,
+	resolveIndex,
+	slugifyPath,
+	stripLeadingSlash,
+	trimSlashes,
+	firstMatchingPattern,
+} from './integrationUtil';
 import type { Sitemap, SitemapEntry } from './types';
-import type {PageConfig} from "./schema";
+import type { PageConfig } from './schema';
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {
@@ -104,7 +111,6 @@ class SiteMapBuilder {
 			}
 		}
 
-
 		this.map.set(linkPath, {
 			filePath,
 			linkPath,
@@ -200,7 +206,11 @@ export default defineIntegration({
 									: ''),
 						);
 
-						const builder = new SiteMapBuilder(sitemapConfig.contentRoot, params.config.base, sitemapConfig.pageInclusionRules);
+						const builder = new SiteMapBuilder(
+							sitemapConfig.contentRoot,
+							params.config.base,
+							sitemapConfig.pageInclusionRules,
+						);
 						for await (const p of walk(sitemapConfig.contentRoot)) {
 							if (firstMatchingPattern(p, sitemapConfig.pageInclusionRules, false)) {
 								await builder.add(p);

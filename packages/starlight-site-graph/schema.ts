@@ -1,7 +1,6 @@
 import { z } from 'astro/zod';
 import { AstroError } from 'astro/errors';
-import {type GraphConfig, graphConfigSchema} from "./config";
-
+import { type GraphConfig, graphConfigSchema } from './config';
 
 export interface PageGraphConfig extends GraphConfig {
 	visible?: boolean;
@@ -30,30 +29,38 @@ export const pageConfigSchema = z.object({
 	 * Tags linked to this page
 	 */
 	tags: z.array(z.string()).optional(),
-	sitemap: z.object({
-		/**
-		 * Whether the page should be excluded from the sitemap, has precedence over global rules
-		 */
-		include: z.boolean().optional(),
-		/**
-		 * Which links of this page may be included in the sitemap
-		 */
-		linkInclusionRules: z.array(z.string()).default(["**/*"]),
-	}).default({
-		linkInclusionRules: ["**/*"],
-	}),
-	graph: graphConfigSchema.extend({
-		/**
-		 * Whether the graph component should be visible for this page, has precedence over global rules
-		 */
-		visible: z.boolean().optional(),
-	}).partial().optional(),
-	backlinks: z.object({
-		/**
-		 * Whether the backlinks component should be visible for this page, has precedence over global rules
-		 */
-		visible: z.boolean().optional(),
-	}).partial().optional(),
+	sitemap: z
+		.object({
+			/**
+			 * Whether the page should be excluded from the sitemap, has precedence over global rules
+			 */
+			include: z.boolean().optional(),
+			/**
+			 * Which links of this page may be included in the sitemap
+			 */
+			linkInclusionRules: z.array(z.string()).default(['**/*']),
+		})
+		.default({
+			linkInclusionRules: ['**/*'],
+		}),
+	graph: graphConfigSchema
+		.extend({
+			/**
+			 * Whether the graph component should be visible for this page, has precedence over global rules
+			 */
+			visible: z.boolean().optional(),
+		})
+		.partial()
+		.optional(),
+	backlinks: z
+		.object({
+			/**
+			 * Whether the backlinks component should be visible for this page, has precedence over global rules
+			 */
+			visible: z.boolean().optional(),
+		})
+		.partial()
+		.optional(),
 });
 
 interface SchemaContext {

@@ -38,7 +38,8 @@
 }
 
 /* ========================================= Sidebar Styling ================================================ */
-.graph-panel, .backlinks-panel {
+.graph-panel,
+.backlinks-panel {
 	padding: 1rem var(--sl-sidebar-pad-x);
 
 	h2 {
@@ -49,7 +50,6 @@
 		margin-bottom: 0.5rem;
 	}
 }
-
 
 /* Move graph and other contents in page sidebar into bottom of page */
 @media (max-width: 1152px) {
@@ -207,7 +207,7 @@ body:has(.background-blur) {
 		display: block;
 		font-size: var(--sl-text-xs);
 		text-decoration: none;
-		color:var(--sl-color-text-accent);
+		color: var(--sl-color-text-accent);
 		overflow-wrap: anywhere;
 
 		&:hover {

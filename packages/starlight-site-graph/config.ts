@@ -10,255 +10,255 @@ const easing_types = z.union([
 	z.literal('linear'),
 ]);
 
-export const graphConfigSchema = z
-	.object({
-		/**
-		 * The actions available within the graph component
-		 *
-		 * - `fullscreen`: Toggle fullscreen mode
-		 * - `depth`: Increase the depth of the graph
-		 * - `reset-zoom`: Reset the zoom level and center the graph on node of current page
-		 * - `render-arrows`: Toggle the rendering of arrows
-		 * - `settings`: Open the simulation settings modal
-		 *
-		 * @default ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"]
-		 */
-		actions: z.array(
+export const graphConfigSchema = z.object({
+	/**
+	 * The actions available within the graph component
+	 *
+	 * - `fullscreen`: Toggle fullscreen mode
+	 * - `depth`: Increase the depth of the graph
+	 * - `reset-zoom`: Reset the zoom level and center the graph on node of current page
+	 * - `render-arrows`: Toggle the rendering of arrows
+	 * - `settings`: Open the simulation settings modal
+	 *
+	 * @default ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"]
+	 */
+	actions: z
+		.array(
 			z.union([
 				z.literal('fullscreen'),
 				z.literal('depth'),
 				z.literal('reset-zoom'),
 				z.literal('render-arrows'),
 				z.literal('settings'),
-			])
-		).default(['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']),
-		/**
-		 * Whether to track pages that were visited in the sidebar graph component.
-		 *
-		 * @default true
-		 */
-		trackVisitedPages: z.boolean().default(true),
-		/**
-		 * The mode of interaction to trigger the page navigation
-		 *
-		 * - `auto`: Require double click for mobile devices with touch input, single click otherwise
-		 * - `click`: Always require a single click
-		 * - `dblclick`: Always require a double click
-		 *
-		 * @default "auto"
-		 */
-		clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default('auto'),
+			]),
+		)
+		.default(['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']),
+	/**
+	 * Whether to track pages that were visited in the sidebar graph component.
+	 *
+	 * @default true
+	 */
+	trackVisitedPages: z.boolean().default(true),
+	/**
+	 * The mode of interaction to trigger the page navigation
+	 *
+	 * - `auto`: Require double click for mobile devices with touch input, single click otherwise
+	 * - `click`: Always require a single click
+	 * - `dblclick`: Always require a double click
+	 *
+	 * @default "auto"
+	 */
+	clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default('auto'),
 
-		/**
-		 * Whether to enable user dragging/panning of the graph
-		 *
-		 * @default true
-		 */
-		enableDrag: z.boolean().default(true),
-		/**
-		 * Whether to enable user zooming of the graph
-		 *
-		 * @default true
-		 */
-		enableZoom: z.boolean().default(true),
-		/**
-		 * Whether to enable hover interactions on the graph
-		 * This includes highlighting nodes and links on hover, and showing labels
-		 *
-		 * @default true
-		 */
-		enableHover: z.boolean().default(true),
-		/**
-		 * The depth of the graph, determines how many levels of links are shown
-		 *
-		 * @default 1
-		 */
-		depth: z.number().default(1),
-		/**
-		 * The scale of the graph, determines the zoom level
-		 *
-		 * @default 1.1
-		 */
-		scale: z.number().default(1.1),
-		/**
-		 * The minimum zoom level of the graph
-		 *
-		 * @default 0.05
-		 */
-		minZoom: z.number().default(0.05),
-		/**
-		 * The maximum zoom level of the graph
-		 *
-		 * @default 4
-		 */
-		maxZoom: z.number().default(4),
+	/**
+	 * Whether to enable user dragging/panning of the graph
+	 *
+	 * @default true
+	 */
+	enableDrag: z.boolean().default(true),
+	/**
+	 * Whether to enable user zooming of the graph
+	 *
+	 * @default true
+	 */
+	enableZoom: z.boolean().default(true),
+	/**
+	 * Whether to enable hover interactions on the graph
+	 * This includes highlighting nodes and links on hover, and showing labels
+	 *
+	 * @default true
+	 */
+	enableHover: z.boolean().default(true),
+	/**
+	 * The depth of the graph, determines how many levels of links are shown
+	 *
+	 * @default 1
+	 */
+	depth: z.number().default(1),
+	/**
+	 * The scale of the graph, determines the zoom level
+	 *
+	 * @default 1.1
+	 */
+	scale: z.number().default(1.1),
+	/**
+	 * The minimum zoom level of the graph
+	 *
+	 * @default 0.05
+	 */
+	minZoom: z.number().default(0.05),
+	/**
+	 * The maximum zoom level of the graph
+	 *
+	 * @default 4
+	 */
+	maxZoom: z.number().default(4),
 
-		/**
-		 * Whether to render page title labels on the nodes
-		 *
-		 * @default true
-		 */
-		renderLabels: z.boolean().default(true),
-		/**
-		 * Whether to render arrows on the links
-		 *
-		 * @default true
-		 */
-		renderArrows: z.boolean().default(false),
-		/**
-		 * Whether to render unresolved pages in the graph
-		 *
-		 * @default false
-		 */
-		renderUnresolved: z.boolean().default(false),
+	/**
+	 * Whether to render page title labels on the nodes
+	 *
+	 * @default true
+	 */
+	renderLabels: z.boolean().default(true),
+	/**
+	 * Whether to render arrows on the links
+	 *
+	 * @default true
+	 */
+	renderArrows: z.boolean().default(false),
+	/**
+	 * Whether to render unresolved pages in the graph
+	 *
+	 * @default false
+	 */
+	renderUnresolved: z.boolean().default(false),
 
-		/**
-		 * Whether to scale the links based on the zoom level
-		 *
-		 * @default true
-		 */
-		scaleLinks: z.boolean().default(true),
-		/**
-		 * Whether to scale the arrows based on the zoom level
-		 *
-		 * @default false
-		 */
-		scaleArrows: z.boolean().default(true),
+	/**
+	 * Whether to scale the links based on the zoom level
+	 *
+	 * @default true
+	 */
+	scaleLinks: z.boolean().default(true),
+	/**
+	 * Whether to scale the arrows based on the zoom level
+	 *
+	 * @default false
+	 */
+	scaleArrows: z.boolean().default(true),
 
-		/**
-		 * The scale factor for the opacity of the labels, based on the zoom level
-		 * A higher value will make the labels more opaque at lower zoom levels
-		 *
-		 * @default 1.3
-		 */
-		labelOpacityScale: z.number().default(1.3),
-		/**
-		 * The font size of the labels
-		 *
-		 * @default 12
-		 */
-		labelFontSize: z.number().default(12),
-		/**
-		 * The offset of the labels from the nodes
-		 *
-		 * @default 10
-		 */
-		labelOffset: z.number().default(10),
-		/**
-		 * The offset of the labels from the nodes on hover
-		 *
-		 * @default 14
-		 */
-		labelHoverOffset: z.number().default(14),
+	/**
+	 * The scale factor for the opacity of the labels, based on the zoom level
+	 * A higher value will make the labels more opaque at lower zoom levels
+	 *
+	 * @default 1.3
+	 */
+	labelOpacityScale: z.number().default(1.3),
+	/**
+	 * The font size of the labels
+	 *
+	 * @default 12
+	 */
+	labelFontSize: z.number().default(12),
+	/**
+	 * The offset of the labels from the nodes
+	 *
+	 * @default 10
+	 */
+	labelOffset: z.number().default(10),
+	/**
+	 * The offset of the labels from the nodes on hover
+	 *
+	 * @default 14
+	 */
+	labelHoverOffset: z.number().default(14),
 
-		/**
-		 * The duration of the zoom animation in milliseconds
-		 * This controls the speed of zooming and panning
-		 *
-		 * @default 75
-		 */
-		zoomDuration: z.number().default(75),
-		/**
-		 * The easing function for the zoom animation
-		 * This controls the acceleration of zooming and panning
-		 *
-		 * @default "out_quad"
-		 */
-		zoomEase: easing_types.default('out_quad'),
-		/**
-		 * The duration of the hover animation in milliseconds
-		 * This controls the speed of the node/link/label highlighting transitions
-		 *
-		 * @default 200
-		 */
-		hoverDuration: z.number().default(200),
-		/**
-		 * The easing function for the hover animation
-		 * This controls the acceleration of the node/link/label highlighting transitions
-		 *
-		 * @default "out_quad"
-		 */
-		hoverEase: easing_types.default('out_quad'),
+	/**
+	 * The duration of the zoom animation in milliseconds
+	 * This controls the speed of zooming and panning
+	 *
+	 * @default 75
+	 */
+	zoomDuration: z.number().default(75),
+	/**
+	 * The easing function for the zoom animation
+	 * This controls the acceleration of zooming and panning
+	 *
+	 * @default "out_quad"
+	 */
+	zoomEase: easing_types.default('out_quad'),
+	/**
+	 * The duration of the hover animation in milliseconds
+	 * This controls the speed of the node/link/label highlighting transitions
+	 *
+	 * @default 200
+	 */
+	hoverDuration: z.number().default(200),
+	/**
+	 * The easing function for the hover animation
+	 * This controls the acceleration of the node/link/label highlighting transitions
+	 *
+	 * @default "out_quad"
+	 */
+	hoverEase: easing_types.default('out_quad'),
 
-		/**
-		 * The size of the nodes in the graph
-		 *
-		 * @default 10
-		 */
-		nodeSize: z.number().default(10),
-		/**
-		 * The scale factor for the size of the nodes based on the number of incoming and outgoing links
-		 *
-		 * @default 0.2
-		 */
-		nodeSizeLinkScale: z.number().default(0.2),
+	/**
+	 * The size of the nodes in the graph
+	 *
+	 * @default 10
+	 */
+	nodeSize: z.number().default(10),
+	/**
+	 * The scale factor for the size of the nodes based on the number of incoming and outgoing links
+	 *
+	 * @default 0.2
+	 */
+	nodeSizeLinkScale: z.number().default(0.2),
 
-		/**
-		 * The width of the links in the graph
-		 *
-		 * @default 1
-		 */
-		linkWidth: z.number().default(1),
+	/**
+	 * The width of the links in the graph
+	 *
+	 * @default 1
+	 */
+	linkWidth: z.number().default(1),
 
-		/**
-		 * The size of the arrows on the links
-		 *
-		 * @default 6
-		 */
-		arrowSize: z.number().default(6),
-		/**
-		 * The angle of the arrowhead of the links, a smaller angle will make the arrowhead pointier
-		 *
-		 * @default Math.PI / 6
-		 */
-		arrowAngle: z.number().default(Math.PI / 6),
+	/**
+	 * The size of the arrows on the links
+	 *
+	 * @default 6
+	 */
+	arrowSize: z.number().default(6),
+	/**
+	 * The angle of the arrowhead of the links, a smaller angle will make the arrowhead pointier
+	 *
+	 * @default Math.PI / 6
+	 */
+	arrowAngle: z.number().default(Math.PI / 6),
 
-		/**
-		 * The strength of the force that pulls nodes towards the center of the graph
-		 * A higher value will bring nodes closer together
-		 *
-		 * @default 0.05
-		 */
-		nodeForce: z.number().default(0.05),
-		/**
-		 * The collision force between nodes in the graph
-		 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
-		 *
-		 * @default 20
-		 */
-		collisionForce: z.number().default(20),
-		/**
-		 * The attraction/repulsion force between nodes in the graph
-		 * A higher value will increase the distance between nodes
-		 *
-		 * @default 200
-		 */
-		repelForce: z.number().default(200),
-		/**
-		 * The force that pulls nodes towards the center of gravity of the graph
-		 *
-		 * @default 0
-		 */
-		centerForce: z.number().default(0),
-		/**
-		 * The distance between linked nodes in the graph
-		 * If set to 0, link distance are determined by the force simulation
-		 *
-		 * @default 0
-		 */
-		linkDistance: z.number().default(0),
+	/**
+	 * The strength of the force that pulls nodes towards the center of the graph
+	 * A higher value will bring nodes closer together
+	 *
+	 * @default 0.05
+	 */
+	nodeForce: z.number().default(0.05),
+	/**
+	 * The collision force between nodes in the graph
+	 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
+	 *
+	 * @default 20
+	 */
+	collisionForce: z.number().default(20),
+	/**
+	 * The attraction/repulsion force between nodes in the graph
+	 * A higher value will increase the distance between nodes
+	 *
+	 * @default 200
+	 */
+	repelForce: z.number().default(200),
+	/**
+	 * The force that pulls nodes towards the center of gravity of the graph
+	 *
+	 * @default 0
+	 */
+	centerForce: z.number().default(0),
+	/**
+	 * The distance between linked nodes in the graph
+	 * If set to 0, link distance are determined by the force simulation
+	 *
+	 * @default 0
+	 */
+	linkDistance: z.number().default(0),
 
-		/**
-		 * Whether to show tag nodes in the graph
-		 */
-		showTags: z.boolean().default(false),
-		/**
-		 * Tags to remove from the graph
-		 */
-		removeTags: z.array(z.string()).default([]),
-		// customFolderTags: z.record(z.string()).default({}),
-	})
-
+	/**
+	 * Whether to show tag nodes in the graph
+	 */
+	showTags: z.boolean().default(false),
+	/**
+	 * Tags to remove from the graph
+	 */
+	removeTags: z.array(z.string()).default([]),
+	// customFolderTags: z.record(z.string()).default({}),
+});
 
 const globalGraphConfigSchema = graphConfigSchema.extend({
 	/**
@@ -276,7 +276,7 @@ const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * ["!secret/**", "**\/*"]
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
-	visibilityRules: z.array(z.string()).default(["**/*"]),
+	visibilityRules: z.array(z.string()).default(['**/*']),
 
 	/**
 	 * Whether to track pages that were visited in the sidebar graph component.
@@ -300,9 +300,8 @@ const globalBacklinksConfigSchema = z.object({
 	 * ["!secret/**", "**\/*"]
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
-	visibilityRules: z.array(z.string()).default(["**/*"]),
+	visibilityRules: z.array(z.string()).default(['**/*']),
 });
-
 
 const globalSitemapConfigSchema = z.object({
 	/**
@@ -318,16 +317,18 @@ const globalSitemapConfigSchema = z.object({
 	 *
 	 * @default undefined
 	 */
-	sitemap: z.record(
-		z.string(),
-		z.object({
-			exists: z.boolean().default(true),
-			title: z.string(),
-			links: z.array(z.string()),
-			backlinks: z.array(z.string()),
-			tags: z.array(z.string()),
-		}),
-	).optional(),
+	sitemap: z
+		.record(
+			z.string(),
+			z.object({
+				exists: z.boolean().default(true),
+				title: z.string(),
+				links: z.array(z.string()),
+				backlinks: z.array(z.string()),
+				tags: z.array(z.string()),
+			}),
+		)
+		.optional(),
 
 	/**
 	 * Configure the inclusion of files in the sitemap with an ordered list of rules.
@@ -343,7 +344,7 @@ const globalSitemapConfigSchema = z.object({
 	 * @example Include all files except those in the "secret" folder:
 	 * ["!secret/**", "**\/*"]
 	 */
-	pageInclusionRules: z.array(z.string()).default(["**/*"]),
+	pageInclusionRules: z.array(z.string()).default(['**/*']),
 
 	/**
 	 * Configure the rules for which links are included in the sitemap for every page.
@@ -359,9 +360,8 @@ const globalSitemapConfigSchema = z.object({
 	 * @example Include all links except those to the "secret" subdirectory:
 	 * ["!secret/**", "**\/*"]
 	 */
-	linkInclusionRules: z.array(z.string()).default(["**/*"]),
-})
-
+	linkInclusionRules: z.array(z.string()).default(['**/*']),
+});
 
 export const starlightSiteGraphConfigSchema = z
 	.object({
