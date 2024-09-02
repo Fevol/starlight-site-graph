@@ -87,7 +87,7 @@ class SiteMapBuilder {
 
 		const currentLinkRules = (frontmatter.data?.sitemap?.linkRules ?? []).concat(this.globalLinkRules);
 		if (currentLinkRules.length) {
-			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, true)));
+			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
 
 		if (frontmatter.data) {
@@ -201,7 +201,7 @@ export default defineIntegration({
 
 						const builder = new SiteMapBuilder(options.contentRoot, params.config.base, options.sitemapLinkRules);
 						for await (const p of walk(options.contentRoot)) {
-							if (firstMatchingPattern(p, options.sitemapInclusionRules, true)) {
+							if (firstMatchingPattern(p, options.sitemapInclusionRules, false)) {
 								await builder.add(p);
 							}
 						}

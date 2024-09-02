@@ -12,7 +12,7 @@ let showGraph: boolean;
 if (graphData?.visible !== undefined) {
     showGraph = graphData.visible;
 } else {
-    showGraph = config.graphVisibilityRules ? firstMatchingPattern(Astro.props.slug, config.graphVisibilityRules, true) : true;
+    showGraph = config.graphVisibilityRules ? firstMatchingPattern(Astro.props.slug, config.graphVisibilityRules, false) : true;
 }
 ---
 

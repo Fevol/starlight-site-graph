@@ -193,7 +193,7 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default Graph is visible for all pages
 		 * ["**\/*"]
 		 * @example Only show graph for pages in the "api" folder:
-		 * ["api/**", "!**\/*"]
+		 * ["api/**"]
 		 * @example Show graph for all pages except those in the "secret" folder:
 		 * ["!secret/**", "**\/*"]
 		 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
@@ -225,7 +225,7 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default Sitemap includes all links by default
 		 * ["**\/*"]
 		 * @example Only include links to endpoints in the "api" subdirectory:
-		 * ["api/**", "!**\/*"]
+		 * ["api/**"]
 		 * @example Include all links except those to the "secret" subdirectory:
 		 * ["!secret/**", "**\/*"]
 		 */
