@@ -251,10 +251,14 @@ export const graphConfigSchema = z.object({
 
 	/**
 	 * Whether to show tag nodes in the graph
+	 *
+	 * @default false
 	 */
 	showTags: z.boolean().default(false),
 	/**
 	 * Tags to remove from the graph
+	 *
+	 * @default []
 	 */
 	removeTags: z.array(z.string()).default([]),
 	// customFolderTags: z.record(z.string()).default({}),
