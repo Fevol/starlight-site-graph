@@ -281,11 +281,17 @@ const { config, sitemap, slug } = Astro.props;
 							this.simulationUpdate();
 						});
 
+                        const linkDistanceSlider = createValueSlider('Link Distance', this.config.linkDistance, 0, 500, 1, (value) => {
+                            this.config.linkDistance = value;
+                            this.simulationUpdate();
+                        });
+
 						showPopupMenu(this.actionContainer, [
 							chargeForceSlider,
 							centerForceSlider,
 							nodeForceSlider,
 							collisionForceSlider,
+                            linkDistanceSlider,
 						]);
 					}
 				}
@@ -427,13 +433,14 @@ const { config, sitemap, slug } = Astro.props;
 		}
 
 		simulationUpdate() {
+            const linkForce = d3.forceLink(this.processedData.links).id((d: any) => d.id)
+            if (this.config.linkDistance) {
+                linkForce.distance(this.config.linkDistance)
+            }
+
 			this.simulation
 				.stop()
-				.force(
-					'link',
-					d3.forceLink(this.processedData.links).id((d: any) => d.id)
-					// .distance(250),
-				)
+				.force('link', linkForce)
 				.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.config.repelForce))
 				.force('forceX', d3.forceX().strength(this.config.nodeForce))
 				.force('forceY', d3.forceY().strength(this.config.nodeForce))
