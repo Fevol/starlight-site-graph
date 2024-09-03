@@ -4,9 +4,10 @@ import path from 'node:path';
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import matter from 'gray-matter';
 
-import { starlightSiteGraphConfigSchema } from './config';
+import { type SitemapConfig, starlightSiteGraphConfigSchema } from './config';
 import {
 	ensureTrailingSlash,
+	ensureLeadingPound,
 	resolveIndex,
 	slugifyPath,
 	stripLeadingSlash,
@@ -37,13 +38,11 @@ class SiteMapBuilder {
 	map: Map<string, IntermediateSitemapEntry>;
 	contentRoot: string;
 	basePath: string;
-	globalLinkRules: string[];
 
-	constructor(contentRoot: string, basePath: string, excludedLinkRules: string[] = []) {
+	constructor(private config: SitemapConfig, basePath: string) {
 		this.map = new Map();
-		this.contentRoot = trimSlashes(contentRoot);
+		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.basePath = trimSlashes(basePath);
-		this.globalLinkRules = excludedLinkRules;
 	}
 
 	async add(filePath: string) {
@@ -92,7 +91,7 @@ class SiteMapBuilder {
 			title = frontmatter.data.title ?? title;
 		}
 
-		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(this.globalLinkRules);
+		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(this.config.pageInclusionRules);
 		if (currentLinkRules.length) {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
@@ -108,6 +107,15 @@ class SiteMapBuilder {
 				for (const tag of [].concat(frontmatter.data.tags)) {
 					tags.add(tag);
 				}
+			}
+		}
+
+		for (const [tag, tagRule] of Object.entries(this.config.tagRules)) {
+			const ruleResult = firstMatchingPattern(linkPath, tagRule);
+			if (ruleResult) {
+				tags.add(tag);
+			} else if (ruleResult !== undefined) {
+				tags.delete(tag);
 			}
 		}
 
@@ -154,7 +162,7 @@ class SiteMapBuilder {
 			const sitemapEntry: SitemapEntry = {
 				exists: entry.filePath !== undefined,
 				title: entry.title,
-				tags: [...entry.tags],
+				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
 			};
@@ -206,11 +214,7 @@ export default defineIntegration({
 									: ''),
 						);
 
-						const builder = new SiteMapBuilder(
-							sitemapConfig.contentRoot,
-							params.config.base,
-							sitemapConfig.pageInclusionRules,
-						);
+						const builder = new SiteMapBuilder(sitemapConfig, params.config.base);
 						for await (const p of walk(sitemapConfig.contentRoot)) {
 							if (firstMatchingPattern(p, sitemapConfig.pageInclusionRules, false)) {
 								await builder.add(p);
@@ -221,9 +225,22 @@ export default defineIntegration({
 						const sitemap = builder.toSitemap();
 
 						options.sitemapConfig.sitemap = { ...sitemap };
+
 						params.logger.info('Finished generating sitemap');
 					} else {
 						params.logger.info('Using applied sitemap');
+						for (const [linkPath, entry] of Object.entries(options.sitemapConfig.sitemap!)) {
+							const tags = new Set<string>(entry.tags);
+							for (const [tag, tagRule] of Object.entries(sitemapConfig.tagRules)) {
+								const ruleResult = firstMatchingPattern(linkPath, tagRule);
+								if (ruleResult) {
+									tags.add(tag);
+								} else if (ruleResult !== undefined) {
+									tags.delete(tag);
+								}
+							}
+							entry.tags = [...tags];
+						}
 					}
 
 					addVirtualImports(params, {

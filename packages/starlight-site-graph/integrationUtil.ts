@@ -28,6 +28,10 @@ export function ensureTrailingSlash(path: string): string {
 	return path.endsWith('/') ? path : `${path}/`;
 }
 
+export function ensureLeadingPound(path: string): string {
+	return path.startsWith('#') ? path : `#${path}`;
+}
+
 export function stripLeadingSlash(path: string) {
 	return path.replace(/^\//, '');
 }
@@ -38,7 +42,7 @@ export function trimSlashes(path: string) {
 	return path;
 }
 
-export function firstMatchingPattern(text: string, patterns: string | string[], defaultMatch = true): boolean {
+export function firstMatchingPattern(text: string, patterns: string | string[], defaultMatch?: boolean): boolean | undefined {
 	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
 	for (const pattern of patternList) {
 		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {

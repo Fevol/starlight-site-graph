@@ -2,6 +2,7 @@ import { AstroError } from 'astro/errors';
 import { z } from 'astro/zod';
 
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
+export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;
 
 const easing_types = z.union([
 	z.literal('in_quad'),
@@ -104,6 +105,31 @@ export const graphConfigSchema = z.object({
 	 * @default "auto"
 	 */
 	clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default('auto'),
+
+	/**
+	 * Define shape, color and size, and stroke of specified tags
+	 *
+	 * @default { }
+	 * @example The "index" tag is visualized a circle of size 12, with no stroke
+	 * { "index": { color: "nodeColor1", shape: "circle", shapeSize: 12, strokeWidth: 0 } }
+	 */
+	tagStyles: z.record(z.string().transform((val) => !val.startsWith("#") ? "#" + val : val), tagStyle.partial()).default({}),
+	/**
+	 * Default style of tag nodes in the graph
+	 *
+	 * @default { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 }
+	 */
+	tagDefaultStyle: tagStyle.default({}),
+	/**
+	 * How tags should be rendered in the graph
+	 * - `none`: Tags are not rendered at all
+	 * - `node`: Tags are rendered as separate nodes (connected to all nodes that contain the tag)
+	 * - `color`: Nodes with tag are colored based on the specified tag color
+	 * - `both`: Tags are rendered as separate nodes and nodes colored based on the associated tag color
+	 *
+	 * @default "none"
+	 */
+	tagRenderMode: z.union([z.literal('none'), z.literal('node'), z.literal('color'), z.literal('both')]).default('none'),
 
 	/**
 	 * Whether to enable user dragging/panning of the graph
@@ -315,20 +341,6 @@ export const graphConfigSchema = z.object({
 	 * @default 0
 	 */
 	linkDistance: z.number().default(0),
-
-	/**
-	 * Whether to show tag nodes in the graph
-	 *
-	 * @default false
-	 */
-	showTags: z.boolean().default(false),
-	/**
-	 * Tags to remove from the graph
-	 *
-	 * @default []
-	 */
-	removeTags: z.array(z.string()).default([]),
-	// customFolderTags: z.record(z.string()).default({}),
 });
 
 const globalGraphConfigSchema = graphConfigSchema.extend({
@@ -402,7 +414,7 @@ const globalSitemapConfigSchema = z.object({
 		.optional(),
 
 	/**
-	 * Configure the inclusion of files in the sitemap with an ordered list of rules.
+	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
 	 * The page is included/excluded if the file's _path_ matches one of the rules.
 	 * When a rule starts with `!`, the file is _excluded_ if matched.
 	 * Rules are evaluated in order, the first matching rule determines the inclusion of the file.
@@ -418,7 +430,7 @@ const globalSitemapConfigSchema = z.object({
 	pageInclusionRules: z.array(z.string()).default(['**/*']),
 
 	/**
-	 * Configure the rules for which links are included in the sitemap for every page.
+	 * Determine which links are included in the sitemap for every page.
 	 * The link is included/excluded if the link's target _path_ matches one of the rules.
 	 * When a rule starts with `!`, the link is _excluded_ if matched.
 	 * Rules are evaluated in order, the first matching rule determines the inclusion of the link.
@@ -432,6 +444,21 @@ const globalSitemapConfigSchema = z.object({
 	 * ["!secret/**", "**\/*"]
 	 */
 	linkInclusionRules: z.array(z.string()).default(['**/*']),
+
+	/**
+	 * Determine which pages should be associated with specific tags based on provided ordered list of rules. \
+	 * A tag is added to the page if the file's _path_ matches one of the rules. \
+	 * When a rule starts with `!`, if matched, it will _remove_ the tag from the page _(not from the file!)_, if it exists. \
+	 * Rules are evaluated in order, the first matching rule determines whether the tag is added. \
+	 * Tags generated from the rules will be combined with tags specified in the page frontmatter.
+	 *
+	 * @default {}
+	 * @example Add the "api" tag to all pages in the "api" folder:
+	 * { "api": ["api/**"] }
+	 * @example Add the "secret" tag to all pages except those in the "public" folder, will remove existing "secret" tags in the "public" folder:
+	 * { "secret": ["!public/**", "**\/*"] }
+	 */
+	tagRules: z.record(z.string(), z.array(z.string())).default({}),
 });
 
 export const starlightSiteGraphConfigSchema = z
@@ -500,10 +527,6 @@ export const starlightSiteGraphConfigSchema = z
 		 *     repelForce: 0.5,
 		 *     centerForce: 0.3,
 		 *     linkDistance: 30,
-		 *
-		 *     showTags: false,
-		 *     removeTags: [],
-		 *     customFolderTags: {},
 		 * }```
 		 */
 		graphConfig: globalGraphConfigSchema.default({}),
