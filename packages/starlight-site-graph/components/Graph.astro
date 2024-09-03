@@ -82,6 +82,7 @@ const { config, sitemap, slug } = Astro.props;
 		animator: Animator<ReturnType<typeof animatables>>;
 
 		currentlyHovered: string = '';
+		isHovering: boolean = false;
 		isFullscreen: boolean = false;
 		fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
 
@@ -650,6 +651,7 @@ const { config, sitemap, slug } = Astro.props;
 
                     if (closestNode) {
                         this.currentlyHovered = closestNode.id;
+						this.isHovering = true;
 						prefetch(ensureLeadingSlash(closestNode.id));
                         this.animator.startAnimationsTo({
                             ...this.hoverColorTransitions,
@@ -659,6 +661,7 @@ const { config, sitemap, slug } = Astro.props;
                             labelOffset: 'hover',
                         });
                     } else if (this.currentlyHovered) {
+						this.isHovering = false;
                         this.resetStyle();
                         this.animator.setOnFinished('nodeColorHover', () => {
                             this.currentlyHovered = '';
@@ -836,31 +839,36 @@ const { config, sitemap, slug } = Astro.props;
 		renderArrow(link: LinkData, isAdjacent: boolean): void {
             const linkZoomLevel = this.config.scaleLinks ? this.animator.getValue('zoom') : 1;
             const arrowZoomLevel = this.config.scaleArrows ? this.animator.getValue('zoom') : 2;
+			const incAngle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
+			const outAngle = Math.atan2(link.source.y! - link.target.y!, link.source.x! - link.target.x!);
+
+			const xStart = link.source.x! - (link.source.shapeSize! + link.source.strokeWidth!) * Math.cos(outAngle);
+			const yStart = link.source.y! - (link.source.shapeSize! + link.source.strokeWidth!) * Math.sin(outAngle);
+			const xEnd = link.target.x! - (link.target.shapeSize! + link.target.strokeWidth!) * Math.cos(incAngle);
+			const yEnd = link.target.y! - (link.target.shapeSize! + link.target.strokeWidth!) * Math.sin(incAngle);
 
 			this.links
-				.moveTo(link.source.x!, link.source.y!)
-				.lineTo(link.target.x!, link.target.y!)
-				.fill()
+				.moveTo(xStart, yStart)
+				.lineTo(xEnd, yEnd)
 				.stroke({
 					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
 					width: this.config.linkWidth / linkZoomLevel,
-				});
+				})
+				.zIndex = isAdjacent && this.isHovering ? 10 : 0;
 
 			if (this.config.renderArrows) {
-				let { x, y } = link.target as { x: number; y: number };
-				const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
-				x -= ((link.target.shapeSize! + link.target.strokeWidth!) - this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(angle);
-				y -= ((link.target.shapeSize! + link.target.strokeWidth!) -  this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(angle);
+				const x = xEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(incAngle);
+				const y = yEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(incAngle);
                 const arrowSize = 1.5 * this.config.arrowSize / arrowZoomLevel;
 				this.links
 					.moveTo(x, y)
 					.lineTo(
-                        (x - arrowSize * Math.cos(angle - this.config.arrowAngle)),
-                        (y - arrowSize * Math.sin(angle - this.config.arrowAngle))
+                        (x - arrowSize * Math.cos(incAngle - this.config.arrowAngle)),
+                        (y - arrowSize * Math.sin(incAngle - this.config.arrowAngle))
                     )
 					.lineTo(
-                        (x - arrowSize * Math.cos(angle + this.config.arrowAngle)),
-                        (y - arrowSize * Math.sin(angle + this.config.arrowAngle))
+                        (x - arrowSize * Math.cos(incAngle + this.config.arrowAngle)),
+                        (y - arrowSize * Math.sin(incAngle + this.config.arrowAngle))
                     )
 					.lineTo(x, y)
 					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
