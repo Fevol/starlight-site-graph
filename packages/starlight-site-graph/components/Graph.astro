@@ -440,6 +440,7 @@ const { config, sitemap, slug } = Astro.props;
 					exists: node.exists,
 					text: node.title,
 					tags: (node.tags ?? []),
+					neighborCount,
 
 					color: (tagColor && (this.config.tagRenderMode === 'color' || this.config.tagRenderMode === 'both')) ? this.config.tagStyles[tagColor].color : "nodeColor",
 					shape: "circle",
@@ -455,6 +456,7 @@ const { config, sitemap, slug } = Astro.props;
 					text: tag,
 					tags: [tag],
 					type: "tag",
+					neighborCount: 1,
 
 					...this.config.tagDefaultStyle,
 					...this.config.tagStyles[tag] ?? {} as Partial<NodeStyle>,
@@ -473,8 +475,8 @@ const { config, sitemap, slug } = Astro.props;
 
 		simulationUpdate() {
             const linkForce = d3.forceLink(this.processedData.links).id((d: any) => d.id)
-            if (this.config.linkDistance) {
-                linkForce.distance(this.config.linkDistance)
+			if (this.config.linkDistance) {
+                linkForce.distance(this.config.linkDistance);
             }
 
 			this.simulation

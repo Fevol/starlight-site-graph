@@ -239,7 +239,7 @@ export default defineIntegration({
 									tags.delete(tag);
 								}
 							}
-							entry.tags = [...tags];
+							entry.tags = [...tags].map(ensureLeadingPound);
 						}
 					}
 

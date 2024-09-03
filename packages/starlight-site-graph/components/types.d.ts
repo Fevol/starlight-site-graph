@@ -10,6 +10,7 @@ type NodeData = {
 	tags?: string[];
 	label?: PIXI.Text;
 	arrowHead?: PIXI.Graphics;
+	neighborCount?: number;
 	type?: "node" | "tag";
 } & d3.SimulationNodeDatum & Partial<NodeStyle>;
 
