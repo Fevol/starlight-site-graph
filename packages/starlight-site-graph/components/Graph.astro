@@ -18,21 +18,21 @@ const { config, sitemap, slug } = Astro.props;
 	import { prefetch } from 'astro:prefetch';
 	import * as d3 from 'd3';
 	import * as PIXI from './pixi/pixi';
-	import type { GraphConfig } from '../config';
+	import type { GraphConfig, NodeStyle } from '../config';
 	import { Animator } from './animator';
 	import { showContextMenu } from './context-menu';
-		import {
-			addToVisitedEndpoints,
-			createValueSlider,
-			getVisitedEndpoints,
-			onClickOutside,
-			simplifySlug,
-			stripSlashes,
-			ensureLeadingSlash,
-            ensureTrailingSlash,
-			isMobileDevice,
-			hasTouch
-			} from './util';
+	import {
+		addToVisitedEndpoints,
+		createValueSlider,
+		getVisitedEndpoints,
+		onClickOutside,
+		simplifySlug,
+		stripSlashes,
+		ensureLeadingSlash,
+		ensureTrailingSlash,
+		isMobileDevice,
+		hasTouch,
+	} from './util';
 	import type { LinkData, NodeData } from './types';
 	import type { Sitemap } from '../types';
 	import { animatables, animated_colors } from './animatables';
@@ -138,25 +138,26 @@ const { config, sitemap, slug } = Astro.props;
 			this.blurContainer = document.createElement('div');
 			this.blurContainer.classList.add('background-blur');
 
-			this.colors = getGraphColors();
+			this.colors = getGraphColors(this.graphContainer);
 
 			this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
 			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
 			this.themeObserver = new MutationObserver(() => {
-				this.colors = getGraphColors();
+				this.colors = getGraphColors(this.graphContainer);
 				for (const color of animated_colors) {
 					const key = color.slice(0, color.indexOf("Color") + 5);
 					this.animator.setProperties(`${color}`, {
 						"default": this.colors[color],
-						"blur": this.colors[key + "Muted"],
+						"blur": this.colors[key + "Muted" as keyof GraphColorConfig],
 					});
 					this.animator.setProperties(`${color}Hover`, {
 						"default": this.colors[color],
-						"hover": this.colors[key + "Hover"],
+						"hover": this.colors[key + "Hover" as keyof GraphColorConfig],
 					});
 				}
 
 				this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 500 });
+				this.resetNodeFill();
 			});
 			this.themeObserver.observe(document.querySelector(":root")!, {
 				attributeFilter: ["data-theme"],
@@ -194,6 +195,8 @@ const { config, sitemap, slug } = Astro.props;
 			this.renderActionContainer();
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
+			this.colors = getGraphColors(this.graphContainer);
+			this.resetNodeFill();
 
 			this.resetZoom(true);
 		}
@@ -213,6 +216,8 @@ const { config, sitemap, slug } = Astro.props;
 			this.renderActionContainer();
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
+			this.colors = getGraphColors(this.graphContainer);
+			this.resetNodeFill();
 
 			this.resetZoom(true);
 		}
@@ -373,14 +378,9 @@ const { config, sitemap, slug } = Astro.props;
 					}
 				}
 
-				if (this.config.showTags) {
-					const localTags = details.tags
-						.filter(tag => !this.config.removeTags.includes(tag))
-						.map(tag => tag.startsWith('#') ? tag : '#' + tag);
-
-					for (const tag of localTags) {
+				if (this.config.tagRenderMode === "node" || this.config.tagRenderMode === "both") {
+					for (const tag of details.tags) {
 						tags.add(tag);
-
 						links.push({ source: source as unknown as NodeData, target: tag as unknown as NodeData });
 					}
 				}
@@ -420,7 +420,9 @@ const { config, sitemap, slug } = Astro.props;
 				}
 			} else {
 				validLinks.forEach(id => neighbourhood.add(id));
-				if (this.config.showTags) tags.forEach(tag => neighbourhood.add(tag));
+				if (this.config.tagRenderMode === "node" || this.config.tagRenderMode === "both")  {
+					tags.forEach(tag => neighbourhood.add(tag));
+				}
 			}
 
 			const nodes: NodeData[] = [];
@@ -431,24 +433,31 @@ const { config, sitemap, slug } = Astro.props;
 
 				const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
 
+				const tagColor = node.tags.find(tag => this.config.tagStyles[tag]?.color);
+
 				nodes.push({
 					id: id,
 					exists: node.exists,
 					text: node.title,
-					tags: node.tags ?? [],
-					neighborCount: neighborCount,
-					size: this.config.nodeSize + (neighborCount ** 0.8) * this.config.nodeSizeLinkScale,
+					tags: (node.tags ?? []),
+
+					color: (tagColor && (this.config.tagRenderMode === 'color' || this.config.tagRenderMode === 'both')) ? this.config.tagStyles[tagColor].color : "nodeColor",
+					shape: "circle",
+					shapeSize: this.config.nodeSize + (neighborCount ** 0.8) * this.config.nodeSizeLinkScale,
+					strokeWidth: 0,
 				});
 			}
 
 			for (const tag of tags) {
 				nodes.push({
 					id: tag,
-					exists: false,
+					exists: true,
 					text: tag,
 					tags: [tag],
-					neighborCount: 0,
-					size: this.config.nodeSize,
+					type: "tag",
+
+					...this.config.tagDefaultStyle,
+					...this.config.tagStyles[tag] ?? {} as Partial<NodeStyle>,
 				});
 			}
 
@@ -474,7 +483,7 @@ const { config, sitemap, slug } = Astro.props;
 				.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.config.repelForce))
 				.force('forceX', d3.forceX().strength(this.config.nodeForce))
 				.force('forceY', d3.forceY().strength(this.config.nodeForce))
-				.force('collision', d3.forceCollide().radius((node) => ((node as NodeData).size! / this.config.nodeSize) ** 2 * this.config.collisionForce))
+				.force('collision', d3.forceCollide().radius((node) => ((node as NodeData).shapeSize! / this.config.nodeSize) ** 2 * this.config.collisionForce))
 				.force('center', d3.forceCenter(this.config.centerForce))
 				.alpha(1)
 				.restart();
@@ -511,16 +520,17 @@ const { config, sitemap, slug } = Astro.props;
 		}
 
 		getNodeColor(node: NodeData, hover: boolean): string {
-			let color = '';
-			if (!node.exists) {
+			let color = node.color;
+			if (node.type === 'tag') {
+
+			} else if (!node.exists) {
                 color = 'nodeColorUnresolved';
             } else if (node.id === this.currentPage) {
-				color = 'currentNodeColor';
 				color = 'nodeColorCurrent';
+			} else if (this.config.tagRenderMode === 'color' || this.config.tagRenderMode === 'both') {
+
 			} else if (this.visitedPages.has(node.id)) {
 				color = 'nodeColorVisited';
-			} else {
-				color = 'nodeColor';
 			}
 			// @ts-ignore ts does not understand that the keys are valid
 			return this.animator.getValue(color + (hover ? 'Hover' : '') as any) as string;
@@ -528,7 +538,7 @@ const { config, sitemap, slug } = Astro.props;
 
 		findOverlappingNode(x: number, y: number): NodeData | undefined {
 			for (const node of this.simulation.nodes()) {
-				if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= node.size! ** 2) {
+				if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= node.shapeSize! ** 2) {
 					return node;
 				}
 			}
@@ -538,9 +548,8 @@ const { config, sitemap, slug } = Astro.props;
 
 		renderNodes() {
 			for (const node of this.simulation.nodes()) {
-				const nodeDot = new PIXI.Graphics();
-				nodeDot._zIndex = 1;
-				nodeDot.circle(0, 0, node.size!).fill(0xffffff);
+				node.node = new PIXI.Graphics();
+				this.setNodeFill(node);
 
 				const nodeText = new PIXI.Text({
 					text: node.text || node.id,
@@ -553,12 +562,28 @@ const { config, sitemap, slug } = Astro.props;
 				nodeText.anchor.set(0.5, 0.5);
 				nodeText.alpha = this.animator.getValue('labelOpacity');
 
-				node.node = nodeDot;
-                this.app.stage.addChild(nodeDot);
+                this.app.stage.addChild(node.node);
                 if (this.config.renderLabels) {
                     node.label = nodeText;
                     this.app.stage.addChild(nodeText);
                 }
+			}
+		}
+
+		setNodeFill(node: NodeData) {
+			node.node!._zIndex = 1;
+			node.node!.circle(0, 0, node.shapeSize!);
+			if (node.shape !== "circle-hollow") {
+				node.node!.fill(0xffffff);
+			} else {
+				node.node!.fill(this.colors.backgroundColor);
+			}
+		}
+
+		resetNodeFill() {
+			for (const node of this.simulation.nodes()) {
+				node.node!.clear();
+				this.setNodeFill(node);
 			}
 		}
 
@@ -643,7 +668,7 @@ const { config, sitemap, slug } = Astro.props;
 			d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
 				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 				const closestNode = this.findOverlappingNode(x, y);
-				if (closestNode && closestNode.exists) {
+				if (closestNode && closestNode.exists && !(closestNode.type === "tag" || closestNode.id === this.currentPage)) {
 					const clickTime = Date.now();
 					if (!this.requireDblClick || (clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)) {
 						if (this.config.trackVisitedPages) {
@@ -685,7 +710,7 @@ const { config, sitemap, slug } = Astro.props;
 				.translate(this.centerTransform.x, this.centerTransform.y)
 				.scale(this.centerTransform.k);
 
-			const values = {
+			const values: { zoom: number; transformX: number; transformY: number, labelOpacity?: number } = {
 				zoom: this.transform.k,
 				transformX: this.transform.x,
 				transformY: this.transform.y,
@@ -758,8 +783,8 @@ const { config, sitemap, slug } = Astro.props;
 
                 if (this.config.renderLabels) {
                     const labelOffset = isHovered
-                        ? this.animator.getValue('labelOffset') + node.size!
-                        : this.config.labelOffset + node.size!;
+                        ? this.animator.getValue('labelOffset') + node.shapeSize!
+                        : this.config.labelOffset + node.shapeSize!;
                     const labelOpacity = isHovered
                         ? this.animator.getValue('labelOpacityHover')
                         : this.animator.getValue('labelOpacity');
@@ -773,7 +798,14 @@ const { config, sitemap, slug } = Astro.props;
 
                 const nodeZIndex = isHovered ? 100 : 1;
                 const nodeColor = this.getNodeColor(node, isHovered);
-				node.node!.tint = nodeColor;
+				if (node.shape === "circle-hollow") {
+					node.node!.stroke({
+						color: nodeColor,
+						width: 2,
+					})
+				} else {
+					node.node!.tint = nodeColor;
+				}
 				node.node!.position.set(node.x!, node.y!);
 				node.node!._zIndex = nodeZIndex;
 			}
@@ -815,8 +847,8 @@ const { config, sitemap, slug } = Astro.props;
 			if (this.config.renderArrows) {
 				let { x, y } = link.target as { x: number; y: number };
 				const angle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
-				x -= (link.target.size! - this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(angle);
-				y -= (link.target.size! - this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(angle);
+				x -= ((link.target.shapeSize! + link.target.strokeWidth!) - this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(angle);
+				y -= ((link.target.shapeSize! + link.target.strokeWidth!) -  this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(angle);
                 const arrowSize = 1.5 * this.config.arrowSize / arrowZoomLevel;
 				this.links
 					.moveTo(x, y)

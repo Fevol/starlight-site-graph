@@ -31,7 +31,44 @@ export default defineConfig({
 					graphConfig: {
 						depth: 8,
 						renderArrows: true,
+						tagRenderMode: 'both',
+						trackVisitedPages: false,
+						tagStyles: {
+							"1": {
+								color: "nodeColor1"
+							},
+							"2": {
+								color: "nodeColor2"
+							},
+							"3": {
+								color: "nodeColor3"
+							},
+							"4": {
+								color: "nodeColor4"
+							},
+							"5": {
+								color: "nodeColor5"
+							},
+							"6": {
+								color: "nodeColor6"
+							},
+							"7": {
+								color: "nodeColor7"
+							},
+							"8": {
+								color: "nodeColor8"
+							},
+							"9": {
+								color: "nodeColor9"
+							},
+						}
 					},
+					sitemapConfig: {
+						tagRules: {
+							"intro": ["intro/**"],
+							"1": ["!**/*"]
+						}
+					}
 				}),
 			],
 		}),

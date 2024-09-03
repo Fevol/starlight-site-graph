@@ -10,6 +10,61 @@ const easing_types = z.union([
 	z.literal('linear'),
 ]);
 
+const node_color_types = z.union([
+	z.literal('nodeColor'),
+	z.literal('nodeColorVisited'),
+	z.literal('nodeColorCurrent'),
+	z.literal('nodeColorUnresolved'),
+	z.literal('nodeColorTag'),
+
+	z.literal('nodeColor1'),
+	z.literal('nodeColor2'),
+	z.literal('nodeColor3'),
+	z.literal('nodeColor4'),
+	z.literal('nodeColor5'),
+	z.literal('nodeColor6'),
+	z.literal('nodeColor7'),
+	z.literal('nodeColor8'),
+	z.literal('nodeColor9'),
+	z.literal('linkColor'),
+]);
+
+const node_shape_styles = z.union([
+	z.literal('circle'),
+	z.literal('circle-hollow')
+]);
+
+const tagStyle = z.object({
+	/**
+	 * Default size of the tag nodes in the graph, overridden by `tagStyles`
+	 *
+	 * @default 6
+	 */
+	shapeSize: z.number().default(6),
+	/**
+	 * Default stroke width of the tag nodes in the graph, overridden by `tagStyles`
+	 *
+	 * @default 0
+	 */
+	strokeWidth: z.number().default(1),
+	/**
+	 * Default size of the tag nodes in the graph, overridden by `tagStyles`
+	 *
+	 * @default 10
+	 */
+	color: node_color_types.default('nodeColorTag'),
+	/**
+	 * Default shape of the tag nodes in the graph, overridden by `tagStyles`
+	 * - `circle`: Circular shape
+	 * - `circle-hollow`: Circular shape with no fill
+	 *
+	 * @default "circle"
+	 */
+	shape: node_shape_styles.default('circle-hollow'),
+});
+
+export type NodeStyle = z.infer<typeof tagStyle>;
+
 export const graphConfigSchema = z.object({
 	/**
 	 * The actions available within the graph component
@@ -403,6 +458,9 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 *     actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
 		 *     clickMode: 'auto',
+		 *
+		 *     tagStyles: {},
+		 *     tagRenderMode: 'none',
 		 *
 		 *     enableDrag: true,
 		 *     enableZoom: true,

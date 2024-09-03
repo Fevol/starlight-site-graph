@@ -1,6 +1,10 @@
 :root {
 	--slsg-graph-width: 250px;
 	--slsg-graph-height: 250px;
+
+	--slsg-background-color: var(--slsg-background-color-minimized);
+	--slsg-background-color-minimized: var(--sl-color-bg);
+	--slsg-background-color-maximized: var(--sl-color-bg-nav);
 }
 
 :root[data-theme='dark'] {
@@ -11,6 +15,18 @@
 	--slsg-node-color-current: var(--sl-color-green-high);
 	--slsg-node-color-visited: var(--sl-color-purple-high);
 	--slsg-node-color-unresolved: var(--sl-color-red-high);
+
+	--slsg-node-color-tag: #c3a6ff;
+	--slsg-node-color-1: #FF7D82;
+	--slsg-node-color-2: #FFB07A;
+	--slsg-node-color-3: #FFD66F;
+	--slsg-node-color-4: #DEE169;
+	--slsg-node-color-5: #A6E75C;
+	--slsg-node-color-6: #76BF93;
+	--slsg-node-color-7: #4E9CDF;
+	--slsg-node-color-8: #6A86D1;
+	--slsg-node-color-9: #A287CA;
+
 
 	--slsg-link-color: var(--sl-color-gray-4);
 	--slsg-link-color-hover: var(--sl-color-accent-high);
@@ -29,6 +45,17 @@
 	--slsg-node-color-current: var(--sl-color-green);
 	--slsg-node-color-visited: var(--sl-color-purple);
 	--slsg-node-color-unresolved: var(--sl-color-red);
+
+	--slsg-node-color-tag: #a17bf8;
+	--slsg-node-color-1: #FF595E;
+	--slsg-node-color-2: #FF924C;
+	--slsg-node-color-3: #FFCA3A;
+	--slsg-node-color-4: #C5CA30;
+	--slsg-node-color-5: #8AC926;
+	--slsg-node-color-6: #52A675;
+	--slsg-node-color-7: #1982C4;
+	--slsg-node-color-8: #4267AC;
+	--slsg-node-color-9: #7D5BA6;
 
 	--slsg-link-color: var(--sl-color-gray-5);
 	--slsg-link-color-hover: var(--sl-color-accent);
@@ -94,6 +121,7 @@
 	box-sizing: border-box;
 
 	border-radius: 5px;
+	background-color: var(--slsg-background-color);
 	outline: 1px solid var(--sl-color-gray-6);
 
 	canvas {
@@ -130,7 +158,7 @@ body:has(.background-blur) {
 }
 
 .is-fullscreen {
-	background-color: var(--sl-color-bg-nav);
+	--slsg-background-color: var(--slsg-background-color-maximized);
 
 	position: fixed;
 	top: 50%;
@@ -169,7 +197,7 @@ body:has(.background-blur) {
 	gap: 0.2rem;
 	padding: 0.2rem 0.2rem 0.4rem 0.5rem;
 
-	background-color: color-mix(in srgb, var(--sl-color-bg) 80%, transparent);
+	background-color: color-mix(in srgb, var(--slsg-background-color) 80%, transparent);
 	border-radius: 0 0 0 16px;
 	backdrop-filter: blur(4px);
 }
@@ -282,7 +310,7 @@ body:has(.background-blur) {
 	right: 8px;
 	top: 8px;
 
-	background-color: color-mix(in srgb, var(--sl-color-bg) 90%, transparent);
+	background-color: color-mix(in srgb, var(--slsg-background-color) 90%, transparent);
 	border: 1px solid var(--sl-color-gray-6);
 	border-radius: 8px;
 	padding: 8px;
