@@ -206,6 +206,13 @@ export const graphConfigSchema = z.object({
 	 * @default false
 	 */
 	scaleArrows: z.boolean().default(true),
+	/**
+	 * Minimum zoom level at which the arrows are rendered
+	 * When 0, arrows will always be rendered
+	 *
+	 * @default 0.8
+	 */
+	minZoomArrows: z.number().default(0.8),
 
 	/**
 	 * The scale factor for the opacity of the labels, based on the zoom level
@@ -503,6 +510,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 *     scaleLinks: true,
 		 *     scaleArrows: false,
+		 *     minZoomArrows: 0.5,
 		 *
 		 *     labelOpacityScale: 1.3,
 		 *     labelBlurOpacity: 0,

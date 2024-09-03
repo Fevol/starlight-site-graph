@@ -856,7 +856,7 @@ const { config, sitemap, slug } = Astro.props;
 				})
 				.zIndex = isAdjacent && this.isHovering ? 10 : 0;
 
-			if (this.config.renderArrows) {
+			if (this.config.renderArrows && this.zoomTransform.k > this.config.minZoomArrows) {
 				const x = xEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(incAngle);
 				const y = yEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(incAngle);
                 const arrowSize = 1.5 * this.config.arrowSize / arrowZoomLevel;
