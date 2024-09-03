@@ -134,6 +134,18 @@ export const graphConfigSchema = z.object({
 	 */
 	labelOpacityScale: z.number().default(1.3),
 	/**
+	 * The opacity of unhovered labels (when hovering over a node)
+	 *
+	 * @default 0
+	 */
+	labelBlurOpacity: z.number().default(0),
+	/**
+	 * The opacity of the label when hovering over a node
+	 *
+	 * @default 1
+	 */
+	labelHoverOpacity: z.number().default(1),
+	/**
 	 * The font size of the labels
 	 *
 	 * @default 12
@@ -146,7 +158,7 @@ export const graphConfigSchema = z.object({
 	 */
 	labelOffset: z.number().default(10),
 	/**
-	 * The offset of the labels from the nodes on hover
+	 * The offset of the label from the node when hovering over said node
 	 *
 	 * @default 14
 	 */
@@ -408,6 +420,8 @@ export const starlightSiteGraphConfigSchema = z
 		 *     scaleArrows: false,
 		 *
 		 *     labelOpacityScale: 1.3,
+		 *     labelBlurOpacity: 0,
+		 *     labelHoverOpacity: 1,
 		 *     labelFontSize: 12,
 		 *     labelOffset: 10,
 		 *     labelHoverOffset: 14,

@@ -685,21 +685,20 @@ const { config, sitemap, slug } = Astro.props;
 				.translate(this.centerTransform.x, this.centerTransform.y)
 				.scale(this.centerTransform.k);
 
+			const values = {
+				zoom: this.transform.k,
+				transformX: this.transform.x,
+				transformY: this.transform.y,
+			};
+			if (!this.currentlyHovered) {
+				values.labelOpacity = this.getCurrentLabelOpacity(this.transform.k);
+			}
+
 			if (immediate) {
 				this.animateZoomOverride = true;
-				this.animator.setValues({
-					zoom: this.transform.k,
-					transformX: this.transform.x,
-					transformY: this.transform.y,
-					labelOpacity: this.getCurrentLabelOpacity(this.transform.k),
-				});
+				this.animator.setValues(values);
 			} else {
-				this.animator.startAnimations({
-					zoom: this.transform.k,
-					transformX: this.transform.x,
-					transformY: this.transform.y,
-					labelOpacity: this.getCurrentLabelOpacity(this.transform.k),
-				});
+				this.animator.startAnimations(values);
 			}
         }
 

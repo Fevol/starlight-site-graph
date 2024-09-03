@@ -30,7 +30,7 @@ export const animated_colors = [
 export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
 	return {
 		zoom: {
-			properties: { default: 1 },
+			properties: { default: graphConfig.scale },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.zoomDuration,
 			easing: easing_functions[graphConfig.zoomEase],
@@ -49,30 +49,33 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 		},
 
 		...Object.fromEntries(animated_colors
-			.flatMap((color) => [
-				[`${color}`, {
-					properties: { default: colorConfig[color], blur: colorConfig.nodeColorMuted },
-					interpolator: new ColorInterpolator(),
-					duration: graphConfig.hoverDuration,
-					easing: easing_functions[graphConfig.hoverEase],
-				}],
-				[`${color}Hover`, {
-					properties: { default: colorConfig[color], hover: colorConfig.nodeColorHover },
-					interpolator: new ColorInterpolator(),
-					duration: graphConfig.hoverDuration,
-					easing: easing_functions[graphConfig.hoverEase],
-				}],
-			])
+			.flatMap((color) => {
+				const key = color.slice(0, color.indexOf('Color') + 5);
+				return [
+					[`${color}`, {
+						properties: { default: colorConfig[color], blur: colorConfig[key + "Muted" as keyof typeof colorConfig] },
+						interpolator: new ColorInterpolator(),
+						duration: graphConfig.hoverDuration,
+						easing: easing_functions[graphConfig.hoverEase],
+					}],
+					[`${color}Hover`, {
+						properties: { default: colorConfig[color], hover: colorConfig[key + "Hover" as keyof typeof colorConfig] },
+						interpolator: new ColorInterpolator(),
+						duration: graphConfig.hoverDuration,
+						easing: easing_functions[graphConfig.hoverEase],
+					}],
+				];
+			})
 		),
 
 		labelOpacity: {
-			properties: { default: 1, blur: 0 },
+			properties: { default: 1, blur: graphConfig.labelBlurOpacity },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
 		},
 		labelOpacityHover: {
-			properties: { default: 1, hover: 1 },
+			properties: { default: 1, hover: graphConfig.labelHoverOpacity },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
