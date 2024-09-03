@@ -13,6 +13,7 @@ export type GraphColorConfig = {
 
 	labelColor: string;
 	labelColorHover: string;
+	labelColorMuted: string;
 };
 
 export function getGraphColors(): GraphColorConfig {
@@ -32,5 +33,6 @@ export function getGraphColors(): GraphColorConfig {
 
 		labelColor: style.getPropertyValue('--slsg-label-color'),
 		labelColorHover: style.getPropertyValue('--slsg-label-color-hover'),
+		labelColorMuted: style.getPropertyValue('--slsg-label-color-muted'),
 	};
 }

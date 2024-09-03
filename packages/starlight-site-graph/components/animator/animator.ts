@@ -8,6 +8,11 @@ type AnimationsMap<T extends Record<string, AnimationConfig<unknown>>> = {
 	[key in keyof T]?: ConfigValueType<T[key]>;
 };
 
+type AnimatorOptions = {
+	duration?: number;
+	onFinished?: () => void;
+};
+
 export class Animator<const T extends Record<string, AnimationConfig<unknown>>> {
 	private readonly configs: T;
 	private animations: Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
@@ -26,8 +31,9 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 				config.properties?.['default'] ??
 				config.interpolator.defaultValue()) as ConfigValueType<T[keyof T]>;
 
-			// @ts-ignore
+			// @ts-expect-error Type is generic and can only be indexed for reading
 			this.animations[key] = {
+				duration: config.duration,
 				progress: 0,
 				sourceValue: undefined,
 				targetValue: undefined,
@@ -39,25 +45,25 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	startAnimationTo<K extends keyof T, P extends keyof T[K]['properties']>(
 		key: K,
 		property: P,
-		onFinished?: (value: ConfigValueType<T[K]>) => void,
+		options: AnimatorOptions = {}
 	): void {
 		this.startAnimation(
 			key,
 			this.configs[key]!.properties![property as string] as ConfigValueType<T[K]>,
-			onFinished,
+			options,
 		);
 	}
 
-	startAnimationsTo(properties: AnimationToMap<T>): void {
+	startAnimationsTo(properties: AnimationToMap<T>, options: AnimatorOptions = {}): void {
 		for (const [key, property] of Object.entries(properties)) {
-			this.startAnimationTo(key, property);
+			this.startAnimationTo(key, property, options);
 		}
 	}
 
 	startAnimation<K extends keyof T>(
 		key: K,
 		targetValue: ConfigValueType<T[K]>,
-		onFinished?: (value: ConfigValueType<T[K]>) => void,
+		options: AnimatorOptions = {}
 	): void {
 		const animation = this.animations[key];
 		const config = this.configs[key]!;
@@ -72,15 +78,16 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 			return;
 		}
 
+		animation.duration = options.duration ?? config.duration;
 		animation.sourceValue = config.interpolator.clone(animation.interpolatedValue) as ConfigValueType<T[keyof T]>;
 		animation.targetValue = targetValue;
 		animation.progress = 0;
-		animation.onFinished = onFinished;
+		animation.onFinished = options.onFinished;
 	}
 
-	startAnimations(animations: AnimationsMap<T>): void {
-		for (const key in animations) {
-			this.startAnimation(key, animations[key]!);
+	startAnimations(animations: AnimationsMap<T>, options: AnimatorOptions = {}): void {
+		for (const [key, value] of Object.entries(animations)) {
+			this.startAnimation(key, value!, options);
 		}
 	}
 
@@ -95,9 +102,20 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
+	setProperty<K extends keyof T, P extends keyof T[K]['properties']>(key: K, property: P, value: ConfigValueType<T[K]['properties'][P]>): void {
+		this.configs[key]!.properties![property as string] = value;
+	}
+
+	setProperties<K extends keyof T>(key: K, properties: AnimationToMap<T>): void {
+		for (const [property, value] of Object.entries(properties)) {
+			this.setProperty(key, property as keyof T[K]['properties'], value!);
+		}
+	}
+
 	private resetAnimation<K extends keyof T>(key: K): void {
 		const animation = this.animations[key]!;
 
+		animation.duration = this.configs[key]!.duration;
 		animation.sourceValue = undefined;
 		animation.targetValue = undefined;
 		animation.progress = 0;
@@ -114,7 +132,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 			const animation = this.animations[key]!;
 
 			if (animation.targetValue !== undefined) {
-				animation.progress += dt / config.duration;
+				animation.progress += dt / animation.duration;
 				animation.progress = Math.min(animation.progress, 1);
 
 				const value = config.interpolator.interpolate(

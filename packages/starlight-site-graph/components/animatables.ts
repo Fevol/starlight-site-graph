@@ -18,6 +18,15 @@ const easing_functions = {
 	linear: new EaseLinear(),
 };
 
+export const animated_colors = [
+	"nodeColor",
+	"nodeColorVisited",
+	"nodeColorCurrent",
+	"nodeColorUnresolved",
+	"linkColor",
+	'labelColor',
+] as const;
+
 export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
 	return {
 		zoom: {
@@ -39,67 +48,22 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			easing: easing_functions[graphConfig.zoomEase],
 		},
 
-		nodeColor: {
-			properties: { default: colorConfig.nodeColor, blur: colorConfig.nodeColorMuted },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		nodeColorHover: {
-			properties: { default: colorConfig.nodeColor, hover: colorConfig.nodeColorHover },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		visitedNodeColor: {
-			properties: { default: colorConfig.nodeColorVisited, blur: colorConfig.nodeColorMuted },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		visitedNodeColorHover: {
-			properties: { default: colorConfig.nodeColorVisited, hover: colorConfig.nodeColorHover },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		currentNodeColor: {
-			properties: { default: colorConfig.nodeColorCurrent, blur: colorConfig.nodeColorMuted },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		currentNodeColorHover: {
-			properties: { default: colorConfig.nodeColorCurrent, hover: colorConfig.nodeColorHover },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		unresolvedNodeColor: {
-			properties: { default: colorConfig.nodeColorUnresolved, blur: colorConfig.nodeColorMuted },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		unresolvedNodeColorHover: {
-			properties: { default: colorConfig.nodeColorUnresolved, hover: colorConfig.nodeColorHover },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-
-		linkColor: {
-			properties: { default: colorConfig.linkColor, blur: colorConfig.linkColorMuted },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		linkColorHover: {
-			properties: { default: colorConfig.linkColor, hover: colorConfig.linkColorHover },
-			interpolator: new ColorInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
+		...Object.fromEntries(animated_colors
+			.flatMap((color) => [
+				[`${color}`, {
+					properties: { default: colorConfig[color], blur: colorConfig.nodeColorMuted },
+					interpolator: new ColorInterpolator(),
+					duration: graphConfig.hoverDuration,
+					easing: easing_functions[graphConfig.hoverEase],
+				}],
+				[`${color}Hover`, {
+					properties: { default: colorConfig[color], hover: colorConfig.nodeColorHover },
+					interpolator: new ColorInterpolator(),
+					duration: graphConfig.hoverDuration,
+					easing: easing_functions[graphConfig.hoverEase],
+				}],
+			])
+		),
 
 		labelOpacity: {
 			properties: { default: 1, blur: 0 },
@@ -117,12 +81,6 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 		labelOffset: {
 			properties: { default: graphConfig.labelOffset, hover: graphConfig.labelHoverOffset },
 			interpolator: new NumberInterpolator(),
-			duration: graphConfig.hoverDuration,
-			easing: easing_functions[graphConfig.hoverEase],
-		},
-		labelColorHover: {
-			properties: { default: colorConfig.labelColor, hover: colorConfig.labelColorHover },
-			interpolator: new ColorInterpolator(),
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
 		},

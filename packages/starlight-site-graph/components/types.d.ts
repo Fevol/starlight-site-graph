@@ -25,12 +25,12 @@ interface AnimatedValues {
 
 	nodeColor: string;
 	nodeColorHover: string;
-	currentNodeColor: string;
-	currentNodeColorHover: string;
-	visitedNodeColor: string;
-	visitedNodeColorHover: string;
-	unresolvedNodeColor: string;
-	unresolvedNodeColorHover: string;
+	nodeColorCurrent: string;
+	nodeColorCurrentHover: string;
+	nodeColorVisited: string;
+	nodeColorVisitedHover: string;
+	nodeColorUnresolved: string;
+	nodeColorUnresolvedHover: string;
 
 	linkColor: string;
 	linkColorHover: string;
@@ -38,5 +38,7 @@ interface AnimatedValues {
 	labelOpacity: number;
 	labelOpacityHover: number;
 	labelOffset: number;
+
+	labelColor: string;
 	labelColorHover: string;
 }

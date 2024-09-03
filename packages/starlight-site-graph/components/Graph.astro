@@ -35,7 +35,7 @@ const { config, sitemap, slug } = Astro.props;
 			} from './util';
 	import type { LinkData, NodeData } from './types';
 	import type { Sitemap } from '../types';
-	import { animatables } from './animatables';
+	import { animatables, animated_colors } from './animatables';
 	import { icons } from './icons';
 	import { getGraphColors, type GraphColorConfig } from '../color';
 	import {showPopupMenu} from "./popup-menu";
@@ -69,6 +69,14 @@ const { config, sitemap, slug } = Astro.props;
 		config!: GraphConfig;
 		sitemap!: Sitemap;
 
+		defaultColorTransitions = Object.fromEntries(animated_colors.flatMap(color => [
+			[`${color}`, "default"],
+			[`${color}Hover`, "default"],
+		]));
+		hoverColorTransitions = Object.fromEntries(animated_colors.flatMap(color => [
+			[`${color}`, "blur"],
+			[`${color}Hover`, "hover"],
+		]));
 		colors!: GraphColorConfig;
 		processedData!: ReturnType<typeof this.processSitemapData>;
 		animator: Animator<ReturnType<typeof animatables>>;
@@ -81,6 +89,8 @@ const { config, sitemap, slug } = Astro.props;
 		requireDblClick: boolean;
 
 		visitedPages: Set<string>;
+
+		themeObserver: MutationObserver;
 
 		constructor() {
 			super();
@@ -132,6 +142,25 @@ const { config, sitemap, slug } = Astro.props;
 
 			this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
 			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
+			this.themeObserver = new MutationObserver(() => {
+				this.colors = getGraphColors();
+				for (const color of animated_colors) {
+					const key = color.slice(0, color.indexOf("Color") + 5);
+					this.animator.setProperties(`${color}`, {
+						"default": this.colors[color],
+						"blur": this.colors[key + "Muted"],
+					});
+					this.animator.setProperties(`${color}Hover`, {
+						"default": this.colors[color],
+						"hover": this.colors[key + "Hover"],
+					});
+				}
+
+				this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 500 });
+			});
+			this.themeObserver.observe(document.querySelector(":root")!, {
+				attributeFilter: ["data-theme"],
+			});
 
 			this.mountGraph().then(() => {
 				this.setup();
@@ -143,6 +172,7 @@ const { config, sitemap, slug } = Astro.props;
 			this.graphContainer.remove();
 			this.mockGraphContainer.remove();
 			this.blurContainer.remove();
+			this.themeObserver.disconnect();
 
 			super.remove();
 		}
@@ -452,20 +482,8 @@ const { config, sitemap, slug } = Astro.props;
 
 		resetStyle() {
 			this.animator.startAnimationsTo({
-				nodeColorHover: 'default',
-				nodeColor: 'default',
-				visitedNodeColorHover: 'default',
-				visitedNodeColor: 'default',
-				currentNodeColorHover: 'default',
-				currentNodeColor: 'default',
-                unresolvedNodeColor: 'default',
-                unresolvedNodeColorHover: 'default',
-
-				linkColorHover: 'default',
-				linkColor: 'default',
-
+				...this.defaultColorTransitions,
 				labelOffset: 'default',
-				labelColorHover: 'default',
 			});
 			this.animator.startAnimation('labelOpacity', this.getCurrentLabelOpacity());
 			this.animator.startAnimation('labelOpacityHover', this.getCurrentLabelOpacity());
@@ -495,11 +513,12 @@ const { config, sitemap, slug } = Astro.props;
 		getNodeColor(node: NodeData, hover: boolean): string {
 			let color = '';
 			if (!node.exists) {
-                color = 'unresolvedNodeColor';
+                color = 'nodeColorUnresolved';
             } else if (node.id === this.currentPage) {
 				color = 'currentNodeColor';
+				color = 'nodeColorCurrent';
 			} else if (this.visitedPages.has(node.id)) {
-				color = 'visitedNodeColor';
+				color = 'nodeColorVisited';
 			} else {
 				color = 'nodeColor';
 			}
@@ -606,22 +625,11 @@ const { config, sitemap, slug } = Astro.props;
                         this.currentlyHovered = closestNode.id;
 						prefetch(ensureLeadingSlash(closestNode.id));
                         this.animator.startAnimationsTo({
-                            nodeColorHover: 'hover',
-                            nodeColor: 'blur',
-                            visitedNodeColorHover: 'hover',
-                            visitedNodeColor: 'blur',
-                            currentNodeColorHover: 'hover',
-                            currentNodeColor: 'blur',
-                            unresolvedNodeColorHover: 'hover',
-                            unresolvedNodeColor: 'blur',
+                            ...this.hoverColorTransitions,
 
-                            linkColorHover: 'hover',
-                            linkColor: 'blur',
-
-                            labelOpacityHover: 'hover',
-                            labelOpacity: 'blur',
+							labelOpacity: 'blur',
+							labelOpacityHover: 'hover',
                             labelOffset: 'hover',
-                            labelColorHover: 'hover',
                         });
                     } else if (this.currentlyHovered) {
                         this.resetStyle();
@@ -756,7 +764,7 @@ const { config, sitemap, slug } = Astro.props;
                     const labelOpacity = isHovered
                         ? this.animator.getValue('labelOpacityHover')
                         : this.animator.getValue('labelOpacity');
-                    const labelColor = isHovered ? this.animator.getValue('labelColorHover') : this.colors.labelColor;
+                    const labelColor = this.animator.getValue(isHovered ? 'labelColorHover' : 'labelColor');
 
                     node.label!.scale.set(1);
                     node.label!.position.set(node.x!, node.y! + labelOffset);

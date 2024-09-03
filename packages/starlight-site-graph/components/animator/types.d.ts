@@ -58,6 +58,7 @@ export interface AnimationConfig<T> {
  * @remarks Technically this should be modeled with a union type, but then we have type errors when modifying this object.
  */
 export interface AnimationState<T> {
+	duration: number;
 	sourceValue?: T | undefined;
 	interpolatedValue: T;
 	targetValue?: T | undefined;
