@@ -98,6 +98,18 @@ class SiteMapBuilder {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
 
+		if (this.config.styleRules.size) {
+			for (const [rules, style] of this.config.styleRules) {
+				const ruleResult = firstMatchingPattern(linkPath, rules);
+				if (ruleResult) {
+					nodeStyle = {
+						...nodeStyle,
+						...style as NodeStyle
+					};
+				}
+			}
+		}
+
 		if (frontmatter.data) {
 			if (frontmatter.data.links) {
 				for (const link of [].concat(frontmatter.data.links)) {
@@ -112,7 +124,10 @@ class SiteMapBuilder {
 			}
 
 			if (frontmatter.data.graph?.nodeStyle) {
-				nodeStyle = frontmatter.data.graph.nodeStyle as NodeStyle;
+				nodeStyle = {
+					...nodeStyle,
+					...frontmatter.data.graph.nodeStyle as NodeStyle
+				};
 			}
 		}
 

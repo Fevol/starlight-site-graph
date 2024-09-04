@@ -71,7 +71,13 @@ export default defineConfig({
 						tagRules: {
 							"obsidian": ["**/obsidian/**"],
 							"internals": ["**/internals/**"]
-						}
+						},
+						styleRules: new Map([
+							[["intro/**"], {
+								shape: "circle-hollow",
+								nodeScale: 2,
+							}]
+						]),
 					}
 				}),
 			],

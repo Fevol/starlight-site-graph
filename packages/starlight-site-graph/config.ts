@@ -530,6 +530,22 @@ const globalSitemapConfigSchema = z.object({
 	 * { "secret": ["!public/**", "**\/*"] }
 	 */
 	tagRules: z.record(z.string(), z.array(z.string())).default({}),
+
+	/**
+	 * Specify styles to be applied to pages based on provided ordered list of rules. \
+	 * The style is applied to the page if the file's _path_ matches one of the rules. \
+	 * When a rule starts with `!`, the style will not be applied if matched. \
+	 * Styles generated from these rules take precedence over all styles except those specified in the page frontmatter.
+	 *
+	 * @remarks `tagStyles` in conjunction with `tagRules` will accomplish the same thing.
+	 *
+	 * @default {}
+	 * @example Make all nodes in the "api" folder take the color of `nodeColor5` (lime)
+	 * [{ rules: ["api/**"], color: "nodeColor5" }]
+	 * @example Make the shape of all nodes except those in the "public" folder doubly as large and hollow
+	 * [{ rules: ["!public/**", "**\/*"], nodeScale: 2, shape: "circle-hollow" } ]
+	 */
+	styleRules: z.map(z.array(z.string()), nodeStyle.partial()).default(new Map()),
 });
 
 export const starlightSiteGraphConfigSchema = z
