@@ -312,8 +312,8 @@ const { config, sitemap, slug } = Astro.props;
 							this.simulationUpdate();
 						});
 
-						const collisionForceSlider = createValueSlider('Collision Force', this.config.collisionForce, 0, 100, 1, (value) => {
-							this.config.collisionForce = value;
+						const colliderPaddingSlider = createValueSlider('Collider Padding', this.config.colliderPadding, 0, 100, 1, (value) => {
+							this.config.colliderPadding = value;
 							this.simulationUpdate();
 						});
 
@@ -326,7 +326,7 @@ const { config, sitemap, slug } = Astro.props;
 							chargeForceSlider,
 							centerForceSlider,
 							nodeForceSlider,
-							collisionForceSlider,
+							colliderPaddingSlider,
                             linkDistanceSlider,
 						]);
 					}
@@ -427,14 +427,39 @@ const { config, sitemap, slug } = Astro.props;
 			}
 
 			const nodes: NodeData[] = [];
-
 			for (const id of neighbourhood) {
 				const node = data.get(id);
 				if (!node) continue;
 
 				const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
 
-				const tagColor = node.tags.find(tag => this.config.tagStyles[tag]?.color);
+
+				// Chain of declarations determines style priority
+				let style: NodeStyle = this.config.nodeDefaultStyle as NodeStyle;
+				if (this.visitedPages.has(id)) {
+					style = {...style, ...this.config.nodeVisitedStyle as NodeStyle};
+				}
+
+				if (this.config.tagRenderMode === "same" || this.config.tagRenderMode === "both") {
+					style = {...style, ...node.tags.reduce((acc, tag) => ({ ...acc, ...this.config.tagStyles[tag] }), {}) as NodeStyle};
+				}
+
+				if (id === this.currentPage) {
+					style = {...style, ...this.config.nodeCurrentStyle as NodeStyle};
+				}
+
+				if (!node.exists) {
+					style = {...style, ...this.config.nodeUnresolvedStyle as NodeStyle};
+				}
+
+				// Magick
+				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
+				const computedSize = style.shapeSize * scaleFactor;
+				if (style.shape === "circle-hollow") {
+					style.strokeWidth = Math.max(1, style.strokeWidth);
+				} else {
+					style.strokeWidth = 0;
+				}
 
 				nodes.push({
 					id: id,
@@ -443,10 +468,15 @@ const { config, sitemap, slug } = Astro.props;
 					tags: (node.tags ?? []),
 					neighborCount,
 
-					color: (tagColor && (this.config.tagRenderMode === 'color' || this.config.tagRenderMode === 'both')) ? this.config.tagStyles[tagColor].color : "nodeColor",
-					shape: "circle",
-					shapeSize: this.config.nodeSize + (neighborCount ** 0.8) * this.config.nodeSizeLinkScale,
-					strokeWidth: 0,
+					color: style.color,
+					shape: style.shape,
+					shapeSize: style.shapeSize,
+					strokeWidth: style.strokeWidth,
+
+					// TODO: computedSize may be removed if no use for it is found
+					computedSize: computedSize,
+					fullRadius: computedSize + style.strokeWidth / 2,
+					colliderSize: (computedSize + style.strokeWidth) * style.colliderScale,
 				});
 			}
 
@@ -486,7 +516,7 @@ const { config, sitemap, slug } = Astro.props;
 				.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.config.repelForce))
 				.force('forceX', d3.forceX().strength(this.config.nodeForce))
 				.force('forceY', d3.forceY().strength(this.config.nodeForce))
-				.force('collision', d3.forceCollide().radius((node) => ((node as NodeData).shapeSize! / this.config.nodeSize) ** 2 * this.config.collisionForce))
+				.force('collision', d3.forceCollide().radius((node) => (node as NodeData).colliderSize! + this.config.colliderPadding))
 				.force('center', d3.forceCenter(this.config.centerForce))
 				.alpha(1)
 				.restart();
@@ -522,26 +552,9 @@ const { config, sitemap, slug } = Astro.props;
 			}
 		}
 
-		getNodeColor(node: NodeData, hover: boolean): string {
-			let color = node.color;
-			if (node.type === 'tag') {
-
-			} else if (!node.exists) {
-                color = 'nodeColorUnresolved';
-            } else if (node.id === this.currentPage) {
-				color = 'nodeColorCurrent';
-			} else if (this.config.tagRenderMode === 'color' || this.config.tagRenderMode === 'both') {
-
-			} else if (this.visitedPages.has(node.id)) {
-				color = 'nodeColorVisited';
-			}
-			// @ts-ignore ts does not understand that the keys are valid
-			return this.animator.getValue(color + (hover ? 'Hover' : '') as any) as string;
-		}
-
 		findOverlappingNode(x: number, y: number): NodeData | undefined {
 			for (const node of this.simulation.nodes()) {
-				if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= node.shapeSize! ** 2) {
+				if ((node.x! - x) ** 2 + (node.y! - y) ** 2 <= node.fullRadius! ** 2) {
 					return node;
 				}
 			}
@@ -575,7 +588,7 @@ const { config, sitemap, slug } = Astro.props;
 
 		setNodeFill(node: NodeData) {
 			node.node!._zIndex = 1;
-			node.node!.circle(0, 0, node.shapeSize!);
+			node.node!.circle(0, 0, node.computedSize!);
 			if (node.shape !== "circle-hollow") {
 				node.node!.fill(0xffffff);
 			} else {
@@ -692,7 +705,6 @@ const { config, sitemap, slug } = Astro.props;
                         .scaleExtent([this.config.minZoom, this.config.maxZoom])
                         .on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
                             this.userZoomed = true;
-
                             this.zoomTransform = transform;
                             this.updateTransform();
                         })),
@@ -787,9 +799,9 @@ const { config, sitemap, slug } = Astro.props;
 				const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
 
                 if (this.config.renderLabels) {
-                    const labelOffset = isHovered
-                        ? this.animator.getValue('labelOffset') + node.shapeSize!
-                        : this.config.labelOffset + node.shapeSize!;
+                    const labelOffset = node.fullRadius! + (isHovered
+                        ? this.animator.getValue('labelOffset')
+                        : this.config.labelOffset);
                     const labelOpacity = isHovered
                         ? this.animator.getValue('labelOpacityHover')
                         : this.animator.getValue('labelOpacity');
@@ -802,11 +814,12 @@ const { config, sitemap, slug } = Astro.props;
                 }
 
                 const nodeZIndex = isHovered ? 100 : 1;
-                const nodeColor = this.getNodeColor(node, isHovered);
+				const nodeColor = this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string;
+
 				if (node.shape === "circle-hollow") {
 					node.node!.stroke({
 						color: nodeColor,
-						width: 2,
+						width: node.strokeWidth,
 					})
 				} else {
 					node.node!.tint = nodeColor;
@@ -842,10 +855,10 @@ const { config, sitemap, slug } = Astro.props;
 			const incAngle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
 			const outAngle = Math.atan2(link.source.y! - link.target.y!, link.source.x! - link.target.x!);
 
-			const xStart = link.source.x! - (link.source.shapeSize! + link.source.strokeWidth!) * Math.cos(outAngle);
-			const yStart = link.source.y! - (link.source.shapeSize! + link.source.strokeWidth!) * Math.sin(outAngle);
-			const xEnd = link.target.x! - (link.target.shapeSize! + link.target.strokeWidth!) * Math.cos(incAngle);
-			const yEnd = link.target.y! - (link.target.shapeSize! + link.target.strokeWidth!) * Math.sin(incAngle);
+			const xStart = link.source.x! - link.source.fullRadius! * Math.cos(outAngle);
+			const yStart = link.source.y! - link.source.fullRadius! * Math.sin(outAngle);
+			const xEnd = link.target.x! - link.target.fullRadius! * Math.cos(incAngle);
+			const yEnd = link.target.y! - link.target.fullRadius! * Math.sin(incAngle);
 
 			this.links
 				.moveTo(xStart, yStart)
@@ -854,7 +867,7 @@ const { config, sitemap, slug } = Astro.props;
 					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
 					width: this.config.linkWidth / linkZoomLevel,
 				})
-				.zIndex = isAdjacent && this.isHovering ? 10 : 0;
+				.zIndex = (isAdjacent && this.isHovering) ? 10 : 0;
 
 			if (this.config.renderArrows && this.zoomTransform.k > this.config.minZoomArrows) {
 				const x = xEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(incAngle);

@@ -12,6 +12,9 @@ type NodeData = {
 	arrowHead?: PIXI.Graphics;
 	neighborCount?: number;
 	type?: "node" | "tag";
+	computedSize?: number;
+	colliderSize?: number;
+	fullRadius?: number;
 } & d3.SimulationNodeDatum & Partial<NodeStyle>;
 
 type LinkData = {

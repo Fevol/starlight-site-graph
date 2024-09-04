@@ -35,36 +35,59 @@ const node_shape_styles = z.union([
 	z.literal('circle-hollow')
 ]);
 
-const tagStyle = z.object({
+
+const nodeStyle = z.object({
 	/**
-	 * Default size of the tag nodes in the graph, overridden by `tagStyles`
-	 *
-	 * @default 6
-	 */
-	shapeSize: z.number().default(6),
-	/**
-	 * Default stroke width of the tag nodes in the graph, overridden by `tagStyles`
-	 *
-	 * @default 0
-	 */
-	strokeWidth: z.number().default(1),
-	/**
-	 * Default size of the tag nodes in the graph, overridden by `tagStyles`
+	 * Size of the node in the graph, further scaled by `linkScale`
 	 *
 	 * @default 10
 	 */
-	color: node_color_types.default('nodeColorTag'),
+	shapeSize: z.number().default(10),
 	/**
-	 * Default shape of the tag nodes in the graph, overridden by `tagStyles`
+	 * Stroke width of the node in the graph
+	 *
+	 * @default 0
+	 */
+	strokeWidth: z.number().default(0),
+	/**
+	 * Color of the node in the graph, overridden if the node is visited, current, or unresolved
+	 *
+	 * @default "nodeColor"
+	 */
+	color: node_color_types.default('nodeColor'),
+	/**
+	 * Shape of the node in the graph
 	 * - `circle`: Circular shape
 	 * - `circle-hollow`: Circular shape with no fill
 	 *
 	 * @default "circle"
 	 */
-	shape: node_shape_styles.default('circle-hollow'),
+	shape: node_shape_styles.default('circle'),
+
+	/**
+	 * Scale of the shape collider user for collision forces
+	 * A value higher than 1 will make the collider larger than the shape
+	 *
+	 * @default 1
+	 */
+	colliderScale: z.number().default(1),
+	/**
+	 * Scale factor for the node size.
+	 *
+	 * @default 1
+	 */
+	nodeScale: z.number().default(1),
+	/**
+	 * Scale strength of the node based on the number of neighbors (incoming and outgoing links). \
+	 * When set to 0, the node size will not be affected by the number of neighbors.
+	 *
+	 * @default 0.5
+	 */
+	neighborScale: z.number().default(0.5),
 });
 
-export type NodeStyle = z.infer<typeof tagStyle>;
+
+export type NodeStyle = z.infer<typeof nodeStyle>;
 
 export const graphConfigSchema = z.object({
 	/**
@@ -113,23 +136,19 @@ export const graphConfigSchema = z.object({
 	 * @example The "index" tag is visualized a circle of size 12, with no stroke
 	 * { "index": { color: "nodeColor1", shape: "circle", shapeSize: 12, strokeWidth: 0 } }
 	 */
-	tagStyles: z.record(z.string().transform((val) => !val.startsWith("#") ? "#" + val : val), tagStyle.partial()).default({}),
-	/**
-	 * Default style of tag nodes in the graph
-	 *
-	 * @default { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 }
-	 */
-	tagDefaultStyle: tagStyle.default({}),
+	tagStyles: z.record(z.string().transform((val) => !val.startsWith("#") ? "#" + val : val), nodeStyle.partial()).default({}),
 	/**
 	 * How tags should be rendered in the graph
 	 * - `none`: Tags are not rendered at all
-	 * - `node`: Tags are rendered as separate nodes (connected to all nodes that contain the tag)
-	 * - `color`: Nodes with tag are colored based on the specified tag color
-	 * - `both`: Tags are rendered as separate nodes and nodes colored based on the associated tag color
+	 * - `node`: Tags are rendered as separate nodes (connected to all nodes that contain the tag) \
+	 *           The style of the tag is determined by the associated tag style in `tagStyles` (or `tagDefaultStyle` if none was specified)
+	 * - `same`: Nodes assume the style of the associated tag(s) defined in `tagStyles` \
+	 *           If multiple tags with different styles are attached to the node, the first defined style for each tag is used
+	 * - `both`: Tags are rendered as separate nodes and nodes assume the style of the associated tag(s) defined in `tagStyles`
 	 *
 	 * @default "none"
 	 */
-	tagRenderMode: z.union([z.literal('none'), z.literal('node'), z.literal('color'), z.literal('both')]).default('none'),
+	tagRenderMode: z.union([z.literal('none'), z.literal('node'), z.literal('same'), z.literal('both')]).default('none'),
 
 	/**
 	 * Whether to enable user dragging/panning of the graph
@@ -282,17 +301,62 @@ export const graphConfigSchema = z.object({
 	hoverEase: easing_types.default('out_quad'),
 
 	/**
-	 * The size of the nodes in the graph
+	 * The default style of a node in the graph. \
+	 * All other styles will overwrite these values.
 	 *
-	 * @default 10
+	 * @default ```{
+	 * 	   shapeSize: 10,
+	 * 	   strokeWidth: 0,
+	 * 	   color: "nodeColor",
+	 * 	   shape: "circle",
+	 * 	   colliderScale: 1,
+	 * 	   nodeScale: 1,
+	 * 	   neighborScale: 0.5
+	 * 	}```
 	 */
-	nodeSize: z.number().default(10),
+	nodeDefaultStyle: nodeStyle.optional(),
 	/**
-	 * The scale factor for the size of the nodes based on the number of incoming and outgoing links
+	 * The style of node representing a visited page in the graph. \
+	 * This style overwrites styles defined in `nodeDefaultStyle`.
 	 *
-	 * @default 0.2
+	 * @default { color: "nodeColorVisited" }
 	 */
-	nodeSizeLinkScale: z.number().default(0.2),
+	nodeVisitedStyle: nodeStyle.partial().optional().transform((val) => ({
+		color: 'nodeColorVisited',
+		...val,
+	})),
+	/**
+	 * The style of node representing the current page in the graph. \
+	 * This style overwrites styles defined in `nodeDefaultStyle` and matching `tagStyles`.
+	 *
+	 * @default { color: "nodeColorCurrent" }
+	 */
+	nodeCurrentStyle: nodeStyle.partial().optional().transform((val) => ({
+		color: 'nodeColorCurrent',
+		...val,
+	})),
+	/**
+	 * The style of node representing an unresolved page in the graph. \
+	 * This style overwrites styles defined in `nodeDefaultStyle`, matching `tagStyles`, and `nodeCurrentStyle`.
+	 *
+	 * @default { color: "nodeColorUnresolved" }
+	 */
+	nodeUnresolvedStyle: nodeStyle.partial().optional().transform((val) => ({
+		color: 'nodeColorUnresolved',
+		...val,
+	})),
+	/**
+	 * Default style of tag nodes in the graph
+	 *
+	 * @default { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 }
+	 */
+	tagDefaultStyle: nodeStyle.partial().optional().transform((val) => ({
+		color: 'nodeColorTag',
+		shape: 'circle-hollow',
+		shapeSize: 6,
+		strokeWidth: 1,
+		...val,
+	})),
 
 	/**
 	 * The width of the links in the graph
@@ -327,7 +391,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 20
 	 */
-	collisionForce: z.number().default(20),
+	colliderPadding: z.number().default(20),
 	/**
 	 * The attraction/repulsion force between nodes in the graph
 	 * A higher value will increase the distance between nodes
@@ -524,8 +588,19 @@ export const starlightSiteGraphConfigSchema = z
 		 *     hoverDuration: 200,
 		 *     hoverEase: "out_quad",
 		 *
-		 *     nodeSize: 10,
-		 *     nodeSizeLinkScale: 0.2,
+		 *	   nodeDefaultStyle: {
+		 *	  	 shapeSize: 10,
+		 *	  	 strokeWidth: 0,
+		 *	  	 color: "nodeColor",
+		 *	  	 shape: "circle",
+		 *	  	 colliderScale: 1,
+		 *	  	 nodeScale: 1,
+		 *	  	 neighborScale: 0.5
+		 *	   },
+		 *	   nodeVisitedStyle: { color: "nodeColorVisited" },
+		 *	   nodeCurrentStyle: { color: "nodeColorCurrent" },
+		 *	   nodeUnresolvedStyle: { color: "nodeColorUnresolved" },
+		 *	   tagDefaultStyle: { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 },
 		 *
 		 *     linkWidth: 1,
 		 *

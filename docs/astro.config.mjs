@@ -2,6 +2,8 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph';
 
+import sitemap from './sitegraph.json';
+
 export default defineConfig({
 	redirects: {
 		'/': '/intro',
@@ -29,15 +31,19 @@ export default defineConfig({
 			plugins: [
 				starlightSiteGraph({
 					graphConfig: {
-						depth: 8,
+						depth: 1,
+						nodeDefaultStyle: {
+							nodeScale: 1,
+							strokeWidth: 8,
+						},
 						renderArrows: true,
-						tagRenderMode: 'both',
+						tagRenderMode: 'same',
 						trackVisitedPages: false,
 						tagStyles: {
-							"1": {
-								color: "nodeColor1"
+							"obsidian": {
+								color: "nodeColor1",
 							},
-							"2": {
+							"internals": {
 								color: "nodeColor2"
 							},
 							"3": {
@@ -64,9 +70,10 @@ export default defineConfig({
 						}
 					},
 					sitemapConfig: {
+						sitemap: sitemap,
 						tagRules: {
-							"intro": ["intro/**"],
-							"1": ["!**/*"]
+							"obsidian": ["**/obsidian/**"],
+							"internals": ["**/internals/**"]
 						}
 					}
 				}),
