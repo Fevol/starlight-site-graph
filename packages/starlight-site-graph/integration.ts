@@ -4,7 +4,7 @@ import path from 'node:path';
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import matter from 'gray-matter';
 
-import { type SitemapConfig, starlightSiteGraphConfigSchema } from './config';
+import { type NodeStyle, type SitemapConfig, starlightSiteGraphConfigSchema } from './config';
 import {
 	ensureTrailingSlash,
 	ensureLeadingPound,
@@ -15,7 +15,7 @@ import {
 	firstMatchingPattern,
 } from './integrationUtil';
 import type { Sitemap, SitemapEntry } from './types';
-import type { PageConfig } from './schema';
+import type { PageFrontmatter } from './schema';
 
 async function* walk(dir: string): AsyncGenerator<string> {
 	for await (const d of await fs.promises.opendir(dir)) {
@@ -32,6 +32,7 @@ interface IntermediateSitemapEntry {
 	tags: Set<string>;
 	links: Set<string>;
 	backlinks: Set<string>;
+	nodeStyle: Partial<NodeStyle>;
 }
 
 class SiteMapBuilder {
@@ -58,8 +59,9 @@ class SiteMapBuilder {
 		let title = path.basename(linkPath, extname);
 		let links = new Set<string>();
 		const tags = new Set<string>();
+		let nodeStyle = {} as Partial<NodeStyle>;
 
-		const frontmatter = matter(content) as unknown as { data: PageConfig };
+		const frontmatter = matter(content) as unknown as { data: PageFrontmatter };
 
 		if (linkMatches) {
 			for (const match of linkMatches) {
@@ -108,6 +110,10 @@ class SiteMapBuilder {
 					tags.add(tag);
 				}
 			}
+
+			if (frontmatter.data.graph?.nodeStyle) {
+				nodeStyle = frontmatter.data.graph.nodeStyle as NodeStyle;
+			}
 		}
 
 		for (const [tag, tagRule] of Object.entries(this.config.tagRules)) {
@@ -126,6 +132,7 @@ class SiteMapBuilder {
 			tags,
 			links,
 			backlinks: new Set<string>(),
+			nodeStyle
 		});
 	}
 
@@ -142,6 +149,7 @@ class SiteMapBuilder {
 						tags: new Set(),
 						links: new Set(),
 						backlinks: new Set(),
+						nodeStyle: {}
 					});
 				}
 			}
@@ -165,6 +173,7 @@ class SiteMapBuilder {
 				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
+				nodeStyle: entry.nodeStyle
 			};
 
 			sitemap[entry.linkPath] = sitemapEntry;

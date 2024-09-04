@@ -36,7 +36,7 @@ const node_shape_styles = z.union([
 ]);
 
 
-const nodeStyle = z.object({
+export const nodeStyle = z.object({
 	/**
 	 * Size of the node in the graph, further scaled by `linkScale`
 	 *

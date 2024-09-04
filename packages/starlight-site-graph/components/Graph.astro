@@ -433,7 +433,6 @@ const { config, sitemap, slug } = Astro.props;
 
 				const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
 
-
 				// Chain of declarations determines style priority
 				let style: NodeStyle = this.config.nodeDefaultStyle as NodeStyle;
 				if (this.visitedPages.has(id)) {
@@ -451,6 +450,8 @@ const { config, sitemap, slug } = Astro.props;
 				if (!node.exists) {
 					style = {...style, ...this.config.nodeUnresolvedStyle as NodeStyle};
 				}
+
+				style = {...style, ...node.nodeStyle as NodeStyle};
 
 				// Magick
 				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);

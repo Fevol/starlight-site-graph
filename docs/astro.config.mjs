@@ -2,8 +2,6 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph';
 
-import sitemap from './sitegraph.json';
-
 export default defineConfig({
 	redirects: {
 		'/': '/intro',
@@ -70,7 +68,6 @@ export default defineConfig({
 						}
 					},
 					sitemapConfig: {
-						sitemap: sitemap,
 						tagRules: {
 							"obsidian": ["**/obsidian/**"],
 							"internals": ["**/internals/**"]
