@@ -6,6 +6,7 @@ type NodeData = {
 	id: string;
 	exists: boolean;
 	node?: PIXI.Graphics;
+	stroke?: PIXI.Graphics;
 	text?: string;
 	tags?: string[];
 	label?: PIXI.Text;

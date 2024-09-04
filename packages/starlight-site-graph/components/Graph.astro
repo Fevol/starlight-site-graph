@@ -42,6 +42,20 @@ const { config, sitemap, slug } = Astro.props;
 
     const MAX_DEPTH = 6;
 
+	const NODE_DEFAULT_Z_INDEX = 3;
+	const NODE_HOVER_Z_INDEX = 10;
+	const NODE_MUTED_Z_INDEX = 1;
+
+	const STROKE_DEFAULT_Z_INDEX = 3;
+	const STROKE_HOVER_Z_INDEX = 10;
+	const STROKE_MUTED_Z_INDEX = 1;
+
+	const LABEL_DEFAULT_Z_INDEX = 20;
+
+	const LINK_DEFAULT_Z_INDEX = 0;
+	const LINK_HOVER_Z_INDEX = 5;
+
+
 	export class GraphComponent extends HTMLElement {
 		static observedValues = ["config", "sitemap"];
 
@@ -566,35 +580,52 @@ const { config, sitemap, slug } = Astro.props;
 		renderNodes() {
 			for (const node of this.simulation.nodes()) {
 				node.node = new PIXI.Graphics();
+				if (node.strokeWidth) {
+					node.stroke = new PIXI.Graphics();
+					this.setNodeStroke(node);
+					this.app.stage.addChild(node.stroke);
+				}
+
 				this.setNodeFill(node);
+				this.app.stage.addChild(node.node);
 
-				const nodeText = new PIXI.Text({
-					text: node.text || node.id,
-					style: {
-						fill: 0xffffff,
-						fontSize: this.config.labelFontSize,
-					},
-					zIndex: 100,
-				});
-				nodeText.anchor.set(0.5, 0.5);
-				nodeText.alpha = this.animator.getValue('labelOpacity');
-
-                this.app.stage.addChild(node.node);
                 if (this.config.renderLabels) {
-                    node.label = nodeText;
-                    this.app.stage.addChild(nodeText);
+					node.label = new PIXI.Text({
+						text: node.text || node.id,
+						style: {
+							fill: 0xffffff,
+							fontSize: this.config.labelFontSize,
+						},
+						zIndex: LABEL_DEFAULT_Z_INDEX,
+					});
+					node.label.anchor.set(0.5, 0.5);
+					node.label.alpha = this.animator.getValue('labelOpacity');
+
+                    this.app.stage.addChild(node.label);
                 }
 			}
 		}
 
-		setNodeFill(node: NodeData) {
-			node.node!._zIndex = 1;
-			node.node!.circle(0, 0, node.computedSize!);
+		setNodeFill(node: NodeData, isHovered?: boolean) {
+			node.node!.clear()
+				.circle(0, 0, node.computedSize!)
+				.fill(node.shape !== "circle-hollow" ? 0xffffff : this.colors.backgroundColor)
+				._zIndex = isHovered === undefined ? NODE_DEFAULT_Z_INDEX : (isHovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
+
 			if (node.shape !== "circle-hollow") {
-				node.node!.fill(0xffffff);
-			} else {
-				node.node!.fill(this.colors.backgroundColor);
+				node.node!.tint = this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string;
 			}
+		}
+
+		setNodeStroke(node: NodeData, isHovered?: boolean) {
+			node.stroke!.clear()
+				.circle(0, 0, node.fullRadius! - node.strokeWidth! / 2)
+				.fill(0xffffff)
+				.stroke({
+					color: this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string,
+					width: node.strokeWidth,
+				})
+				._zIndex = isHovered === undefined ? STROKE_DEFAULT_Z_INDEX : (isHovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
 		}
 
 		resetNodeFill() {
@@ -798,6 +829,15 @@ const { config, sitemap, slug } = Astro.props;
 
 			for (const node of this.simulation.nodes()) {
 				const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
+				// FIXME: What is the performance cost of clearing every tick?
+				// TODO: Potential performance improvement: textures instead of graphics?
+				if (node.strokeWidth) {
+					this.setNodeStroke(node, isHovered);
+					node.stroke!.position.set(node.x!, node.y!);
+				}
+
+				this.setNodeFill(node, isHovered);
+
 
                 if (this.config.renderLabels) {
                     const labelOffset = node.fullRadius! + (isHovered
@@ -814,19 +854,7 @@ const { config, sitemap, slug } = Astro.props;
                     node.label!.tint = labelColor;
                 }
 
-                const nodeZIndex = isHovered ? 100 : 1;
-				const nodeColor = this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string;
-
-				if (node.shape === "circle-hollow") {
-					node.node!.stroke({
-						color: nodeColor,
-						width: node.strokeWidth,
-					})
-				} else {
-					node.node!.tint = nodeColor;
-				}
 				node.node!.position.set(node.x!, node.y!);
-				node.node!._zIndex = nodeZIndex;
 			}
 
 			this.links.clear();
@@ -868,7 +896,7 @@ const { config, sitemap, slug } = Astro.props;
 					color: isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'),
 					width: this.config.linkWidth / linkZoomLevel,
 				})
-				.zIndex = (isAdjacent && this.isHovering) ? 10 : 0;
+				.zIndex = (isAdjacent && this.isHovering) ? LINK_HOVER_Z_INDEX : LINK_DEFAULT_Z_INDEX;
 
 			if (this.config.renderArrows && this.zoomTransform.k > this.config.minZoomArrows) {
 				const x = xEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(incAngle);
