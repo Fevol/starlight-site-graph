@@ -480,6 +480,7 @@ const globalSitemapConfigSchema = z.object({
 				links: z.array(z.string()),
 				backlinks: z.array(z.string()),
 				tags: z.array(z.string()),
+				nodeStyle: nodeStyle.partial().optional(),
 			}),
 		)
 		.optional(),

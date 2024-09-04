@@ -253,10 +253,12 @@ export default defineIntegration({
 						params.logger.info('Finished generating sitemap');
 					} else {
 						params.logger.info('Using applied sitemap');
+
+						// Apply tagRules and styleRules to the existing sitemap
 						for (const [linkPath, entry] of Object.entries(options.sitemapConfig.sitemap!)) {
 							const tags = new Set<string>(entry.tags);
-							for (const [tag, tagRule] of Object.entries(sitemapConfig.tagRules)) {
-								const ruleResult = firstMatchingPattern(linkPath, tagRule);
+							for (const [tag, tagRules] of Object.entries(sitemapConfig.tagRules)) {
+								const ruleResult = firstMatchingPattern(linkPath, tagRules);
 								if (ruleResult) {
 									tags.add(tag);
 								} else if (ruleResult !== undefined) {
@@ -264,6 +266,23 @@ export default defineIntegration({
 								}
 							}
 							entry.tags = [...tags].map(ensureLeadingPound);
+
+							let nodeStyle = {} as Partial<NodeStyle>;
+							if (options.sitemapConfig.styleRules.size) {
+								for (const [rules, style] of options.sitemapConfig.styleRules) {
+									const ruleResult = firstMatchingPattern(linkPath, rules);
+									if (ruleResult) {
+										nodeStyle = {
+											...nodeStyle,
+											...style as NodeStyle
+										};
+									}
+								}
+							}
+							entry.nodeStyle = {
+								...entry.nodeStyle,
+								...nodeStyle
+							};
 						}
 					}
 
