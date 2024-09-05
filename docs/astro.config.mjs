@@ -28,6 +28,7 @@ export default defineConfig({
 			},
 			plugins: [
 				starlightSiteGraph({
+					debug: true,
 					graphConfig: {
 						depth: 1,
 						nodeDefaultStyle: {

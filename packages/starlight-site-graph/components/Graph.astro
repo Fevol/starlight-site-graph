@@ -6,13 +6,14 @@ interface Props {
     slug: string;
     config: GraphConfig;
     sitemap: Sitemap | undefined;
+	debug: boolean;
 }
 
 
-const { config, sitemap, slug } = Astro.props;
+const { config, sitemap, slug, debug = false } = Astro.props;
 ---
 
-<graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug}></graph-component>
+<graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug} data-debug={debug}></graph-component>
 
 <script>
 	import { prefetch } from 'astro:prefetch';
@@ -64,6 +65,8 @@ const { config, sitemap, slug } = Astro.props;
 		actionContainer: HTMLElement;
 		blurContainer: HTMLElement;
 
+		debug: boolean = false;
+
 		app!: PIXI.Application;
 		simulation!: d3.Simulation<NodeData, undefined>;
 		zoomBehavior!: d3.ZoomBehavior<HTMLCanvasElement, unknown>;
@@ -109,16 +112,12 @@ const { config, sitemap, slug } = Astro.props;
 
 		constructor() {
 			super();
-
-			try {
-				this.config = JSON.parse(this.dataset['config'] || '{}');
-			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
-			try {
-				this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
-			} catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
             try {
-                this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
-            } catch (e) { console.error("[SITE GRAPH PLUGIN] " + (e instanceof Error ? e.message : e)); }
+				this.config = JSON.parse(this.dataset['config'] || '{}');
+				this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
+				this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
+				this.debug = this.dataset['debug'] !== undefined;
+            } catch (e) { console.error("[STARLIGHT-SITE-GRAPH] " + (e instanceof Error ? e.message : e)); }
 
 			this.config.depth = Math.min(this.config.depth, 5);
 
@@ -366,6 +365,19 @@ const { config, sitemap, slug } = Astro.props;
 			this.app.ticker.add(ticker => {
 				this.tick(ticker);
 			});
+
+			if (this.debug) {
+				setTimeout(async () => {
+					try {
+						const pixistats = await import('pixi-stats');
+						const stats = pixistats.addStats(document, this.app);
+						this.app.ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
+						stats.stats.domElement.id = 'graphStats';
+					} catch (e) {
+						console.error('[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install all devDependencies.');
+					}
+				}, 500);
+			}
 		}
 
 		processSitemapData(siteData: Sitemap): { nodes: NodeData[]; links: LinkData[] } {

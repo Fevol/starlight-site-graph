@@ -552,6 +552,12 @@ const globalSitemapConfigSchema = z.object({
 export const starlightSiteGraphConfigSchema = z
 	.object({
 		/**
+		 * Whether debug mode is enabled
+		 * - Adds a frametime counter to the graph
+		 */
+		debug: z.boolean().default(false),
+
+		/**
 		 * The prefix used for the key which stores the visited pages in the browser's storage.
 		 *
 		 * @default "graph-"

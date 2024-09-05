@@ -18,7 +18,8 @@
 	"devDependencies": {
 		"@astrojs/starlight": "^0.25.3",
 		"@types/micromatch": "^4.0.9",
-		"astro": "^4.12.3"
+		"astro": "^4.12.3",
+		"pixi-stats": "^1.3.10"
 	},
 	"peerDependencies": {
 		"@astrojs/starlight": ">=0.25.0",

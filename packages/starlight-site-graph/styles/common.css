@@ -7,6 +7,22 @@
 	--slsg-background-color-maximized: var(--sl-color-bg-nav);
 }
 
+#graphStats {
+	position: fixed;
+	top: 10px;
+	right: 10px;
+	z-index: 500;
+	width: max(200px, 25vw, 25vh);
+	height: max(100px, 6vh, 6vw);
+	opacity: 0.6;
+	user-select: none;
+	display: flex;
+
+	> canvas:nth-child(2) {
+		display: block !important;
+	}
+}
+
 :root[data-theme='dark'] {
 	--slsg-node-color: var(--sl-color-white);
 	--slsg-node-color-hover: var(--sl-color-accent-high);
