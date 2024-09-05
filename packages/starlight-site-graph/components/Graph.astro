@@ -158,8 +158,6 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
 			this.themeObserver = new MutationObserver(() => {
 				this.colors = getGraphColors(this.graphContainer);
-				this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
-				this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
 				for (const color of animated_colors) {
 					const key = color.slice(0, color.indexOf("Color") + 5);
 					this.animator.setProperties(`${color}`, {
@@ -172,7 +170,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 					});
 				}
 
-				this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 500 });
+				this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 200 });
 				this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 			});
 			this.themeObserver.observe(document.querySelector(":root")!, {
@@ -212,8 +210,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
-			this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
-			this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
+			this.animator.setValue('backgroundColor', this.colors.backgroundColor);
+			this.animator.setValue('backgroundColorHover', this.colors.backgroundColor);
 			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);
@@ -235,8 +233,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
-			this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
-			this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
+			this.animator.setValue('backgroundColor', this.colors.backgroundColor);
+			this.animator.setValue('backgroundColorHover', this.colors.backgroundColor);
 			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);

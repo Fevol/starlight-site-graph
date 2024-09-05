@@ -91,10 +91,6 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
-	setConstantValue(key: keyof T, value: ConfigValueType<T[keyof T]>): void {
-		this.animations[key].interpolatedValue = value;
-	}
-
 	setValue(key: keyof T, value: ConfigValueType<T[keyof T]>): void {
 		this.resetAnimation(key);
 		this.animations[key].interpolatedValue = value;

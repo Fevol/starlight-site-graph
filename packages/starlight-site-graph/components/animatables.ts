@@ -19,6 +19,7 @@ const easing_functions = {
 };
 
 export const animated_colors = [
+	"backgroundColor",
 	"nodeColor",
 	"nodeColorVisited",
 	"nodeColorCurrent",
@@ -36,12 +37,6 @@ export const animated_colors = [
 	"linkColor",
 	'labelColor',
 ] as const;
-
-const constant_colors = [
-	"backgroundColor",
-] as const;
-
-const all_colors = [...animated_colors, ...constant_colors] as const;
 
 export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
 	return {
@@ -64,7 +59,7 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			easing: easing_functions[graphConfig.zoomEase],
 		},
 
-		...Object.fromEntries(all_colors
+		...Object.fromEntries(animated_colors
 			.flatMap((color) => {
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				return [
