@@ -158,6 +158,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
 			this.themeObserver = new MutationObserver(() => {
 				this.colors = getGraphColors(this.graphContainer);
+				this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
+				this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
 				for (const color of animated_colors) {
 					const key = color.slice(0, color.indexOf("Color") + 5);
 					this.animator.setProperties(`${color}`, {
@@ -171,7 +173,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				}
 
 				this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 500 });
-				this.resetNodeFill();
+				this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 			});
 			this.themeObserver.observe(document.querySelector(":root")!, {
 				attributeFilter: ["data-theme"],
@@ -210,7 +212,9 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
-			this.resetNodeFill();
+			this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
+			this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
+			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);
 		}
@@ -231,7 +235,9 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
-			this.resetNodeFill();
+			this.animator.setConstantValue('backgroundColor', this.colors.backgroundColor);
+			this.animator.setConstantValue('backgroundColorHover', this.colors.backgroundColor);
+			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);
 		}
@@ -484,8 +490,6 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				const computedSize = style.shapeSize * scaleFactor;
 				if (style.shape === "circle-hollow") {
 					style.strokeWidth = Math.max(1, style.strokeWidth);
-				} else {
-					style.strokeWidth = 0;
 				}
 
 				nodes.push({
@@ -495,10 +499,11 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 					tags: (node.tags ?? []),
 					neighborCount,
 
-					color: style.color,
 					shape: style.shape,
 					shapeSize: style.shapeSize,
+					shapeColor: style.shape === "circle-hollow" ? "backgroundColor" : style.shapeColor,
 					strokeWidth: style.strokeWidth,
+					strokeColor: style.strokeColor ?? style.shapeColor,
 
 					// TODO: computedSize may be removed if no use for it is found
 					computedSize: computedSize,
@@ -621,12 +626,10 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 		setNodeFill(node: NodeData, isHovered?: boolean) {
 			node.node!.clear()
 				.circle(0, 0, node.computedSize!)
-				.fill(node.shape !== "circle-hollow" ? 0xffffff : this.colors.backgroundColor)
+				.fill(0xffffff)
 				._zIndex = isHovered === undefined ? NODE_DEFAULT_Z_INDEX : (isHovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
 
-			if (node.shape !== "circle-hollow") {
-				node.node!.tint = this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string;
-			}
+			node.node!.tint = this.animator.getValue(node.shapeColor + (isHovered ? 'Hover' : '') as any) as string;
 		}
 
 		setNodeStroke(node: NodeData, isHovered?: boolean) {
@@ -634,17 +637,10 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				.circle(0, 0, node.fullRadius! - node.strokeWidth! / 2)
 				.fill(0xffffff)
 				.stroke({
-					color: this.animator.getValue(node.color + (isHovered ? 'Hover' : '') as any) as string,
+					color: this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string,
 					width: node.strokeWidth,
 				})
 				._zIndex = isHovered === undefined ? STROKE_DEFAULT_Z_INDEX : (isHovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
-		}
-
-		resetNodeFill() {
-			for (const node of this.simulation.nodes()) {
-				node.node!.clear();
-				this.setNodeFill(node);
-			}
 		}
 
 		setup() {

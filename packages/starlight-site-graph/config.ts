@@ -38,24 +38,6 @@ const node_shape_styles = z.union([
 
 export const nodeStyle = z.object({
 	/**
-	 * Size of the node in the graph, further scaled by `linkScale`
-	 *
-	 * @default 10
-	 */
-	shapeSize: z.number().default(10),
-	/**
-	 * Stroke width of the node in the graph
-	 *
-	 * @default 0
-	 */
-	strokeWidth: z.number().default(0),
-	/**
-	 * Color of the node in the graph, overridden if the node is visited, current, or unresolved
-	 *
-	 * @default "nodeColor"
-	 */
-	color: node_color_types.default('nodeColor'),
-	/**
 	 * Shape of the node in the graph
 	 * - `circle`: Circular shape
 	 * - `circle-hollow`: Circular shape with no fill
@@ -63,6 +45,32 @@ export const nodeStyle = z.object({
 	 * @default "circle"
 	 */
 	shape: node_shape_styles.default('circle'),
+	/**
+	 * Size of the node in the graph, further scaled by `linkScale`
+	 *
+	 * @default 10
+	 */
+	shapeSize: z.number().default(10),
+	/**
+	 * Color of the node shape in the graph, overridden if the node is visited, current, or unresolved
+	 *
+	 * @default "nodeColor"
+	 */
+	shapeColor: node_color_types.default('nodeColor'),
+
+	/**
+	 * Stroke width of the node in the graph
+	 *
+	 * @default 0
+	 */
+	strokeWidth: z.number().default(0),
+	/**
+	 * Stroke color of the node in the graph
+	 * If none is specified, the stroke color will be the same as the shape color
+	 *
+	 * @optional
+	 */
+	strokeColor: node_color_types.optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces
@@ -134,7 +142,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default { }
 	 * @example The "index" tag is visualized a circle of size 12, with no stroke
-	 * { "index": { color: "nodeColor1", shape: "circle", shapeSize: 12, strokeWidth: 0 } }
+	 * { "index": { shapeColor: "nodeColor1", shape: "circle", shapeSize: 12, strokeWidth: 0 } }
 	 */
 	tagStyles: z.record(z.string().transform((val) => !val.startsWith("#") ? "#" + val : val), nodeStyle.partial()).default({}),
 	/**
@@ -305,10 +313,10 @@ export const graphConfigSchema = z.object({
 	 * All other styles will overwrite these values.
 	 *
 	 * @default ```{
+	 * 	   shape: "circle",
+	 * 	   shapeColor: "nodeColor",
 	 * 	   shapeSize: 10,
 	 * 	   strokeWidth: 0,
-	 * 	   color: "nodeColor",
-	 * 	   shape: "circle",
 	 * 	   colliderScale: 1,
 	 * 	   nodeScale: 1,
 	 * 	   neighborScale: 0.5
@@ -319,40 +327,40 @@ export const graphConfigSchema = z.object({
 	 * The style of node representing a visited page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`.
 	 *
-	 * @default { color: "nodeColorVisited" }
+	 * @default { shapeColor: "nodeColorVisited" }
 	 */
 	nodeVisitedStyle: nodeStyle.partial().optional().transform((val) => ({
-		color: 'nodeColorVisited',
+		shapeColor: 'nodeColorVisited',
 		...val,
 	})),
 	/**
 	 * The style of node representing the current page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle` and matching `tagStyles`.
 	 *
-	 * @default { color: "nodeColorCurrent" }
+	 * @default { shapeColor: "nodeColorCurrent" }
 	 */
 	nodeCurrentStyle: nodeStyle.partial().optional().transform((val) => ({
-		color: 'nodeColorCurrent',
+		shapeColor: 'nodeColorCurrent',
 		...val,
 	})),
 	/**
 	 * The style of node representing an unresolved page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`, matching `tagStyles`, and `nodeCurrentStyle`.
 	 *
-	 * @default { color: "nodeColorUnresolved" }
+	 * @default { shapeColor: "nodeColorUnresolved" }
 	 */
 	nodeUnresolvedStyle: nodeStyle.partial().optional().transform((val) => ({
-		color: 'nodeColorUnresolved',
+		shapeColor: 'nodeColorUnresolved',
 		...val,
 	})),
 	/**
 	 * Default style of tag nodes in the graph
 	 *
-	 * @default { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 }
+	 * @default { shape: "circle-hollow", shapeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 }
 	 */
 	tagDefaultStyle: nodeStyle.partial().optional().transform((val) => ({
-		color: 'nodeColorTag',
 		shape: 'circle-hollow',
+		shapeColor: 'nodeColorTag',
 		shapeSize: 6,
 		strokeWidth: 1,
 		...val,
@@ -542,7 +550,7 @@ const globalSitemapConfigSchema = z.object({
 	 *
 	 * @default {}
 	 * @example Make all nodes in the "api" folder take the color of `nodeColor5` (lime)
-	 * [{ rules: ["api/**"], color: "nodeColor5" }]
+	 * [{ rules: ["api/**"], shapeColor: "nodeColor5" }]
 	 * @example Make the shape of all nodes except those in the "public" folder doubly as large and hollow
 	 * [{ rules: ["!public/**", "**\/*"], nodeScale: 2, shape: "circle-hollow" } ]
 	 */
@@ -612,18 +620,18 @@ export const starlightSiteGraphConfigSchema = z
 		 *     hoverEase: "out_quad",
 		 *
 		 *	   nodeDefaultStyle: {
+		 * 	  	 shape: "circle",
+		 *	  	 shapeColor: "nodeColor",
 		 *	  	 shapeSize: 10,
 		 *	  	 strokeWidth: 0,
-		 *	  	 color: "nodeColor",
-		 *	  	 shape: "circle",
 		 *	  	 colliderScale: 1,
 		 *	  	 nodeScale: 1,
 		 *	  	 neighborScale: 0.5
 		 *	   },
-		 *	   nodeVisitedStyle: { color: "nodeColorVisited" },
-		 *	   nodeCurrentStyle: { color: "nodeColorCurrent" },
+		 *	   nodeVisitedStyle: { shapeColor: "nodeColorVisited" },
+		 *	   nodeCurrentStyle: { shapeColor: "nodeColorCurrent" },
 		 *	   nodeUnresolvedStyle: { color: "nodeColorUnresolved" },
-		 *	   tagDefaultStyle: { color: "nodeColorTag", shape: "circle-hollow", shapeSize: 6, strokeWidth: 1 },
+		 *	   tagDefaultStyle: { shape: "circle-hollow", shapeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1, strokeColor: "inherit" },
 		 *
 		 *     linkWidth: 1,
 		 *

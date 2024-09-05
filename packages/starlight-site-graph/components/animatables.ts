@@ -37,6 +37,12 @@ export const animated_colors = [
 	'labelColor',
 ] as const;
 
+const constant_colors = [
+	"backgroundColor",
+] as const;
+
+const all_colors = [...animated_colors, ...constant_colors] as const;
+
 export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
 	return {
 		zoom: {
@@ -58,7 +64,7 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			easing: easing_functions[graphConfig.zoomEase],
 		},
 
-		...Object.fromEntries(animated_colors
+		...Object.fromEntries(all_colors
 			.flatMap((color) => {
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				return [

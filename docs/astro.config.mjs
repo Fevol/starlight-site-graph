@@ -40,32 +40,13 @@ export default defineConfig({
 						trackVisitedPages: false,
 						tagStyles: {
 							"obsidian": {
-								color: "nodeColor1",
+								shapeColor: "nodeColor1",
 							},
 							"internals": {
-								color: "nodeColor2"
-							},
-							"3": {
-								color: "nodeColor3"
-							},
-							"4": {
-								color: "nodeColor4"
-							},
-							"5": {
-								color: "nodeColor5"
-							},
-							"6": {
-								color: "nodeColor6"
-							},
-							"7": {
-								color: "nodeColor7"
-							},
-							"8": {
-								color: "nodeColor8"
-							},
-							"9": {
-								color: "nodeColor9"
-							},
+								shapeColor: "nodeColor2",
+								strokeColor: "nodeColor4",
+								strokeWidth: 35,
+							}
 						}
 					},
 					sitemapConfig: {
