@@ -106,6 +106,13 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		this.configs[key]!.properties![property as string] = value;
 	}
 
+	setAllProperties(key: keyof T, value: ConfigValueType<T[keyof T]>): void {
+		const properties = this.configs[key]!.properties;
+		for (const property in properties) {
+			this.configs[key]!.properties![property as string] = value;
+		}
+	}
+
 	setProperties<K extends keyof T>(key: K, properties: AnimationToMap<T>): void {
 		for (const [property, value] of Object.entries(properties)) {
 			this.setProperty(key, property as keyof T[K]['properties'], value!);

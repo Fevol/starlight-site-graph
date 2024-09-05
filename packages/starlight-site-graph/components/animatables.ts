@@ -64,13 +64,13 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				return [
 					[`${color}`, {
-						properties: { default: colorConfig[color], blur: colorConfig[key + "Muted" as keyof typeof colorConfig] },
+						properties: { default: colorConfig[color], blur: colorConfig[key + "Muted" as keyof typeof colorConfig] ?? colorConfig[color] },
 						interpolator: new ColorInterpolator(),
 						duration: graphConfig.hoverDuration,
 						easing: easing_functions[graphConfig.hoverEase],
 					}],
 					[`${color}Hover`, {
-						properties: { default: colorConfig[color], hover: colorConfig[key + "Hover" as keyof typeof colorConfig] },
+						properties: { default: colorConfig[color], hover: colorConfig[key + "Hover" as keyof typeof colorConfig] ?? colorConfig[color] },
 						interpolator: new ColorInterpolator(),
 						duration: graphConfig.hoverDuration,
 						easing: easing_functions[graphConfig.hoverEase],

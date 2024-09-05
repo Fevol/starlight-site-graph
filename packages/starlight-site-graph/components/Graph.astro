@@ -211,7 +211,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
 			this.animator.setValue('backgroundColor', this.colors.backgroundColor);
-			this.animator.setValue('backgroundColorHover', this.colors.backgroundColor);
+			this.animator.setAllProperties('backgroundColor', this.colors.backgroundColor);
+			this.animator.setAllProperties('backgroundColorHover', this.colors.backgroundColor);
 			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);
@@ -234,7 +235,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.app.renderer.resize(this.graphContainer.clientWidth, this.graphContainer.clientHeight);
 			this.colors = getGraphColors(this.graphContainer);
 			this.animator.setValue('backgroundColor', this.colors.backgroundColor);
-			this.animator.setValue('backgroundColorHover', this.colors.backgroundColor);
+			this.animator.setAllProperties('backgroundColor', this.colors.backgroundColor);
+			this.animator.setAllProperties('backgroundColorHover', this.colors.backgroundColor);
 			this.simulation.nodes().forEach(this.setNodeFill.bind(this));
 
 			this.resetZoom(true);
@@ -486,7 +488,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				// Magick
 				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
 				const computedSize = style.shapeSize * scaleFactor;
-				if (style.shape === "circle-hollow") {
+				if (style.strokeColor) {
 					style.strokeWidth = Math.max(1, style.strokeWidth);
 				}
 
