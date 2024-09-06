@@ -4,14 +4,15 @@ import { z } from 'astro/zod';
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;
 
-const easing_types = z.union([
+const easingTypes = z.union([
 	z.literal('in_quad'),
 	z.literal('out_quad'),
 	z.literal('in_out_quad'),
 	z.literal('linear'),
 ]);
 
-const node_color_types = z.union([
+const nodeColorTypes = z.union([
+	z.literal('backgroundColor'),
 	z.literal('nodeColor'),
 	z.literal('nodeColorVisited'),
 	z.literal('nodeColorCurrent'),
@@ -30,21 +31,46 @@ const node_color_types = z.union([
 	z.literal('linkColor'),
 ]);
 
-const node_shape_styles = z.union([
+const nodeShapeTypes = z.union([
+	/**
+	 * Circular shape
+	 */
 	z.literal('circle'),
-	z.literal('circle-hollow')
+	/**
+	 * Square shape \
+	 * Defined as `polygon` with `shapePoints` set to 4
+	 */
+	z.literal('square'),
+	/**
+	 * Triangle shape \
+	 * Defined as `polygon` with `shapePoints` set to 3
+	 */
+	z.literal('triangle'),
+	/**
+	 * Regular polygon shape \
+	 * Defined by `shapePoints`
+	 */
+	z.literal('polygon'),
+	/**
+	 * Regular star 2n-polygon shape \
+	 * Defined by `shapePoints`
+	 */
+	z.literal('star'),
 ]);
-
+export type NodeShapeType = z.infer<typeof nodeShapeTypes>;
 
 export const nodeStyle = z.object({
 	/**
 	 * Shape of the node in the graph
 	 * - `circle`: Circular shape
-	 * - `circle-hollow`: Circular shape with no fill
+	 * - `square`: Square shape
+	 * - `triangle`: Triangle shape
+	 * - `polygon`: Polygon shape (with `shapePoints` vertices)
+	 * - `star`: Star shape (with `shapePoints` spikes)
 	 *
 	 * @default "circle"
 	 */
-	shape: node_shape_styles.default('circle'),
+	shape: nodeShapeTypes.default('circle'),
 	/**
 	 * Size of the node in the graph, further scaled by `linkScale`
 	 *
@@ -56,7 +82,20 @@ export const nodeStyle = z.object({
 	 *
 	 * @default "nodeColor"
 	 */
-	shapeColor: node_color_types.default('nodeColor'),
+	shapeColor: nodeColorTypes.default('nodeColor'),
+	/**
+	 * Number of points for `polygon` or `star` shapes
+	 *
+	 * @optional
+	 */
+	shapePoints: z.number().optional(),
+	/**
+	 * Rotation of the polygon or star shape in degrees. \
+	 * If set to `'random'`, the shape will be rotated randomly.
+	 *
+	 * @optional
+	 */
+	shapeRotation: z.union([z.number(), z.literal('random')]).optional(),
 
 	/**
 	 * Stroke width of the node in the graph
@@ -70,7 +109,7 @@ export const nodeStyle = z.object({
 	 *
 	 * @optional
 	 */
-	strokeColor: node_color_types.optional(),
+	strokeColor: nodeColorTypes.optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces
@@ -292,7 +331,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default "out_quad"
 	 */
-	zoomEase: easing_types.default('out_quad'),
+	zoomEase: easingTypes.default('out_quad'),
 	/**
 	 * The duration of the hover animation in milliseconds
 	 * This controls the speed of the node/link/label highlighting transitions
@@ -306,7 +345,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default "out_quad"
 	 */
-	hoverEase: easing_types.default('out_quad'),
+	hoverEase: easingTypes.default('out_quad'),
 
 	/**
 	 * The default style of a node in the graph. \
@@ -322,7 +361,7 @@ export const graphConfigSchema = z.object({
 	 * 	   neighborScale: 0.5
 	 * 	}```
 	 */
-	nodeDefaultStyle: nodeStyle.optional(),
+	nodeDefaultStyle: nodeStyle.optional().default({}),
 	/**
 	 * The style of node representing a visited page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`.
@@ -356,11 +395,11 @@ export const graphConfigSchema = z.object({
 	/**
 	 * Default style of tag nodes in the graph
 	 *
-	 * @default { shape: "circle-hollow", shapeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 }
+	 * @default { shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 }
 	 */
 	tagDefaultStyle: nodeStyle.partial().optional().transform((val) => ({
-		shape: 'circle-hollow',
-		shapeColor: 'nodeColorTag',
+		shapeColor: 'backgroundColor',
+		strokeColor: 'nodeColorTag',
 		shapeSize: 6,
 		strokeWidth: 1,
 		...val,
@@ -552,7 +591,7 @@ const globalSitemapConfigSchema = z.object({
 	 * @example Make all nodes in the "api" folder take the color of `nodeColor5` (lime)
 	 * [{ rules: ["api/**"], shapeColor: "nodeColor5" }]
 	 * @example Make the shape of all nodes except those in the "public" folder doubly as large and hollow
-	 * [{ rules: ["!public/**", "**\/*"], nodeScale: 2, shape: "circle-hollow" } ]
+	 * [{ rules: ["!public/**", "**\/*"], nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" } ]
 	 */
 	styleRules: z.map(z.array(z.string()), nodeStyle.partial()).default(new Map()),
 });
@@ -631,7 +670,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *	   nodeVisitedStyle: { shapeColor: "nodeColorVisited" },
 		 *	   nodeCurrentStyle: { shapeColor: "nodeColorCurrent" },
 		 *	   nodeUnresolvedStyle: { color: "nodeColorUnresolved" },
-		 *	   tagDefaultStyle: { shape: "circle-hollow", shapeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1, strokeColor: "inherit" },
+		 *	   tagDefaultStyle: { shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 },
 		 *
 		 *     linkWidth: 1,
 		 *

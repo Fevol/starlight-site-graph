@@ -19,7 +19,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 	import { prefetch } from 'astro:prefetch';
 	import * as d3 from 'd3';
 	import * as PIXI from './pixi/pixi';
-	import type { GraphConfig, NodeStyle } from '../config';
+	import type { GraphConfig, NodeShapeType, NodeStyle } from '../config';
 	import { Animator } from './animator';
 	import { showContextMenu } from './context-menu';
 	import {
@@ -55,7 +55,14 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 	const LINK_DEFAULT_Z_INDEX = 0;
 	const LINK_HOVER_Z_INDEX = 5;
+	const ARROW_DEFAULT_Z_INDEX = 2;
+	const ARROW_HOVER_Z_INDEX = 7;
 
+	const DEFAULT_STROKE_WIDTH = 8;
+	const DEFAULT_POLYGON_POINTS = 3;
+	const DEFAULT_STAR_POINTS = 5;
+
+	const STAR_LINE_DEPTH = 0.5;
 
 	export class GraphComponent extends HTMLElement {
 		static observedValues = ["config", "sitemap"];
@@ -489,7 +496,30 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
 				const computedSize = style.shapeSize * scaleFactor;
 				if (style.strokeColor) {
-					style.strokeWidth = Math.max(1, style.strokeWidth);
+					style.strokeWidth = Math.max(DEFAULT_STROKE_WIDTH, style.strokeWidth);
+				} else if (style.strokeWidth) {
+					style.strokeColor = style.shapeColor;
+				}
+
+				if (style.shapeRotation === 'random') {
+					style.shapeRotation = Math.random() * Math.PI * 2;
+				} else {
+					style.shapeRotation = (style.shapeRotation ?? 0) * Math.PI / 180;
+				}
+
+				if (style.shape === "star") {
+					style.shapePoints ??= DEFAULT_STAR_POINTS;
+				} else if (style.shape === "polygon") {
+					style.shapePoints ??= DEFAULT_POLYGON_POINTS;
+				} else if (style.shape === "square") {
+					style.shapePoints = 4;
+					style.shape = "polygon";
+					// Ensures that square (and triangle) is upright at 0 degrees shapeRotation
+					style.shapeRotation += Math.PI / 4;
+				} else if (style.shape === "triangle") {
+					style.shapePoints = 3;
+					style.shape = "polygon";
+					style.shapeRotation -= Math.PI / 2;
 				}
 
 				nodes.push({
@@ -501,9 +531,11 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 					shape: style.shape,
 					shapeSize: style.shapeSize,
-					shapeColor: style.shape === "circle-hollow" ? "backgroundColor" : style.shapeColor,
+					shapeColor: style.shapeColor,
 					strokeWidth: style.strokeWidth,
-					strokeColor: style.strokeColor ?? style.shapeColor,
+					strokeColor: style.strokeColor,
+					shapePoints: style.shapePoints,
+					shapeRotation: style.shapeRotation,
 
 					// TODO: computedSize may be removed if no use for it is found
 					computedSize: computedSize,
@@ -623,9 +655,42 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			}
 		}
 
+		drawNodeShape(graphics: PIXI.Graphics, shape: NodeShapeType, size: number, rotation: number, points?: number): PIXI.Graphics {
+			if (shape === "circle") {
+				graphics.circle(0, 0, size);
+			} else if (shape === "polygon") {
+				const angle = (Math.PI * 2 / points!);
+				graphics.moveTo(size, 0);
+				for (let i = 0; i < points!; i++) {
+					graphics.lineTo(size * Math.cos(- angle * i), size * Math.sin(- angle * i));
+				}
+				graphics.closePath();
+
+				// DEBUG: Render drawing order of the polygon vertices
+				// graphics.circle(size, 0, 2);
+				// for (let i = 0; i < points!; i++) {
+				// 	graphics.circle(size * Math.cos(- angle * i), size * Math.sin(- angle * i), 2 + i / 4);
+				// }
+			} else if (shape === "star") {
+				graphics.moveTo(0, -size);
+				for (let i = 0; i < 2 * points!; i++) {
+					const angle = Math.PI * 2 * i / (2 * points!);
+					const r = i % 2 === 0 ? size : size * STAR_LINE_DEPTH;
+					graphics.lineTo(r * Math.sin(angle), -r * Math.cos(angle));
+				}
+				graphics.closePath();
+			} else {
+				console.error("[STARLIGHT-SITE-GRAPH] Invalid shape type: " + shape);
+			}
+			graphics.rotation = rotation!;
+
+
+			return graphics;
+		}
+
 		setNodeFill(node: NodeData, isHovered?: boolean) {
-			node.node!.clear()
-				.circle(0, 0, node.computedSize!)
+			node.node!.clear();
+			this.drawNodeShape(node.node!, node.shape!, node.computedSize!, node.shapeRotation!, node.shapePoints!)
 				.fill(0xffffff)
 				._zIndex = isHovered === undefined ? NODE_DEFAULT_Z_INDEX : (isHovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
 
@@ -634,13 +699,16 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 		setNodeStroke(node: NodeData, isHovered?: boolean) {
 			node.stroke!.clear()
-				.circle(0, 0, node.fullRadius! - node.strokeWidth! / 2)
+			this.drawNodeShape(node.stroke!, node.shape!, node.fullRadius!, node.shapeRotation!, node.shapePoints!)
 				.fill(0xffffff)
-				.stroke({
-					color: this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string,
-					width: node.strokeWidth,
-				})
 				._zIndex = isHovered === undefined ? STROKE_DEFAULT_Z_INDEX : (isHovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
+			node.stroke!.tint = this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string;
+			// node.stroke!.stroke({
+			// 	color: node.stroke!.tint,
+			// 	width: node.strokeWidth!,
+			// 	// join: "round",
+			// 	// join: "bevel",
+			// });
 		}
 
 		setup() {
@@ -837,9 +905,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			for (const node of this.simulation.nodes()) {
 				const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
-				// FIXME: What is the performance cost of clearing every tick?
-				// TODO: Potential performance improvement: textures instead of graphics?
-				if (node.strokeWidth) {
+				// TODO: Shared graphicsContext would improve performance (investigate whether context would share zIndex/...)
+				if (node.strokeWidth && node.strokeColor) {
 					this.setNodeStroke(node, isHovered);
 					node.stroke!.position.set(node.x!, node.y!);
 				}
@@ -866,6 +933,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			}
 
 			this.links.clear();
+			this.arrows.clear();
 
 			const adjacentLinks = [];
 			// FIXME: make adjacent links render above other links, probably some drawing order stuff
@@ -886,16 +954,67 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			}
 		}
 
+
+		/**
+		  * No, this spa-hetti code took practically no time at all, why do you ask?
+		  */
+		nodeLinkOffset(node: NodeData, angle: number): [number, number] {
+			let x = node.x!, y = node.y!, radius = node.fullRadius!;
+			if (node.shape === 'circle') {
+				const sin = Math.sin(angle), cos = Math.cos(angle);
+				return [x - radius * cos, y - radius * sin];
+			} else if (node.shape === 'polygon') {
+				const points = node.shapePoints!;
+				const segmentAngle = 2 * Math.PI / points;
+
+				angle += Math.PI - node.shapeRotation!;
+				const segment = Math.floor(angle / segmentAngle);
+				const t = ((segmentAngle * (segment + 1)) - angle) / segmentAngle;
+
+				return [
+					x + radius * (t * Math.cos(node.shapeRotation! + segment * segmentAngle) + (1 - t) * Math.cos(node.shapeRotation! + (segment + 1) * segmentAngle)),
+					y + radius * (t * Math.sin(node.shapeRotation! + segment * segmentAngle) + (1 - t) * Math.sin(node.shapeRotation! + (segment + 1) * segmentAngle))
+				];
+			} else if (node.shape === 'star') {
+				const points = node.shapePoints!;
+				const segmentAngle = Math.PI / points;
+				let rotation = node.shapeRotation!;
+				if (points & 1) {
+					rotation += Math.PI / 2;
+				} else if (points % 4 === 0) {
+					rotation += segmentAngle;
+				} else {
+					rotation += 0;
+				}
+
+				angle += Math.PI - rotation;
+				const segment = Math.floor(angle / segmentAngle);
+				const t = (segmentAngle * (segment + 1) - angle) / segmentAngle;
+				const r1 = radius * (segment & 1 ? STAR_LINE_DEPTH : 1);
+				const r2 = radius * (segment & 1 ? 1 : STAR_LINE_DEPTH);
+
+				return [
+					x + (t * r2 * Math.cos(rotation + segment * segmentAngle) + (1 - t) * r1 * Math.cos(rotation + (segment + 1) * segmentAngle)),
+					y + (t * r2 * Math.sin(rotation + segment * segmentAngle) + (1 - t) * r1 * Math.sin(rotation + (segment + 1) * segmentAngle))
+				];
+			} else {
+				console.error("[STARLIGHT-SITE-GRAPH] Invalid shape type: " + node.shape);
+				return [x, y];
+			}
+		}
+
 		renderArrow(link: LinkData, isAdjacent: boolean): void {
             const linkZoomLevel = this.config.scaleLinks ? this.animator.getValue('zoom') : 1;
             const arrowZoomLevel = this.config.scaleArrows ? this.animator.getValue('zoom') : 2;
 			const incAngle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
 			const outAngle = Math.atan2(link.source.y! - link.target.y!, link.source.x! - link.target.x!);
 
-			const xStart = link.source.x! - link.source.fullRadius! * Math.cos(outAngle);
-			const yStart = link.source.y! - link.source.fullRadius! * Math.sin(outAngle);
-			const xEnd = link.target.x! - link.target.fullRadius! * Math.cos(incAngle);
-			const yEnd = link.target.y! - link.target.fullRadius! * Math.sin(incAngle);
+			const [xStart, yStart] = this.nodeLinkOffset(link.source, outAngle);
+			const [xEnd, yEnd] = this.nodeLinkOffset(link.target, incAngle);
+
+			// DEBUG: Draw "correct" edge connection points (cf. circle positions, line should go straight through both)
+			// this.links.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
+			// this.links.circle(...this.nodeCircleOffset({...link.target, shape: "circle"}, incAngle), 2).fill(0xff0000)
 
 			this.links
 				.moveTo(xStart, yStart)
@@ -910,7 +1029,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 				const x = xEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.cos(incAngle);
 				const y = yEnd - (this.config.linkWidth / arrowZoomLevel / 2) * Math.sin(incAngle);
                 const arrowSize = 1.5 * this.config.arrowSize / arrowZoomLevel;
-				this.links
+				this.arrows
 					.moveTo(x, y)
 					.lineTo(
                         (x - arrowSize * Math.cos(incAngle - this.config.arrowAngle)),
@@ -921,7 +1040,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
                         (y - arrowSize * Math.sin(incAngle + this.config.arrowAngle))
                     )
 					.lineTo(x, y)
-					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'));
+					.fill(isAdjacent ? this.animator.getValue('linkColorHover') : this.animator.getValue('linkColor'))
+					.zIndex = (isAdjacent && this.isHovering) ? ARROW_HOVER_Z_INDEX : ARROW_DEFAULT_Z_INDEX;
 			}
 		}
 	}

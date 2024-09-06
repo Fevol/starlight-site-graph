@@ -31,36 +31,14 @@ export default defineConfig({
 					debug: true,
 					graphConfig: {
 						depth: 1,
-						nodeDefaultStyle: {
-							nodeScale: 1,
-							strokeWidth: 8,
-						},
 						renderArrows: true,
 						tagRenderMode: 'same',
 						trackVisitedPages: false,
-						tagStyles: {
-							"obsidian": {
-								shapeColor: "nodeColor1",
-							},
-							"internals": {
-								shapeColor: "nodeColor2",
-								strokeColor: "nodeColor4",
-								strokeWidth: 35,
-							}
+						nodeDefaultStyle: {
+							shape: "triangle",
+							shapeRotation: "random",
 						}
 					},
-					sitemapConfig: {
-						tagRules: {
-							"obsidian": ["**/obsidian/**"],
-							"internals": ["**/internals/**"]
-						},
-						styleRules: new Map([
-							[["intro/**"], {
-								shape: "circle-hollow",
-								nodeScale: 2,
-							}]
-						]),
-					}
 				}),
 			],
 		}),

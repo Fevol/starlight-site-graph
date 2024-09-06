@@ -23,11 +23,11 @@ if (showGraph === undefined) {
 }
 
 ---
-
 {showGraph &&
     <div class:list={className}>
         <slot name="title"/>
         <Graph
+            slug={slug}
             sitemap={config.sitemapConfig.sitemap}
             config={{
                 ...config.graphConfig,
