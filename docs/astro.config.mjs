@@ -35,8 +35,13 @@ export default defineConfig({
 						tagRenderMode: 'same',
 						trackVisitedPages: false,
 						nodeDefaultStyle: {
-							shape: "triangle",
-							shapeRotation: "random",
+							shape: "square",
+							shapePoints: 4,
+							shapeCornerRadius: 0,
+							cornerType: "round",
+							strokeColor: "nodeColor8",
+							strokeWidth: 2,
+							strokeCornerRadius: 4
 						}
 					},
 				}),

@@ -96,6 +96,22 @@ export const nodeStyle = z.object({
 	 * @optional
 	 */
 	shapeRotation: z.union([z.number(), z.literal('random')]).optional(),
+	/**
+	 * Radius of the shape and stroke corners for `polygon` or `star` (or derived) shapes
+	 *
+	 * @optional
+	 */
+	shapeCornerRadius: z.number().optional(),
+
+
+	/**
+	 * Type of corner for the shape and stroke
+	 * - `round`: Rounded corners
+	 * - `bevel`: Beveled corners
+	 *
+	 * @optional
+	 */
+	cornerType: z.union([z.literal('round'), z.literal('bevel')]).optional(),
 
 	/**
 	 * Stroke width of the node in the graph
@@ -110,6 +126,12 @@ export const nodeStyle = z.object({
 	 * @optional
 	 */
 	strokeColor: nodeColorTypes.optional(),
+	/**
+	 * Radius of the stroke corners
+	 *
+	 * @optional
+	 */
+	strokeCornerRadius: z.number().optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces

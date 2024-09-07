@@ -61,6 +61,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 	const DEFAULT_STROKE_WIDTH = 8;
 	const DEFAULT_POLYGON_POINTS = 3;
 	const DEFAULT_STAR_POINTS = 5;
+	const DEFAULT_CORNER_RADIUS = 2;
 
 	const STAR_LINE_DEPTH = 0.5;
 
@@ -522,6 +523,15 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 					style.shapeRotation -= Math.PI / 2;
 				}
 
+				if (style.cornerType) {
+					style.shapeCornerRadius = Math.min(style.shapeSize, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS);
+					style.strokeCornerRadius = Math.min(style.strokeWidth, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS);
+				} else {
+					style.shapeCornerRadius = 0;
+					style.strokeCornerRadius = 0;
+				}
+
+				const fullRadius = computedSize + style.strokeWidth / 2;
 				nodes.push({
 					id: id,
 					exists: node.exists,
@@ -536,11 +546,15 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 					strokeColor: style.strokeColor,
 					shapePoints: style.shapePoints,
 					shapeRotation: style.shapeRotation,
+					shapeCornerRadius: style.shapeCornerRadius,
+					strokeCornerRadius: style.strokeCornerRadius,
+
+					cornerType: style.cornerType,
 
 					// TODO: computedSize may be removed if no use for it is found
 					computedSize: computedSize,
-					fullRadius: computedSize + style.strokeWidth / 2,
-					colliderSize: (computedSize + style.strokeWidth) * style.colliderScale,
+					fullRadius: fullRadius,
+					colliderSize: fullRadius * style.colliderScale,
 				});
 			}
 
@@ -690,25 +704,35 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 		setNodeFill(node: NodeData, isHovered?: boolean) {
 			node.node!.clear();
-			this.drawNodeShape(node.node!, node.shape!, node.computedSize!, node.shapeRotation!, node.shapePoints!)
+			this.drawNodeShape(node.node!, node.shape!, node.computedSize! - node.shapeCornerRadius!, node.shapeRotation!, node.shapePoints!)
 				.fill(0xffffff)
 				._zIndex = isHovered === undefined ? NODE_DEFAULT_Z_INDEX : (isHovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
 
 			node.node!.tint = this.animator.getValue(node.shapeColor + (isHovered ? 'Hover' : '') as any) as string;
+
+			if (node.shapeCornerRadius) {
+				node.node!.stroke({
+					color: 0xffffff,
+					width: node.shapeCornerRadius!,
+					join: node.cornerType!,
+				});
+			}
 		}
 
 		setNodeStroke(node: NodeData, isHovered?: boolean) {
 			node.stroke!.clear()
-			this.drawNodeShape(node.stroke!, node.shape!, node.fullRadius!, node.shapeRotation!, node.shapePoints!)
+			this.drawNodeShape(node.stroke!, node.shape!, node.fullRadius! - node.strokeCornerRadius! / 2, node.shapeRotation!, node.shapePoints!)
 				.fill(0xffffff)
 				._zIndex = isHovered === undefined ? STROKE_DEFAULT_Z_INDEX : (isHovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
 			node.stroke!.tint = this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string;
-			// node.stroke!.stroke({
-			// 	color: node.stroke!.tint,
-			// 	width: node.strokeWidth!,
-			// 	// join: "round",
-			// 	// join: "bevel",
-			// });
+
+			if (node.strokeCornerRadius) {
+				node.stroke!.stroke({
+					color: 0xffffff,
+					width: node.strokeCornerRadius!,
+					join: "round",
+				});
+			}
 		}
 
 		setup() {
