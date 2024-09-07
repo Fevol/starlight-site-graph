@@ -16,6 +16,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug} data-debug={debug}></graph-component>
 
 <script>
+	// TODO: Shared graphicsContext would improve performance (investigate whether context would share zIndex/...)
+
 	import { prefetch } from 'astro:prefetch';
 	import * as d3 from 'd3';
 	import * as PIXI from './pixi/pixi';
@@ -493,13 +495,10 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 				style = {...style, ...node.nodeStyle as NodeStyle};
 
-				// Magick
-				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
-				const computedSize = style.shapeSize * scaleFactor;
 				if (style.strokeColor) {
 					style.strokeWidth = Math.max(DEFAULT_STROKE_WIDTH, style.strokeWidth);
 				} else if (style.strokeWidth) {
-					style.strokeColor = style.shapeColor;
+					style.strokeColor = 'inherit';
 				}
 
 				if (style.shapeRotation === 'random') {
@@ -531,7 +530,10 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 					style.strokeCornerRadius = 0;
 				}
 
-				const fullRadius = computedSize + style.strokeWidth / 2;
+				// Magick radius calculations
+				const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
+				const computedSize = style.shapeSize * scaleFactor, fullRadius = computedSize + style.strokeWidth / 2;
+
 				nodes.push({
 					id: id,
 					exists: node.exists,
@@ -707,7 +709,6 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.drawNodeShape(node.node!, node.shape!, node.computedSize! - node.shapeCornerRadius!, node.shapeRotation!, node.shapePoints!)
 				.fill(0xffffff)
 				._zIndex = isHovered === undefined ? NODE_DEFAULT_Z_INDEX : (isHovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
-
 			node.node!.tint = this.animator.getValue(node.shapeColor + (isHovered ? 'Hover' : '') as any) as string;
 
 			if (node.shapeCornerRadius) {
@@ -720,17 +721,26 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 		}
 
 		setNodeStroke(node: NodeData, isHovered?: boolean) {
+			let strokeFill, strokeTint;
+			if (node.strokeColor === "inherit") {
+				strokeFill = node.node!.tint;
+				strokeTint = node.node!.tint;
+			} else {
+				strokeFill = 0xffffff;
+				strokeTint = this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string;
+			}
+
 			node.stroke!.clear()
 			this.drawNodeShape(node.stroke!, node.shape!, node.fullRadius! - node.strokeCornerRadius! / 2, node.shapeRotation!, node.shapePoints!)
-				.fill(0xffffff)
+				.fill(strokeFill)
 				._zIndex = isHovered === undefined ? STROKE_DEFAULT_Z_INDEX : (isHovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
-			node.stroke!.tint = this.animator.getValue(node.strokeColor + (isHovered ? 'Hover' : '') as any) as string;
+			node.stroke!.tint = strokeTint;
 
 			if (node.strokeCornerRadius) {
 				node.stroke!.stroke({
-					color: 0xffffff,
+					color: strokeFill,
 					width: node.strokeCornerRadius!,
-					join: "round",
+					join: node.cornerType!,
 				});
 			}
 		}
@@ -929,7 +939,6 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 
 			for (const node of this.simulation.nodes()) {
 				const isHovered = this.currentlyHovered !== '' && node.id === this.currentlyHovered;
-				// TODO: Shared graphicsContext would improve performance (investigate whether context would share zIndex/...)
 				if (node.strokeWidth && node.strokeColor) {
 					this.setNodeStroke(node, isHovered);
 					node.stroke!.position.set(node.x!, node.y!);

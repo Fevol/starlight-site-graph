@@ -35,13 +35,16 @@ export default defineConfig({
 						tagRenderMode: 'same',
 						trackVisitedPages: false,
 						nodeDefaultStyle: {
-							shape: "square",
-							shapePoints: 4,
-							shapeCornerRadius: 0,
-							cornerType: "round",
-							strokeColor: "nodeColor8",
-							strokeWidth: 2,
-							strokeCornerRadius: 4
+							shape: "polygon",
+							shapeSize: 18,
+							shapePoints: 5,
+						},
+						nodeCurrentStyle: {
+							strokeColor: 'inherit',
+							strokeWidth: 8,
+							cornerType: 'round',
+							shapeCornerRadius: 10,
+							strokeCornerRadius: 10,
 						}
 					},
 				}),

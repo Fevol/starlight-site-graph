@@ -99,6 +99,7 @@ export const nodeStyle = z.object({
 	/**
 	 * Radius of the shape and stroke corners for `polygon` or `star` (or derived) shapes
 	 *
+	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
 	shapeCornerRadius: z.number().optional(),
@@ -125,10 +126,11 @@ export const nodeStyle = z.object({
 	 *
 	 * @optional
 	 */
-	strokeColor: nodeColorTypes.optional(),
+	strokeColor: nodeColorTypes.or(z.literal('inherit')).optional(),
 	/**
 	 * Radius of the stroke corners
 	 *
+	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
 	strokeCornerRadius: z.number().optional(),
