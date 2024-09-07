@@ -114,6 +114,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 		fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
 
 		currentPage!: string;
+		disableClicking: boolean;
 		requireDblClick: boolean;
 
 		visitedPages: Set<string>;
@@ -165,7 +166,8 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			this.colors = getGraphColors(this.graphContainer);
 
 			this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
-			this.requireDblClick = this.config.clickMode === "auto" ? isMobileDevice() && hasTouch() : this.config.clickMode === "dblclick";
+			this.disableClicking = this.config.enableClick === "disable";
+			this.requireDblClick = this.config.enableClick === "auto" ? isMobileDevice() && hasTouch() : this.config.enableClick === "dblclick";
 			this.themeObserver = new MutationObserver(() => {
 				this.colors = getGraphColors(this.graphContainer);
 				for (const color of animated_colors) {
@@ -828,7 +830,7 @@ const { config, sitemap, slug, debug = false } = Astro.props;
 			d3.select(this.app.canvas).on('click', (e: MouseEvent) => {
 				const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 				const closestNode = this.findOverlappingNode(x, y);
-				if (closestNode && closestNode.exists && !(closestNode.type === "tag" || closestNode.id === this.currentPage)) {
+				if (!this.disableClicking && closestNode && closestNode.exists && !(closestNode.type === "tag" || closestNode.id === this.currentPage)) {
 					const clickTime = Date.now();
 					if (!this.requireDblClick || (clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)) {
 						if (this.config.trackVisitedPages) {

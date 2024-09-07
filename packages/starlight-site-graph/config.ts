@@ -189,16 +189,6 @@ export const graphConfigSchema = z.object({
 	 * @default true
 	 */
 	trackVisitedPages: z.boolean().default(true),
-	/**
-	 * The mode of interaction to trigger the page navigation
-	 *
-	 * - `auto`: Require double click for mobile devices with touch input, single click otherwise
-	 * - `click`: Always require a single click
-	 * - `dblclick`: Always require a double click
-	 *
-	 * @default "auto"
-	 */
-	clickMode: z.union([z.literal('auto'), z.literal('click'), z.literal('dblclick')]).default('auto'),
 
 	/**
 	 * Define shape, color and size, and stroke of specified tags
@@ -240,6 +230,19 @@ export const graphConfigSchema = z.object({
 	 * @default true
 	 */
 	enableHover: z.boolean().default(true),
+	/**
+	 * The mode of interaction to trigger the page navigation
+	 *
+	 * - `auto`: Require double click for mobile devices with touch input, single click otherwise
+	 * - `disable`: Disable all interactions
+	 * - `click`: Always require a single click
+	 * - `dblclick`: Always require a double click
+	 *
+	 * @default "auto"
+	 */
+	enableClick: z.union([z.boolean(), z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')]).default('auto'),
+
+
 	/**
 	 * The depth of the graph, determines how many levels of links are shown
 	 *
