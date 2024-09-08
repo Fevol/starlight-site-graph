@@ -213,10 +213,31 @@ export class GraphSimulator {
 				.scaleExtent([this.context.config.minZoom, this.context.config.maxZoom])
 				.on('zoom', ({ transform }: { transform: d3.ZoomTransform }) => {
 					this.userZoomed = true;
-					this.zoomTransform = transform;
+					if (!this.context.config.enablePan) {
+						// D3 zoom to origin (instead of to mouse position)
+						this.zoomTransform.k = transform.k;
+						const offset = Math.min(this.container.clientWidth, this.container.clientHeight) / 2 * (1 - this.zoomTransform.k);
+						this.zoomTransform.x = offset;
+						this.zoomTransform.y = offset;
+					} else {
+						this.zoomTransform = transform;
+					}
+
 					this.updateTransform();
 				})),
 		);
+
+		if (!this.context.config.enablePan) {
+			this.zoomBehavior.filter((event) => {
+				return event.type !== 'mousedown';
+			});
+		}
+
+		if (!this.context.config.enableZoom) {
+			this.zoomBehavior.filter((event) => {
+				return event.type !== 'wheel' && !(event.type === 'touchstart' && event.touches.length >= 2);
+			});
+		}
 	}
 
 	isClickable(node?: NodeData): boolean {

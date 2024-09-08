@@ -217,7 +217,7 @@ export const graphConfigSchema = z.object({
 		.default('none'),
 
 	/**
-	 * Whether to enable user dragging/panning of the graph
+	 * Whether to enable user dragging of nodes in the graph
 	 *
 	 * @default true
 	 */
@@ -228,6 +228,10 @@ export const graphConfigSchema = z.object({
 	 * @default true
 	 */
 	enableZoom: z.boolean().default(true),
+	/**
+	 * Whether to enable user panning of the graph (i.e. moving left/right/up/down)
+	 */
+	enablePan: z.boolean().default(true),
 	/**
 	 * Whether to enable hover interactions on the graph
 	 * This includes highlighting nodes and links on hover, and showing labels

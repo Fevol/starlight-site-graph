@@ -60,8 +60,6 @@ export class GraphComponent extends HTMLElement {
 			console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));
 		}
 
-		console.log('constructed');
-
 		this.classList.add('graph-component');
 
 		this.graphContainer = document.createElement('div');
@@ -167,7 +165,7 @@ export class GraphComponent extends HTMLElement {
 
 		if (this.config.enableClick !== 'disable') this.simulator.enableClick();
 
-		if (this.config.enableZoom) this.simulator.enableZoom();
+		if (this.config.enableZoom || this.config.enablePan) this.simulator.enableZoom();
 	}
 
 	enableFullscreen() {
