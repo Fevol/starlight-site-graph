@@ -97,12 +97,14 @@ export const nodeStyle = z.object({
 	 */
 	shapeRotation: z.union([z.number(), z.literal('random')]).optional(),
 	/**
-	 * Radius of the shape and stroke corners for `polygon` or `star` (or derived) shapes
+	 * Radius of the shape (and, if not specified, stroke corners); does not affect circle shapes \
+	 * A number will be parsed as the radius of the corner in pts (clamped to `shapeWidth`). \
+	 * A string (e.g. `'50%'`) will be parsed as the radius of the corner relative to the shape size.
 	 *
 	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
-	shapeCornerRadius: z.number().optional(),
+	shapeCornerRadius: z.union([z.number(), z.string()]).optional(),
 
 	/**
 	 * Type of corner for the shape and stroke
@@ -127,12 +129,14 @@ export const nodeStyle = z.object({
 	 */
 	strokeColor: nodeColorTypes.or(z.literal('inherit')).optional(),
 	/**
-	 * Radius of the stroke corners
+	 * Radius of the stroke corners; does not affect circle shapes \
+	 * A number will be parsed as the radius of the corner in pts (clamped to `shapeWidth`). \
+	 * A string (e.g. `'50%'`) will be parsed as the radius of the corner relative to the shape size.
 	 *
 	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
-	strokeCornerRadius: z.number().optional(),
+	strokeCornerRadius: z.union([z.number(), z.string()]).optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces

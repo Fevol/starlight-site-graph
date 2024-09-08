@@ -223,6 +223,13 @@ function processStyle(style: Partial<NodeStyle>): NodeStyle {
 		style.shapeRotation -= Math.PI / 2;
 	}
 
+	if (style.shapeCornerRadius && typeof style.shapeCornerRadius === 'string') {
+		style.shapeCornerRadius = (parseFloat(style.shapeCornerRadius.slice(0, -1)) / 100) * style.shapeSize!;
+	}
+	if (style.strokeCornerRadius && typeof style.strokeCornerRadius === 'string') {
+		style.strokeCornerRadius = (parseFloat(style.strokeCornerRadius.slice(0, -1)) / 100) * style.strokeWidth!;
+	}
+
 	if (style.cornerType) {
 		style.shapeCornerRadius = Math.min(style.shapeSize!, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS);
 		style.strokeCornerRadius = Math.min(style.strokeWidth!, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS);
