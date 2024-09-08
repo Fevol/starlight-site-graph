@@ -12,8 +12,10 @@ export const LABEL_DEFAULT_Z_INDEX = 20;
 
 export const LINK_DEFAULT_Z_INDEX = 0;
 export const LINK_HOVER_Z_INDEX = 5;
+export const LINK_MUTED_Z_INDEX = 0;
 export const ARROW_DEFAULT_Z_INDEX = 2;
 export const ARROW_HOVER_Z_INDEX = 7;
+export const ARROW_MUTED_Z_INDEX = 0;
 
 export const DEFAULT_STROKE_WIDTH = 8;
 export const DEFAULT_POLYGON_POINTS = 3;

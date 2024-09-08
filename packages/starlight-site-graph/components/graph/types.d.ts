@@ -5,17 +5,18 @@ import type { NodeStyle } from '../config';
 type NodeData = {
 	id: string;
 	exists: boolean;
-	node?: PIXI.Graphics;
-	stroke?: PIXI.Graphics;
 	text?: string;
 	tags?: string[];
-	label?: PIXI.Text;
-	arrowHead?: PIXI.Graphics;
-	neighborCount?: number;
 	type?: 'node' | 'tag';
+
+	neighborCount?: number;
 	computedSize?: number;
 	colliderSize?: number;
 	fullRadius?: number;
+
+	node?: PIXI.Graphics;
+	stroke?: PIXI.Graphics;
+	label?: PIXI.Text;
 } & d3.SimulationNodeDatum &
 	Partial<NodeStyle>;
 

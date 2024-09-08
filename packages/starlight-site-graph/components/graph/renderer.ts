@@ -7,8 +7,8 @@ import { type GraphComponent } from './graph-component';
 // prettier-ignore
 import {
 	LABEL_DEFAULT_Z_INDEX,
-	ARROW_DEFAULT_Z_INDEX, ARROW_HOVER_Z_INDEX,
-	LINK_DEFAULT_Z_INDEX, LINK_HOVER_Z_INDEX,
+	ARROW_DEFAULT_Z_INDEX, ARROW_HOVER_Z_INDEX, ARROW_MUTED_Z_INDEX,
+	LINK_DEFAULT_Z_INDEX, LINK_HOVER_Z_INDEX, LINK_MUTED_Z_INDEX,
 	NODE_DEFAULT_Z_INDEX, NODE_HOVER_Z_INDEX, NODE_MUTED_Z_INDEX,
 	STROKE_DEFAULT_Z_INDEX, STROKE_HOVER_Z_INDEX, STROKE_MUTED_Z_INDEX,
 	DEFAULT_ARROW_SCALE, STAR_LINE_DEPTH
@@ -18,11 +18,13 @@ import type { GraphSimulator } from './simulator';
 // TODO: Shared graphicsContext would improve performance (investigate whether context would share zIndex/...)
 export class GraphRenderer {
 	app: PIXI.Application;
-	links!: PIXI.Graphics;
-	arrows!: PIXI.Graphics;
 	container!: HTMLElement;
-
 	simulator!: GraphSimulator;
+
+	linkGraphics!: PIXI.Graphics;
+	linkHoverGraphics!: PIXI.Graphics;
+	arrowGraphics!: PIXI.Graphics;
+	arrowHoverGraphics!: PIXI.Graphics;
 
 	constructor(private context: GraphComponent) {
 		this.app = new PIXI.Application();
@@ -40,11 +42,14 @@ export class GraphRenderer {
 		} as PIXI.ApplicationOptions);
 		this.container.appendChild(this.app.canvas);
 
-		this.links = new PIXI.Graphics();
-		this.arrows = new PIXI.Graphics();
+		this.app.stage.addChild(this.linkGraphics = new PIXI.Graphics());
+		this.app.stage.addChild(this.linkHoverGraphics = new PIXI.Graphics());
+		this.app.stage.addChild(this.arrowGraphics = new PIXI.Graphics());
+		this.app.stage.addChild(this.arrowHoverGraphics = new PIXI.Graphics());
+		this.linkHoverGraphics.zIndex = LINK_HOVER_Z_INDEX;
+		this.arrowHoverGraphics.zIndex = ARROW_HOVER_Z_INDEX;
+
 		this.app.stage.sortableChildren = true;
-		this.app.stage.addChild(this.links);
-		this.app.stage.addChild(this.arrows);
 		this.app.ticker.add((ticker: PIXI.Ticker) => {
 			this.tick(ticker);
 		});
@@ -83,10 +88,10 @@ export class GraphRenderer {
 
 	cleanup() {
 		this.app.stage.removeChildren();
-		this.app.stage.addChild(this.links);
-		this.app.stage.addChild(this.arrows);
-		this.links.clear();
-		this.arrows.clear();
+		this.app.stage.addChild(this.linkGraphics.clear());
+		this.app.stage.addChild(this.linkHoverGraphics.clear());
+		this.app.stage.addChild(this.arrowGraphics.clear());
+		this.app.stage.addChild(this.arrowHoverGraphics.clear());
 	}
 
 	destroy() {
@@ -250,15 +255,15 @@ export class GraphRenderer {
 
 	drawNodes(nodes: NodeData[]) {
 		for (const node of nodes) {
-			const isHovered = this.simulator.currentlyHovered !== '' && node.id === this.simulator.currentlyHovered;
+			const hovered = this.simulator.currentlyHovered !== '' && node.id === this.simulator.currentlyHovered;
 			if (node.strokeWidth && node.strokeColor) {
-				this.drawNodeStroke(node, isHovered);
+				this.drawNodeStroke(node, hovered);
 				node.stroke!.position.set(node.x!, node.y!);
 			}
-			this.drawNodeShape(node, isHovered);
+			this.drawNodeShape(node, hovered);
 
 			if (this.context.config.renderLabels) {
-				this.updateLabel(node, isHovered);
+				this.updateLabel(node, hovered);
 			}
 
 			node.node!.position.set(node.x!, node.y!);
@@ -326,7 +331,7 @@ export class GraphRenderer {
 		}
 	}
 
-	drawLink(link: LinkData, isHovered: boolean) {
+	drawLink(link: LinkData, hovered: boolean) {
 		const linkZoomLevel = this.context.config.scaleLinks ? this.context.animator.getValue('zoom') : 1;
 		const incAngle = Math.atan2(link.target.y! - link.source.y!, link.target.x! - link.source.x!);
 		const outAngle = Math.atan2(link.source.y! - link.target.y!, link.source.x! - link.target.x!);
@@ -334,35 +339,34 @@ export class GraphRenderer {
 		const [xStart, yStart] = this.getLinkOffset(link.source, outAngle);
 		const [xEnd, yEnd] = this.getLinkOffset(link.target, incAngle);
 
-		// DEBUG: Draw "correct" edge connection points (cf. circle positions, line should go straight through both)
-		// this.links.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
-		// this.links.circle(...this.nodeCircleOffset({...link.target, shape: "circle"}, incAngle), 2).fill(0xff0000)
-
-		// FIXME: Find a good way to only draw hovered links above other nodes
-		this.links
+		const layer = (hovered ? this.linkHoverGraphics : this.linkGraphics)
+		layer
 			.moveTo(xStart, yStart)
 			.lineTo(xEnd, yEnd)
 			.stroke({
-				color: isHovered
+				color: hovered
 					? this.context.animator.getValue('linkColorHover')
 					: this.context.animator.getValue('linkColor'),
 				width: this.context.config.linkWidth / linkZoomLevel,
 			});
-		this.links.zIndex = isHovered && this.simulator.isHovering ? LINK_HOVER_Z_INDEX : LINK_DEFAULT_Z_INDEX;
+
+		// DEBUG: Draw "correct" edge connection points (cf. circle positions, line should go straight through both)
+		// layer.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
+		// layer.circle(...this.nodeCircleOffset({...link.target, shape: "circle"}, incAngle), 2).fill(0xff0000)
 
 		if (this.context.config.renderArrows && this.simulator.zoomTransform.k > this.context.config.minZoomArrows) {
-			this.drawArrowHead(xEnd, yEnd, incAngle, isHovered);
+			this.drawArrowHead(xEnd, yEnd, incAngle, hovered);
 		}
 	}
 
-	drawArrowHead(nodeX: number, nodeY: number, nodeAngle: number, isHovered: boolean) {
+	drawArrowHead(nodeX: number, nodeY: number, nodeAngle: number, hovered: boolean) {
 		const arrowZoomLevel = this.context.config.scaleArrows ? this.context.animator.getValue('zoom') : 2;
 		const x =
 			nodeX - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
 		const y =
 			nodeY - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
 		const arrowSize = (DEFAULT_ARROW_SCALE * this.context.config.arrowSize) / arrowZoomLevel;
-		this.arrows
+		(hovered ? this.arrowHoverGraphics : this.arrowGraphics)
 			.moveTo(x, y)
 			.lineTo(
 				x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle),
@@ -374,33 +378,24 @@ export class GraphRenderer {
 			)
 			.lineTo(x, y)
 			.fill(
-				isHovered
+				hovered
 					? this.context.animator.getValue('linkColorHover')
 					: this.context.animator.getValue('linkColor'),
-			).zIndex = isHovered ? ARROW_HOVER_Z_INDEX : ARROW_DEFAULT_Z_INDEX;
+			)
 	}
 
 	drawLinks(links: LinkData[]) {
-		this.links.clear();
-		this.arrows.clear();
+		const hovered = this.simulator.currentlyHovered !== '';
 
-		const adjacentLinks = [];
-		// FIXME: make adjacent links render above other links, probably some drawing order stuff
+		this.linkGraphics.clear().zIndex = hovered ? LINK_MUTED_Z_INDEX : LINK_DEFAULT_Z_INDEX;
+		this.linkHoverGraphics.clear();
+		this.arrowGraphics.clear().zIndex = hovered ? ARROW_MUTED_Z_INDEX : ARROW_DEFAULT_Z_INDEX;
+		this.arrowHoverGraphics.clear();
+
 		for (const link of links) {
-			let isAdjacent =
-				this.simulator.currentlyHovered !== '' &&
+			this.drawLink(link, hovered &&
 				(link.source.id === this.simulator.currentlyHovered ||
-					link.target.id === this.simulator.currentlyHovered);
-
-			if (isAdjacent) {
-				adjacentLinks.push(link);
-			} else {
-				this.drawLink(link, false);
-			}
-		}
-
-		for (const link of adjacentLinks) {
-			this.drawLink(link, true);
+				 link.target.id === this.simulator.currentlyHovered));
 		}
 	}
 
