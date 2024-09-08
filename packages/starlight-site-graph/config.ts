@@ -479,13 +479,19 @@ export const graphConfigSchema = z.object({
 	 * @default 1
 	 */
 	linkWidth: z.number().default(1),
+	/**
+	 * The width of the hovered links in the graph
+	 *
+	 * @default 1
+	 */
+	linkHoverWidth: z.number().default(1),
 
 	/**
 	 * The size of the arrows on the links
 	 *
-	 * @default 6
+	 * @default 5
 	 */
-	arrowSize: z.number().default(6),
+	arrowSize: z.number().default(5),
 	/**
 	 * The angle of the arrowhead of the links, a smaller angle will make the arrowhead pointier
 	 *
@@ -742,8 +748,9 @@ export const starlightSiteGraphConfigSchema = z
 		 *	   tagDefaultStyle: { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 },
 		 *
 		 *     linkWidth: 1,
+		 *     linkHoverWidth: 1,
 		 *
-		 *     arrowSize: 6,
+		 *     arrowSize: 5,
 		 *     arrowAngle: Math.PI / 6,
 		 *
 		 *     repelForce: 0.5,

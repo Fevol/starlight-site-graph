@@ -338,34 +338,35 @@ export class GraphRenderer {
 
 		const [xStart, yStart] = this.getLinkOffset(link.source, outAngle);
 		const [xEnd, yEnd] = this.getLinkOffset(link.target, incAngle);
+		let width, color, layer;
+		if (hovered) {
+			layer = this.linkHoverGraphics;
+			width = this.context.animator.getValue('linkHoverWidth');
+			color = this.context.animator.getValue('linkColorHover');
+		} else {
+			layer = this.linkGraphics;
+			width = this.context.config.linkWidth;
+			color = this.context.animator.getValue('linkColor');
+		}
 
-		const layer = (hovered ? this.linkHoverGraphics : this.linkGraphics)
-		layer
-			.moveTo(xStart, yStart)
-			.lineTo(xEnd, yEnd)
-			.stroke({
-				color: hovered
-					? this.context.animator.getValue('linkColorHover')
-					: this.context.animator.getValue('linkColor'),
-				width: this.context.config.linkWidth / linkZoomLevel,
-			});
+		layer.moveTo(xStart, yStart)
+			 .lineTo(xEnd, yEnd)
+			 .stroke({ width: width / linkZoomLevel, color: color });
 
 		// DEBUG: Draw "correct" edge connection points (cf. circle positions, line should go straight through both)
 		// layer.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
 		// layer.circle(...this.nodeCircleOffset({...link.target, shape: "circle"}, incAngle), 2).fill(0xff0000)
 
 		if (this.context.config.renderArrows && this.simulator.zoomTransform.k > this.context.config.minZoomArrows) {
-			this.drawArrowHead(xEnd, yEnd, incAngle, hovered);
+			this.drawArrowHead(xEnd, yEnd, width, incAngle, hovered);
 		}
 	}
 
-	drawArrowHead(nodeX: number, nodeY: number, nodeAngle: number, hovered: boolean) {
+	drawArrowHead(nodeX: number, nodeY: number, linkWidth: number, nodeAngle: number, hovered: boolean) {
 		const arrowZoomLevel = this.context.config.scaleArrows ? this.context.animator.getValue('zoom') : 2;
-		const x =
-			nodeX - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
-		const y =
-			nodeY - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
-		const arrowSize = (DEFAULT_ARROW_SCALE * this.context.config.arrowSize) / arrowZoomLevel;
+		const x = nodeX - (linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
+		const y = nodeY - (linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
+		const arrowSize = (DEFAULT_ARROW_SCALE * (this.context.config.arrowSize + linkWidth)) / arrowZoomLevel;
 		(hovered ? this.arrowHoverGraphics : this.arrowGraphics)
 			.moveTo(x, y)
 			.lineTo(

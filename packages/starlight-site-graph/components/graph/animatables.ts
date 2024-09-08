@@ -103,6 +103,12 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
 		},
+		linkHoverWidth: {
+			properties: { default: graphConfig.linkWidth, hover: graphConfig.linkHoverWidth },
+			interpolator: new NumberInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
 
 		labelOffset: {
 			properties: { default: graphConfig.labelOffset, hover: graphConfig.labelHoverOffset },

@@ -218,6 +218,7 @@ export class GraphComponent extends HTMLElement {
 	setStyleDefault() {
 		this.animator.startAnimationsTo({
 			...this.defaultColorTransitions,
+			linkHoverWidth: 'default',
 			labelOffset: 'default',
 		});
 		this.animator.startAnimation('labelOpacity', this.simulator.getCurrentLabelOpacity());
@@ -228,6 +229,7 @@ export class GraphComponent extends HTMLElement {
 		this.animator.startAnimationsTo({
 			...this.hoverColorTransitions,
 
+			linkHoverWidth: 'hover',
 			labelOpacity: 'blur',
 			labelOpacityHover: 'hover',
 			labelOffset: 'hover',
