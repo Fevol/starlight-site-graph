@@ -79,10 +79,11 @@ export const nodeStyle = z.object({
 	shapeSize: z.number().default(10),
 	/**
 	 * Color of the node shape in the graph, overridden if the node is visited, current, or unresolved
+	 * If set to `'stroke'`, the color will be taken from the stroke color, if it exists, otherwise defaults to `nodeColor`
 	 *
 	 * @default "nodeColor"
 	 */
-	shapeColor: nodeColorTypes.default('nodeColor'),
+	shapeColor: nodeColorTypes.or(z.literal('stroke')).default('nodeColor').optional(),
 	/**
 	 * Number of points for `polygon` or `star` shapes
 	 *

@@ -202,6 +202,13 @@ function processStyle(style: Partial<NodeStyle>): NodeStyle {
 		style.strokeColor = 'inherit';
 	}
 
+	if (style.shapeColor === 'stroke' && style.strokeColor && style.strokeColor !== 'inherit') {
+		style.shapeColor = style.strokeColor;
+		style.strokeColor = 'inherit';
+	} else {
+		style.shapeColor = 'nodeColor';
+	}
+
 	if (style.shapeRotation === 'random') {
 		style.shapeRotation = Math.random() * Math.PI * 2;
 	} else {
