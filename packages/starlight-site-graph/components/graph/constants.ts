@@ -23,7 +23,6 @@ export const DEFAULT_ARROW_SCALE = 1.5;
 
 export const STAR_LINE_DEPTH = 0.5;
 
-
 export const CHARGE_FORCE_SLIDER_MIN = 0;
 export const CHARGE_FORCE_SLIDER_MAX = 500;
 export const CHARGE_FORCE_SLIDER_STEP = 1;

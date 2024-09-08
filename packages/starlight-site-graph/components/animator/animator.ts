@@ -45,13 +45,9 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	startAnimationTo<K extends keyof T, P extends keyof T[K]['properties']>(
 		key: K,
 		property: P,
-		options: AnimatorOptions = {}
+		options: AnimatorOptions = {},
 	): void {
-		this.startAnimation(
-			key,
-			this.configs[key]!.properties![property as string] as ConfigValueType<T[K]>,
-			options,
-		);
+		this.startAnimation(key, this.configs[key]!.properties![property as string] as ConfigValueType<T[K]>, options);
 	}
 
 	startAnimationsTo(properties: AnimationToMap<T>, options: AnimatorOptions = {}): void {
@@ -60,11 +56,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
-	startAnimation<K extends keyof T>(
-		key: K,
-		targetValue: ConfigValueType<T[K]>,
-		options: AnimatorOptions = {}
-	): void {
+	startAnimation<K extends keyof T>(key: K, targetValue: ConfigValueType<T[K]>, options: AnimatorOptions = {}): void {
 		const animation = this.animations[key];
 		const config = this.configs[key]!;
 
@@ -102,7 +94,11 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
-	setProperty<K extends keyof T, P extends keyof T[K]['properties']>(key: K, property: P, value: ConfigValueType<T[K]['properties'][P]>): void {
+	setProperty<K extends keyof T, P extends keyof T[K]['properties']>(
+		key: K,
+		property: P,
+		value: ConfigValueType<T[K]['properties'][P]>,
+	): void {
 		this.configs[key]!.properties![property as string] = value;
 	}
 

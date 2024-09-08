@@ -17,16 +17,15 @@
 	--slsg-node-color-unresolved: var(--sl-color-red-high);
 
 	--slsg-node-color-tag: #c3a6ff;
-	--slsg-node-color-1: #FF7D82;
-	--slsg-node-color-2: #FFB07A;
-	--slsg-node-color-3: #FFD66F;
-	--slsg-node-color-4: #DEE169;
-	--slsg-node-color-5: #A6E75C;
-	--slsg-node-color-6: #76BF93;
-	--slsg-node-color-7: #4E9CDF;
-	--slsg-node-color-8: #6A86D1;
-	--slsg-node-color-9: #A287CA;
-
+	--slsg-node-color-1: #ff7d82;
+	--slsg-node-color-2: #ffb07a;
+	--slsg-node-color-3: #ffd66f;
+	--slsg-node-color-4: #dee169;
+	--slsg-node-color-5: #a6e75c;
+	--slsg-node-color-6: #76bf93;
+	--slsg-node-color-7: #4e9cdf;
+	--slsg-node-color-8: #6a86d1;
+	--slsg-node-color-9: #a287ca;
 
 	--slsg-link-color: var(--sl-color-gray-4);
 	--slsg-link-color-hover: var(--sl-color-accent-high);
@@ -47,15 +46,15 @@
 	--slsg-node-color-unresolved: var(--sl-color-red);
 
 	--slsg-node-color-tag: #a17bf8;
-	--slsg-node-color-1: #FF595E;
-	--slsg-node-color-2: #FF924C;
-	--slsg-node-color-3: #FFCA3A;
-	--slsg-node-color-4: #C5CA30;
-	--slsg-node-color-5: #8AC926;
-	--slsg-node-color-6: #52A675;
-	--slsg-node-color-7: #1982C4;
-	--slsg-node-color-8: #4267AC;
-	--slsg-node-color-9: #7D5BA6;
+	--slsg-node-color-1: #ff595e;
+	--slsg-node-color-2: #ff924c;
+	--slsg-node-color-3: #ffca3a;
+	--slsg-node-color-4: #c5ca30;
+	--slsg-node-color-5: #8ac926;
+	--slsg-node-color-6: #52a675;
+	--slsg-node-color-7: #1982c4;
+	--slsg-node-color-8: #4267ac;
+	--slsg-node-color-9: #7d5ba6;
 
 	--slsg-link-color: var(--sl-color-gray-5);
 	--slsg-link-color-hover: var(--sl-color-accent);
@@ -133,7 +132,6 @@
 
 /* ========================================================================================================= */
 
-
 /* ====================================== Graph Stats Styling ============================================== */
 
 #graphStats {
@@ -149,7 +147,6 @@
 }
 
 /* ========================================================================================================= */
-
 
 /* ====================================== Fullscreen Styling =============================================== */
 

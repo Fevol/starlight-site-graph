@@ -42,7 +42,11 @@ export function trimSlashes(path: string) {
 	return path;
 }
 
-export function firstMatchingPattern(text: string, patterns: string | string[], defaultMatch?: boolean): boolean | undefined {
+export function firstMatchingPattern(
+	text: string,
+	patterns: string | string[],
+	defaultMatch?: boolean,
+): boolean | undefined {
 	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
 	for (const pattern of patternList) {
 		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {

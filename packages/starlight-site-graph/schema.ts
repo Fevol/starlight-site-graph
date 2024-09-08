@@ -41,8 +41,6 @@ const pageSitemapConfigSchema = z.object({
 
 export type PageSitemapConfig = z.infer<typeof pageSitemapConfigSchema>;
 
-
-
 const pageFrontmatterSchema = z.object({
 	/**
 	 * The title of the page

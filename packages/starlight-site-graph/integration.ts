@@ -40,7 +40,10 @@ class SiteMapBuilder {
 	contentRoot: string;
 	basePath: string;
 
-	constructor(private config: SitemapConfig, basePath: string) {
+	constructor(
+		private config: SitemapConfig,
+		basePath: string,
+	) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.basePath = trimSlashes(basePath);
@@ -93,7 +96,9 @@ class SiteMapBuilder {
 			title = frontmatter.data.title ?? title;
 		}
 
-		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(this.config.pageInclusionRules);
+		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(
+			this.config.pageInclusionRules,
+		);
 		if (currentLinkRules.length) {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
@@ -104,7 +109,7 @@ class SiteMapBuilder {
 				if (ruleResult) {
 					nodeStyle = {
 						...nodeStyle,
-						...style as NodeStyle
+						...(style as NodeStyle),
 					};
 				}
 			}
@@ -126,7 +131,7 @@ class SiteMapBuilder {
 			if (frontmatter.data.graph?.nodeStyle) {
 				nodeStyle = {
 					...nodeStyle,
-					...frontmatter.data.graph.nodeStyle as NodeStyle
+					...(frontmatter.data.graph.nodeStyle as NodeStyle),
 				};
 			}
 		}
@@ -147,7 +152,7 @@ class SiteMapBuilder {
 			tags,
 			links,
 			backlinks: new Set<string>(),
-			nodeStyle
+			nodeStyle,
 		});
 	}
 
@@ -164,7 +169,7 @@ class SiteMapBuilder {
 						tags: new Set(),
 						links: new Set(),
 						backlinks: new Set(),
-						nodeStyle: {}
+						nodeStyle: {},
 					});
 				}
 			}
@@ -188,7 +193,7 @@ class SiteMapBuilder {
 				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
-				nodeStyle: entry.nodeStyle
+				nodeStyle: entry.nodeStyle,
 			};
 
 			sitemap[entry.linkPath] = sitemapEntry;
@@ -274,14 +279,14 @@ export default defineIntegration({
 									if (ruleResult) {
 										nodeStyle = {
 											...nodeStyle,
-											...style as NodeStyle
+											...(style as NodeStyle),
 										};
 									}
 								}
 							}
 							entry.nodeStyle = {
 								...entry.nodeStyle,
-								...nodeStyle
+								...nodeStyle,
 							};
 						}
 					}

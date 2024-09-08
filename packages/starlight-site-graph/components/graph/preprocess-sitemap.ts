@@ -10,7 +10,6 @@ interface GraphContext {
 	currentPage: string;
 }
 
-
 export type GraphData = {
 	nodes: NodeData[];
 	links: LinkData[];
@@ -24,8 +23,7 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 	const links: LinkData[] = [];
 	const tags: Set<string> = new Set();
 
-	let corrected_data = Object.entries(siteData)
-		.map(([k, v]) => [simplifySlug(k), v] as const);
+	let corrected_data = Object.entries(siteData).map(([k, v]) => [simplifySlug(k), v] as const);
 	if (!context.config.renderUnresolved) {
 		corrected_data = corrected_data.filter(([_, v]) => v.exists);
 	}
@@ -43,7 +41,7 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 			}
 		}
 
-		if (context.config.tagRenderMode === "node" || context.config.tagRenderMode === "both") {
+		if (context.config.tagRenderMode === 'node' || context.config.tagRenderMode === 'both') {
 			for (const tag of details.tags) {
 				tags.add(tag);
 				links.push({ source: source as unknown as NodeData, target: tag as unknown as NodeData });
@@ -66,7 +64,6 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 				}
 				queue.push('__SENTINEL');
 			} else if (neighbourhood.has(current)) {
-
 			} else {
 				neighbourhood.add(current);
 
@@ -85,7 +82,7 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 		}
 	} else {
 		validLinks.forEach(id => neighbourhood.add(id));
-		if (context.config.tagRenderMode === "node" || context.config.tagRenderMode === "both")  {
+		if (context.config.tagRenderMode === 'node' || context.config.tagRenderMode === 'both') {
 			tags.forEach(tag => neighbourhood.add(tag));
 		}
 	}
@@ -100,22 +97,25 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 		// Chain of declarations determines style priority
 		let style: NodeStyle = context.config.nodeDefaultStyle as NodeStyle;
 		if (visitedPages.has(id)) {
-			style = {...style, ...context.config.nodeVisitedStyle as NodeStyle};
+			style = { ...style, ...(context.config.nodeVisitedStyle as NodeStyle) };
 		}
 
-		if (context.config.tagRenderMode === "same" || context.config.tagRenderMode === "both") {
-			style = {...style, ...node.tags.reduce((acc, tag) => ({ ...acc, ...context.config.tagStyles[tag] }), {}) as NodeStyle};
+		if (context.config.tagRenderMode === 'same' || context.config.tagRenderMode === 'both') {
+			style = {
+				...style,
+				...(node.tags.reduce((acc, tag) => ({ ...acc, ...context.config.tagStyles[tag] }), {}) as NodeStyle),
+			};
 		}
 
 		if (id === context.currentPage) {
-			style = {...style, ...context.config.nodeCurrentStyle as NodeStyle};
+			style = { ...style, ...(context.config.nodeCurrentStyle as NodeStyle) };
 		}
 
 		if (!node.exists) {
-			style = {...style, ...context.config.nodeUnresolvedStyle as NodeStyle};
+			style = { ...style, ...(context.config.nodeUnresolvedStyle as NodeStyle) };
 		}
 
-		style = {...style, ...node.nodeStyle as NodeStyle};
+		style = { ...style, ...(node.nodeStyle as NodeStyle) };
 
 		if (style.strokeColor) {
 			style.strokeWidth = Math.max(DEFAULT_STROKE_WIDTH, style.strokeWidth);
@@ -126,21 +126,21 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 		if (style.shapeRotation === 'random') {
 			style.shapeRotation = Math.random() * Math.PI * 2;
 		} else {
-			style.shapeRotation = (style.shapeRotation ?? 0) * Math.PI / 180;
+			style.shapeRotation = ((style.shapeRotation ?? 0) * Math.PI) / 180;
 		}
 
-		if (style.shape === "star") {
+		if (style.shape === 'star') {
 			style.shapePoints ??= DEFAULT_STAR_POINTS;
-		} else if (style.shape === "polygon") {
+		} else if (style.shape === 'polygon') {
 			style.shapePoints ??= DEFAULT_POLYGON_POINTS;
-		} else if (style.shape === "square") {
+		} else if (style.shape === 'square') {
 			style.shapePoints = 4;
-			style.shape = "polygon";
+			style.shape = 'polygon';
 			// Ensures that square (and triangle) is upright at 0 degrees shapeRotation
 			style.shapeRotation += Math.PI / 4;
-		} else if (style.shape === "triangle") {
+		} else if (style.shape === 'triangle') {
 			style.shapePoints = 3;
-			style.shape = "polygon";
+			style.shape = 'polygon';
 			style.shapeRotation -= Math.PI / 2;
 		}
 
@@ -153,14 +153,18 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 		}
 
 		// Magick radius calculations
-		const scaleFactor = Math.max(0.00000001, (-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale);
-		const computedSize = style.shapeSize * scaleFactor, fullRadius = computedSize + style.strokeWidth / 2;
+		const scaleFactor = Math.max(
+			0.00000001,
+			(-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale,
+		);
+		const computedSize = style.shapeSize * scaleFactor,
+			fullRadius = computedSize + style.strokeWidth / 2;
 
 		nodes.push({
 			id: id,
 			exists: node.exists,
 			text: node.title,
-			tags: (node.tags ?? []),
+			tags: node.tags ?? [],
 			neighborCount,
 
 			shape: style.shape,
@@ -188,20 +192,18 @@ export function processSitemapData(context: GraphContext, siteData: Sitemap): Gr
 			exists: true,
 			text: tag,
 			tags: [tag],
-			type: "tag",
+			type: 'tag',
 			neighborCount: 1,
 
 			...context.config.tagDefaultStyle,
-			...context.config.tagStyles[tag] ?? {} as Partial<NodeStyle>,
+			...(context.config.tagStyles[tag] ?? ({} as Partial<NodeStyle>)),
 		});
 	}
 
 	return {
 		nodes,
 		links: links.filter(
-			l =>
-				neighbourhood.has(l.source as unknown as string) &&
-				neighbourhood.has(l.target as unknown as string),
+			l => neighbourhood.has(l.source as unknown as string) && neighbourhood.has(l.target as unknown as string),
 		),
 	};
 }

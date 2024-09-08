@@ -19,22 +19,22 @@ const easing_functions = {
 };
 
 export const animated_colors = [
-	"backgroundColor",
-	"nodeColor",
-	"nodeColorVisited",
-	"nodeColorCurrent",
-	"nodeColorUnresolved",
-	"nodeColorTag",
-	"nodeColor1",
-	"nodeColor2",
-	"nodeColor3",
-	"nodeColor4",
-	"nodeColor5",
-	"nodeColor6",
-	"nodeColor7",
-	"nodeColor8",
-	"nodeColor9",
-	"linkColor",
+	'backgroundColor',
+	'nodeColor',
+	'nodeColorVisited',
+	'nodeColorCurrent',
+	'nodeColorUnresolved',
+	'nodeColorTag',
+	'nodeColor1',
+	'nodeColor2',
+	'nodeColor3',
+	'nodeColor4',
+	'nodeColor5',
+	'nodeColor6',
+	'nodeColor7',
+	'nodeColor8',
+	'nodeColor9',
+	'linkColor',
 	'labelColor',
 ] as const;
 
@@ -59,24 +59,36 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			easing: easing_functions[graphConfig.zoomEase],
 		},
 
-		...Object.fromEntries(animated_colors
-			.flatMap((color) => {
+		...Object.fromEntries(
+			animated_colors.flatMap(color => {
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				return [
-					[`${color}`, {
-						properties: { default: colorConfig[color], blur: colorConfig[key + "Muted" as keyof typeof colorConfig] ?? colorConfig[color] },
-						interpolator: new ColorInterpolator(),
-						duration: graphConfig.hoverDuration,
-						easing: easing_functions[graphConfig.hoverEase],
-					}],
-					[`${color}Hover`, {
-						properties: { default: colorConfig[color], hover: colorConfig[key + "Hover" as keyof typeof colorConfig] ?? colorConfig[color] },
-						interpolator: new ColorInterpolator(),
-						duration: graphConfig.hoverDuration,
-						easing: easing_functions[graphConfig.hoverEase],
-					}],
+					[
+						`${color}`,
+						{
+							properties: {
+								default: colorConfig[color],
+								blur: colorConfig[(key + 'Muted') as keyof typeof colorConfig] ?? colorConfig[color],
+							},
+							interpolator: new ColorInterpolator(),
+							duration: graphConfig.hoverDuration,
+							easing: easing_functions[graphConfig.hoverEase],
+						},
+					],
+					[
+						`${color}Hover`,
+						{
+							properties: {
+								default: colorConfig[color],
+								hover: colorConfig[(key + 'Hover') as keyof typeof colorConfig] ?? colorConfig[color],
+							},
+							interpolator: new ColorInterpolator(),
+							duration: graphConfig.hoverDuration,
+							easing: easing_functions[graphConfig.hoverEase],
+						},
+					],
 				];
-			})
+			}),
 		),
 
 		labelOpacity: {

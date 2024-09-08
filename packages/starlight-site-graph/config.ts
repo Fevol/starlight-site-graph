@@ -104,7 +104,6 @@ export const nodeStyle = z.object({
 	 */
 	shapeCornerRadius: z.number().optional(),
 
-
 	/**
 	 * Type of corner for the shape and stroke
 	 * - `round`: Rounded corners
@@ -157,7 +156,6 @@ export const nodeStyle = z.object({
 	neighborScale: z.number().default(0.5),
 });
 
-
 export type NodeStyle = z.infer<typeof nodeStyle>;
 
 export const graphConfigSchema = z.object({
@@ -197,7 +195,12 @@ export const graphConfigSchema = z.object({
 	 * @example The "index" tag is visualized a circle of size 12, with no stroke
 	 * { "index": { shapeColor: "nodeColor1", shape: "circle", shapeSize: 12, strokeWidth: 0 } }
 	 */
-	tagStyles: z.record(z.string().transform((val) => !val.startsWith("#") ? "#" + val : val), nodeStyle.partial()).default({}),
+	tagStyles: z
+		.record(
+			z.string().transform(val => (!val.startsWith('#') ? '#' + val : val)),
+			nodeStyle.partial(),
+		)
+		.default({}),
 	/**
 	 * How tags should be rendered in the graph
 	 * - `none`: Tags are not rendered at all
@@ -209,7 +212,9 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default "none"
 	 */
-	tagRenderMode: z.union([z.literal('none'), z.literal('node'), z.literal('same'), z.literal('both')]).default('none'),
+	tagRenderMode: z
+		.union([z.literal('none'), z.literal('node'), z.literal('same'), z.literal('both')])
+		.default('none'),
 
 	/**
 	 * Whether to enable user dragging/panning of the graph
@@ -240,8 +245,9 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default "auto"
 	 */
-	enableClick: z.union([z.boolean(), z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')]).default('auto'),
-
+	enableClick: z
+		.union([z.boolean(), z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')])
+		.default('auto'),
 
 	/**
 	 * The depth of the graph, determines how many levels of links are shown
@@ -395,42 +401,54 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default { shapeColor: "nodeColorVisited" }
 	 */
-	nodeVisitedStyle: nodeStyle.partial().optional().transform((val) => ({
-		shapeColor: 'nodeColorVisited',
-		...val,
-	})),
+	nodeVisitedStyle: nodeStyle
+		.partial()
+		.optional()
+		.transform(val => ({
+			shapeColor: 'nodeColorVisited',
+			...val,
+		})),
 	/**
 	 * The style of node representing the current page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle` and matching `tagStyles`.
 	 *
 	 * @default { shapeColor: "nodeColorCurrent" }
 	 */
-	nodeCurrentStyle: nodeStyle.partial().optional().transform((val) => ({
-		shapeColor: 'nodeColorCurrent',
-		...val,
-	})),
+	nodeCurrentStyle: nodeStyle
+		.partial()
+		.optional()
+		.transform(val => ({
+			shapeColor: 'nodeColorCurrent',
+			...val,
+		})),
 	/**
 	 * The style of node representing an unresolved page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`, matching `tagStyles`, and `nodeCurrentStyle`.
 	 *
 	 * @default { shapeColor: "nodeColorUnresolved" }
 	 */
-	nodeUnresolvedStyle: nodeStyle.partial().optional().transform((val) => ({
-		shapeColor: 'nodeColorUnresolved',
-		...val,
-	})),
+	nodeUnresolvedStyle: nodeStyle
+		.partial()
+		.optional()
+		.transform(val => ({
+			shapeColor: 'nodeColorUnresolved',
+			...val,
+		})),
 	/**
 	 * Default style of tag nodes in the graph
 	 *
 	 * @default { shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 }
 	 */
-	tagDefaultStyle: nodeStyle.partial().optional().transform((val) => ({
-		shapeColor: 'backgroundColor',
-		strokeColor: 'nodeColorTag',
-		shapeSize: 6,
-		strokeWidth: 1,
-		...val,
-	})),
+	tagDefaultStyle: nodeStyle
+		.partial()
+		.optional()
+		.transform(val => ({
+			shapeColor: 'backgroundColor',
+			strokeColor: 'nodeColorTag',
+			shapeSize: 6,
+			strokeWidth: 1,
+			...val,
+		})),
 
 	/**
 	 * The width of the links in the graph

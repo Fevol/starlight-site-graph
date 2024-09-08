@@ -6,7 +6,7 @@ export interface SitemapEntry {
 	links: string[];
 	backlinks: string[];
 	tags: string[];
-	nodeStyle?: Partial<NodeStyle>
+	nodeStyle?: Partial<NodeStyle>;
 }
 
 export type Sitemap = Record<string, SitemapEntry>;

@@ -4,6 +4,7 @@ import type { LinkData, NodeData } from './types';
 import type { NodeShapeType } from '../../config';
 import { type GraphComponent } from './graph-component';
 
+// prettier-ignore
 import {
 	LABEL_DEFAULT_Z_INDEX,
 	ARROW_DEFAULT_Z_INDEX, ARROW_HOVER_Z_INDEX,
@@ -13,7 +14,6 @@ import {
 	DEFAULT_ARROW_SCALE, STAR_LINE_DEPTH
 } from './constants';
 import type { GraphSimulator } from './simulator';
-
 
 // TODO: Shared graphicsContext would improve performance (investigate whether context would share zIndex/...)
 export class GraphRenderer {
@@ -45,7 +45,9 @@ export class GraphRenderer {
 		this.app.stage.sortableChildren = true;
 		this.app.stage.addChild(this.links);
 		this.app.stage.addChild(this.arrows);
-		this.app.ticker.add((ticker: PIXI.Ticker) => { this.tick(ticker) });
+		this.app.ticker.add((ticker: PIXI.Ticker) => {
+			this.tick(ticker);
+		});
 
 		if (this.context.debug) {
 			setTimeout(async () => {
@@ -55,7 +57,9 @@ export class GraphRenderer {
 					this.app.ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
 					stats.stats.domElement.id = 'graphStats';
 				} catch (e) {
-					console.error('[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install all devDependencies.');
+					console.error(
+						'[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install all devDependencies.',
+					);
 				}
 			}, 500);
 		}
@@ -116,8 +120,7 @@ export class GraphRenderer {
 		this.drawLinks(this.simulator.links);
 	}
 
-
-	resetZoom(zoomTransform: { k: number, x: number, y: number }) {
+	resetZoom(zoomTransform: { k: number; x: number; y: number }) {
 		// @ts-expect-error __zoom is a private property
 		this.app.canvas.__zoom = zoomTransform;
 	}
@@ -126,9 +129,12 @@ export class GraphRenderer {
 		if (this.simulator.animateZoomOverride) {
 			return true;
 		}
-		return this.context.animator.isAnimating('zoom') || this.context.animator.isAnimating('transformX') || this.context.animator.isAnimating('transformY');
+		return (
+			this.context.animator.isAnimating('zoom') ||
+			this.context.animator.isAnimating('transformX') ||
+			this.context.animator.isAnimating('transformY')
+		);
 	}
-
 
 	initializeNodes(nodes: NodeData[]) {
 		for (const node of nodes) {
@@ -149,19 +155,23 @@ export class GraphRenderer {
 		}
 	}
 
-
 	drawNodeShape(node: NodeData, hovered?: boolean) {
 		node.node!.clear();
-		this.drawNode(node.node!, node.shape!, node.computedSize! - node.shapeCornerRadius!, node.shapeRotation!, node.shapePoints!)
-			.fill(0xffffff)
-			._zIndex = hovered === undefined ? NODE_DEFAULT_Z_INDEX : (hovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX);
-		node.node!.tint = this.context.animator.getValue(node.shapeColor + (hovered ? 'Hover' : '') as any) as string;
+		this.drawNode(
+			node.node!,
+			node.shape!,
+			node.computedSize! - node.shapeCornerRadius!,
+			node.shapeRotation!,
+			node.shapePoints!,
+		).fill(0xffffff)._zIndex =
+			hovered === undefined ? NODE_DEFAULT_Z_INDEX : hovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX;
+		node.node!.tint = this.context.animator.getValue((node.shapeColor + (hovered ? 'Hover' : '')) as any) as string;
 
 		if (node.shapeCornerRadius) {
 			node.node!.stroke({
 				color: 0xffffff,
 				width: node.shapeCornerRadius!,
-				join: node.cornerType!
+				join: node.cornerType!,
 			});
 		}
 	}
@@ -173,29 +183,41 @@ export class GraphRenderer {
 			strokeTint = node.node!.tint;
 		} else {
 			strokeFill = 0xffffff;
-			strokeTint = this.context.animator.getValue(node.strokeColor + (hovered ? 'Hover' : '') as any) as string;
+			strokeTint = this.context.animator.getValue((node.strokeColor + (hovered ? 'Hover' : '')) as any) as string;
 		}
 
 		node.stroke!.clear();
-		node.stroke!._zIndex = hovered === undefined ? STROKE_DEFAULT_Z_INDEX : (hovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX);
-		this.drawNode(node.stroke!, node.shape!, node.fullRadius! - node.strokeCornerRadius! / 2, node.shapeRotation!, node.shapePoints!)
-			.fill(strokeFill);
+		node.stroke!._zIndex =
+			hovered === undefined ? STROKE_DEFAULT_Z_INDEX : hovered ? STROKE_HOVER_Z_INDEX : STROKE_MUTED_Z_INDEX;
+		this.drawNode(
+			node.stroke!,
+			node.shape!,
+			node.fullRadius! - node.strokeCornerRadius! / 2,
+			node.shapeRotation!,
+			node.shapePoints!,
+		).fill(strokeFill);
 		node.stroke!.tint = strokeTint;
 
 		if (node.strokeCornerRadius) {
 			node.stroke!.stroke({
 				color: strokeFill,
 				width: node.strokeCornerRadius!,
-				join: node.cornerType!
+				join: node.cornerType!,
 			});
 		}
 	}
 
-	drawNode(graphics: PIXI.Graphics, shape: NodeShapeType, size: number, rotation: number, points?: number): PIXI.Graphics {
+	drawNode(
+		graphics: PIXI.Graphics,
+		shape: NodeShapeType,
+		size: number,
+		rotation: number,
+		points?: number,
+	): PIXI.Graphics {
 		if (shape === 'circle') {
 			graphics.circle(0, 0, size);
 		} else if (shape === 'polygon') {
-			const angle = (Math.PI * 2 / points!);
+			const angle = (Math.PI * 2) / points!;
 			graphics.moveTo(size, 0);
 			for (let i = 0; i < points!; i++) {
 				graphics.lineTo(size * Math.cos(-angle * i), size * Math.sin(-angle * i));
@@ -210,7 +232,7 @@ export class GraphRenderer {
 		} else if (shape === 'star') {
 			graphics.moveTo(0, -size);
 			for (let i = 0; i < 2 * points!; i++) {
-				const angle = Math.PI * 2 * i / (2 * points!);
+				const angle = (Math.PI * 2 * i) / (2 * points!);
 				const r = i % 2 === 0 ? size : size * STAR_LINE_DEPTH;
 				graphics.lineTo(r * Math.sin(angle), -r * Math.cos(angle));
 			}
@@ -219,7 +241,6 @@ export class GraphRenderer {
 			console.error('[STARLIGHT-SITE-GRAPH] Invalid shape type: ' + shape);
 		}
 		graphics.rotation = rotation!;
-
 
 		return graphics;
 	}
@@ -245,21 +266,30 @@ export class GraphRenderer {
 	 * No, this spa-hetti code took practically no time at all, why do you ask?
 	 */
 	getLinkOffset(node: NodeData, angle: number): [number, number] {
-		let x = node.x!, y = node.y!, radius = node.fullRadius!;
+		let x = node.x!,
+			y = node.y!,
+			radius = node.fullRadius!;
 		if (node.shape === 'circle') {
-			const sin = Math.sin(angle), cos = Math.cos(angle);
+			const sin = Math.sin(angle),
+				cos = Math.cos(angle);
 			return [x - radius * cos, y - radius * sin];
 		} else if (node.shape === 'polygon') {
 			const points = node.shapePoints!;
-			const segmentAngle = 2 * Math.PI / points;
+			const segmentAngle = (2 * Math.PI) / points;
 
 			angle += Math.PI - node.shapeRotation!;
 			const segment = Math.floor(angle / segmentAngle);
-			const t = ((segmentAngle * (segment + 1)) - angle) / segmentAngle;
+			const t = (segmentAngle * (segment + 1) - angle) / segmentAngle;
 
 			return [
-				x + radius * (t * Math.cos(node.shapeRotation! + segment * segmentAngle) + (1 - t) * Math.cos(node.shapeRotation! + (segment + 1) * segmentAngle)),
-				y + radius * (t * Math.sin(node.shapeRotation! + segment * segmentAngle) + (1 - t) * Math.sin(node.shapeRotation! + (segment + 1) * segmentAngle))
+				x +
+					radius *
+						(t * Math.cos(node.shapeRotation! + segment * segmentAngle) +
+							(1 - t) * Math.cos(node.shapeRotation! + (segment + 1) * segmentAngle)),
+				y +
+					radius *
+						(t * Math.sin(node.shapeRotation! + segment * segmentAngle) +
+							(1 - t) * Math.sin(node.shapeRotation! + (segment + 1) * segmentAngle)),
 			];
 		} else if (node.shape === 'star') {
 			const points = node.shapePoints!;
@@ -280,8 +310,12 @@ export class GraphRenderer {
 			const r2 = radius * (segment & 1 ? 1 : STAR_LINE_DEPTH);
 
 			return [
-				x + (t * r2 * Math.cos(rotation + segment * segmentAngle) + (1 - t) * r1 * Math.cos(rotation + (segment + 1) * segmentAngle)),
-				y + (t * r2 * Math.sin(rotation + segment * segmentAngle) + (1 - t) * r1 * Math.sin(rotation + (segment + 1) * segmentAngle))
+				x +
+					(t * r2 * Math.cos(rotation + segment * segmentAngle) +
+					(1 - t) * r1 * Math.cos(rotation + (segment + 1) * segmentAngle)),
+				y +
+					(t * r2 * Math.sin(rotation + segment * segmentAngle) +
+					(1 - t) * r1 * Math.sin(rotation + (segment + 1) * segmentAngle)),
 			];
 		} else {
 			console.error('[STARLIGHT-SITE-GRAPH] Invalid shape type: ' + node.shape);
@@ -305,10 +339,12 @@ export class GraphRenderer {
 			.moveTo(xStart, yStart)
 			.lineTo(xEnd, yEnd)
 			.stroke({
-				color: isHovered ? this.context.animator.getValue('linkColorHover') : this.context.animator.getValue('linkColor'),
-				width: this.context.config.linkWidth / linkZoomLevel
+				color: isHovered
+					? this.context.animator.getValue('linkColorHover')
+					: this.context.animator.getValue('linkColor'),
+				width: this.context.config.linkWidth / linkZoomLevel,
 			});
-		this.links.zIndex = (isHovered && this.simulator.isHovering) ? LINK_HOVER_Z_INDEX : LINK_DEFAULT_Z_INDEX;
+		this.links.zIndex = isHovered && this.simulator.isHovering ? LINK_HOVER_Z_INDEX : LINK_DEFAULT_Z_INDEX;
 
 		if (this.context.config.renderArrows && this.simulator.zoomTransform.k > this.context.config.minZoomArrows) {
 			this.drawArrowHead(xEnd, yEnd, incAngle, isHovered);
@@ -317,22 +353,27 @@ export class GraphRenderer {
 
 	drawArrowHead(nodeX: number, nodeY: number, nodeAngle: number, isHovered: boolean) {
 		const arrowZoomLevel = this.context.config.scaleArrows ? this.context.animator.getValue('zoom') : 2;
-		const x = nodeX - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
-		const y = nodeY - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
-		const arrowSize = DEFAULT_ARROW_SCALE * this.context.config.arrowSize / arrowZoomLevel;
+		const x =
+			nodeX - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
+		const y =
+			nodeY - (this.context.config.linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
+		const arrowSize = (DEFAULT_ARROW_SCALE * this.context.config.arrowSize) / arrowZoomLevel;
 		this.arrows
 			.moveTo(x, y)
 			.lineTo(
-				(x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle)),
-				(y - arrowSize * Math.sin(nodeAngle - this.context.config.arrowAngle))
+				x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle),
+				y - arrowSize * Math.sin(nodeAngle - this.context.config.arrowAngle),
 			)
 			.lineTo(
-				(x - arrowSize * Math.cos(nodeAngle + this.context.config.arrowAngle)),
-				(y - arrowSize * Math.sin(nodeAngle + this.context.config.arrowAngle))
+				x - arrowSize * Math.cos(nodeAngle + this.context.config.arrowAngle),
+				y - arrowSize * Math.sin(nodeAngle + this.context.config.arrowAngle),
 			)
 			.lineTo(x, y)
-			.fill(isHovered ? this.context.animator.getValue('linkColorHover') : this.context.animator.getValue('linkColor'))
-			.zIndex = (isHovered) ? ARROW_HOVER_Z_INDEX : ARROW_DEFAULT_Z_INDEX;
+			.fill(
+				isHovered
+					? this.context.animator.getValue('linkColorHover')
+					: this.context.animator.getValue('linkColor'),
+			).zIndex = isHovered ? ARROW_HOVER_Z_INDEX : ARROW_DEFAULT_Z_INDEX;
 	}
 
 	drawLinks(links: LinkData[]) {
@@ -344,7 +385,8 @@ export class GraphRenderer {
 		for (const link of links) {
 			let isAdjacent =
 				this.simulator.currentlyHovered !== '' &&
-				(link.source.id === this.simulator.currentlyHovered || link.target.id === this.simulator.currentlyHovered);
+				(link.source.id === this.simulator.currentlyHovered ||
+					link.target.id === this.simulator.currentlyHovered);
 
 			if (isAdjacent) {
 				adjacentLinks.push(link);
@@ -363,18 +405,17 @@ export class GraphRenderer {
 			text: node.text || node.id,
 			style: {
 				fill: 0xffffff,
-				fontSize: this.context.config.labelFontSize
+				fontSize: this.context.config.labelFontSize,
 			},
-			zIndex: LABEL_DEFAULT_Z_INDEX
+			zIndex: LABEL_DEFAULT_Z_INDEX,
 		});
 		node.label.anchor.set(0.5, 0.5);
 		node.label.alpha = this.context.animator.getValue('labelOpacity');
 	}
 
 	updateLabel(node: NodeData, hovered?: boolean) {
-		const labelOffset = node.fullRadius! + (hovered
-			? this.context.animator.getValue('labelOffset')
-			: this.context.config.labelOffset);
+		const labelOffset = node.fullRadius! +
+			(hovered ? this.context.animator.getValue('labelOffset') : this.context.config.labelOffset);
 		const labelOpacity = hovered
 			? this.context.animator.getValue('labelOpacityHover')
 			: this.context.animator.getValue('labelOpacity');

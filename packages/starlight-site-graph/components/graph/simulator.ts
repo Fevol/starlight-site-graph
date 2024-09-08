@@ -6,8 +6,7 @@ import { ensureLeadingSlash, addToVisitedEndpoints } from '../util';
 import { type GraphRenderer } from './renderer';
 import { type GraphComponent } from './graph-component';
 
-
-export class GraphSimulator{
+export class GraphSimulator {
 	container!: HTMLCanvasElement;
 	renderer!: GraphRenderer;
 
@@ -34,9 +33,7 @@ export class GraphSimulator{
 
 	zoomBehavior!: d3.ZoomBehavior<HTMLCanvasElement, unknown>;
 
-	constructor(private context: GraphComponent) {
-
-	}
+	constructor(private context: GraphComponent) {}
 
 	mount(renderer: GraphRenderer) {
 		this.renderer = renderer;
@@ -78,7 +75,7 @@ export class GraphSimulator{
 	}
 
 	update() {
-		const linkForce = d3.forceLink(this.links).id((d: any) => d.id)
+		const linkForce = d3.forceLink(this.links).id((d: any) => d.id);
 		if (this.context.config.linkDistance) {
 			linkForce.distance(this.context.config.linkDistance);
 		}
@@ -89,7 +86,12 @@ export class GraphSimulator{
 			.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.context.config.repelForce))
 			.force('forceX', d3.forceX().strength(this.context.config.nodeForce))
 			.force('forceY', d3.forceY().strength(this.context.config.nodeForce))
-			.force('collision', d3.forceCollide().radius((node) => (node as NodeData).colliderSize! + this.context.config.colliderPadding))
+			.force(
+				'collision',
+				d3
+					.forceCollide()
+					.radius(node => (node as NodeData).colliderSize! + this.context.config.colliderPadding),
+			)
 			.force('center', d3.forceCenter(this.context.config.centerForce))
 			.alpha(1)
 			.restart();
@@ -169,9 +171,16 @@ export class GraphSimulator{
 		d3.select(this.container).on('click', (e: MouseEvent) => {
 			const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 			const closestNode = this.findOverlappingNode(x, y);
-			if (closestNode && closestNode.exists && !(closestNode.type === "tag" || closestNode.id === this.currentNode)) {
+			if (
+				closestNode &&
+				closestNode.exists &&
+				!(closestNode.type === 'tag' || closestNode.id === this.currentNode)
+			) {
 				const clickTime = Date.now();
-				if (!this.requireDblClick || (clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)) {
+				if (
+					!this.requireDblClick ||
+					(clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)
+				) {
 					if (this.context.config.trackVisitedPages) {
 						addToVisitedEndpoints(closestNode.id);
 					}
@@ -187,14 +196,13 @@ export class GraphSimulator{
 		d3.select(this.container as HTMLCanvasElement).call(
 			(this.zoomBehavior = (d3.zoom() as d3.ZoomBehavior<HTMLCanvasElement, unknown>)
 				.scaleExtent([this.context.config.minZoom, this.context.config.maxZoom])
-				.on('zoom', ({transform}: { transform: d3.ZoomTransform }) => {
+				.on('zoom', ({ transform }: { transform: d3.ZoomTransform }) => {
 					this.userZoomed = true;
 					this.zoomTransform = transform;
 					this.updateTransform();
 				})),
 		);
 	}
-
 
 	resetZoom(immediate: boolean = false) {
 		this.userZoomed = false;
@@ -214,7 +222,7 @@ export class GraphSimulator{
 			.translate(this.centerTransform.x, this.centerTransform.y)
 			.scale(this.centerTransform.k);
 
-		const values: { zoom: number; transformX: number; transformY: number, labelOpacity?: number } = {
+		const values: { zoom: number; transformX: number; transformY: number; labelOpacity?: number } = {
 			zoom: this.transform.k,
 			transformX: this.transform.x,
 			transformY: this.transform.y,

@@ -9,11 +9,7 @@ import { renderActionContainer } from './action-element';
 import { processSitemapData } from './preprocess-sitemap';
 import { getGraphColors, type GraphColorConfig } from '../../color';
 
-import {
-	onClickOutside,
-	stripSlashes,
-	ensureTrailingSlash,
-} from '../util';
+import { onClickOutside, stripSlashes, ensureTrailingSlash } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -30,19 +26,23 @@ export class GraphComponent extends HTMLElement {
 	config!: GraphConfig;
 	sitemap!: Sitemap;
 
-	defaultColorTransitions = Object.fromEntries(animated_colors.flatMap(color => [
-		[`${color}`, "default"],
-		[`${color}Hover`, "default"],
-	]));
-	hoverColorTransitions = Object.fromEntries(animated_colors.flatMap(color => [
-		[`${color}`, "blur"],
-		[`${color}Hover`, "hover"],
-	]));
+	defaultColorTransitions = Object.fromEntries(
+		animated_colors.flatMap(color => [
+			[`${color}`, 'default'],
+			[`${color}Hover`, 'default'],
+		]),
+	);
+	hoverColorTransitions = Object.fromEntries(
+		animated_colors.flatMap(color => [
+			[`${color}`, 'blur'],
+			[`${color}Hover`, 'hover'],
+		]),
+	);
 	colors!: GraphColorConfig;
 	animator: Animator<ReturnType<typeof animatables>>;
 
 	isFullscreen: boolean = false;
-	fullscreenExitHandler?: (options?: (boolean | EventListenerOptions | undefined)) => void;
+	fullscreenExitHandler?: (options?: boolean | EventListenerOptions | undefined) => void;
 
 	currentPage!: string;
 
@@ -57,10 +57,10 @@ export class GraphComponent extends HTMLElement {
 			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
 			this.debug = this.dataset['debug'] !== undefined;
 		} catch (e) {
-			console.error("[STARLIGHT-SITE-GRAPH] " + (e instanceof Error ? e.message : e));
+			console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));
 		}
 
-		console.log('constructed')
+		console.log('constructed');
 
 		this.classList.add('graph-component');
 
@@ -89,21 +89,21 @@ export class GraphComponent extends HTMLElement {
 		this.themeObserver = new MutationObserver(() => {
 			this.colors = getGraphColors(this.graphContainer);
 			for (const color of animated_colors) {
-				const key = color.slice(0, color.indexOf("Color") + 5);
+				const key = color.slice(0, color.indexOf('Color') + 5);
 				this.animator.setProperties(`${color}`, {
-					"default": this.colors[color],
-					"blur": this.colors[key + "Muted" as keyof GraphColorConfig],
+					default: this.colors[color],
+					blur: this.colors[(key + 'Muted') as keyof GraphColorConfig],
 				});
 				this.animator.setProperties(`${color}Hover`, {
-					"default": this.colors[color],
-					"hover": this.colors[key + "Hover" as keyof GraphColorConfig],
+					default: this.colors[color],
+					hover: this.colors[(key + 'Hover') as keyof GraphColorConfig],
 				});
 			}
 
 			this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 200 });
 		});
-		this.themeObserver.observe(document.querySelector(":root")!, {
-			attributeFilter: ["data-theme"],
+		this.themeObserver.observe(document.querySelector(':root')!, {
+			attributeFilter: ['data-theme'],
 		});
 
 		this.renderer = new GraphRenderer(this);
@@ -115,8 +115,8 @@ export class GraphComponent extends HTMLElement {
 		this.simulator.mount(this.renderer);
 
 		// Add listeners for chang on dataset-config and dataset-sitemap
-		this.propertyObserver = new MutationObserver((mutations) => {
-			mutations.forEach((mutation) => {
+		this.propertyObserver = new MutationObserver(mutations => {
+			mutations.forEach(mutation => {
 				if (mutation.attributeName === 'data-config') {
 					this.config = JSON.parse(this.dataset['config'] || '{}');
 					this.setup();
@@ -153,7 +153,7 @@ export class GraphComponent extends HTMLElement {
 	setup() {
 		this.cleanup();
 
-		const {nodes, links} = processSitemapData(this, this.sitemap);
+		const { nodes, links } = processSitemapData(this, this.sitemap);
 
 		const currentNode = nodes.find(node => node.id === this.currentPage);
 
@@ -161,20 +161,14 @@ export class GraphComponent extends HTMLElement {
 		this.renderer.initialize();
 		this.simulator.update();
 
+		if (this.config.enableDrag) this.simulator.enableDrag();
 
-		if (this.config.enableDrag)
-			this.simulator.enableDrag();
+		if (this.config.enableHover) this.simulator.enableHover();
 
-		if (this.config.enableHover)
-			this.simulator.enableHover();
+		if (this.config.enableClick !== 'disable') this.simulator.enableClick();
 
-		if (this.config.enableClick !== "disable")
-			this.simulator.enableClick();
-
-		if (this.config.enableZoom)
-			this.simulator.enableZoom();
+		if (this.config.enableZoom) this.simulator.enableZoom();
 	}
-
 
 	enableFullscreen() {
 		if (this.isFullscreen) return;

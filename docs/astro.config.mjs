@@ -35,7 +35,7 @@ export default defineConfig({
 						tagRenderMode: 'same',
 						trackVisitedPages: false,
 						nodeDefaultStyle: {
-							shape: "polygon",
+							shape: 'polygon',
 							shapeSize: 18,
 							shapePoints: 5,
 						},
@@ -45,7 +45,7 @@ export default defineConfig({
 							cornerType: 'round',
 							shapeCornerRadius: 10,
 							strokeCornerRadius: 10,
-						}
+						},
 					},
 				}),
 			],
