@@ -437,16 +437,20 @@ export const graphConfigSchema = z.object({
 	/**
 	 * Default style of tag nodes in the graph
 	 *
-	 * @default { shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 }
+	 * @default { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 }
 	 */
 	tagDefaultStyle: nodeStyle
 		.partial()
 		.optional()
 		.transform(val => ({
+			shape: 'circle',
+			shapeSize: 6,
 			shapeColor: 'backgroundColor',
 			strokeColor: 'nodeColorTag',
-			shapeSize: 6,
 			strokeWidth: 1,
+			colliderScale: 1,
+			nodeScale: 1,
+			neighborScale: 0.7,
 			...val,
 		})),
 
@@ -706,7 +710,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *	   nodeDefaultStyle: {
 		 * 	  	 shape: "circle",
 		 *	  	 shapeColor: "nodeColor",
-		 *	  	 shapeSize: 10,
+		 *	  	 shapeSize: 6,
 		 *	  	 strokeWidth: 0,
 		 *	  	 colliderScale: 1,
 		 *	  	 nodeScale: 1,
@@ -715,7 +719,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *	   nodeVisitedStyle: { shapeColor: "nodeColorVisited" },
 		 *	   nodeCurrentStyle: { shapeColor: "nodeColorCurrent" },
 		 *	   nodeUnresolvedStyle: { color: "nodeColorUnresolved" },
-		 *	   tagDefaultStyle: { shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", shapeSize: 6, strokeWidth: 1 },
+		 *	   tagDefaultStyle: { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 },
 		 *
 		 *     linkWidth: 1,
 		 *
