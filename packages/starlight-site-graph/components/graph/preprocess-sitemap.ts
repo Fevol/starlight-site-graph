@@ -46,11 +46,22 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 				const node = data.get(current)!;
 
 				neighbourhood.add(current);
-				for (const link of node.links ?? []) {
-					if (validLinks.has(link)) {
-						links.push({ source: current, target: link });
+				if (context.config.depthDirection === 'outgoing' || context.config.depthDirection === 'both') {
+					for (const link of node.links ?? []) {
+						if (validLinks.has(link)) {
+							links.push({ source: current, target: link });
+						}
+						queue.push(link);
 					}
-					queue.push(link);
+				}
+
+				if (context.config.depthDirection === 'incoming' || context.config.depthDirection === 'both') {
+					for (const link of node.backlinks ?? []) {
+						if (validLinks.has(link)) {
+							links.push({ source: link, target: current });
+						}
+						queue.push(link);
+					}
 				}
 
 				if (context.config.tagRenderMode === 'node' || context.config.tagRenderMode === 'both') {

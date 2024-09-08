@@ -256,6 +256,16 @@ export const graphConfigSchema = z.object({
 	 */
 	depth: z.number().default(1),
 	/**
+	 * In which direction the depth of the graph should be expanded
+	 * - `both`: Expand in both incoming and outgoing directions
+	 * - `incoming`: Expand only in the incoming direction
+	 * - `outgoing`: Expand only in the outgoing direction
+	 *
+	 * @default "both"
+	 */
+	depthDirection: z.union([z.literal('both'), z.literal('incoming'), z.literal('outgoing')]).default('both'),
+
+	/**
 	 * The scale of the graph, determines the zoom level
 	 *
 	 * @default 1.1
@@ -683,6 +693,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     enableZoom: true,
 		 *     enableHover: true,
 		 *     depth: 1,
+		 *     depthDirection: 'both',
 		 *     scale: 1.1,
 		 *     minZoom: 0.05,
 		 *     maxZoom: 4,
