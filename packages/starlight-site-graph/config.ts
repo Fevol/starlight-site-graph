@@ -413,7 +413,18 @@ export const graphConfigSchema = z.object({
 	 * 	   neighborScale: 0.5
 	 * 	}```
 	 */
-	nodeDefaultStyle: nodeStyle.optional().default({}),
+	nodeDefaultStyle: nodeStyle
+		.optional()
+		.transform(val => ({
+			shape: 'circle',
+			shapeColor: 'nodeColor',
+			shapeSize: 10,
+			strokeWidth: 0,
+			colliderScale: 1,
+			nodeScale: 1,
+			neighborScale: 0.5,
+			...val,
+		})),
 	/**
 	 * The style of node representing a visited page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`.

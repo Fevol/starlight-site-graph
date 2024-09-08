@@ -102,7 +102,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
 
 		// Chain of declarations determines style priority
-		let style: NodeStyle = context.config.nodeDefaultStyle as NodeStyle;
+		let style: NodeStyle = { ...context.config.nodeDefaultStyle } as NodeStyle;
 		if (visitedPages.has(id)) {
 			style = { ...style, ...(context.config.nodeVisitedStyle as NodeStyle) };
 		}
