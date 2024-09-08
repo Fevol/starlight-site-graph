@@ -172,6 +172,15 @@ export class GraphSimulator {
 				});
 			}
 		});
+
+		d3.select(this.container).on('mouseleave', () => {
+			this.isHovering = false;
+			this.context.setStyleDefault();
+			this.context.animator.setOnFinished('nodeColorHover', () => {
+				this.currentlyHovered = '';
+				this.requestRender = false;
+			});
+		});
 	}
 
 	enableClick() {

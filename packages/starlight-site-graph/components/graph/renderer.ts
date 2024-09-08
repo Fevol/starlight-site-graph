@@ -338,6 +338,7 @@ export class GraphRenderer {
 		// this.links.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
 		// this.links.circle(...this.nodeCircleOffset({...link.target, shape: "circle"}, incAngle), 2).fill(0xff0000)
 
+		// FIXME: Find a good way to only draw hovered links above other nodes
 		this.links
 			.moveTo(xStart, yStart)
 			.lineTo(xEnd, yEnd)
