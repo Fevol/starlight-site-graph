@@ -163,35 +163,34 @@ export class GraphSimulator {
 				prefetch(ensureLeadingSlash(closestNode.id));
 				this.context.setStyleHovered();
 				this.requestRender = true;
+				this.container.style.cursor = this.isClickable(closestNode) ? 'pointer' : 'default';
 			} else if (this.currentlyHovered) {
-				this.isHovering = false;
-				this.context.setStyleDefault();
-				this.context.animator.setOnFinished('nodeColorHover', () => {
-					this.currentlyHovered = '';
-					this.requestRender = false;
-				});
+				this.unhoverNode();
 			}
 		});
 
 		d3.select(this.container).on('mouseleave', () => {
-			this.isHovering = false;
-			this.context.setStyleDefault();
-			this.context.animator.setOnFinished('nodeColorHover', () => {
-				this.currentlyHovered = '';
-				this.requestRender = false;
-			});
+			if (this.currentlyHovered) {
+				this.unhoverNode();
+			}
 		});
+	}
+
+	unhoverNode() {
+		this.isHovering = false;
+		this.context.setStyleDefault();
+		this.context.animator.setOnFinished('nodeColorHover', () => {
+			this.currentlyHovered = '';
+			this.requestRender = false;
+		});
+		this.container.style.cursor = 'default';
 	}
 
 	enableClick() {
 		d3.select(this.container).on('click', (e: MouseEvent) => {
 			const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 			const closestNode = this.findOverlappingNode(x, y);
-			if (
-				closestNode &&
-				closestNode.exists &&
-				!(closestNode.type === 'tag' || closestNode.id === this.currentNode)
-			) {
+			if (this.isClickable(closestNode)) {
 				const clickTime = Date.now();
 				if (
 					!this.requireDblClick ||
@@ -218,6 +217,10 @@ export class GraphSimulator {
 					this.updateTransform();
 				})),
 		);
+	}
+
+	isClickable(node?: NodeData): boolean {
+		return node && node.exists && !(node.type === 'tag' || node.id === this.currentNode!.id);
 	}
 
 	resetZoom(immediate: boolean = false) {
