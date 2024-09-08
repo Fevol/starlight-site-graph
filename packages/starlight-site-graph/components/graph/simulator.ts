@@ -31,6 +31,7 @@ export class GraphSimulator {
 	animateZoomOverride: boolean = false;
 	userZoomed: boolean = false;
 
+	requestRender = true;
 	zoomBehavior!: d3.ZoomBehavior<HTMLCanvasElement, unknown>;
 
 	constructor(private context: GraphComponent) {}
@@ -54,6 +55,10 @@ export class GraphSimulator {
 		this.requireDblClick = this.context.config.enableClick === 'dblclick';
 		this.zoomTransform = this.zoomTransform.scale(scale);
 		this.scale = scale;
+
+		this.simulation.on('tick', () => {
+			this.requestRender = true;
+		});
 	}
 
 	cleanup() {
@@ -157,11 +162,13 @@ export class GraphSimulator {
 				this.isHovering = true;
 				prefetch(ensureLeadingSlash(closestNode.id));
 				this.context.setStyleHovered();
+				this.requestRender = true;
 			} else if (this.currentlyHovered) {
 				this.isHovering = false;
 				this.context.setStyleDefault();
 				this.context.animator.setOnFinished('nodeColorHover', () => {
 					this.currentlyHovered = '';
+					this.requestRender = false;
 				});
 			}
 		});

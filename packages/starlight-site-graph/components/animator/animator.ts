@@ -18,6 +18,7 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	private animations: Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
 	private onMultipleFinished: { keys: (keyof T)[]; onFinished: (values: ConfigValueType<T[keyof T]>[]) => void }[] =
 		[];
+	public anyAnimating: boolean = false;
 
 	/**
 	 *
@@ -130,11 +131,13 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	 * @param dt The time since the last update in milliseconds.
 	 */
 	update(dt: number): void {
+		this.anyAnimating = false;
 		for (const key in this.configs) {
 			const config = this.configs[key]!;
 			const animation = this.animations[key]!;
 
 			if (animation.targetValue !== undefined) {
+				this.anyAnimating = true;
 				animation.progress += dt / animation.duration;
 				animation.progress = Math.min(animation.progress, 1);
 

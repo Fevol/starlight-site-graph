@@ -116,8 +116,11 @@ export class GraphRenderer {
 			this.simulator.animateZoomOverride = false;
 		}
 
-		this.drawNodes(this.simulator.nodes);
-		this.drawLinks(this.simulator.links);
+		if (this.simulator.requestRender || this.context.animator.anyAnimating) {
+			this.simulator.requestRender = false;
+			this.drawNodes(this.simulator.nodes);
+			this.drawLinks(this.simulator.links);
+		}
 	}
 
 	resetZoom(zoomTransform: { k: number; x: number; y: number }) {
