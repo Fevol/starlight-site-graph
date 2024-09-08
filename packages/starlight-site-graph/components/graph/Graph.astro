@@ -1,0 +1,23 @@
+---
+import type { GraphConfig } from '../../config';
+import type { Sitemap } from '../../types';
+
+interface Props {
+    slug: string;
+    config: GraphConfig;
+    sitemap: Sitemap | undefined;
+	debug: boolean;
+}
+
+
+const { config, sitemap, slug, debug = false } = Astro.props;
+---
+
+<graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug} data-debug={debug}></graph-component>
+
+<script>
+	import { GraphComponent } from './graph-component';
+
+	customElements.define('graph-component', GraphComponent);
+</script>
+

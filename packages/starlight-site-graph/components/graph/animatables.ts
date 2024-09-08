@@ -1,4 +1,4 @@
-import type { GraphConfig } from '../config';
+import type { GraphConfig } from '../../config';
 import type { AnimatedValues } from './types';
 import {
 	ColorInterpolator,
@@ -8,8 +8,8 @@ import {
 	EaseInOutQuad,
 	EaseLinear,
 	EaseOutQuad,
-} from './animator';
-import type { GraphColorConfig } from '../color';
+} from '../animator';
+import type { GraphColorConfig } from '../../color';
 
 const easing_functions = {
 	in_quad: new EaseInQuad(),

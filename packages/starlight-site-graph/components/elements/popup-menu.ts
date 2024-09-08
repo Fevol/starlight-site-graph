@@ -1,4 +1,4 @@
-import { onClickOutside } from './util';
+import { onClickOutside } from '../util';
 
 export function showPopupMenu(container: HTMLElement, contents: HTMLElement[]) {
 	const popupMenu = document.createElement('div');

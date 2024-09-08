@@ -1,9 +1,9 @@
 ---
 import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config'
-import Graph from "../components/Graph.astro";
-import {firstMatchingPattern} from "../integrationUtil";
-import {type PageGraphConfig} from "../schema";
+import Graph from "./Graph.astro";
+import {firstMatchingPattern} from "../../integrationUtil";
+import {type PageGraphConfig} from "../../schema";
 
 const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
 
@@ -27,7 +27,6 @@ if (showGraph === undefined) {
     <div class:list={className}>
         <slot name="title"/>
         <Graph
-            slug={slug}
             sitemap={config.sitemapConfig.sitemap}
             config={{
                 ...config.graphConfig,
