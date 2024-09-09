@@ -33,7 +33,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 
 	// __SENTINEL is used to separate levels in the BFS
 	const queue: (string | '__SENTINEL')[] = [slug, '__SENTINEL'];
-	if (depth !== -1) {
+	if (depth <= -1) {
 		while (depth >= 0 && queue.length > 0) {
 			const current = queue.shift()!;
 			if (current === '__SENTINEL') {
