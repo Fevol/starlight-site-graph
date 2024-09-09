@@ -414,15 +414,21 @@ export class GraphRenderer {
 	}
 
 	updateLabel(node: NodeData, hovered?: boolean) {
-		const labelOffset = node.fullRadius! +
-			(hovered ? this.context.animator.getValue('labelOffset') : this.context.config.labelOffset);
-		const labelOpacity = hovered
-			? this.context.animator.getValue('labelOpacityHover')
-			: this.context.animator.getValue('labelOpacity');
-		const labelColor = this.context.animator.getValue(hovered ? 'labelColorHover' : 'labelColor');
+		let labelOffset, labelOpacity, labelColor, labelScale;
+		if (hovered) {
+			labelOffset = this.context.animator.getValue('labelOffset');
+			labelOpacity = this.context.animator.getValue('labelOpacityHover');
+			labelColor = this.context.animator.getValue('labelColorHover');
+			labelScale = this.context.animator.getValue('labelScaleHover');
+		} else {
+			labelOffset = this.context.config.labelOffset;
+			labelOpacity = this.context.animator.getValue('labelOpacity');
+			labelColor = this.context.animator.getValue('labelColor');
+			labelScale = 1;
+		}
 
-		node.label!.scale.set(1);
-		node.label!.position.set(node.x!, node.y! + labelOffset);
+		node.label!.scale.set(labelScale);
+		node.label!.position.set(node.x!, node.y! + node.fullRadius! + labelOffset);
 		node.label!.alpha = labelOpacity;
 		node.label!.tint = labelColor;
 	}

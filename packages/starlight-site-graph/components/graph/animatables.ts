@@ -92,7 +92,7 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 		),
 
 		labelOpacity: {
-			properties: { default: 1, blur: graphConfig.labelBlurOpacity },
+			properties: { default: 1, blur: graphConfig.labelMutedOpacity },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
@@ -103,6 +103,13 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],
 		},
+		labelScaleHover: {
+			properties: { default: 1, hover: graphConfig.labelHoverScale },
+			interpolator: new NumberInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
+
 		linkHoverWidth: {
 			properties: { default: graphConfig.linkWidth, hover: graphConfig.linkHoverWidth },
 			interpolator: new NumberInterpolator(),

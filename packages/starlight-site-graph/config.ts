@@ -1,5 +1,6 @@
 import { AstroError } from 'astro/errors';
 import { z } from 'astro/zod';
+import { MAX_DEPTH } from './components/graph/constants';
 
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;
@@ -369,6 +370,12 @@ export const graphConfigSchema = z.object({
 	 * @default 12
 	 */
 	labelFontSize: z.number().min(0, "Label font size may not be negative").default(12),
+	/**
+	 * The scale of the label when hovering over a node
+	 *
+	 * @default 1
+	 */
+	labelHoverScale: z.number().min(0, "Label hover scale may not be negative").default(1),
 	/**
 	 * The offset of the labels from the nodes
 	 *

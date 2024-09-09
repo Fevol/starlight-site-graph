@@ -220,6 +220,7 @@ export class GraphComponent extends HTMLElement {
 			...this.defaultColorTransitions,
 			linkHoverWidth: 'default',
 			labelOffset: 'default',
+			labelScaleHover: 'default',
 		});
 		this.animator.startAnimation('labelOpacity', this.simulator.getCurrentLabelOpacity());
 		this.animator.startAnimation('labelOpacityHover', this.simulator.getCurrentLabelOpacity());
@@ -233,6 +234,7 @@ export class GraphComponent extends HTMLElement {
 			labelOpacity: 'blur',
 			labelOpacityHover: 'hover',
 			labelOffset: 'hover',
+			labelScaleHover: 'hover',
 		});
 	}
 }
