@@ -34,18 +34,6 @@ export default defineConfig({
 						renderArrows: true,
 						tagRenderMode: 'same',
 						trackVisitedPages: false,
-						nodeDefaultStyle: {
-							shape: 'polygon',
-							shapeSize: 18,
-							shapePoints: 5,
-						},
-						nodeCurrentStyle: {
-							strokeColor: 'inherit',
-							strokeWidth: 8,
-							cornerType: 'round',
-							shapeCornerRadius: 10,
-							strokeCornerRadius: 10,
-						},
 					},
 				}),
 			],

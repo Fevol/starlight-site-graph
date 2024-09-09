@@ -757,6 +757,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     labelFontSize: 12,
 		 *     labelOffset: 10,
 		 *     labelHoverOffset: 14,
+		 *     labelScaleHover: 1,
 		 *
 		 *     zoomDuration: 75,
 		 *     zoomEase: "out_quad",
