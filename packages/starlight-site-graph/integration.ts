@@ -8,13 +8,14 @@ import { type NodeStyle, type SitemapConfig, starlightSiteGraphConfigSchema } fr
 import {
 	ensureTrailingSlash,
 	ensureLeadingPound,
+	onlyTrailingSlash,
 	resolveIndex,
 	slugifyPath,
 	stripLeadingSlash,
 	trimSlashes,
 	firstMatchingPattern,
 } from './integrationUtil';
-import type { Sitemap, SitemapEntry } from './types';
+import type { Sitemap } from './types';
 import type { PageFrontmatter } from './schema';
 
 async function* walk(dir: string): AsyncGenerator<string> {
@@ -26,6 +27,7 @@ async function* walk(dir: string): AsyncGenerator<string> {
 }
 
 interface IntermediateSitemapEntry {
+	external: boolean;
 	filePath: string | undefined;
 	linkPath: string;
 	title: string;
@@ -36,62 +38,77 @@ interface IntermediateSitemapEntry {
 }
 
 class SiteMapBuilder {
-	map: Map<string, IntermediateSitemapEntry>;
-	contentRoot: string;
-	basePath: string;
+	private map: Map<string, IntermediateSitemapEntry>;
+	private contentRoot: string;
+	basePath!: string;
 
-	constructor(
-		private config: SitemapConfig,
-		basePath: string,
-	) {
+	constructor(private config: SitemapConfig) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
+	}
+
+	setBasePath(basePath: string) {
 		this.basePath = trimSlashes(basePath);
 	}
 
-	async add(filePath: string) {
-		const extname = path.extname(filePath);
-		if (extname !== '.md' && extname !== '.mdx') return;
+	async addHTMLContent(filePath: string) {
+		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
+		const linkPath = this.getLinkPath(filePath.slice(0, -5), this.basePath, '');
+		let links = new Set<string>();
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
-		// FIXME: Catch links that are not formatted as [text](link)
-		const linkMatches = content.match(/\[.*?]\((.*?)\)/g);
+		for (const match of content.match(/([\w|data-]+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/gm) ?? []) {
+			if (match.startsWith('href')) {
+				const link = match.slice(6, match.endsWith('"') ? -1 : 0);
+				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg"))) {
+					if (this.config.includeExternalLinks || !link.startsWith('http')) {
+						links.add(onlyTrailingSlash(link));
+					}
+				}
+			}
+		}
 
-		const linkPath = this.getLinkPath(filePath);
+		if (this.map.has(linkPath)) {
+			const entry = this.map.get(linkPath)!;
+			this.map.set(linkPath, {
+				...entry,
+				links: new Set([...links, ...entry.links]),
+			});
+		}
+	}
+
+	async addMDContent(filePath: string) {
+		const extname = path.extname(filePath);
+		if (!(extname === '.md' || extname === '.mdx' || extname === '.mdoc')) return;
+
+		const linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
 
 		let title = path.basename(linkPath, extname);
 		let links = new Set<string>();
 		const tags = new Set<string>();
 		let nodeStyle = {} as Partial<NodeStyle>;
 
+		const content = await fs.promises.readFile(filePath, 'utf8');
 		const frontmatter = matter(content) as unknown as { data: PageFrontmatter };
-
-		if (linkMatches) {
-			for (const match of linkMatches) {
-				let link = match.match(/\((.*?)\)/)![1]!;
-
-				// FIXME: better detection of external links
-				if (link.startsWith('http')) continue;
-
-				// remove the leading slash
+		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
+			let link = match.match(/\((.*?)\)/)![1]!;
+			if (!link.startsWith('http')) {
 				link = link.slice(1);
-
 				if (link.startsWith('.')) {
 					link = path.join(linkPath, link);
 				}
 
 				link = ensureTrailingSlash(link.split('#')[0]!);
-
 				if (link !== linkPath) {
 					links.add(link);
 				}
+			} else if (this.config.includeExternalLinks) {
+				links.add(ensureTrailingSlash(link));
 			}
 		}
 
 		if (frontmatter.data) {
-			if (frontmatter.data.sitemap?.include === false) {
-				return;
-			}
+			if (frontmatter.data.sitemap?.include === false) return;
 
 			title = frontmatter.data.title ?? title;
 		}
@@ -118,7 +135,7 @@ class SiteMapBuilder {
 		if (frontmatter.data) {
 			if (frontmatter.data.links) {
 				for (const link of [].concat(frontmatter.data.links)) {
-					links.add(link);
+					links.add(onlyTrailingSlash(link));
 				}
 			}
 
@@ -156,9 +173,10 @@ class SiteMapBuilder {
 		});
 	}
 
+	/**
+	 * Add unresolved links to the map and determine backlinks for each entry
+	 */
 	process() {
-		// add all links that are not in the map
-		// these are the unresolved links
 		for (const [_, entry] of this.map) {
 			for (const link of entry.links) {
 				if (!this.map.has(link)) {
@@ -175,50 +193,52 @@ class SiteMapBuilder {
 			}
 		}
 
-		// calculate backlinks for each entry
+		// Determine backlinks for each entry
 		for (const [_, entry] of this.map) {
 			for (const link of entry.links) {
 				this.map.get(link)!.backlinks.add(entry.linkPath);
 			}
 		}
+		return this;
 	}
 
+	/**
+	 * Convert the intermediate sitemap to the final sitemap
+	 */
 	toSitemap(): Sitemap {
-		const sitemap: Sitemap = {};
-
-		for (const [_, entry] of this.map) {
-			const sitemapEntry: SitemapEntry = {
-				exists: entry.filePath !== undefined,
+		return Object.fromEntries(
+			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
+				exists: entry.filePath !== undefined || entry.external,
 				title: entry.title,
 				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
 				nodeStyle: entry.nodeStyle,
-			};
-
-			sitemap[entry.linkPath] = sitemapEntry;
-		}
-
-		return sitemap;
+			}]),
+		);
 	}
 
-	private getLinkPath(filePath: string) {
-		// we get the relative path and then remove the extension
+	/**
+	 * Get the link path for a given file path
+	 * @param filePath - The file path to get the link path for
+	 * @param contentRoot - The base path to resolve the relative path
+	 * @param basePath - The base path to prepend to the link path
+	 * @private
+	 */
+	private getLinkPath(filePath: string, contentRoot: string, basePath: string): string {
+		// Resolve the relative path and then remove the extension
 		let relative_path = path
-			.relative(this.contentRoot, filePath)
+			.relative(contentRoot, filePath)
 			.replace(/\\/g, '/')
-			.split('.')
-			.slice(0, -1)
-			.join('.');
-		// make sure the slashes are correct and honor the base option
-		relative_path = ensureTrailingSlash(
-			this.basePath === '' ? stripLeadingSlash(relative_path) : path.join(this.basePath, relative_path),
-		);
+			.slice(0, -path.extname(filePath).length || undefined);
 
-		// slugify the path, keeping slashes
+		// Ensure that the slashes are correct and honor the base option
+		relative_path = basePath === '' ? stripLeadingSlash(relative_path) : path.join(basePath, relative_path);
+
+		// Slugify the path, keeping slashes
 		relative_path = slugifyPath(relative_path);
 
-		// remove index from the end of the path
+		// Remove index from the end of the path
 		return resolveIndex(relative_path);
 	}
 }
@@ -231,31 +251,37 @@ export default defineIntegration({
 	name: 'starlight-sitemap-integration',
 	optionsSchema: starlightSiteGraphConfigSchema,
 	setup({ name, options }) {
+		const { sitemapConfig } = options;
+		const builder = new SiteMapBuilder(sitemapConfig);
+
 		return {
 			hooks: {
 				'astro:config:setup': async params => {
-					const { sitemapConfig } = options;
 					if (!options.sitemapConfig.sitemap) {
 						params.logger.info(
-							'Generating sitemap from content links' +
-								(sitemapConfig.pageInclusionRules.length
-									? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
-									: ''),
+							'Retrieving links from Markdown content' +
+							(sitemapConfig.pageInclusionRules.length
+								? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
+								: ''),
 						);
 
-						const builder = new SiteMapBuilder(sitemapConfig, params.config.base);
-						for await (const p of walk(sitemapConfig.contentRoot)) {
-							if (firstMatchingPattern(p, sitemapConfig.pageInclusionRules, false)) {
-								await builder.add(p);
+						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
+						if (params.command === 'dev' || params.command === 'build') {
+							builder.setBasePath(params.config.base);
+							// Parse all markdown files in the contentRoot
+							for await (const p of walk(sitemapConfig.contentRoot)) {
+								if (firstMatchingPattern(p, sitemapConfig.pageInclusionRules, false)) {
+									await builder.addMDContent(p);
+								}
 							}
+
+							let sitemap: Sitemap = {};
+							if (params.command === 'dev') {
+								sitemap = builder.process().toSitemap();
+							}
+							options.sitemapConfig.sitemap = sitemap;
+							params.logger.info('Finished generating sitemap from site content');
 						}
-
-						builder.process();
-						const sitemap = builder.toSitemap();
-
-						options.sitemapConfig.sitemap = { ...sitemap };
-
-						params.logger.info('Finished generating sitemap');
 					} else {
 						params.logger.info('Using applied sitemap');
 
@@ -273,15 +299,13 @@ export default defineIntegration({
 							entry.tags = [...tags].map(ensureLeadingPound);
 
 							let nodeStyle = {} as Partial<NodeStyle>;
-							if (options.sitemapConfig.styleRules.size) {
-								for (const [rules, style] of options.sitemapConfig.styleRules) {
-									const ruleResult = firstMatchingPattern(linkPath, rules);
-									if (ruleResult) {
-										nodeStyle = {
-											...nodeStyle,
-											...(style as NodeStyle),
-										};
-									}
+							for (const [rules, style] of options.sitemapConfig.styleRules ?? []) {
+								const ruleResult = firstMatchingPattern(linkPath, rules);
+								if (ruleResult) {
+									nodeStyle = {
+										...nodeStyle,
+										...(style as NodeStyle),
+									};
 								}
 							}
 							entry.nodeStyle = {
@@ -298,7 +322,23 @@ export default defineIntegration({
 						},
 					});
 				},
-			},
+				'astro:build:done': async params => {
+					params.logger.info('Retrieving links from generated HTML content');
+					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
+						builder.setBasePath(params.dir.pathname);
+						for await (const p of walk(builder.basePath)) {
+							if (path.extname(p) === '.html') {
+								await builder.addHTMLContent(p);
+							}
+						}
+
+						options.sitemapConfig.sitemap = builder.process().toSitemap();
+					}
+
+					await fs.promises.mkdir('public/sitegraph', { recursive: true });
+					await fs.promises.writeFile('public/sitegraph/sitemap.json', JSON.stringify(options.sitemapConfig.sitemap, null, 2));
+				}
+			}
 		};
 	},
 });

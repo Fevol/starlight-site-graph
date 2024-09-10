@@ -17,6 +17,7 @@ export function slugifyPath(path: string) {
 }
 
 export function resolveIndex(path: string) {
+	if (path.endsWith('/')) path = path.slice(0, -1);
 	return path.endsWith('index') ? path.slice(0, -5) : path;
 }
 
@@ -40,6 +41,10 @@ export function trimSlashes(path: string) {
 	while (path.startsWith('/')) path = path.slice(1);
 	while (path.endsWith('/')) path = path.slice(0, -1);
 	return path;
+}
+
+export function onlyTrailingSlash(path: string) {
+	return ensureTrailingSlash(stripLeadingSlash(path));
 }
 
 export function firstMatchingPattern(

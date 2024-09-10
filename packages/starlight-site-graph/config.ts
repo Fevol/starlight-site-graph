@@ -617,6 +617,13 @@ const globalSitemapConfigSchema = z.object({
 	contentRoot: z.string().default('./src/content/docs'),
 
 	/**
+	 * Include links going to external websites in the sitemap
+	 *
+	 * @default false
+	 */
+	includeExternalLinks: z.boolean().default(false),
+
+	/**
 	 * Specify a custom sitemap to be used for the PageSidebar graph component.
 	 * If unspecified, a sitemap will be generated from the content directory (see `contentRoot`), using the `pageInclusionRules` and `linkInclusionRules`.
 	 *
