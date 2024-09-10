@@ -63,15 +63,16 @@ export default defineIntegration({
 				},
 				'astro:build:done': async params => {
 					params.logger.info('Retrieving links from generated HTML content');
+					const outputPath = params.dir.pathname.slice(1);
 					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
 						options.sitemapConfig.sitemap = (await builder
-							.addHTMLContentFolder(params.dir.pathname))
+							.addHTMLContentFolder(outputPath))
 							.process()
 							.toSitemap();
 					}
 
-					await fs.promises.mkdir('public/sitegraph', { recursive: true });
-					await fs.promises.writeFile('public/sitegraph/sitemap.json', JSON.stringify(options.sitemapConfig.sitemap, null, 2));
+					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
+					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(options.sitemapConfig.sitemap, null, 2));
 				}
 			}
 		};
