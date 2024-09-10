@@ -3,7 +3,7 @@ import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config'
 
 import {ensureTrailingSlash, getRelativePath} from "./util";
-import {firstMatchingPattern} from "../integrationUtil";
+import {firstMatchingPattern} from "../sitemap/util";
 
 interface CurrentProps extends Props {
     class: string;

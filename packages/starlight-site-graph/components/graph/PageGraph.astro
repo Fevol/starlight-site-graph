@@ -2,7 +2,7 @@
 import type { Props } from '@astrojs/starlight/props';
 import config from 'virtual:starlight-site-graph/config';
 import Graph from "./Graph.astro";
-import {firstMatchingPattern} from "../../integrationUtil";
+import {firstMatchingPattern} from "../../sitemap/util";
 import {type PageGraphConfig} from "../../schema";
 
 const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;

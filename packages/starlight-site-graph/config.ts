@@ -168,6 +168,45 @@ export const nodeStyle = z.object({
 
 export type NodeStyle = z.infer<typeof nodeStyle>;
 
+const sitemapEntrySchema = z.object({
+	/**
+	 * Whether the page is external (i.e. not part of the website)
+	 * @remarks Used for links to other websites
+	 */
+	external: z.boolean(),
+	/**
+	 * Whether the page exists
+	 * @remarks Used for unresolved pages
+	 */
+	exists: z.boolean(),
+	/**
+	 * The title of the page
+	 */
+	title: z.string(),
+	/**
+	 * The links going out from the page
+	 */
+	links: z.array(z.string()),
+	/**
+	 * The backlinks going into the page
+	 */
+	backlinks: z.array(z.string()),
+	/**
+	 * The tags associated with the page
+	 */
+	tags: z.array(z.string()),
+	/**
+	 * The style of the node in the graph
+	 */
+	nodeStyle: nodeStyle.partial().optional(),
+});
+
+export type SitemapEntry = z.infer<typeof sitemapEntrySchema>;
+
+const sitemapSchema = z.record(z.string(), sitemapEntrySchema);
+
+export type Sitemap = z.infer<typeof sitemapSchema>;
+
 export const graphConfigSchema = z.object({
 	/**
 	 * The actions available within the graph component
@@ -641,19 +680,7 @@ const globalSitemapConfigSchema = z.object({
 	 *
 	 * @default undefined
 	 */
-	sitemap: z
-		.record(
-			z.string(),
-			z.object({
-				exists: z.boolean().default(true),
-				title: z.string(),
-				links: z.array(z.string()),
-				backlinks: z.array(z.string()),
-				tags: z.array(z.string()),
-				nodeStyle: nodeStyle.partial().optional(),
-			}),
-		)
-		.optional(),
+	sitemap: sitemapSchema.optional(),
 
 	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.

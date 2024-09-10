@@ -5,13 +5,12 @@ import micromatch from 'micromatch';
 export function slugifyPath(path: string) {
 	return (
 		path
-			// remove leading & trailing whitespace
+			// Remove leading & trailing whitespace
 			.trim()
-			// remove special characters
+			// Remove special characters
 			.replace(/[^A-Za-z0-9 /-]/g, '')
-			// replace spaces
+			// Replace spaces
 			.replace(/\s+/g, '-')
-			// output lowercase
 			.toLowerCase()
 	);
 }
@@ -72,5 +71,13 @@ export async function fileExists(directory: string, fileName: string): Promise<s
 		return file ? path.join(directory, file) : null;
 	} catch (e) {
 		return Promise.resolve(null);
+	}
+}
+
+export async function* walk(dir: string): AsyncGenerator<string> {
+	for await (const d of await fs.promises.opendir(dir)) {
+		const entry = path.join(dir, d.name);
+		if (d.isDirectory()) yield* walk(entry);
+		else if (d.isFile()) yield entry;
 	}
 }
