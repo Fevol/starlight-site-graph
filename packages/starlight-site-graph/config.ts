@@ -1,6 +1,5 @@
 import { AstroError } from 'astro/errors';
 import { z } from 'astro/zod';
-import { MAX_DEPTH } from './components/graph/constants';
 
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;
@@ -605,6 +604,13 @@ const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * Whether to track pages that were visited in the sidebar graph component.
 	 */
 	trackVisitedPages: z.boolean().default(true),
+
+	/**
+	 * Whether to prefetch pages on hover in the sidebar graph component.
+	 *
+	 * @default true
+	 */
+	prefetchPages: z.boolean().default(true),
 });
 
 const globalBacklinksConfigSchema = z.object({
@@ -752,9 +758,9 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default ```{
 		 *     visibilityRules: ["**\/*"],
 		 *     trackVisitedPages: true,
+		 *     prefetchPages: true,
 		 *
 		 *     actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
-		 *     clickMode: 'auto',
 		 *
 		 *     tagStyles: {},
 		 *     tagRenderMode: 'none',
@@ -762,6 +768,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     enableDrag: true,
 		 *     enableZoom: true,
 		 *     enableHover: true,
+		 *     enableClick: 'auto',
 		 *     depth: 1,
 		 *     depthDirection: 'both',
 		 *     scale: 1.1,

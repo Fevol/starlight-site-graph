@@ -160,7 +160,9 @@ export class GraphSimulator {
 			if (closestNode) {
 				this.currentlyHovered = closestNode.id;
 				this.isHovering = true;
-				prefetch(ensureLeadingSlash(closestNode.id));
+				if (this.context.config.prefetchPages && closestNode !== this.currentNode) {
+					prefetch(ensureLeadingSlash(closestNode.id));
+				}
 				this.context.setStyleHovered();
 				this.requestRender = true;
 				this.container.style.cursor = this.isClickable(closestNode) ? 'pointer' : 'default';
