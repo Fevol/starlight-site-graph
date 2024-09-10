@@ -44,6 +44,11 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 				queue.push('__SENTINEL');
 			} else if (!neighbourhood.has(current)) {
 				const node = data.get(current)!;
+				// FIXME: This means that the target does not exist, link should have been removed
+				if (!node) {
+					console.error("[STARLIGHT-SITE-GRAPH] Node doesn't exist in sitemap:", current, data);
+					continue;
+				}
 
 				neighbourhood.add(current);
 				if (context.config.depthDirection === 'outgoing' || context.config.depthDirection === 'both') {

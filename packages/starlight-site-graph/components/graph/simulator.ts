@@ -2,7 +2,7 @@ import type { LinkData, NodeData } from './types';
 import * as d3 from 'd3';
 
 import { prefetch } from 'astro:prefetch';
-import { ensureLeadingSlash, addToVisitedEndpoints } from '../util';
+import { ensureLeadingSlash } from '../util';
 import { type GraphRenderer } from './renderer';
 import { type GraphComponent } from './graph-component';
 

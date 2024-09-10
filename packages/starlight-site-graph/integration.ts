@@ -93,12 +93,10 @@ class SiteMapBuilder {
 		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
 			let link = match.match(/\((.*?)\)/)![1]!;
 			if (!link.startsWith('http')) {
-				link = slugifyPath(link);
 				if (link.startsWith('.')) {
 					link = path.join(linkPath, link);
 				}
-
-				link = onlyTrailingSlash(link.split('#')[0]!);
+				link = onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/');
 				if (link !== linkPath) {
 					links.add(link);
 				}

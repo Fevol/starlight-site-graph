@@ -12,17 +12,6 @@ export function getVisitedEndpoints(): Set<string> {
 	);
 }
 
-export function addToVisitedEndpoints(slug: string) {
-	if (!config.trackVisitedPages) return;
-
-	const visited = getVisitedEndpoints();
-	visited.add(slug);
-	(config.storageLocation === 'session' ? sessionStorage : localStorage).setItem(
-		config.storageKey + 'visited',
-		JSON.stringify([...visited]),
-	);
-}
-
 export function simplifySlug(fp: string): string {
 	const res = stripSlashes(trimSuffix(fp, 'index'), true);
 	return res.length === 0 ? '/' : res;

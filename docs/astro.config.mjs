@@ -29,11 +29,11 @@ export default defineConfig({
 			plugins: [
 				starlightSiteGraph({
 					debug: true,
+					trackVisitedPages: false,
 					graphConfig: {
 						depth: 1,
 						renderArrows: true,
 						tagRenderMode: 'same',
-						trackVisitedPages: false,
 					},
 				}),
 			],
