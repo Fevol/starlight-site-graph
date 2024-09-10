@@ -60,7 +60,7 @@ class SiteMapBuilder {
 		for (const match of content.match(/([\w|data-]+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/gm) ?? []) {
 			if (match.startsWith('href')) {
 				const link = match.slice(6, match.endsWith('"') ? -1 : 0);
-				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg"))) {
+				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg")) && onlyTrailingSlash(link) !== linkPath) {
 					if (this.config.includeExternalLinks || !link.startsWith('http')) {
 						links.add(onlyTrailingSlash(link));
 					}
@@ -93,12 +93,12 @@ class SiteMapBuilder {
 		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
 			let link = match.match(/\((.*?)\)/)![1]!;
 			if (!link.startsWith('http')) {
-				link = link.slice(1);
+				link = slugifyPath(link);
 				if (link.startsWith('.')) {
 					link = path.join(linkPath, link);
 				}
 
-				link = ensureTrailingSlash(link.split('#')[0]!);
+				link = onlyTrailingSlash(link.split('#')[0]!);
 				if (link !== linkPath) {
 					links.add(link);
 				}
@@ -242,7 +242,7 @@ class SiteMapBuilder {
 		relative_path = slugifyPath(relative_path);
 
 		// Remove index from the end of the path
-		return resolveIndex(relative_path);
+		return ensureTrailingSlash(resolveIndex(relative_path));
 	}
 }
 
