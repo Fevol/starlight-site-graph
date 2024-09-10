@@ -201,9 +201,6 @@ export class GraphSimulator {
 					if (closestNode.external) {
 						window.open(closestNode.id, '_blank');
 					} else {
-						if (this.context.config.trackVisitedPages) {
-							addToVisitedEndpoints(closestNode.id);
-						}
 						window.open(ensureLeadingSlash(closestNode.id), '_self');
 					}
 				}

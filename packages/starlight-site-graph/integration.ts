@@ -324,6 +324,16 @@ export default defineIntegration({
 							'virtual:starlight-site-graph/config': `export default ${JSON.stringify(options)}`,
 						},
 					});
+
+					params.injectScript("page", `
+						import config from 'virtual:starlight-site-graph/config';
+						if (config.trackVisitedPages) {
+							const storage = config.storageLocation === 'session' ? sessionStorage : localStorage;
+							const visited = new Set(JSON.parse(storage.getItem(config.storageKey + 'visited') ?? '[]'));
+							visited.add(new URL(window.location.href).pathname.slice(1));
+							storage.setItem(config.storageKey + 'visited', JSON.stringify([...visited]));
+						}
+					`)
 				},
 				'astro:build:done': async params => {
 					params.logger.info('Retrieving links from generated HTML content');

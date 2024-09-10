@@ -1,7 +1,7 @@
 import config from 'virtual:starlight-site-graph/config';
 
 export function getVisitedEndpoints(): Set<string> {
-	if (!config.graphConfig.trackVisitedPages) return new Set();
+	if (!config.trackVisitedPages) return new Set();
 
 	return new Set(
 		JSON.parse(
@@ -13,7 +13,7 @@ export function getVisitedEndpoints(): Set<string> {
 }
 
 export function addToVisitedEndpoints(slug: string) {
-	if (!config.graphConfig.trackVisitedPages) return;
+	if (!config.trackVisitedPages) return;
 
 	const visited = getVisitedEndpoints();
 	visited.add(slug);

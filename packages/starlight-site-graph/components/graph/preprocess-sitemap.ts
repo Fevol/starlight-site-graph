@@ -13,7 +13,7 @@ export type GraphData = {
 };
 
 export function processSitemapData(context: GraphComponent, siteData: Sitemap): GraphData {
-	const visitedPages: Set<string> = context.config.trackVisitedPages ? getVisitedEndpoints() : new Set();
+	const visitedPages: Set<string> = getVisitedEndpoints();
 
 	let slug = context.currentPage;
 

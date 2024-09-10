@@ -191,12 +191,6 @@ export const graphConfigSchema = z.object({
 			]),
 		)
 		.default(['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']),
-	/**
-	 * Whether to track pages that were visited in the sidebar graph component.
-	 *
-	 * @default true
-	 */
-	trackVisitedPages: z.boolean().default(true),
 
 	/**
 	 * Define shape, color and size, and stroke of specified tags
@@ -599,12 +593,6 @@ const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
 	visibilityRules: z.array(z.string()).default(['**/*']),
-
-	/**
-	 * Whether to track pages that were visited in the sidebar graph component.
-	 */
-	trackVisitedPages: z.boolean().default(true),
-
 	/**
 	 * Whether to prefetch pages on hover in the sidebar graph component.
 	 *
@@ -751,13 +739,20 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default "session"
 		 */
 		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
+		/**
+		 * Whether to track pages of the website that were visited by the user.
+		 * If disabled, the graph will not show visited pages in a different style (defined by `nodeVisitedStyle`). \
+		 * Storage location and key can be configured in the `storageLocation` and `storageKey` options.
+		 *
+		 * @default true
+		 */
+		trackVisitedPages: z.boolean().default(true),
 
 		/**
 		 * Configuration for the PageSidebar graph component.
 		 *
 		 * @default ```{
 		 *     visibilityRules: ["**\/*"],
-		 *     trackVisitedPages: true,
 		 *     prefetchPages: true,
 		 *
 		 *     actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
