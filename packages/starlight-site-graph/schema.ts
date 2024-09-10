@@ -47,7 +47,7 @@ const pageFrontmatterSchema = z.object({
 	 *
 	 * @required
 	 */
-	title: z.string(),
+	title: z.string().optional(),
 	/**
 	 * Specify direct links to other pages of the site
 	 *

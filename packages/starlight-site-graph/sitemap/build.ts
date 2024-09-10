@@ -99,16 +99,16 @@ export class SiteMapBuilder {
 		const frontmatter = matter(content) as unknown as { data: PageFrontmatter };
 		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
 			let link = match.match(/\((.*?)\)/)![1]!;
-			if (!link.startsWith('http')) {
-				if (link.startsWith('.')) {
-					link = path.join(linkPath, link);
-				}
-				link = onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/');
-				if (link !== linkPath) {
-					links.add(link);
-				}
-			} else if (this.config.includeExternalLinks) {
-				links.add(ensureTrailingSlash(link));
+				if (!link.startsWith('http')) {
+					if (link.startsWith('.')) {
+						link = path.join(linkPath, link);
+					}
+					link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
+					if (link !== linkPath) {
+						links.add(link);
+					}
+				} else if (this.config.includeExternalLinks) {
+					links.add(ensureTrailingSlash(link));
 			}
 		}
 
