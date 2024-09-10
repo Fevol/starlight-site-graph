@@ -25,6 +25,7 @@ interface IntermediateSitemapEntry {
 export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
 	private contentRoot: string;
+	private excludedPaths: Set<string> = new Set();
 	basePath!: string;
 
 	constructor(private config: SitemapConfig) {
@@ -34,12 +35,15 @@ export class SiteMapBuilder {
 
 	setBasePath(basePath: string) {
 		this.basePath = trimSlashes(basePath);
+		return this;
 	}
 
-	async addHTMLContentFolder(folder: string ) {
+	async addHTMLContentFolder(folder: string, patterns: string[] = []) {
 		for await (const p of walk(folder)) {
 			if (path.extname(p) === '.html') {
-				await this.addHTMLContent(p);
+				if (firstMatchingPattern(p, patterns, false)) {
+					await this.addHTMLContent(p);
+				}
 			}
 		}
 
@@ -55,12 +59,18 @@ export class SiteMapBuilder {
 		for (const match of content.match(/([\w|data-]+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/gm) ?? []) {
 			if (match.startsWith('href')) {
 				const link = match.slice(6, match.endsWith('"') ? -1 : 0);
-				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg")) && onlyTrailingSlash(link) !== linkPath) {
-					if (this.config.includeExternalLinks || !link.startsWith('http')) {
-						links.add(onlyTrailingSlash(link));
-					}
+				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg"))) {
+					this.resolveLink(linkPath, link, links);
 				}
 			}
+		}
+
+		if (this.excludedPaths.has(linkPath)) {
+			return this;
+		}
+
+		if (this.config.pageInclusionRules.length) {
+			links = new Set([...links].filter(link => firstMatchingPattern(link, this.config.pageInclusionRules, false)));
 		}
 
 		if (this.map.has(linkPath)) {
@@ -68,6 +78,17 @@ export class SiteMapBuilder {
 			this.map.set(linkPath, {
 				...entry,
 				links: new Set([...links, ...entry.links]),
+			});
+		} else {
+			this.map.set(linkPath, {
+				external: false,
+				filePath,
+				linkPath,
+				title: path.basename(linkPath),
+				tags: new Set(),
+				links,
+				backlinks: new Set(),
+				nodeStyle: {},
 			});
 		}
 
@@ -98,22 +119,14 @@ export class SiteMapBuilder {
 		const content = await fs.promises.readFile(filePath, 'utf8');
 		const frontmatter = matter(content) as unknown as { data: PageFrontmatter };
 		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
-			let link = match.match(/\((.*?)\)/)![1]!;
-				if (!link.startsWith('http')) {
-					if (link.startsWith('.')) {
-						link = path.join(linkPath, link);
-					}
-					link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
-					if (link !== linkPath) {
-						links.add(link);
-					}
-				} else if (this.config.includeExternalLinks) {
-					links.add(ensureTrailingSlash(link));
-			}
+			this.resolveLink(linkPath, match.match(/\((.*?)\)/)![1]!, links);
 		}
 
 		if (frontmatter.data) {
-			if (frontmatter.data.sitemap?.include === false) return;
+			if (frontmatter.data.sitemap?.include === false) {
+				this.excludedPaths.add(linkPath);
+				return this;
+			}
 
 			title = frontmatter.data.title ?? title;
 		}
@@ -226,6 +239,20 @@ export class SiteMapBuilder {
 				nodeStyle: entry.nodeStyle,
 			}]),
 		);
+	}
+
+	private resolveLink(current: string, link: string, links: Set<string>) {
+		if (!link.startsWith('http')) {
+			if (link.startsWith('.')) {
+				link = path.join(current, link);
+			}
+			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
+			if (link !== current) {
+				links.add(link);
+			}
+		} else if (this.config.includeExternalLinks) {
+			links.add(ensureTrailingSlash(link));
+		}
 	}
 
 	/**

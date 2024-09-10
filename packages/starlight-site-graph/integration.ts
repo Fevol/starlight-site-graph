@@ -32,12 +32,9 @@ export default defineIntegration({
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
 						if (params.command === 'dev' || params.command === 'build') {
 							builder.setBasePath(params.config.base);
-							options.sitemapConfig.sitemap = params.command !== 'dev' ? {}
-								: (await builder
-									.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules))
-									.process()
-									.toSitemap();
-							params.logger.info('Finished generating sitemap from site content');
+							await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
+							options.sitemapConfig.sitemap = params.command === 'dev' ? builder.process().toSitemap() : {};
+							params.logger.info('Finished retrieving links from Markdown content');
 						}
 					} else {
 						params.logger.info('Using applied sitemap');
@@ -62,13 +59,15 @@ export default defineIntegration({
 					`)
 				},
 				'astro:build:done': async params => {
-					params.logger.info('Retrieving links from generated HTML content');
 					const outputPath = params.dir.pathname.slice(1);
 					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
+						params.logger.info('Retrieving links from generated HTML content');
 						options.sitemapConfig.sitemap = (await builder
-							.addHTMLContentFolder(outputPath))
+							.setBasePath(outputPath)
+							.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
 							.process()
 							.toSitemap();
+						params.logger.info('Finished generating sitemap from generated HTML content');
 					}
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
