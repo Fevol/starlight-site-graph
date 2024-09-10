@@ -190,7 +190,7 @@ export class GraphSimulator {
 		d3.select(this.container).on('click', (e: MouseEvent) => {
 			const [x, y] = this.transform.invert([e.offsetX, e.offsetY]);
 			const closestNode = this.findOverlappingNode(x, y);
-			if (this.isClickable(closestNode)) {
+			if (closestNode && this.isClickable(closestNode)) {
 				const clickTime = Date.now();
 				if (
 					!this.requireDblClick ||
@@ -244,8 +244,8 @@ export class GraphSimulator {
 		}
 	}
 
-	isClickable(node?: NodeData): boolean {
-		return node && node.exists && !(node.type === 'tag' || node.id === this.currentNode!.id);
+	isClickable(node: NodeData): boolean {
+		return node.exists && !(node.type === 'tag' || node.id === this.currentNode?.id);
 	}
 
 	resetZoom(immediate: boolean = false) {
