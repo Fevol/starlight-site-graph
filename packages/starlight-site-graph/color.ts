@@ -8,6 +8,7 @@ export type GraphColorConfig = {
 	nodeColorCurrent: string;
 	nodeColorVisited: string;
 	nodeColorUnresolved: string;
+	nodeColorExternal: string;
 	nodeColorTag: string;
 
 	nodeColor1: string;
@@ -42,6 +43,7 @@ export function getGraphColors(node: HTMLElement): GraphColorConfig {
 		nodeColorCurrent: style.getPropertyValue('--slsg-node-color-current'),
 		nodeColorVisited: style.getPropertyValue('--slsg-node-color-visited'),
 		nodeColorUnresolved: style.getPropertyValue('--slsg-node-color-unresolved'),
+		nodeColorExternal: style.getPropertyValue('--slsg-node-color-external'),
 		nodeColorTag: style.getPropertyValue('--slsg-node-color-tag'),
 		nodeColor1: style.getPropertyValue('--slsg-node-color-1'),
 		nodeColor2: style.getPropertyValue('--slsg-node-color-2'),

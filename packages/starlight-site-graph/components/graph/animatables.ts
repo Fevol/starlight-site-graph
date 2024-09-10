@@ -24,6 +24,7 @@ export const animated_colors = [
 	'nodeColorVisited',
 	'nodeColorCurrent',
 	'nodeColorUnresolved',
+	'nodeColorExternal',
 	'nodeColorTag',
 	'nodeColor1',
 	'nodeColor2',

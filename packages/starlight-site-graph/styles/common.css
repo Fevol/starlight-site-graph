@@ -13,8 +13,9 @@
 	--slsg-node-color-muted: var(--sl-color-gray-5);
 
 	--slsg-node-color-current: var(--sl-color-green-high);
-	--slsg-node-color-visited: var(--sl-color-purple-high);
+	--slsg-node-color-visited: var(--sl-color-orange-high);
 	--slsg-node-color-unresolved: var(--sl-color-red-high);
+	--slsg-node-color-external: var(--sl-color-purple-high);
 
 	--slsg-node-color-tag: #c3a6ff;
 	--slsg-node-color-1: #ff7d82;
@@ -42,8 +43,9 @@
 	--slsg-node-color-muted: var(--sl-color-gray-5);
 
 	--slsg-node-color-current: var(--sl-color-green);
-	--slsg-node-color-visited: var(--sl-color-purple);
+	--slsg-node-color-visited: var(--sl-color-orange);
 	--slsg-node-color-unresolved: var(--sl-color-red);
+	--slsg-node-color-external: var(--sl-color-purple);
 
 	--slsg-node-color-tag: #a17bf8;
 	--slsg-node-color-1: #ff595e;

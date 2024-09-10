@@ -1,6 +1,7 @@
 import type { NodeStyle } from './config';
 
 export interface SitemapEntry {
+	external: boolean;
 	exists: boolean;
 	title: string;
 	links: string[];

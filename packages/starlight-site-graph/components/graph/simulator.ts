@@ -196,10 +196,14 @@ export class GraphSimulator {
 					!this.requireDblClick ||
 					(clickTime - this.lastClick < 500 && closestNode === this.lastClickedNode)
 				) {
-					if (this.context.config.trackVisitedPages) {
-						addToVisitedEndpoints(closestNode.id);
+					if (closestNode.external) {
+						window.open(closestNode.id, '_blank');
+					} else {
+						if (this.context.config.trackVisitedPages) {
+							addToVisitedEndpoints(closestNode.id);
+						}
+						window.open(ensureLeadingSlash(closestNode.id), '_self');
 					}
-					window.open(ensureLeadingSlash(closestNode.id), '_self');
 				}
 				this.lastClick = clickTime;
 				this.lastClickedNode = closestNode;

@@ -5,6 +5,7 @@ import type { NodeStyle } from '../config';
 type NodeData = {
 	id: string;
 	exists: boolean;
+	external: boolean;
 	text?: string;
 	tags?: string[];
 	type?: 'node' | 'tag';
@@ -17,8 +18,7 @@ type NodeData = {
 	node?: PIXI.Graphics;
 	stroke?: PIXI.Graphics;
 	label?: PIXI.Text;
-} & d3.SimulationNodeDatum &
-	Partial<NodeStyle>;
+} & d3.SimulationNodeDatum & Partial<NodeStyle>;
 
 type LinkData = {
 	source: NodeData;
@@ -38,6 +38,8 @@ interface AnimatedValues {
 	nodeColorVisitedHover: string;
 	nodeColorUnresolved: string;
 	nodeColorUnresolvedHover: string;
+	nodeColorExternal: string;
+	nodeColorExternalHover: string;
 	nodeColorTag: string;
 	nodeColorTagHover: string;
 

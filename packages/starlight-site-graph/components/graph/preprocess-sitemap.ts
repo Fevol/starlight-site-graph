@@ -103,6 +103,10 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 
 		// Chain of declarations determines style priority
 		let style: NodeStyle = { ...context.config.nodeDefaultStyle } as NodeStyle;
+		if (node.external) {
+			style = { ...style, ...(context.config.nodeExternalStyle as NodeStyle) };
+		}
+
 		if (visitedPages.has(id)) {
 			style = { ...style, ...(context.config.nodeVisitedStyle as NodeStyle) };
 		}
@@ -128,6 +132,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		nodes.push({
 			id: id,
 			exists: node.exists,
+			external: node.external,
 			text: node.title,
 			tags: node.tags ?? [],
 			neighborCount,
@@ -162,6 +167,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		nodes.push({
 			id: tag,
 			exists: true,
+			external: false,
 			text: tag,
 			tags: [tag],
 			type: 'tag',

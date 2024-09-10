@@ -163,6 +163,7 @@ class SiteMapBuilder {
 		}
 
 		this.map.set(linkPath, {
+			external: false,
 			filePath,
 			linkPath,
 			title,
@@ -181,6 +182,7 @@ class SiteMapBuilder {
 			for (const link of entry.links) {
 				if (!this.map.has(link)) {
 					this.map.set(link, {
+						external: link.startsWith('http'),
 						filePath: undefined,
 						linkPath: link,
 						title: path.basename(link),
@@ -208,6 +210,7 @@ class SiteMapBuilder {
 	toSitemap(): Sitemap {
 		return Object.fromEntries(
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
+				external: entry.external,
 				exists: entry.filePath !== undefined || entry.external,
 				title: entry.title,
 				tags: [...entry.tags].map(ensureLeadingPound),

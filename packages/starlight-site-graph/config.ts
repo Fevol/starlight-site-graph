@@ -18,6 +18,7 @@ const nodeColorTypes = z.union([
 	z.literal('nodeColorVisited'),
 	z.literal('nodeColorCurrent'),
 	z.literal('nodeColorUnresolved'),
+	z.literal('nodeColorExternal'),
 	z.literal('nodeColorTag'),
 
 	z.literal('nodeColor1'),
@@ -484,6 +485,23 @@ export const graphConfigSchema = z.object({
 			...val,
 		})),
 	/**
+	 * The style of node representing an external page in the graph. \
+	 * This style overwrites styles defined in `nodeDefaultStyle`, matching `tagStyles`, and `nodeCurrentStyle`.
+	 * External nodes only exist in the sitemap if `includeExternalLinks` of `sitemapConfig` is set to `true`.
+	 *
+	 * @default { shape: "square", shapeColor: "nodeColorExternal", strokeColor: "inherit", nodeScale: 0.8 }
+	 */
+	nodeExternalStyle: nodeStyle
+		.partial()
+		.optional()
+		.transform(val => ({
+			shape: 'square',
+			shapeColor: 'nodeColorExternal',
+			strokeColor: 'inherit',
+			nodeScale: 0.6,
+			...val,
+		})),
+	/**
 	 * Default style of tag nodes in the graph
 	 *
 	 * @default { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 }
@@ -783,6 +801,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *	   nodeVisitedStyle: { shapeColor: "nodeColorVisited" },
 		 *	   nodeCurrentStyle: { shapeColor: "nodeColorCurrent" },
 		 *	   nodeUnresolvedStyle: { color: "nodeColorUnresolved" },
+		 *	   nodeExternalStyle: { shape: "square", shapeColor: "nodeColorExternal", strokeColor: "inherit", nodeScale: 0.8 },
 		 *	   tagDefaultStyle: { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 },
 		 *
 		 *     linkWidth: 1,
@@ -803,6 +822,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 * @default ```{
 		 *    contentRoot: './src/content/docs',
+		 *    includeExternalLinks: false,
 		 *    pageInclusionRules: ["**\/*"],
 		 *    linkInclusionRules: ["**\/*"],
 		 * }```

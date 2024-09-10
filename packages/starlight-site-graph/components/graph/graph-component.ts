@@ -205,7 +205,6 @@ export class GraphComponent extends HTMLElement {
 			if (e.key === 'f') this.enableFullscreen();
 		};
 		renderActionContainer(this);
-
 		this.renderer.resize();
 		this.colors = getGraphColors(this.graphContainer);
 		this.animator.setValue('backgroundColor', this.colors.backgroundColor);
