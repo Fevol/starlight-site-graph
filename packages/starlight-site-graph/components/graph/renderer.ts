@@ -37,7 +37,7 @@ export class GraphRenderer {
 		await this.app.init({
 			antialias: true,
 			backgroundAlpha: 0,
-			resolution: 4,
+			resolution: Object.keys(this.context.sitemap).length > 5000 ? 2 : 4,
 			resizeTo: this.container,
 		} as PIXI.ApplicationOptions);
 		this.container.appendChild(this.app.canvas);
