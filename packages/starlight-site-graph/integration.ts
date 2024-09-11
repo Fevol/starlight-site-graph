@@ -6,7 +6,6 @@ import { starlightSiteGraphConfigSchema } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 
-
 /**
  * Generates a static sitemap for all md files in the docs directory inside public/sitemap.json,
  * consumed by graph generating code
@@ -39,6 +38,28 @@ export default defineIntegration({
 					} else {
 						params.logger.info('Using applied sitemap');
 						options.sitemapConfig.sitemap = processSitemap(options.sitemapConfig.sitemap, options);
+					}
+
+					if (params.command === 'dev' && options.debug) {
+						let pixiStatsPlugin = null;
+
+						// Try to load 'pixi-stats' only if it's available
+						try {
+							pixiStatsPlugin = require('pixi-stats').default();  // adapt if necessary
+						} catch (err) {
+							params.logger.warn('Failed to load `pixi-stats`, to enable the FPS counter for the graph view, make sure `pixi-stats` is installed as aa peer dependency.');
+						}
+
+						params.updateConfig({
+							vite: {
+								plugins: [
+									...(pixiStatsPlugin ? [pixiStatsPlugin] : []),
+								],
+								ssr: {
+									noExternal: ['pixi-stats'],
+								},
+							},
+						});
 					}
 
 					addVirtualImports(params, {

@@ -54,7 +54,7 @@ export class GraphRenderer {
 			this.tick(ticker);
 		});
 
-		if (this.context.debug) {
+		if (import.meta.env.DEV && this.context.debug) {
 			setTimeout(async () => {
 				try {
 					const pixistats = await import('pixi-stats');
@@ -63,7 +63,7 @@ export class GraphRenderer {
 					stats.stats.domElement.id = 'graphStats';
 				} catch (e) {
 					console.error(
-						'[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install all devDependencies.',
+						'[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install the dependency. Disable this message by setting `debug` to false in the graph component.',
 					);
 				}
 			}, 500);
