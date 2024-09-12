@@ -208,7 +208,7 @@ function computeSizes(style: NodeStyle, neighborCount: number): { computedSize: 
 
 function processStyle(style: Partial<NodeStyle>): NodeStyle {
 	if (style.strokeColor) {
-		style.strokeWidth = Math.max(DEFAULT_STROKE_WIDTH, style.strokeWidth!);
+		style.strokeWidth ??= DEFAULT_STROKE_WIDTH;
 	} else if (style.strokeWidth) {
 		style.strokeColor = 'inherit';
 	}
@@ -251,8 +251,8 @@ function processStyle(style: Partial<NodeStyle>): NodeStyle {
 	}
 
 	if (style.cornerType === 'round' || style.cornerType === 'bevel') {
-		style.shapeCornerRadius = Math.min(style.shapeSize!, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS);
-		style.strokeCornerRadius = Math.min(style.strokeWidth!, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS);
+		style.shapeCornerRadius = Math.min(Math.max(0, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS), style.shapeSize!);
+		style.strokeCornerRadius = Math.min(Math.max(0, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS), style.strokeWidth!);
 	} else {
 		style.shapeCornerRadius = 0;
 		style.strokeCornerRadius = 0;
