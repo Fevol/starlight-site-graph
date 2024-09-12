@@ -44,6 +44,8 @@ export class GraphComponent extends HTMLElement {
 	isFullscreen: boolean = false;
 	fullscreenExitHandler?: (options?: boolean | EventListenerOptions | undefined) => void;
 
+	enableClick: boolean = true;
+
 	currentPage!: string;
 
 	themeObserver: MutationObserver;
@@ -154,6 +156,7 @@ export class GraphComponent extends HTMLElement {
 		const { nodes, links } = processSitemapData(this, this.sitemap);
 
 		const currentNode = nodes.find(node => node.id === this.currentPage);
+		this.enableClick = this.config.enableClick !== 'disable';
 
 		this.simulator.initialize(nodes, links, currentNode, this.config.scale);
 		this.renderer.initialize();
@@ -163,7 +166,7 @@ export class GraphComponent extends HTMLElement {
 
 		if (this.config.enableHover) this.simulator.enableHover();
 
-		if (this.config.enableClick !== 'disable') this.simulator.enableClick();
+		if (this.enableClick) this.simulator.enableClick();
 
 		if (this.config.enableZoom || this.config.enablePan) this.simulator.enableZoom();
 	}

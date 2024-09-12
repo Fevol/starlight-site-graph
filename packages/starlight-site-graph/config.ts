@@ -293,7 +293,7 @@ export const graphConfigSchema = z.object({
 	 * @default "auto"
 	 */
 	enableClick: z
-		.union([z.boolean(), z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')])
+		.union([z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')])
 		.default('auto'),
 
 	/**

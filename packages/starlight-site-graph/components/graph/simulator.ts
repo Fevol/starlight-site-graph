@@ -165,7 +165,7 @@ export class GraphSimulator {
 				}
 				this.context.setStyleHovered();
 				this.requestRender = true;
-				this.container.style.cursor = this.isClickable(closestNode) ? 'pointer' : 'default';
+				this.container.style.cursor = this.context.enableClick && this.isClickable(closestNode) ? 'pointer' : 'default';
 			} else if (this.currentlyHovered) {
 				this.unhoverNode();
 			}
