@@ -10,6 +10,9 @@ export default defineConfig({
 		starlight({
 			title: 'Starlight Site Graph',
 			credits: true,
+			customCss: [
+				'./src/styles/global.css'
+			],
 			sidebar: [
 				{
 					label: 'Start Here',
@@ -28,16 +31,25 @@ export default defineConfig({
 			},
 			plugins: [
 				starlightSiteGraph({
-					debug: true,
+					debug: false,
 					trackVisitedPages: false,
 					graphConfig: {
 						depth: 1,
 						renderArrows: true,
-						tagRenderMode: 'same',
+						tagRenderMode: 'same'
 					},
+					sitemapConfig: {
+						// pageInclusionRules: [ "**/configuration/**" ],
+						includeExternalLinks: true,
+					}
 				}),
 			],
 		}),
 	],
 	devToolbar: { enabled: false },
+	vite: {
+		optimizeDeps: {
+			exclude: ["node_modules/pixi-stats"]
+		}
+	}
 });

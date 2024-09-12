@@ -1,0 +1,266 @@
+---
+title: Node Style
+---
+
+import config from 'virtual:starlight-site-graph/config';
+
+import GraphExample from "../../../../components/GraphExample.astro";
+
+export const baseConfig = config.graphConfig;
+export const frozenConfig = {
+	...baseConfig,
+	scale: 3,
+	depth: 8,
+	enablePan: false,
+	enableZoom: false,
+	enableDrag: false,
+	enableClick: "disable",
+	actions: []
+}
+export const focusSingleNode = {
+	...frozenConfig,
+	nodeCurrentStyle: {},
+	renderLabels: false,
+}
+
+export function generateSitemap(nodes) {
+	const sitemap = {};
+	nodes.forEach(({ name, config }) => {
+		sitemap[name + "/"] = {
+			external: false,
+			exists: true,
+			title: name.charAt(0).toUpperCase() + name.slice(1),
+			tags: [],
+			links: [],
+			backlinks: [],
+			nodeStyle: config ?? {}
+		}
+	});
+	return sitemap;
+}
+
+export const singleNodeSitemap = generateSitemap([{ name: 'node' }]);
+
+export const twoNodeSitemap = generateSitemap([{ name: 'node1' }, { name: 'node2', config: config.graphConfig.nodeDefaultStyle }]);
+
+export const fourtyNodeSitemap = generateSitemap([{ name: 'node1' }, ...Array.from({ length: 39 }, (_, i) => ({ name: `node${i + 2}`, config: config.graphConfig.nodeDefaultStyle }))]);
+
+## Basic Node
+
+This is the styling of a basic node, with no additional styles applied to it.
+Familiarize yourself with its shape, color, and size, before you move on to more advanced styles.
+
+<GraphExample config={{}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"} />
+
+
+## Shape Config
+You can change the shape of the node by setting the `shape` property.
+When using the `polygon` or `star` shape, you can also set the number of points using the `shapePoints` property;
+this property is ignored for other shapes.
+
+<GraphExample id="shapeSelect" config={{ nodeDefaultStyle: { shape: "square", shapePoints: 0 } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+	buttons={{
+		"Circle": { config: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } },
+		"Square": { config: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } },
+		"Triangle": { config: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } },
+		"Polygon": { config: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } },
+		"Star": { config: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } },
+	}}
+	sliders={{
+		"nodeDefaultStyle.shapePoints": {
+			"title": "shapePoints",
+			"min": 3,
+			"max": 10,
+			"step": 1,
+			"val": 5,
+		}
+	}}
+/>
+
+## Size Config
+You can change the size of the node by setting the `shapeSize` property.
+
+<GraphExample id="sizeSelect" config={{ nodeDefaultStyle: { shapeSize: 10 } }} baseConfig={{ ...focusSingleNode, scale: 1 }} sitemap={twoNodeSitemap} slug={"node/"}
+	sliders={{
+		"nodeDefaultStyle.shapeSize": {
+			"title": "shapeSize",
+			"min": 1,
+			"max": 50,
+			"step": 1,
+			"val": 10,
+		}
+	}}
+/>
+
+
+## Color Config
+You can change the color of the node by setting the `shapeColor` property.
+
+<GraphExample id="colorSelect" config={{ nodeDefaultStyle: { shapeColor: "nodeColor" } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+	dropdowns={{
+		"shapeColor": {
+			"nodeColor": { nodeDefaultStyle: { shapeColor: "nodeColor" } },
+			"nodeColorHover": { nodeDefaultStyle: { shapeColor: "nodeColorHover" } },
+			"nodeColorVisited": { nodeDefaultStyle: { shapeColor: "nodeColorVisited" } },
+			"nodeColorCurrent": { nodeDefaultStyle: { shapeColor: "nodeColorCurrent" } },
+			"nodeColorUnresolved": { nodeDefaultStyle: { shapeColor: "nodeColorUnresolved" } },
+			"nodeColorExternal": { nodeDefaultStyle: { shapeColor: "nodeColorExternal" } },
+			"nodeColorTag": { nodeDefaultStyle: { shapeColor: "nodeColorTag" } },
+			"nodeColor1": { nodeDefaultStyle: { shapeColor: "nodeColor1" } },
+			"nodeColor2": { nodeDefaultStyle: { shapeColor: "nodeColor2" } },
+			"nodeColor3": { nodeDefaultStyle: { shapeColor: "nodeColor3" } },
+			"nodeColor4": { nodeDefaultStyle: { shapeColor: "nodeColor4" } },
+			"nodeColor5": { nodeDefaultStyle: { shapeColor: "nodeColor5" } },
+			"nodeColor6": { nodeDefaultStyle: { shapeColor: "nodeColor6" } },
+			"nodeColor7": { nodeDefaultStyle: { shapeColor: "nodeColor7" } },
+			"nodeColor8": { nodeDefaultStyle: { shapeColor: "nodeColor8" } },
+			"nodeColor9": { nodeDefaultStyle: { shapeColor: "nodeColor9" } },
+			"linkColor": { nodeDefaultStyle: { shapeColor: "linkColor" } },
+			"linkColorHover": { nodeDefaultStyle: { shapeColor: "linkColorHover" } },
+			"backgroundColor": { nodeDefaultStyle: { shapeColor: "backgroundColor" } },
+		}
+	}}
+/>
+
+
+## Shape Rotation
+You can change the rotation of the node by setting the `shapeRotation` property.
+This property can either receive a number input (in degrees), or `random` to randomize the rotation of the node.
+
+<GraphExample id="rotationSelect" config={{ nodeDefaultStyle: { shapeRotation: 72, shape: "star", shapePoints: 5 } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"nodeDefaultStyle.shapeRotation": {
+			"title": "shapeRotation",
+			"min": 0,
+			"max": 360,
+			"step": 1,
+			"val": 72,
+		}
+	}}
+/>
+
+
+## Corner Radius
+You can change the corner radius of the node by setting the `cornerRadius` property,
+which works similarly to the CSS `border-radius` property.
+This property is only applicable to polygon or star derived shapes (e.g. `square`, `triangle`, `polygon`, `star`).
+Input can either be a number (in pixels), or a string with a percentage value (e.g. "5.3%").
+
+<GraphExample id="shapeCornerRadius"
+			  config={{
+				  nodeDefaultStyle: {
+					  shape: "square",
+					  shapeCornerRadius: "4%",
+					  cornerType: "round"
+				  }
+			  }}
+			  baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+			  buttons={{
+				  "Circle": { config: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } },
+				  "Square": { config: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } },
+				  "Triangle": { config: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } },
+				  "Polygon": { config: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } },
+				  "Star": { config: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } },
+				  "Regular Corners": { class: "break-line corner-type-button", config: { nodeDefaultStyle: { cornerType: 'normal' } } },
+				  "Rounded Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'round' } } },
+				  "Beveled Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'bevel' } } },
+			  }}
+			  sliders={{
+				  "nodeDefaultStyle.shapeCornerRadius": {
+					  "title": "shapeCornerRadius",
+					  "min": 0,
+					  "max": 100,
+					  "step": 0.1,
+					  "val": 4,
+					  "type": "percentage"
+				  }
+			  }}
+/>
+
+
+## Shape Stroke
+You can change the stroke of the node by setting the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
+
+<GraphExample id="shapeStroke"
+			  config={{
+				  nodeDefaultStyle: {
+					  shape: "square",
+					  shapeColor: "nodeColor2",
+					  strokeWidth: 2,
+					  strokeColor: "inherit",
+					  strokeCornerRadius: "4%",
+					  cornerType: "round"
+				  }
+			  }}
+			  baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+			  dropdowns={{
+				  "strokeColor": {
+					  "inherit": { nodeDefaultStyle: { strokeColor: "inherit" } },
+					  "nodeColor": { nodeDefaultStyle: { strokeColor: "nodeColor" } },
+					  "nodeColorHover": { nodeDefaultStyle: { strokeColor: "nodeColorHover" } },
+					  "nodeColorVisited": { nodeDefaultStyle: { strokeColor: "nodeColorVisited" } },
+					  "nodeColorCurrent": { nodeDefaultStyle: { strokeColor: "nodeColorCurrent" } },
+					  "nodeColorUnresolved": { nodeDefaultStyle: { strokeColor: "nodeColorUnresolved" } },
+					  "nodeColorExternal": { nodeDefaultStyle: { strokeColor: "nodeColorExternal" } },
+					  "nodeColorTag": { nodeDefaultStyle: { strokeColor: "nodeColorTag" } },
+					  "nodeColor1": { nodeDefaultStyle: { strokeColor: "nodeColor1" } },
+					  "nodeColor2": { nodeDefaultStyle: { strokeColor: "nodeColor2" } },
+					  "nodeColor3": { nodeDefaultStyle: { strokeColor: "nodeColor3" } },
+					  "nodeColor4": { nodeDefaultStyle: { strokeColor: "nodeColor4" } },
+					  "nodeColor5": { nodeDefaultStyle: { strokeColor: "nodeColor5" } },
+					  "nodeColor6": { nodeDefaultStyle: { strokeColor: "nodeColor6" } },
+					  "nodeColor7": { nodeDefaultStyle: { strokeColor: "nodeColor7" } },
+					  "nodeColor8": { nodeDefaultStyle: { strokeColor: "nodeColor8" } },
+					  "nodeColor9": { nodeDefaultStyle: { strokeColor: "nodeColor9" } },
+					  "linkColor": { nodeDefaultStyle: { strokeColor: "linkColor" } },
+					  "linkColorHover": { nodeDefaultStyle: { strokeColor: "linkColorHover" } },
+					  "backgroundColor": { nodeDefaultStyle: { strokeColor: "backgroundColor" } },
+				  }
+			  }}
+			  sliders={{
+				  "nodeDefaultStyle.strokeWidth": {
+					  "title": "strokeWidth",
+					  "min": 0,
+					  "max": 20,
+					  "step": 1,
+					  "val": 2
+				  },
+				  "nodeDefaultStyle.strokeCornerRadius": {
+					  "title": "strokeCornerRadius",
+					  "min": 0,
+					  "max": 100,
+					  "step": 0.1,
+					  "val": 4,
+					  "type": "percentage"
+				  }
+			  }}
+			  buttons={{
+				  "Regular Corners": { class: "break-line corner-type-button", config: { nodeDefaultStyle: { cornerType: 'normal' } } },
+				  "Rounded Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'round' } } },
+				  "Beveled Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'bevel' } } },
+			  }}
+/>
+
+
+## Collider Scaling
+
+You can change the collider scaling of the node by setting the `colliderScale` property.
+
+<GraphExample id="colliderScale"
+			  config={{
+				  repelForce: 0.1,
+				  nodeDefaultStyle: {
+					  colliderScale: 1
+				  }
+			  }}
+			  baseConfig={{ ...focusSingleNode, scale: 0.7 }} sitemap={fourtyNodeSitemap} slug={"node/"}
+			  sliders={{
+				  "nodeDefaultStyle.colliderScale": {
+					  "title": "colliderScale",
+					  "min": 0,
+					  "max": 15,
+					  "step": 1,
+					  "val": 1
+				  }
+			  }}
+/>

@@ -1,0 +1,116 @@
+.right-sidebar {
+    border-inline-start-color: var(--sl-color-bg);
+    background-color: var(--sl-color-right-sidebar);
+    width: calc(var(--sl-sidebar-width) +(100% - var(--sl-content-width) - var(--sl-sidebar-width)) / 2);
+}
+
+.starlight-aside {
+    --sl-color-asides-text-accent: var(--sl-color-red-high);
+    --sl-color-asides-border: var(--sl-color-red);
+    background-color: var(--sl-color-red-low);
+    border-radius: 8px;
+    border: unset;
+
+    svg {
+        width: var(--icon-size-med);
+        height: var(--icon-size-med);
+    }
+}
+
+.starlight-aside--todo {
+    --sl-color-asides-text-accent: var(--sl-color-red-high);
+    --sl-color-asides-border: var(--sl-color-red);
+    background-color: var(--sl-color-red-low);
+}
+
+.sl-separator {
+    display: flex;
+}
+
+.sl-separator:after {
+    content: "";
+    height: 2rem;
+    border-inline-end: 1px solid var(--sl-color-gray-5);
+}
+
+.obsidian-docs-link {
+    text-decoration: none;
+    color: var(--sl-color-accent);
+    font-weight: 600;
+    padding: 0 8px;
+}
+
+.content-container {
+    width: 100%;
+    margin: 0 auto;
+
+    #starlight__sidebar {
+        left: auto;
+    }
+}
+
+@media (min-width: 640px) {
+    .content-container {
+        max-width:640px;
+    }
+}
+
+@media (min-width: 768px) {
+    .content-container {
+        max-width:768px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .content-container {
+        max-width: 1024px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .content-container {
+        max-width:1280px;
+    }
+}
+
+@media (min-width: 1536px) {
+    .content-container {
+        max-width:1536px;
+    }
+}
+
+mobile-starlight-toc nav {
+    z-index: 10;
+    border: unset;
+}
+
+.flex-row {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    justify-items: baseline;
+    align-items: baseline;
+    padding: 0 4rem;
+
+    .break-line {
+        display: contents;
+    }
+
+    .break-line::before {
+        content: '';
+        width: 100%;
+    }
+}
+
+.flex-column {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    justify-items: baseline;
+    align-items: baseline;
+}
+
+.corner-type-button button {
+    background-color: var(--sl-color-gray-4);
+}
