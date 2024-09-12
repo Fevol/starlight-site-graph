@@ -53,7 +53,7 @@ export class GraphSimulator {
 		this.simulation = d3.forceSimulation<NodeData>(this.nodes);
 
 		this.requireDblClick = this.context.config.enableClick === 'dblclick';
-		this.zoomTransform = this.zoomTransform.scale(scale);
+		this.zoomTransform = d3.zoomIdentity.scale(scale);
 		this.scale = scale;
 
 		this.simulation.on('tick', () => {
@@ -218,16 +218,23 @@ export class GraphSimulator {
 					this.userZoomed = true;
 					if (!this.context.config.enablePan) {
 						// D3 zoom to origin (instead of to mouse position)
-						this.zoomTransform.k = transform.k;
 						const offset = Math.min(this.container.clientWidth, this.container.clientHeight) / 2 * (1 - this.zoomTransform.k);
-						this.zoomTransform.x = offset;
-						this.zoomTransform.y = offset;
+						this.zoomTransform = new d3.ZoomTransform(transform.k, offset, offset);
 					} else {
 						this.zoomTransform = transform;
 					}
 
 					this.updateTransform();
-				})),
+				})
+				.on('start', ({ sourceEvent }) => {
+					if (sourceEvent instanceof MouseEvent && sourceEvent.type === 'mousedown') {
+						document.body.style.cursor = 'grab';
+					}
+				})
+				.on('end', () => {
+					document.body.style.cursor = 'default';
+				})
+			)
 		);
 
 		if (!this.context.config.enablePan) {
@@ -291,15 +298,15 @@ export class GraphSimulator {
 		let y;
 
 		if (this.currentNode) {
-			x = this.container.clientWidth / (2 * this.zoomTransform.k) - this.zoomTransform.k * this.currentNode.x!;
-			y = this.container.clientHeight / (2 * this.zoomTransform.k) - this.zoomTransform.k * this.currentNode.y!;
+			x = this.container.clientWidth / (2 * this.scale) - this.scale * this.currentNode.x!;
+			y = this.container.clientHeight / (2 * this.scale) - this.scale * this.currentNode.y!;
 		} else {
-			x = this.container.clientWidth / (2 * this.zoomTransform.k);
-			y = this.container.clientHeight / (2 * this.zoomTransform.k);
+			x = this.container.clientWidth / (2 * this.scale);
+			y = this.container.clientHeight / (2 * this.scale);
 		}
 
 		if (this.centerTransform.x !== x || this.centerTransform.y !== y) {
-			this.centerTransform = new d3.ZoomTransform(this.zoomTransform.k, x, y);
+			this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
 			return true;
 		}
 
