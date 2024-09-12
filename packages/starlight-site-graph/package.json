@@ -8,9 +8,7 @@
 	"exports": {
 		".": "./index.ts",
 		"./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
-		"./components/PageGraph.astro": "./components/graph/PageGraph.astro",
-		"./components/Graph.astro": "./components/graph/Graph.astro",
-		"./components/Backlinks.astro": "./components/Backlinks.astro",
+		"./components": "./components/index.ts",
 		"./styles/common.css": "./styles/common.css",
 		"./schema": "./schema.ts"
 	},

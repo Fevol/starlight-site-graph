@@ -42,19 +42,15 @@ export default defineIntegration({
 
 					if (params.command === 'dev' && options.debug) {
 						let pixiStatsPlugin = null;
-
-						// Try to load 'pixi-stats' only if it's available
 						try {
-							pixiStatsPlugin = require('pixi-stats').default();  // adapt if necessary
+							pixiStatsPlugin = require('pixi-stats').default();
 						} catch (err) {
 							params.logger.warn('Failed to load `pixi-stats`, to enable the FPS counter for the graph view, make sure `pixi-stats` is installed as aa peer dependency.');
 						}
 
 						params.updateConfig({
 							vite: {
-								plugins: [
-									...(pixiStatsPlugin ? [pixiStatsPlugin] : []),
-								],
+								plugins: pixiStatsPlugin ? [pixiStatsPlugin] : [],
 								ssr: {
 									noExternal: ['pixi-stats'],
 								},
