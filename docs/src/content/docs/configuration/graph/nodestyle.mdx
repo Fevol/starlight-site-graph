@@ -15,6 +15,7 @@ export const frozenConfig = {
 	enableZoom: false,
 	enableDrag: false,
 	enableClick: "disable",
+	prefetchPages: false,
 	actions: []
 }
 export const focusSingleNode = {
@@ -25,15 +26,13 @@ export const focusSingleNode = {
 
 export function generateSitemap(nodes) {
 	const sitemap = {};
-	nodes.forEach(({ name, config }) => {
+	nodes.forEach(({ name, config, links, backlinks }) => {
 		sitemap[name + "/"] = {
-			external: false,
 			exists: true,
 			title: name.charAt(0).toUpperCase() + name.slice(1),
-			tags: [],
-			links: [],
-			backlinks: [],
-			nodeStyle: config ?? {}
+			nodeStyle: config ?? undefined,
+			links,
+			backlinks
 		}
 	});
 	return sitemap;
@@ -41,9 +40,11 @@ export function generateSitemap(nodes) {
 
 export const singleNodeSitemap = generateSitemap([{ name: 'node' }]);
 
-export const twoNodeSitemap = generateSitemap([{ name: 'node1' }, { name: 'node2', config: config.graphConfig.nodeDefaultStyle }]);
+export const twoNodeSitemap = generateSitemap([{ name: 'node' }, { name: 'other-node', config: config.graphConfig.nodeDefaultStyle }]);
 
-export const fourtyNodeSitemap = generateSitemap([{ name: 'node1' }, ...Array.from({ length: 39 }, (_, i) => ({ name: `node${i + 2}`, config: config.graphConfig.nodeDefaultStyle }))]);
+export const fourtyNodeSitemap = generateSitemap([{ name: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle }))]);
+
+export const starNodeSitemap = generateSitemap([{ name: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle, links: ["node/"] }))]);
 
 ## Basic Node
 
@@ -260,6 +261,54 @@ You can change the collider scaling of the node by setting the `colliderScale` p
 					  "min": 0,
 					  "max": 15,
 					  "step": 1,
+					  "val": 1
+				  }
+			  }}
+/>
+
+
+## Node Scaling
+
+You can change the node scaling by setting the `scale` property.
+
+<GraphExample id="nodeScale"
+			  config={{
+				  scale: 1,
+				  nodeDefaultStyle: {
+					  shapeSize: 10,
+					  nodeScale: 1
+				  }
+			  }}
+			  baseConfig={focusSingleNode} sitemap={twoNodeSitemap} slug={"node/"}
+			  sliders={{
+				  "nodeDefaultStyle.nodeScale": {
+					  "title": "nodeScale",
+					  "min": 0.1,
+					  "max": 5,
+					  "step": 0.1,
+					  "val": 1
+				  }
+			  }}
+/>
+
+
+The node can also be scaled based on the amount of neighbors it has, this is configurable via
+the `neighborScale` property.
+
+<GraphExample id="neighborScale"
+			  config={{
+				  scale: 1,
+				  nodeDefaultStyle: {
+					  neighborScale: 1
+				  }
+			  }}
+			  baseConfig={focusSingleNode} sitemap={starNodeSitemap} slug={"node/"}
+			  sliders={{
+				  "nodeDefaultStyle.neighborScale": {
+					  "title": "neighborScale",
+					  "min": 0,
+					  "max": 50,
+					  "step": 0.1,
 					  "val": 1
 				  }
 			  }}
