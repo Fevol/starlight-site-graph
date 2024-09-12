@@ -191,16 +191,22 @@ const sitemapEntrySchema = z.object({
 	title: z.string(),
 	/**
 	 * The links going out from the page
+	 *
+	 * @optional
 	 */
-	links: z.array(z.string()),
+	links: z.array(z.string()).optional(),
 	/**
 	 * The backlinks going into the page
+	 *
+	 * @optional
 	 */
-	backlinks: z.array(z.string()),
+	backlinks: z.array(z.string()).optional(),
 	/**
 	 * The tags associated with the page
+	 *
+	 * @optional
 	 */
-	tags: z.array(z.string()),
+	tags: z.array(z.string()).optional(),
 	/**
 	 * The style of the node in the graph
 	 */

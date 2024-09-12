@@ -291,15 +291,15 @@ export class GraphSimulator {
 		let y;
 
 		if (this.currentNode) {
-			x = this.container.clientWidth / (2 * this.scale) - this.scale * this.currentNode.x!;
-			y = this.container.clientHeight / (2 * this.scale) - this.scale * this.currentNode.y!;
+			x = this.container.clientWidth / (2 * this.zoomTransform.k) - this.zoomTransform.k * this.currentNode.x!;
+			y = this.container.clientHeight / (2 * this.zoomTransform.k) - this.zoomTransform.k * this.currentNode.y!;
 		} else {
-			x = this.container.clientWidth / (2 * this.scale);
-			y = this.container.clientHeight / (2 * this.scale);
+			x = this.container.clientWidth / (2 * this.zoomTransform.k);
+			y = this.container.clientHeight / (2 * this.zoomTransform.k);
 		}
 
 		if (this.centerTransform.x !== x || this.centerTransform.y !== y) {
-			this.centerTransform = new d3.ZoomTransform(this.scale, x, y);
+			this.centerTransform = new d3.ZoomTransform(this.zoomTransform.k, x, y);
 			return true;
 		}
 

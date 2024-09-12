@@ -21,7 +21,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	if (!context.config.renderUnresolved) {
 		corrected_data = corrected_data.filter(([_, v]) => v.exists);
 	}
-	const data = new Map(corrected_data);
+	const data = new Map(corrected_data) as Sitemap;
 
 	let depth = context.config.depth;
 	if (depth >= 5) depth = -1;
@@ -70,7 +70,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 				}
 
 				if (context.config.tagRenderMode === 'node' || context.config.tagRenderMode === 'both') {
-					for (const tag of node.tags) {
+					for (const tag of node.tags ?? []) {
 						neighbourhood.add(tag);
 						tags.add(tag);
 						links.push({ source: current, target: tag });
@@ -88,7 +88,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 			}
 
 			if (context.config.tagRenderMode === 'node' || context.config.tagRenderMode === 'both') {
-				for (const tag of details.tags) {
+				for (const tag of details.tags ?? []) {
 					neighbourhood.add(tag);
 					tags.add(tag);
 					links.push({ source: source, target: tag });
@@ -119,7 +119,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		if (context.config.tagRenderMode === 'same' || context.config.tagRenderMode === 'both') {
 			style = {
 				...style,
-				...(node.tags.reduce((acc, tag) => ({ ...acc, ...context.config.tagStyles[tag] }), {}) as NodeStyle),
+				...((node.tags ?? []).reduce((acc, tag) => ({ ...acc, ...context.config.tagStyles[tag] }), {}) as NodeStyle),
 			};
 		}
 
@@ -131,7 +131,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 			style = { ...style, ...(context.config.nodeUnresolvedStyle as NodeStyle) };
 		}
 
-		style = processStyle({ ...style, ...(node.nodeStyle as NodeStyle) });
+		style = processStyle({ ...style, ...((node.nodeStyle ?? {}) as NodeStyle) });
 
 		const { computedSize, fullRadius, colliderSize } = computeSizes(style, neighborCount);
 		nodes.push({
