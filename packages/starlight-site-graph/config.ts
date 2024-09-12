@@ -32,6 +32,15 @@ const nodeColorTypes = z.union([
 	z.literal('linkColor'),
 ]);
 
+const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not be negative"), z.string()
+	.refine(val => val.match(/^\d+\.?\d?\d?%?$/), {
+		message: 'Invalid percentage format, expected a string in the format "XX%"',
+	})
+	.refine((s) => parseFloat(s) >= 0 && parseFloat(s) <= 100, {
+		message: 'Invalid percentage value, expected a number between 0 and 100',
+	})]
+)
+
 const nodeShapeTypes = z.union([
 	/**
 	 * Circular shape
@@ -101,14 +110,12 @@ export const nodeStyle = z.object({
 	/**
 	 * Radius of the shape (and, if not specified, stroke corners); does not affect circle shapes \
 	 * A number will be parsed as the radius of the corner in pts (clamped to `shapeWidth`). \
-	 * A string (e.g. `'50%'`) will be parsed as the radius of the corner relative to the shape size.
+	 * A string (e.g. `'17.648%'`) will be parsed as the radius of the corner relative to the shape size.
 	 *
 	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
-	shapeCornerRadius: z.union([z.number().min(0, "Shape corner radius may not be negative"), z.string().refine(val => /^\d{1,2}%$/.test(val), {
-		message: 'Invalid percentage value, expected a string in the format "XX%"',
-	})]).optional(),
+	shapeCornerRadius: percentageSchema.optional(),
 
 	/**
 	 * Type of corner for the shape and stroke
@@ -135,14 +142,12 @@ export const nodeStyle = z.object({
 	/**
 	 * Radius of the stroke corners; does not affect circle shapes \
 	 * A number will be parsed as the radius of the corner in pts (clamped to `shapeWidth`). \
-	 * A string (e.g. `'50%'`) will be parsed as the radius of the corner relative to the shape size.
+	 * A string (e.g. `'17.648%'`) will be parsed as the radius of the corner relative to the shape size.
 	 *
 	 * @remarks High values of `shapeCornerRadius` will result in link connections not being rendered correctly
 	 * @optional
 	 */
-	strokeCornerRadius: z.union([z.number().min(0), z.string().refine(val => /^\d{1,2}%$/.test(val), {
-		message: 'Invalid percentage value, expected a string in the format "XX%"',
-	})]).optional(),
+	strokeCornerRadius: percentageSchema.optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces
