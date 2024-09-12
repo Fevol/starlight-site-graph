@@ -250,7 +250,7 @@ function processStyle(style: Partial<NodeStyle>): NodeStyle {
 		style.strokeCornerRadius = (parseFloat(style.strokeCornerRadius.slice(0, -1)) / 100) * style.strokeWidth!;
 	}
 
-	if (style.cornerType) {
+	if (style.cornerType === 'round' || style.cornerType === 'bevel') {
 		style.shapeCornerRadius = Math.min(style.shapeSize!, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS);
 		style.strokeCornerRadius = Math.min(style.strokeWidth!, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS);
 	} else {

@@ -119,12 +119,13 @@ export const nodeStyle = z.object({
 
 	/**
 	 * Type of corner for the shape and stroke
+	 * - `normal`: Normal corners
 	 * - `round`: Rounded corners
 	 * - `bevel`: Beveled corners
 	 *
 	 * @optional
 	 */
-	cornerType: z.union([z.literal('round'), z.literal('bevel')]).optional(),
+	cornerType: z.union([z.literal('normal'), z.literal('round'), z.literal('bevel')]).optional(),
 
 	/**
 	 * Stroke width of the node in the graph
