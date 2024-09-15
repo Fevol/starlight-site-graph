@@ -2,49 +2,8 @@
 title: Node Style
 ---
 
-import config from 'virtual:starlight-site-graph/config';
-
 import GraphExample from "../../../../components/GraphExample.astro";
-
-export const baseConfig = config.graphConfig;
-export const frozenConfig = {
-	...baseConfig,
-	scale: 3,
-	depth: 8,
-	enablePan: false,
-	enableZoom: false,
-	enableDrag: false,
-	enableClick: "disable",
-	prefetchPages: false,
-	actions: []
-}
-export const focusSingleNode = {
-	...frozenConfig,
-	nodeCurrentStyle: {},
-	renderLabels: false,
-}
-
-export function generateSitemap(nodes) {
-	const sitemap = {};
-	nodes.forEach(({ name, config, links, backlinks }) => {
-		sitemap[name + "/"] = {
-			exists: true,
-			title: name.charAt(0).toUpperCase() + name.slice(1),
-			nodeStyle: config ?? undefined,
-			links,
-			backlinks
-		}
-	});
-	return sitemap;
-}
-
-export const singleNodeSitemap = generateSitemap([{ name: 'node' }]);
-
-export const twoNodeSitemap = generateSitemap([{ name: 'node' }, { name: 'other-node', config: config.graphConfig.nodeDefaultStyle }]);
-
-export const fourtyNodeSitemap = generateSitemap([{ name: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle }))]);
-
-export const starNodeSitemap = generateSitemap([{ name: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle, links: ["node/"] }))]);
+import { focusSingleNode, singleNodeSitemap, twoNodeSitemap, fourtyNodeSitemap, starNodeSitemap } from "../constants.js";
 
 ## Basic Node
 

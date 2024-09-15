@@ -54,7 +54,13 @@ export class GraphComponent extends HTMLElement {
 	constructor() {
 		super();
 		try {
-			this.config = JSON.parse(this.dataset['config'] || '{}');
+			this.config = new Proxy(JSON.parse(this.dataset['config'] || '{}'), {
+				set: (target, prop, value) => {
+					target[prop as keyof GraphConfig] = value;
+					this.dataset['config'] = JSON.stringify(this.config);
+					return true;
+				},
+			});
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
 			this.debug = this.dataset['debug'] !== undefined;
@@ -114,11 +120,16 @@ export class GraphComponent extends HTMLElement {
 		});
 		this.simulator.mount(this.renderer);
 
-		// Add listeners for chang on dataset-config and dataset-sitemap
 		this.propertyObserver = new MutationObserver(mutations => {
 			mutations.forEach(mutation => {
 				if (mutation.attributeName === 'data-config') {
-					this.config = JSON.parse(this.dataset['config'] || '{}');
+					this.config = new Proxy(JSON.parse(this.dataset['config'] || '{}'), {
+						set: (target, prop, value) => {
+							target[prop as keyof GraphConfig] = value;
+							this.dataset['config'] = JSON.stringify(this.config);
+							return true;
+						},
+					});
 					this.setup();
 				}
 				if (mutation.attributeName === 'data-sitemap') {

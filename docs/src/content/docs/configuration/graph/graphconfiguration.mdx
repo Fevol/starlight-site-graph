@@ -1,0 +1,16 @@
+---
+title: Graph Element Configuration
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+
+import { frozenConfig, randomNodeSitemap } from '../constants.js';
+
+## Actions
+
+`actions` is an array of strings which specify which action buttons are included in the graph.
+
+<GraphExample id="action-configuration" config={{
+	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"],
+	depth: 4,
+}} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} />

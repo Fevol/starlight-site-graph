@@ -162,6 +162,14 @@ const fullConfig = mergeDeep(baseConfig, config);
 	const buttonEls = document.querySelectorAll(`#${id} button`);
 	const sliderEls = document.querySelectorAll(`#${id} input`);
 	const dropdownEls = document.querySelectorAll(`#${id} select`);
+
+	const observer = new MutationObserver(() => {
+		const config = JSON.parse(graph.getAttribute('data-config'));
+		updateTabText(0, config);
+		updateTabText(2, config);
+	});
+	observer.observe(graph, { attributes: true });
+
 	buttonEls.forEach(button => {
 		button.addEventListener('click', () => {
 			const config = JSON.parse(graph.getAttribute('data-config'));
