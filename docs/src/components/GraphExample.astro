@@ -77,7 +77,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 	</div>
 
 	{Object.keys(buttons ?? {}).length !== 0 &&
-		<div class="flex-row">
+		<div class="flex-row unselectable">
 			{Object.entries(buttons!).map(([key, { class: className }]) => (
 				<div class={className}>
 					<button>{key}</button>
@@ -87,7 +87,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 	}
 
 	{Object.keys(sliders ?? {}).length !== 0 &&
-		<div class="flex-column">
+		<div class="flex-column unselectable">
 			{Object.entries(sliders!).map(([key, value]) => (
 				// Slight trick: slider is hidden if initial value is nullish (to only show shapePoints slider if shape is polygon/star)
 				<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
@@ -100,7 +100,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 	}
 
 	{Object.keys(dropdowns ?? {}).length !== 0 &&
-		<div class="flex-column">
+		<div class="flex-column unselectable">
 			{Object.entries(dropdowns!).map(([key, value]) => (
 				<div>
 					<span class="dropdown-title">{key}</span>
@@ -218,6 +218,14 @@ const fullConfig = mergeDeep(baseConfig, config);
 </script>
 
 <style>
+    .unselectable {
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -o-user-select: none;
+        user-select: none;
+    }
 
 	.graph-example.graph-example {
         margin-top: 0;
