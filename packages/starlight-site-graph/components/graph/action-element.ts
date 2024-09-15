@@ -75,6 +75,7 @@ export function renderActionContainer(context: GraphComponent) {
 			actionElement.innerHTML = context.config.renderArrows ? icons.arrow : icons.line;
 			actionElement.onclick = e => {
 				context.config.renderArrows = !context.config.renderArrows;
+				context.simulator.requestRender = true;
 				renderActionContainer(context);
 				e.stopPropagation();
 			};

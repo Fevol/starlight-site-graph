@@ -48,19 +48,14 @@ export class GraphComponent extends HTMLElement {
 
 	currentPage!: string;
 
+	ignoreConfigUpdate: boolean = false;
 	themeObserver: MutationObserver;
 	propertyObserver: MutationObserver;
 
 	constructor() {
 		super();
 		try {
-			this.config = new Proxy(JSON.parse(this.dataset['config'] || '{}'), {
-				set: (target, prop, value) => {
-					target[prop as keyof GraphConfig] = value;
-					this.dataset['config'] = JSON.stringify(this.config);
-					return true;
-				},
-			});
+			this.setConfigListener(this.dataset['config']);
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
 			this.debug = this.dataset['debug'] !== undefined;
@@ -122,20 +117,15 @@ export class GraphComponent extends HTMLElement {
 
 		this.propertyObserver = new MutationObserver(mutations => {
 			mutations.forEach(mutation => {
-				if (mutation.attributeName === 'data-config') {
-					this.config = new Proxy(JSON.parse(this.dataset['config'] || '{}'), {
-						set: (target, prop, value) => {
-							target[prop as keyof GraphConfig] = value;
-							this.dataset['config'] = JSON.stringify(this.config);
-							return true;
-						},
-					});
+				if (!this.ignoreConfigUpdate && mutation.attributeName === 'data-config') {
+					this.setConfigListener(this.dataset['config']);
 					this.setup();
 				}
 				if (mutation.attributeName === 'data-sitemap') {
 					this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 					this.setup();
 				}
+				this.ignoreConfigUpdate = false;
 			});
 		});
 		this.propertyObserver.observe(this, { attributes: true });
@@ -152,6 +142,17 @@ export class GraphComponent extends HTMLElement {
 		this.propertyObserver.disconnect();
 
 		super.remove();
+	}
+
+	setConfigListener(config?: string) {
+		this.config = new Proxy(JSON.parse(config || '{}'), {
+			set: (target, prop, value) => {
+				target[prop as keyof GraphConfig] = value;
+				this.dataset['config'] = JSON.stringify(this.config);
+				this.ignoreConfigUpdate = true;
+				return true;
+			},
+		});
 	}
 
 	cleanup() {
