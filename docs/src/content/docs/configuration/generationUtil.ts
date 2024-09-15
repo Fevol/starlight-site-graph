@@ -34,7 +34,9 @@ export function generateSitemap(nodes: NodeConfig[]) {
 export function randomlyLinkNodes(nodes: RandomConfig[], defaultConnectPct: number = 0.2) {
 	const sitemap: Record<string, Node> = {};
 	nodes.forEach(({ name, config, links, backlinks, connectPct }) => {
-		const randomLinks = nodes.filter(() => Math.random() < (connectPct ?? defaultConnectPct)).map(({ name }) => name + "/");
+		const randomLinks = nodes
+			.filter((link) => Math.random() < (connectPct ?? defaultConnectPct) && link.name !== name)
+			.map(({ name }) => name + "/");
 		sitemap[name + "/"] = {
 			exists: true,
 			title: name.charAt(0).toUpperCase() + name.slice(1),
