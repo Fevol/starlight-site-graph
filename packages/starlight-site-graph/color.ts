@@ -3,6 +3,7 @@ export type GraphColorConfig = {
 
 	nodeColor: string;
 	nodeColorHover: string;
+	nodeColorAdjacent: string;
 	nodeColorMuted: string;
 
 	nodeColorCurrent: string;
@@ -38,6 +39,7 @@ export function getGraphColors(node: HTMLElement): GraphColorConfig {
 
 		nodeColor: style.getPropertyValue('--slsg-node-color'),
 		nodeColorHover: style.getPropertyValue('--slsg-node-color-hover'),
+		nodeColorAdjacent: style.getPropertyValue('--slsg-node-color-adjacent'),
 		nodeColorMuted: style.getPropertyValue('--slsg-node-color-muted'),
 
 		nodeColorCurrent: style.getPropertyValue('--slsg-node-color-current'),

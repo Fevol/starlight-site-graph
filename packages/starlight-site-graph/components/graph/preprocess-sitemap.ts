@@ -1,5 +1,5 @@
 import type { LinkData, NodeData } from './types';
-import type { Sitemap } from '../../types';
+import type { Sitemap } from '../../config';
 import type { GraphComponent } from './graph-component';
 import type { NodeStyle } from '../../config';
 
@@ -12,6 +12,7 @@ export type GraphData = {
 	links: LinkData[];
 };
 
+// TODO: Preprocess sitemap at build time and bundle together (client load performance vs. built page size)
 export function processSitemapData(context: GraphComponent, siteData: Sitemap): GraphData {
 	const visitedPages: Set<string> = getVisitedEndpoints();
 
@@ -21,7 +22,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	if (!context.config.renderUnresolved) {
 		corrected_data = corrected_data.filter(([_, v]) => v.exists);
 	}
-	const data = new Map(corrected_data) as Sitemap;
+	const data = new Map(corrected_data);
 
 	let depth = context.config.depth;
 	if (depth >= 5) depth = -1;
@@ -104,7 +105,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		const node = data.get(id);
 		if (!node) continue;
 
-		const neighborCount = (node.links?.length ?? 0) + (node.backlinks?.length ?? 0);
+		const adjacent = new Set([...(node.links ?? []), ...(node.backlinks ?? [])]);
 
 		// Chain of declarations determines style priority
 		let style: NodeStyle = { ...context.config.nodeDefaultStyle } as NodeStyle;
@@ -133,14 +134,14 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 
 		style = processStyle({ ...style, ...((node.nodeStyle ?? {}) as NodeStyle) });
 
-		const { computedSize, fullRadius, colliderSize } = computeSizes(style, neighborCount);
+		const { computedSize, fullRadius, colliderSize } = computeSizes(style, adjacent.size);
 		nodes.push({
 			id: id,
 			exists: node.exists,
 			external: node.external,
 			text: node.title,
 			tags: node.tags ?? [],
-			neighborCount,
+			adjacent,
 
 			shape: style.shape,
 			shapeSize: style.shapeSize,
@@ -167,8 +168,8 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 			...(context.config.tagStyles[tag] ?? {}),
 		} as NodeStyle);
 
-		const neighborCount = links.reduce((acc, l) => acc + (l.target === tag ? 1 : 0), 0);
-		const { computedSize, fullRadius, colliderSize } = computeSizes(tagStyle, neighborCount);
+		const adjacent = new Set([...links.filter(l => l.source === tag).map(l => l.target as string)]);
+		const { computedSize, fullRadius, colliderSize } = computeSizes(tagStyle, adjacent.size);
 		nodes.push({
 			id: tag,
 			exists: true,
@@ -176,7 +177,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 			text: tag,
 			tags: [tag],
 			type: 'tag',
-			neighborCount,
+			adjacent,
 
 			...tagStyle,
 

@@ -9,8 +9,8 @@ type NodeData = {
 	text?: string;
 	tags?: string[];
 	type?: 'node' | 'tag';
+	adjacent: Set<string>;
 
-	neighborCount?: number;
 	computedSize?: number;
 	colliderSize?: number;
 	fullRadius?: number;
@@ -32,6 +32,7 @@ interface AnimatedValues {
 
 	nodeColor: string;
 	nodeColorHover: string;
+	nodeColorAdjacent: string;
 	nodeColorCurrent: string;
 	nodeColorCurrentHover: string;
 	nodeColorVisited: string;
@@ -68,6 +69,7 @@ interface AnimatedValues {
 
 	labelOpacity: number;
 	labelOpacityHover: number;
+	labelOpacityAdjacent: number;
 	labelOffset: number;
 
 	labelColor: string;

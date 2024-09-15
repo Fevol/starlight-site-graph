@@ -21,8 +21,9 @@ interface Props {
 		type?: "percentage";
 	}>;
 	dropdowns?: Record<string, Record<string, object>>;
+	configListener?: boolean;
 }
-const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns } = Astro.props;
+const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, configListener } = Astro.props;
 
 
 export function isObject(item: unknown) {
@@ -115,7 +116,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 	}
 </div>
 
-<script define:vars={{ id, buttons, sliders, dropdowns }}>
+<script define:vars={{ id, buttons, sliders, dropdowns, configListener }}>
 	const isObject = i => i && typeof i == 'object' && !Array.isArray(i);
 	const mergeDeep = (t, s) => (isObject(t) && isObject(s)) ? Object.keys(s).reduce((o, k) => (o[k] = isObject(s[k]) ? mergeDeep(t[k]||{}, s[k]) : s[k], o), {...t}) : t;
 	const getPrimitives = (o, p = '') => Object.entries(o).flatMap(([k,v]) => typeof v === 'object' ? getPrimitives(v, p + k + '.') : [[p + k, v]]);
@@ -158,63 +159,67 @@ const fullConfig = mergeDeep(baseConfig, config);
 		}
 	};
 
-	const graph = document.querySelector(`#${id} graph-component`);
-	const buttonEls = document.querySelectorAll(`#${id} button`);
-	const sliderEls = document.querySelectorAll(`#${id} input`);
-	const dropdownEls = document.querySelectorAll(`#${id} select`);
+	if (id) {
+		const graph = document.querySelector(`#${id} graph-component`);
+		const buttonEls = document.querySelectorAll(`#${id} button`);
+		const sliderEls = document.querySelectorAll(`#${id} input`);
+		const dropdownEls = document.querySelectorAll(`#${id} select`);
 
-	const observer = new MutationObserver(() => {
-		const config = JSON.parse(graph.getAttribute('data-config'));
-		updateTabText(0, config);
-		updateTabText(2, config);
-	});
-	observer.observe(graph, { attributes: true });
+		if (configListener) {
+			const observer = new MutationObserver(() => {
+				const config = JSON.parse(graph.getAttribute('data-config'));
+				updateTabText(0, config);
+				updateTabText(2, config);
+			});
+			observer.observe(graph, { attributes: true });
+		}
 
-	buttonEls.forEach(button => {
-		button.addEventListener('click', () => {
-			const config = JSON.parse(graph.getAttribute('data-config'));
-			const newConfig = buttons[button.textContent].config;
+		buttonEls.forEach(button => {
+			button.addEventListener('click', () => {
+				const config = JSON.parse(graph.getAttribute('data-config'));
+				const newConfig = buttons[button.textContent].config;
 
-			graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-			updateTabText(0, newConfig);
-			updateTabText(2, newConfig);
-			sliderEls.forEach(slider => {
-				const key = slider.getAttribute('data-key');
-				const value = getNestedKey(newConfig, key);
-				if (value === 'undefined') {
-					slider.parentElement.style.display = 'none';
-				} else if (value !== undefined) {
-					slider.value = value;
-					slider.nextElementSibling.textContent = value;
-					slider.parentElement.style.display = 'unset';
-				}
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
+				updateTabText(0, newConfig);
+				updateTabText(2, newConfig);
+				sliderEls.forEach(slider => {
+					const key = slider.getAttribute('data-key');
+					const value = getNestedKey(newConfig, key);
+					if (value === 'undefined') {
+						slider.parentElement.style.display = 'none';
+					} else if (value !== undefined) {
+						slider.value = value;
+						slider.nextElementSibling.textContent = value;
+						slider.parentElement.style.display = 'unset';
+					}
+				});
 			});
 		});
-	});
 
-	sliderEls.forEach(slider => {
-		slider.addEventListener('input', () => {
-			const config = JSON.parse(graph.getAttribute('data-config'));
-			const configKey = slider.getAttribute('data-key');
-			const newConfig = configKey.split('.').reverse().reduce((acc, key) => ({ [key]: acc }),
-				sliders[configKey].type === "percentage" ? slider.value + "%" : Number(slider.value)
-			);
-			graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-			updateTabText(0, newConfig);
-			updateTabText(2, newConfig);
-			slider.nextElementSibling.textContent = sliders[configKey].type === "percentage" ? slider.value + "%" : slider.value;
+		sliderEls.forEach(slider => {
+			slider.addEventListener('input', () => {
+				const config = JSON.parse(graph.getAttribute('data-config'));
+				const configKey = slider.getAttribute('data-key');
+				const newConfig = configKey.split('.').reverse().reduce((acc, key) => ({ [key]: acc }),
+					sliders[configKey].type === "percentage" ? slider.value + "%" : Number(slider.value)
+				);
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
+				updateTabText(0, newConfig);
+				updateTabText(2, newConfig);
+				slider.nextElementSibling.textContent = sliders[configKey].type === "percentage" ? slider.value + "%" : slider.value;
+			});
 		});
-	});
 
-	dropdownEls.forEach(dropdown => {
-		dropdown.addEventListener('change', () => {
-			const config = JSON.parse(graph.getAttribute('data-config'));
-			const newConfig = JSON.parse(dropdown.value);
-			graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-			updateTabText(0, newConfig);
-			updateTabText(2, newConfig);
+		dropdownEls.forEach(dropdown => {
+			dropdown.addEventListener('change', () => {
+				const config = JSON.parse(graph.getAttribute('data-config'));
+				const newConfig = JSON.parse(dropdown.value);
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
+				updateTabText(0, newConfig);
+				updateTabText(2, newConfig);
+			});
 		});
-	});
+	}
 </script>
 
 <style>

@@ -163,7 +163,7 @@ export class GraphRenderer {
 		}
 	}
 
-	drawNodeShape(node: NodeData, hovered?: boolean) {
+	drawNodeShape(node: NodeData, hovered?: boolean, adjacent?: boolean) {
 		node.node!.clear();
 		this.drawNode(
 			node.node!,
@@ -173,7 +173,7 @@ export class GraphRenderer {
 			node.shapePoints!,
 		).fill(0xffffff)._zIndex =
 			hovered === undefined ? NODE_DEFAULT_Z_INDEX : hovered ? NODE_HOVER_Z_INDEX : NODE_MUTED_Z_INDEX;
-		node.node!.tint = this.context.animator.getValue((node.shapeColor + (hovered ? 'Hover' : '')) as any) as string;
+		node.node!.tint = this.context.animator.getValue((node.shapeColor + (hovered ? 'Hover' : (adjacent ? 'Adjacent' : ''))) as any) as string;
 
 		if (node.shapeCornerRadius) {
 			node.node!.stroke({
@@ -184,14 +184,14 @@ export class GraphRenderer {
 		}
 	}
 
-	drawNodeStroke(node: NodeData, hovered?: boolean) {
+	drawNodeStroke(node: NodeData, hovered?: boolean, adjacent?: boolean) {
 		let strokeFill, strokeTint;
 		if (node.strokeColor === 'inherit') {
 			strokeFill = node.node!.tint;
 			strokeTint = node.node!.tint;
 		} else {
 			strokeFill = 0xffffff;
-			strokeTint = this.context.animator.getValue((node.strokeColor + (hovered ? 'Hover' : '')) as any) as string;
+			strokeTint = this.context.animator.getValue((node.strokeColor + (hovered ? 'Hover' : (adjacent ? 'Adjacent' : ''))) as any) as string;
 		}
 
 		node.stroke!.clear();
@@ -256,14 +256,18 @@ export class GraphRenderer {
 	drawNodes(nodes: NodeData[]) {
 		for (const node of nodes) {
 			const hovered = this.simulator.currentlyHovered !== '' && node.id === this.simulator.currentlyHovered;
+			let adjacent = false;
+			if (this.simulator.currentlyHovered !== '') {
+				adjacent = node.adjacent.has(this.simulator.currentlyHovered);
+			}
 			if (node.strokeWidth && node.strokeColor) {
 				this.drawNodeStroke(node, hovered);
 				node.stroke!.position.set(node.x!, node.y!);
 			}
-			this.drawNodeShape(node, hovered);
+			this.drawNodeShape(node, hovered, adjacent);
 
 			if (this.context.config.renderLabels) {
-				this.updateLabel(node, hovered);
+				this.updateLabel(node, hovered, adjacent);
 			}
 
 			node.node!.position.set(node.x!, node.y!);
@@ -413,7 +417,7 @@ export class GraphRenderer {
 		node.label.alpha = this.context.animator.getValue('labelOpacity');
 	}
 
-	updateLabel(node: NodeData, hovered?: boolean) {
+	updateLabel(node: NodeData, hovered?: boolean, adjacent?: boolean) {
 		let labelOffset, labelOpacity, labelColor, labelScale;
 		if (hovered) {
 			labelOffset = this.context.animator.getValue('labelOffset');
@@ -422,7 +426,7 @@ export class GraphRenderer {
 			labelScale = this.context.animator.getValue('labelScaleHover');
 		} else {
 			labelOffset = this.context.config.labelOffset;
-			labelOpacity = this.context.animator.getValue('labelOpacity');
+			labelOpacity = this.context.animator.getValue('labelOpacity' + (adjacent ? 'Adjacent' : ''));
 			labelColor = this.context.animator.getValue('labelColor');
 			labelScale = 1;
 		}

@@ -409,6 +409,11 @@ export const graphConfigSchema = z.object({
 	 */
 	labelHoverOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").default(1),
 	/**
+	 * The opacity of the label when adjacent to the hovered node. \
+	 * If explicitly set to undefined, the `labelMutedOpacity` will be used.
+	 */
+	labelAdjacentOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").optional().default(1),
+	/**
 	 * The font size of the labels
 	 *
 	 * @remarks Labels should be disabled using the `renderLabels` option

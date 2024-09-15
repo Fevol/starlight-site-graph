@@ -88,6 +88,18 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 							easing: easing_functions[graphConfig.hoverEase],
 						},
 					],
+					[
+						`${color}Adjacent`,
+						{
+							properties: {
+								default: colorConfig[color],
+								adjacent: colorConfig[(key + 'Adjacent') as keyof typeof colorConfig] ?? colorConfig[color],
+							},
+							interpolator: new ColorInterpolator(),
+							duration: graphConfig.hoverDuration,
+							easing: easing_functions[graphConfig.hoverEase],
+						},
+					]
 				];
 			}),
 		),
@@ -100,6 +112,12 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 		},
 		labelOpacityHover: {
 			properties: { default: 1, hover: graphConfig.labelHoverOpacity },
+			interpolator: new NumberInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
+		labelOpacityAdjacent: {
+			properties: { default: 1, adjacent: graphConfig.labelAdjacentOpacity ?? graphConfig.labelMutedOpacity },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.hoverDuration,
 			easing: easing_functions[graphConfig.hoverEase],

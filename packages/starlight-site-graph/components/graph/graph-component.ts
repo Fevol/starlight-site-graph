@@ -30,12 +30,14 @@ export class GraphComponent extends HTMLElement {
 		animated_colors.flatMap(color => [
 			[`${color}`, 'default'],
 			[`${color}Hover`, 'default'],
+			[`${color}Adjacent`, 'default'],
 		]),
 	);
 	hoverColorTransitions = Object.fromEntries(
 		animated_colors.flatMap(color => [
 			[`${color}`, 'blur'],
 			[`${color}Hover`, 'hover'],
+			[`${color}Adjacent`, 'adjacent'],
 		]),
 	);
 	colors!: GraphColorConfig;
@@ -98,6 +100,10 @@ export class GraphComponent extends HTMLElement {
 				this.animator.setProperties(`${color}Hover`, {
 					default: this.colors[color],
 					hover: this.colors[(key + 'Hover') as keyof GraphColorConfig],
+				});
+				this.animator.setProperties(`${color}Adjacent`, {
+					default: this.colors[color],
+					adjacent: this.colors[(key + 'Adjacent') as keyof GraphColorConfig],
 				});
 			}
 
@@ -235,6 +241,7 @@ export class GraphComponent extends HTMLElement {
 		});
 		this.animator.startAnimation('labelOpacity', this.simulator.getCurrentLabelOpacity());
 		this.animator.startAnimation('labelOpacityHover', this.simulator.getCurrentLabelOpacity());
+		this.animator.startAnimation('labelOpacityAdjacent', this.simulator.getCurrentLabelOpacity());
 	}
 
 	setStyleHovered() {
@@ -244,6 +251,7 @@ export class GraphComponent extends HTMLElement {
 			linkHoverWidth: 'hover',
 			labelOpacity: 'blur',
 			labelOpacityHover: 'hover',
+			labelOpacityAdjacent: 'adjacent',
 			labelOffset: 'hover',
 			labelScaleHover: 'hover',
 		});
