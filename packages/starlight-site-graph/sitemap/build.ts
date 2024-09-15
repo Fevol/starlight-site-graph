@@ -245,7 +245,7 @@ export class SiteMapBuilder {
 		if (!link.startsWith('http')) {
 			if (link.startsWith('.')) {
 				link = path.join(current, link);
-			} else if (this.basePath !== '') {
+			} else if (this.basePath !== '' && !trimSlashes(link).startsWith(this.basePath)) {
 				link = path.join(this.basePath, link);
 			}
 			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
