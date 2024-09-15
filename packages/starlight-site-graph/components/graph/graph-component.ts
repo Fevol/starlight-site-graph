@@ -196,14 +196,7 @@ export class GraphComponent extends HTMLElement {
 		this.graphContainer.onkeyup = e => {
 			if (e.key === 'Escape' || e.key === 'f') this.disableFullscreen();
 		};
-		renderActionContainer(this);
-		this.renderer.resize();
-		this.colors = getGraphColors(this.graphContainer);
-		this.animator.setValue('backgroundColor', this.colors.backgroundColor);
-		this.animator.setAllProperties('backgroundColor', this.colors.backgroundColor);
-		this.animator.setAllProperties('backgroundColorHover', this.colors.backgroundColor);
-
-		this.simulator.resetZoom(true);
+		this.toggleFullscreen();
 	}
 
 	disableFullscreen() {
@@ -218,14 +211,18 @@ export class GraphComponent extends HTMLElement {
 		this.graphContainer.onkeyup = e => {
 			if (e.key === 'f') this.enableFullscreen();
 		};
+		this.toggleFullscreen();
+	}
+
+	toggleFullscreen() {
 		renderActionContainer(this);
 		this.renderer.resize();
 		this.colors = getGraphColors(this.graphContainer);
 		this.animator.setValue('backgroundColor', this.colors.backgroundColor);
 		this.animator.setAllProperties('backgroundColor', this.colors.backgroundColor);
 		this.animator.setAllProperties('backgroundColorHover', this.colors.backgroundColor);
-
 		this.simulator.resetZoom(true);
+		this.simulator.requestRender = true;
 	}
 
 	setStyleDefault() {
