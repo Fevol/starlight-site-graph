@@ -146,6 +146,7 @@ export class GraphSimulator {
 					if (!e.subject) return;
 
 					if (!e.active) this.simulation.alphaTarget(0);
+					if (this.currentlyHovered) this.unhoverNode();
 					e.subject.fx = null;
 					e.subject.fy = null;
 				}),
@@ -171,8 +172,8 @@ export class GraphSimulator {
 			}
 		});
 
-		d3.select(this.container).on('mouseleave', () => {
-			if (this.currentlyHovered) {
+		d3.select(this.container).on('mouseleave', (event) => {
+			if (this.currentlyHovered && !event.buttons) {
 				this.unhoverNode();
 			}
 		});
