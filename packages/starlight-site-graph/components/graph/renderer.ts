@@ -126,6 +126,8 @@ export class GraphRenderer {
 			this.drawNodes(this.simulator.nodes);
 			this.drawLinks(this.simulator.links);
 		}
+		this.linkHoverGraphics.alpha = this.context.animator.getValue('linkOpacityHover');
+		this.arrowHoverGraphics.alpha = this.context.animator.getValue('linkOpacityHover');
 	}
 
 	resetZoom(zoomTransform: { k: number; x: number; y: number }) {
@@ -257,7 +259,7 @@ export class GraphRenderer {
 		for (const node of nodes) {
 			const hovered = this.simulator.currentlyHovered !== '' && node.id === this.simulator.currentlyHovered;
 			let adjacent = false;
-			if (this.simulator.currentlyHovered !== '') {
+			if (!hovered && this.simulator.currentlyHovered !== '') {
 				adjacent = node.adjacent.has(this.simulator.currentlyHovered);
 			}
 			if (node.strokeWidth && node.strokeColor) {
@@ -342,20 +344,23 @@ export class GraphRenderer {
 
 		const [xStart, yStart] = this.getLinkOffset(link.source, outAngle);
 		const [xEnd, yEnd] = this.getLinkOffset(link.target, incAngle);
-		let width, color, layer;
+		let width, color;
 		if (hovered) {
-			layer = this.linkHoverGraphics;
-			width = this.context.animator.getValue('linkHoverWidth');
+			width = this.context.animator.getValue('linkWidthHover');
 			color = this.context.animator.getValue('linkColorHover');
 		} else {
-			layer = this.linkGraphics;
 			width = this.context.config.linkWidth;
 			color = this.context.animator.getValue('linkColor');
 		}
 
-		layer.moveTo(xStart, yStart)
+		this.linkGraphics.moveTo(xStart, yStart)
 			 .lineTo(xEnd, yEnd)
 			 .stroke({ width: width / linkZoomLevel, color: color });
+		if (hovered) {
+			this.linkHoverGraphics.moveTo(xStart, yStart)
+				.lineTo(xEnd, yEnd)
+				.stroke({ width: width / linkZoomLevel, color: color });
+		}
 
 		// DEBUG: Draw "correct" edge connection points (cf. circle positions, line should go straight through both)
 		// layer.circle(...this.nodeCircleOffset({...link.source, shape: "circle"}, outAngle), 2).fill(0x00ff00)
@@ -371,22 +376,24 @@ export class GraphRenderer {
 		const x = nodeX - (linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
 		const y = nodeY - (linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
 		const arrowSize = (DEFAULT_ARROW_SCALE * (this.context.config.arrowSize + linkWidth)) / arrowZoomLevel;
-		(hovered ? this.arrowHoverGraphics : this.arrowGraphics)
+		const xLeft = x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle),
+			  yLeft = y - arrowSize * Math.sin(nodeAngle - this.context.config.arrowAngle);
+		const xRight = x - arrowSize * Math.cos(nodeAngle + this.context.config.arrowAngle),
+			  yRight = y - arrowSize * Math.sin(nodeAngle + this.context.config.arrowAngle);
+
+		this.arrowGraphics
 			.moveTo(x, y)
-			.lineTo(
-				x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle),
-				y - arrowSize * Math.sin(nodeAngle - this.context.config.arrowAngle),
-			)
-			.lineTo(
-				x - arrowSize * Math.cos(nodeAngle + this.context.config.arrowAngle),
-				y - arrowSize * Math.sin(nodeAngle + this.context.config.arrowAngle),
-			)
+			.lineTo(xLeft, yLeft)
+			.lineTo(xRight, yRight)
 			.lineTo(x, y)
-			.fill(
-				hovered
-					? this.context.animator.getValue('linkColorHover')
-					: this.context.animator.getValue('linkColor'),
-			)
+			.fill(this.context.animator.getValue('linkColor'));
+		if (hovered) {
+			this.arrowHoverGraphics.moveTo(x, y)
+				.lineTo(xLeft, yLeft)
+				.lineTo(xRight, yRight)
+				.lineTo(x, y)
+				.fill(this.context.animator.getValue('linkColorHover'));
+		}
 	}
 
 	drawLinks(links: LinkData[]) {

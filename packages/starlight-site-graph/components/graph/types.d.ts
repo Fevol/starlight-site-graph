@@ -66,6 +66,7 @@ interface AnimatedValues {
 	linkColor: string;
 	linkColorHover: string;
 	linkWidthHover: number;
+	linkOpacityHover: number;
 
 	labelOpacity: number;
 	labelOpacityHover: number;

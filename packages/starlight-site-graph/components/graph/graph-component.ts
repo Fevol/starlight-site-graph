@@ -235,7 +235,8 @@ export class GraphComponent extends HTMLElement {
 	setStyleDefault() {
 		this.animator.startAnimationsTo({
 			...this.defaultColorTransitions,
-			linkHoverWidth: 'default',
+			linkOpacityHover: 'default',
+			linkWidthHover: 'default',
 			labelOffset: 'default',
 			labelScaleHover: 'default',
 		});
@@ -248,7 +249,8 @@ export class GraphComponent extends HTMLElement {
 		this.animator.startAnimationsTo({
 			...this.hoverColorTransitions,
 
-			linkHoverWidth: 'hover',
+			linkOpacityHover: 'hover',
+			linkWidthHover: 'hover',
 			labelOpacity: 'blur',
 			labelOpacityHover: 'hover',
 			labelOpacityAdjacent: 'adjacent',

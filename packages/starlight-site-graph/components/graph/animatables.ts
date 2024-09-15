@@ -129,7 +129,13 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 			easing: easing_functions[graphConfig.hoverEase],
 		},
 
-		linkHoverWidth: {
+		linkOpacityHover: {
+			properties: { default: 0, hover: 1 },
+			interpolator: new NumberInterpolator(),
+			duration: graphConfig.hoverDuration,
+			easing: easing_functions[graphConfig.hoverEase],
+		},
+		linkWidthHover: {
 			properties: { default: graphConfig.linkWidth, hover: graphConfig.linkHoverWidth },
 			interpolator: new NumberInterpolator(),
 			duration: graphConfig.hoverDuration,
