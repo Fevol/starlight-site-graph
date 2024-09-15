@@ -62,6 +62,7 @@ export default defineIntegration({
 						name,
 						imports: {
 							'virtual:starlight-site-graph/config': `export default ${JSON.stringify(options)}`,
+							'virtual:starlight-site-graph/astro-config': `export default ${JSON.stringify(params.config)}`,
 						},
 					});
 

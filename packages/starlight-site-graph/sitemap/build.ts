@@ -245,6 +245,8 @@ export class SiteMapBuilder {
 		if (!link.startsWith('http')) {
 			if (link.startsWith('.')) {
 				link = path.join(current, link);
+			} else if (this.basePath !== '') {
+				link = path.join(this.basePath, link);
 			}
 			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
 			if (link !== current) {
@@ -270,7 +272,7 @@ export class SiteMapBuilder {
 			.slice(0, -path.extname(filePath).length || undefined);
 
 		// Ensure that the slashes are correct and honor the base option
-		relative_path = basePath === '' ? stripLeadingSlash(relative_path) : path.join(basePath, relative_path);
+		relative_path = basePath === '' ? stripLeadingSlash(relative_path) : path.join(basePath, relative_path).replace(/\\/g, '/');
 
 		// Slugify the path, keeping slashes
 		relative_path = slugifyPath(relative_path);

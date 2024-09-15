@@ -1,9 +1,15 @@
 ---
+import path from 'node:path';
 import type { Props } from '@astrojs/starlight/props';
+import type { PageGraphConfig } from "../../schema";
+
 import config from 'virtual:starlight-site-graph/config';
+import astroConfig from 'virtual:starlight-site-graph/astro-config';
+
 import Graph from "./Graph.astro";
-import {firstMatchingPattern} from "../../sitemap/util";
-import {type PageGraphConfig} from "../../schema";
+
+import { stripSlashes } from '../util';
+import { firstMatchingPattern } from "../../sitemap/util";
 
 const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
 
@@ -22,12 +28,14 @@ if (showGraph === undefined) {
     }
 }
 
+const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("\\", "/"));
 ---
+
 {showGraph &&
     <div class:list={className}>
         <slot name="title"/>
         <Graph
-            slug={slug}
+            slug={slugWithBase}
             sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
             config={{
                 ...config.graphConfig,
