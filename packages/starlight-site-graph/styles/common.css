@@ -160,6 +160,10 @@ body:has(.background-blur) {
 	.header {
 		z-index: -1;
 	}
+
+	.right-sidebar:not(:has(.is-fullscreen)) {
+		z-index: -1;
+	}
 }
 
 .background-blur {
