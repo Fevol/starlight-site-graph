@@ -1,7 +1,7 @@
 {
 	"name": "starlight-site-graph",
 	"author": "Fevol",
-	"version": "0.1.4",
+	"version": "0.1.5",
 	"license": "MIT",
 	"description": "Starlight plugin adding a graph component to the site's right-sidebar",
 	"type": "module",
