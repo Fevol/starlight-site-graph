@@ -49,9 +49,14 @@ const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("
 <script>
     window.addEventListener('DOMContentLoaded', async () => {
         if (import.meta.env.PROD) {
+            let base_url = import.meta.env.BASE_URL;
+            if (!base_url.endsWith('/')) {
+                base_url += '/';
+            }
+
             const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
             onIdle(async () => {
-                const sitemap = await (await fetch(import.meta.env.BASE_URL + 'sitegraph/sitemap.json')).json();
+                const sitemap = await (await fetch(base_url + 'sitegraph/sitemap.json')).json();
                 const sitemap_string = JSON.stringify(sitemap);
                 document.querySelectorAll('graph-component').forEach((graph) => {
                     if (graph.getAttribute('data-sitemap') === '{}') {
