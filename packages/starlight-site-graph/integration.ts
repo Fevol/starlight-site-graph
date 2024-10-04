@@ -89,6 +89,7 @@ export default defineIntegration({
 								.toSitemap();
 							params.logger.info('Finished generating sitemap from generated HTML content');
 						} catch (e) {
+							options.sitemapConfig.sitemap = builder.process().toSitemap();
 							params.logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
 						}
 					}
