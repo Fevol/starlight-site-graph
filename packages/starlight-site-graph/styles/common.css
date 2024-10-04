@@ -84,7 +84,7 @@
 }
 
 /* Move graph and other contents in page sidebar into bottom of page */
-@media (max-width: 72em) {
+@media (max-width: calc(72em - 1px)) {
 	.main-frame > div:has(.graph-panel) {
 		display: flex;
 		flex-direction: column-reverse;
@@ -114,14 +114,6 @@
 .graph-component {
 	width: var(--slsg-graph-width);
 	height: var(--slsg-graph-height);
-}
-
-/* Ensure that graph inside sidebar matches width of container */
-@media (min-width: 72em) {
-	.right-sidebar .graph-component {
-		width: unset;
-		max-width: var(--slsg-graph-width);
-	}
 }
 
 .graph-container {
