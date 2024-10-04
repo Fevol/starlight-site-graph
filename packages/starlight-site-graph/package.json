@@ -10,7 +10,8 @@
 		"./overrides/PageSidebar.astro": "./overrides/PageSidebar.astro",
 		"./components": "./components/index.ts",
 		"./styles/common.css": "./styles/common.css",
-		"./schema": "./schema.ts"
+		"./schema": "./schema.ts",
+		"./config": "./config.ts"
 	},
 	"scripts": {},
 	"devDependencies": {
