@@ -80,12 +80,17 @@ export default defineIntegration({
 					const outputPath = params.dir.pathname.slice(1);
 					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
 						params.logger.info('Retrieving links from generated HTML content');
-						options.sitemapConfig.sitemap = (await builder
-							.setBasePath(outputPath)
-							.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
-							.process()
-							.toSitemap();
-						params.logger.info('Finished generating sitemap from generated HTML content');
+						try {
+							await fs.promises.access(outputPath);
+							options.sitemapConfig.sitemap = (await builder
+								.setBasePath(outputPath)
+								.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
+								.process()
+								.toSitemap();
+							params.logger.info('Finished generating sitemap from generated HTML content');
+						} catch (e) {
+							params.logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
+						}
 					}
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
