@@ -16,7 +16,7 @@
 		"@astrojs/starlight": "^0.25.5",
 		"astro": "^4.15.4",
 		"starlight-package-managers": "^0.6.0",
-		"starlight-site-graph": "file:../packages/starlight-site-graph",
+		"starlight-site-graph": "workspace:*",
 		"typescript": "^5.5.4"
 	}
 }
