@@ -13,6 +13,8 @@ import { onClickOutside, stripSlashes, ensureTrailingSlash } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
+	placeholderContainer: HTMLElement;
+
 	graphContainer: HTMLElement;
 	mockGraphContainer: HTMLElement;
 	actionContainer: HTMLElement;
@@ -56,6 +58,9 @@ export class GraphComponent extends HTMLElement {
 
 	constructor() {
 		super();
+		this.placeholderContainer = this.previousElementSibling as HTMLElement;
+		this.style.visibility = 'hidden';
+
 		try {
 			this.setConfigListener(this.dataset['config']);
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
@@ -140,6 +145,7 @@ export class GraphComponent extends HTMLElement {
 	override remove() {
 		this.renderer.destroy();
 		this.simulator.destroy();
+		this.placeholderContainer.remove();
 		this.graphContainer.remove();
 		this.mockGraphContainer.remove();
 		this.blurContainer.remove();
@@ -169,8 +175,10 @@ export class GraphComponent extends HTMLElement {
 	}
 
 	setup() {
-		this.cleanup();
+		this.placeholderContainer.style.display = '';
+		this.style.visibility = 'hidden';
 
+		this.cleanup();
 		const { nodes, links } = processSitemapData(this, this.sitemap);
 
 		const currentNode = nodes.find(node => node.id === this.currentPage);
@@ -187,6 +195,9 @@ export class GraphComponent extends HTMLElement {
 		if (this.enableClick) this.simulator.enableClick();
 
 		if (this.config.enableZoom || this.config.enablePan) this.simulator.enableZoom();
+
+		this.placeholderContainer.style.display = 'none';
+		this.style.visibility = 'visible';
 	}
 
 	enableFullscreen() {
