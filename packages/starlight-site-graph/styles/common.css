@@ -5,6 +5,15 @@
 	--slsg-background-color: var(--slsg-background-color-minimized);
 	--slsg-background-color-minimized: var(--sl-color-bg);
 	--slsg-background-color-maximized: var(--sl-color-bg-nav);
+	--slsg-graph-outline-color: var(--sl-color-gray-6);
+
+	--slsg-graph-action-color: var(--sl-color-white);
+	--slsg-graph-action-color-hover: inherit;
+	--slsg-graph-action-background-color-hover: var(--sl-color-gray-5);
+
+	--slsg-context-menu-border-color: var(--sl-color-gray-4);
+	--slsg-context-menu-background-color: var(--sl-color-gray-6);
+	--slsg-context-menu-background-color-hover: var(--sl-color-gray-5);
 }
 
 :root[data-theme='dark'] {
@@ -125,7 +134,7 @@
 
 	border-radius: 5px;
 	background-color: var(--slsg-background-color);
-	outline: 1px solid var(--sl-color-gray-6);
+	outline: 1px solid var(--slsg-graph-outline-color);
 
 	canvas {
 		width: inherit;
@@ -228,7 +237,7 @@ body:has(.background-blur) {
 .graph-action-button {
 	display: flex;
 
-	color: var(--sl-color-white);
+	color: var(--slsg-graph-action-color);
 	background-color: transparent;
 	transition: background-color 0.3s ease;
 
@@ -241,7 +250,8 @@ body:has(.background-blur) {
 	cursor: pointer;
 
 	&:hover {
-		background-color: var(--sl-color-gray-5);
+		color: var(--slsg-graph-action-color-hover);
+		background-color: var(--slsg-graph-action-background-color-hover);
 	}
 
 	svg {
@@ -289,8 +299,8 @@ body:has(.background-blur) {
 
 .menu {
 	display: inline-flex;
-	background-color: var(--sl-color-gray-6);
-	border: 1px var(--sl-color-gray-4) solid;
+	background-color: var(--slsg-context-menu-background-color);
+	border: 1px var(--slsg-context-menu-border-color) solid;
 	width: 170px;
 	border-radius: 10px;
 	overflow: hidden;
@@ -309,7 +319,7 @@ body:has(.background-blur) {
 }
 
 .menu-item:hover {
-	background-color: var(--sl-color-gray-5);
+	background-color: var(--slsg-context-menu-background-color-hover);
 }
 
 .menu-item-icon {
@@ -336,7 +346,7 @@ body:has(.background-blur) {
 	top: 8px;
 
 	background-color: color-mix(in srgb, var(--slsg-background-color) 90%, transparent);
-	border: 1px solid var(--sl-color-gray-6);
+	border: 1px solid var(--slsg-context-menu-border-color);
 	border-radius: 8px;
 	padding: 8px;
 
