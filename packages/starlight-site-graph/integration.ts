@@ -6,6 +6,8 @@ import { starlightSiteGraphConfigSchema } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 
+import { fileURLToPath } from 'node:url';
+
 /**
  * Generates a static sitemap for all md files in the docs directory inside public/sitemap.json,
  * consumed by graph generating code
@@ -16,10 +18,22 @@ export default defineIntegration({
 	setup({ name, options }) {
 		const { sitemapConfig } = options;
 		const builder = new SiteMapBuilder(sitemapConfig);
+		let outputPath: string;
 
 		return {
 			hooks: {
 				'astro:config:setup': async params => {
+					// Adapted from @shishkin/astro-pagefind
+					if (params.config.adapter?.name.startsWith("@astrojs/vercel")) {
+						outputPath = fileURLToPath(new URL(".vercel/output/static/", params.config.root));
+					} else if (params.config.adapter?.name === "@astrojs/cloudflare") {
+						outputPath = fileURLToPath(new URL(params.config.base?.replace(/^\//, ""), params.config.outDir));
+					} else if (params.config.adapter?.name === "@astrojs/node" && params.config.output === "hybrid") {
+						outputPath = fileURLToPath(params.config.build.client!);
+					} else {
+						outputPath = fileURLToPath(params.config.outDir);
+					}
+
 					if (!options.sitemapConfig.sitemap) {
 						params.logger.info(
 							'Retrieving links from Markdown content' +
@@ -77,7 +91,12 @@ export default defineIntegration({
 					`)
 				},
 				'astro:build:done': async params => {
-					const outputPath = params.dir.pathname.slice(1);
+					if (!outputPath) {
+						params.logger.warn(
+							"Output directory couldn't be determined, graph sitemap will not make use of HTML content.",
+						);
+					}
+
 					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
 						params.logger.info('Retrieving links from generated HTML content');
 						try {
@@ -96,6 +115,7 @@ export default defineIntegration({
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
 					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(options.sitemapConfig.sitemap, null, 2));
+					params.logger.info("`sitemap.json` created at `dist/sitegraph`");
 				}
 			}
 		};
