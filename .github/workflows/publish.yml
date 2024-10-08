@@ -1,53 +1,79 @@
 name: Publish
 on:
-    workflow_dispatch:
-    push:
-        tags:
-            - '*'
+  workflow_dispatch:
+  push:
+    tags:
+      - '*'
 jobs:
-    build:
-        runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-        permissions:
-            contents: write
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
 
-        steps:
-            - uses: actions/checkout@v4
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '20.x'
-                  registry-url: 'https://registry.npmjs.org'
-            - uses: oven-sh/setup-bun@v1
-              with:
-                  bun-version: latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install packages inside starlight-site-graph dependency
+        run: |
+          cd packages/starlight-site-graph
+          bun install
+      - name: Install, build, and upload your site
+        uses: withastro/action@v3
+        with:
+          path: ./docs
+      - name: Create NPM Release
+        if: ${{ !contains(github.ref_name, 'beta') }}
+        run: |
+          cd packages/starlight-site-graph
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Create NPM Release
-              if: ${{ !contains(github.ref_name, 'beta') }}
-              run: |
-                  cd packages/starlight-site-graph
-                  npm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create Beta NPM Release
+        if: ${{ contains(github.ref_name, 'beta') }}
+        run: |
+          cd packages/starlight-site-graph
+          npm publish --tag beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Create Beta NPM Release
-              if: ${{ contains(github.ref_name, 'beta') }}
-              run: |
-                  cd packages/starlight-site-graph
-                  npm publish --tag beta
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create Archive
+        run: |
+          mkdir -p dist
+          cd packages/starlight-site-graph
+          rm -f bun.lockb .npmignore
+          zip -r ../../dist/starlight-site-graph-${{ github.ref_name }}.zip .
 
-            - name: Create Archive
-              run: |
-                  mkdir -p dist
-                  cd packages/starlight-site-graph
-                  rm -f bun.lockb .npmignore
-                  zip -r ../../dist/starlight-site-graph-${{ github.ref_name }}.zip .
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/starlight-site-graph-${{ github.ref_name }}.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease: ${{ contains(github.ref_name, 'beta') }}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
 
-            - name: Create Release
-              uses: softprops/action-gh-release@v2
-              with:
-                  files: |
-                      dist/starlight-site-graph-${{ github.ref_name }}.zip
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  prerelease: ${{ contains(github.ref_name, 'beta') }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
