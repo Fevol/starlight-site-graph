@@ -1,6 +1,6 @@
 <div align="center">
   <h1>starlight-site-graph 🕵️</h1>
-  <p>Starlight plugin adding a graph component to the site's right-sidebar</p>
+  <p>A Starlight plugin that seamlessly adds a customizable graph to your site's sidebar, visualizing page links for easy navigation.</p>
 </div>
 
 <div align="center">

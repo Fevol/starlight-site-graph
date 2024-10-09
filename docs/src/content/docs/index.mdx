@@ -1,0 +1,60 @@
+---
+title: Starlight Site Graph
+description: A Starlight plugin that seamlessly adds a customizable graph to your site, visualizing page links for easy navigation.
+head:
+  - tag: title
+    content: Starlight Site Graph
+template: splash
+editUrl: false
+lastUpdated: false
+hero:
+    tagline: A Starlight plugin that seamlessly adds a customizable graph to your site, visualizing page links for easy navigation
+    image:
+        alt: A glittering purple star being obscured by a moon
+        file: ../../assets/hero.svg
+    actions:
+        - text: Getting Started
+          link: /starlight-site-graph/getting-started/
+          icon: rocket
+        - text: Examples
+          link: /starlight-site-graph/examples/
+          icon: external
+          variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## Features
+
+<CardGrid stagger>
+    <Card title="Graph View" icon="seti:graphql">
+        Beautifully visualize links between pages on your website.
+    </Card>
+
+    <Card title="Endlessly Configurable" icon="setting">
+		Graph allows for high customizability, with options for colors, shape, simulation forces, and more.
+    </Card>
+
+    <Card title="Easily Integrable" icon="seti:svg">
+        Seamlessly integrates into your site's sidebar, with little initial setup required.
+    </Card>
+</CardGrid>
+
+
+## Next steps
+
+<CardGrid stagger>
+    <Card title="Install the plugin" icon="puzzle">
+        Check the [getting started guide](/starlight-site-graph/getting-started/) for installation
+        instructions.
+    </Card>
+    <Card title="Configure the plugin" icon="rocket">
+        Edit your config in the `astro.config.mjs` file.
+    </Card>
+    <Card title="Preview the theme" icon="seti:image">
+        Check out the [examples](/starlight-site-graph/examples/) to see the site graph in action.
+    </Card>
+    <Card title="Read the docs" icon="open-book">
+        Learn more in the [graph configuration docs](/starlight-site-graph/configuration/).
+    </Card>
+</CardGrid>

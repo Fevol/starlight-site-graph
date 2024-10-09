@@ -22,20 +22,22 @@ export default defineIntegration({
 
 		return {
 			hooks: {
-				'astro:config:setup': async params => {
+				'astro:config:setup': async (args) => {
+					const { config, logger, command, updateConfig, injectScript } = args;
+
 					// Adapted from @shishkin/astro-pagefind
-					if (params.config.adapter?.name.startsWith("@astrojs/vercel")) {
-						outputPath = fileURLToPath(new URL(".vercel/output/static/", params.config.root));
-					} else if (params.config.adapter?.name === "@astrojs/cloudflare") {
-						outputPath = fileURLToPath(new URL(params.config.base?.replace(/^\//, ""), params.config.outDir));
-					} else if (params.config.adapter?.name === "@astrojs/node" && params.config.output === "hybrid") {
-						outputPath = fileURLToPath(params.config.build.client!);
+					if (config.adapter?.name.startsWith("@astrojs/vercel")) {
+						outputPath = fileURLToPath(new URL(".vercel/output/static/", config.root));
+					} else if (config.adapter?.name === "@astrojs/cloudflare") {
+						outputPath = fileURLToPath(new URL(config.base?.replace(/^\//, ""), config.outDir));
+					} else if (config.adapter?.name === "@astrojs/node" && config.output === "hybrid") {
+						outputPath = fileURLToPath(config.build.client!);
 					} else {
-						outputPath = fileURLToPath(params.config.outDir);
+						outputPath = fileURLToPath(config.outDir);
 					}
 
 					if (!options.sitemapConfig.sitemap) {
-						params.logger.info(
+						logger.info(
 							'Retrieving links from Markdown content' +
 							(sitemapConfig.pageInclusionRules.length
 								? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
@@ -43,26 +45,26 @@ export default defineIntegration({
 						);
 
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
-						if (params.command === 'dev' || params.command === 'build') {
-							builder.setBasePath(params.config.base);
+						if (command === 'dev' || command === 'build') {
+							builder.setBasePath(config.base);
 							await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
-							options.sitemapConfig.sitemap = params.command === 'dev' ? builder.process().toSitemap() : {};
-							params.logger.info('Finished retrieving links from Markdown content');
+							options.sitemapConfig.sitemap = command === 'dev' ? builder.process().toSitemap() : {};
+							logger.info('Finished retrieving links from Markdown content');
 						}
 					} else {
-						params.logger.info('Using applied sitemap');
+						logger.info('Using applied sitemap');
 						options.sitemapConfig.sitemap = processSitemap(options.sitemapConfig.sitemap, options);
 					}
 
-					if (params.command === 'dev' && options.debug) {
+					if (command === 'dev' && options.debug) {
 						let pixiStatsPlugin = null;
 						try {
 							pixiStatsPlugin = require('pixi-stats').default();
 						} catch (err) {
-							params.logger.warn('Failed to load `pixi-stats`, to enable the FPS counter for the graph view, make sure `pixi-stats` is installed as aa peer dependency.');
+							logger.warn('Failed to load `pixi-stats`, to enable the FPS counter for the graph view, make sure `pixi-stats` is installed as aa peer dependency.');
 						}
 
-						params.updateConfig({
+						updateConfig({
 							vite: {
 								plugins: pixiStatsPlugin ? [pixiStatsPlugin] : [],
 								ssr: {
@@ -72,15 +74,15 @@ export default defineIntegration({
 						});
 					}
 
-					addVirtualImports(params, {
+					addVirtualImports(args, {
 						name,
 						imports: {
 							'virtual:starlight-site-graph/config': `export default ${JSON.stringify(options)}`,
-							'virtual:starlight-site-graph/astro-config': `export default ${JSON.stringify(params.config)}`,
+							'virtual:starlight-site-graph/astro-config': `export default ${JSON.stringify(config)}`,
 						},
 					});
 
-					params.injectScript("page", `
+					injectScript("page", `
 						import config from 'virtual:starlight-site-graph/config';
 						if (config.trackVisitedPages) {
 							const storage = config.storageLocation === 'session' ? sessionStorage : localStorage;
@@ -90,15 +92,31 @@ export default defineIntegration({
 						}
 					`)
 				},
-				'astro:build:done': async params => {
+				'astro:config:done': async (args) => {
+					const { injectTypes } = args;
+
+					injectTypes({
+						filename: "types.d.ts",
+						content: `declare module 'virtual:starlight-site-graph/config' {
+							export default ${JSON.stringify(options)};
+						}
+						
+						declare module 'virtual:starlight-site-graph/astro-config' {
+							export default ${JSON.stringify(args.config)};
+						}`
+					});
+				},
+				'astro:build:done': async (args) => {
+					const { logger } = args;
+
 					if (!outputPath) {
-						params.logger.warn(
+						logger.warn(
 							"Output directory couldn't be determined, graph sitemap will not make use of HTML content.",
 						);
 					}
 
 					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
-						params.logger.info('Retrieving links from generated HTML content');
+						logger.info('Retrieving links from generated HTML content');
 						try {
 							await fs.promises.access(outputPath);
 							options.sitemapConfig.sitemap = (await builder
@@ -106,16 +124,16 @@ export default defineIntegration({
 								.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
 								.process()
 								.toSitemap();
-							params.logger.info('Finished generating sitemap from generated HTML content');
+							logger.info('Finished generating sitemap from generated HTML content');
 						} catch (e) {
 							options.sitemapConfig.sitemap = builder.process().toSitemap();
-							params.logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
+							logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
 						}
 					}
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
 					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(options.sitemapConfig.sitemap, null, 2));
-					params.logger.info("`sitemap.json` created at `dist/sitegraph`");
+					logger.info("`sitemap.json` created at `dist/sitegraph`");
 				}
 			}
 		};

@@ -2,6 +2,6 @@
 title: Configuration
 ---
 
-There are three different pages you can visit in this directory
+There are three different places where you can configure the Starlight Site Graph plugin:
 
--   [Graph Settings](./graph-configuration)
+-   [Graph Settings](/starlight-site-graph/configuration/graph/)
