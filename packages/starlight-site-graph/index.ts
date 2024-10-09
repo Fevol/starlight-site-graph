@@ -1,16 +1,19 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
 import { validateConfig, type StarlightSiteGraphConfig } from './config';
 import integration from './integration';
+import { translations } from './i18n';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
 	const parsedConfig = validateConfig(userConfig);
 	return {
 		name: 'starlight-sitemap-plugin',
 		hooks: {
-			setup: async ({ addIntegration, config, logger, updateConfig }) => {
+			setup: async ({ addIntegration, config, logger, updateConfig, injectTranslations }) => {
 				addIntegration(integration(parsedConfig));
 				const componentOverrides: typeof config.components = {};
 				const customCss: typeof config.customCss = ['starlight-site-graph/styles/common.css'];
+
+				injectTranslations(translations);
 
 				if (config.components?.PageSidebar) {
 					logger.warn(
