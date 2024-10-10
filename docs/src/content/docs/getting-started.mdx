@@ -1,12 +1,16 @@
 ---
 title: Getting Started
-description: Learn how to use the Starlight Obsidian theme in your Starlight site.
+description: Learn how to use the Starlight Site Graph plugin in your Starlight site.
 ---
 
-A [Starlight](https://starlight.astro.build) theme inspired by the style of [Obsidian Publish](https://obsidian.md/publish) websites.
-This project is in no way affiliated with [Obsidian](https://obsidian.md/).
+import { Steps, Icon } from '@astrojs/starlight/components'
+import { PackageManagers } from 'starlight-package-managers'
 
-Various [examples](/starlight-site-graph/examples/) are provided to showcase changes made by the theme.
+Starlight Site Graph is a [Starlight](https://starlight.astro.build) plugin that seamlessly adds a customizable graph to your site,
+visualizing links between your pages for easy navigation.
+
+Check out the [configuration](/starlight-site-graph/configuration/) guide and [examples](/starlight-site-graph/examples/)
+to learn more about the plugin's features.
 
 ## Prerequisites
 
@@ -14,18 +18,15 @@ You will need to have a Starlight website set up.
 If you don't have one yet, you can follow the ["Getting Started"](https://starlight.astro.build/getting-started) guide in the Starlight docs to create one.
 
 :::caution[Warning]
-This theme requires a [Starlight](https://starlight.astro.build) version of at least `^0.28.0` - due to the use of the i18next localization system
-in several components. An [Astro](https://astro.build) version equal or higher than `^4.14.0` is also required.
+This plugin requires a [Starlight](https://starlight.astro.build) version of at least `^0.28.0` - due to the use of the i18next localization system
+in several components. An [Astro](https://astro.build) version equal or higher than `^4.14.0` is also required for type injection.
 :::
 
-## Installation
-
-import { Steps } from '@astrojs/starlight/components'
-import { PackageManagers } from 'starlight-package-managers'
+## <span style="display: flex; gap: 8px">Installation (Starlight) <Icon name="starlight" /></span>
 
 <Steps>
-    1. The Starlight Obsidian theme is a Starlight [plugin](https://starlight.astro.build/reference/plugins/) that you can install using your favorite package manager:
-        <PackageManagers pkg="starlight-theme-obsidian" />
+    1. Starlight Site Graph is a Starlight [plugin](https://starlight.astro.build/reference/plugins/) that you can install using your favorite package manager:
+        <PackageManagers pkg="starlight-site-graph" />
     2. Configure the plugin in your Starlight [configuration](https://starlight.astro.build/reference/configuration/#plugins) in the `astro.config.mjs` file.
         ```diff lang="js"
             // astro.config.mjs
@@ -42,9 +43,86 @@ import { PackageManagers } from 'starlight-package-managers'
                 ],
             })
         ```
-    3. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to preview the theme in action.
+	3. Add the Site Graph [content schema](https://docs.astro.build/en/guides/content-collections/#defining-a-collection-schema)
+		to your pages to enable type checking on the page's frontmatter, you will need to
+		define the `src/content/config.ts` file if it doesn't exist yet.
+		```diff lang="ts"
+			// content/docs/config.ts
+		+	import { docsSchema } from '@astrojs/starlight/schema';
+		+	import { defineCollection } from 'astro:content';
+		+	import { pageSiteGraphSchema } from 'starlight-site-graph/schema';
+		+
+		+	export const collections = {
+		+		docs: defineCollection({
+		+			schema: docsSchema({
+		+				extend: pageSiteGraphSchema
+		+			})
+		+		})
+		+	};
+		```
+	4. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the graph in action.
 </Steps>
 
-That's it! You should now see the Starlight Obsidian theme applied to your Starlight website.
+That's it! You should now see the Starlight Site Graph is now added to your Starlight website.
 
-You can now further configure the theme and the graph component in the sidebar by following the [configuration](/starlight-site-graph/configuration/) guide.
+If you want to configure the graph component, sitemap generation or backlinks, check out the [configuration](/starlight-site-graph/configuration/) guide.
+
+## <span style="display: flex; gap: 8px">Installation (Astro) <Icon name="astro" /></span>
+
+While the plugin is mainly developed with Starlight support in mind, it is also possible to add the Graph or Backlink components
+to regular Astro projects (without a sidebar), though it will require a little more manual setup.
+
+
+<Steps>
+	1. Starlight Site Graph is a package that contains an integration and several components, which you can install using your favorite package manager:
+		<PackageManagers pkg="starlight-site-graph" />
+	2. Add the sitemap generation integration of the plugin in your `astro.config.mjs` file. You _may_ need to enable `prefetch` if you are encountering errors.
+		```diff lang="js"
+			// astro.config.mjs
+		+ import sitegraphSitemapIntegration from 'starlight-site-graph/integration';
+			import { defineConfig } from 'astro/config'
+			export default defineConfig({
+		+		prefetch: true,
+				 integrations: [
+						// ...
+		+	 		sitegraphSitemapIntegration()
+				 ]
+			})
+		```
+		:::note[Note]
+		The Sitemap integration provided by this package is _not_ the same as the official [`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/) integration.
+		The difference lies in the fact the official integration maps _contents_ while the package's integration maps _connections_.
+		:::
+	3. Add the Site Graph [content schema](https://docs.astro.build/en/guides/content-collections/#defining-a-collection-schema)
+		to your pages to enable type checking on the page's frontmatter,
+		you will need to define the `src/content/config.ts` file if it doesn't exist yet.<br/>
+		If you already have a collection defined, you can extend the existing schema with the `siteGraphSchema`:
+		```diff lang="ts"
+			// content/docs/config.ts
+		+	import { defineCollection } from 'astro:content';
+		+	import { pageSiteGraphSchema } from 'starlight-site-graph/schema';
+		+
+		+	export const collections = {
+		+		your-collection: defineCollection({
+		+			schema: someSchema.extend(pageSiteGraphSchema),
+		+		})
+		+	};
+		```
+	4. You can now add the plugin's [components](/starlight-site-graph/components/) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+		or [`.mdoc`](https://docs.astro.build/en/guides/integrations-guide/markdoc/) pages (for the latter two, the proper integrations need to be added).<br/>
+		An example:
+		```astro
+			// src/content/docs/my-page.mdx
+			---
+			title: "My Page"
+			---
+			import { PageGraph } from 'starlight-site-graph/components'
+
+			<!-- This will render a graph centered on the current page -->
+			<PageGraph />
+
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
+		```
+		For more info, check out the [components](/starlight-site-graph/components/) guide.
+	5. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the graph in action.
+</Steps>

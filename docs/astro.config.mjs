@@ -46,9 +46,13 @@ export default defineConfig({
 				{
 					label: 'Configuration',
 					items: [
-						{ label: 'Configuration', link: '/configuration/' },
+						{ label: 'Overview', link: '/configuration/' },
 						{ label: 'Graph Configuration', autogenerate: { directory: 'configuration/graph' } },
 					]
+				},
+				{
+					label: 'Components',
+					autogenerate: { directory: 'components' },
 				},
 				{
 					label: 'Examples',

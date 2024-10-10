@@ -11,7 +11,8 @@
 		"./components": "./components/index.ts",
 		"./styles/common.css": "./styles/common.css",
 		"./schema": "./schema.ts",
-		"./config": "./config.ts"
+		"./config": "./config.ts",
+		"./integration": "./integration.ts"
 	},
 	"scripts": {},
 	"keywords": [
@@ -43,6 +44,9 @@
 		"pixi-stats": "^1.3.10"
 	},
 	"peerDependenciesMeta": {
+		"@astrojs/starlight": {
+			"optional": true
+		},
 		"pixi-stats": {
 			"optional": true
 		}

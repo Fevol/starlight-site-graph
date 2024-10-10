@@ -1,5 +1,5 @@
 ---
-title: Configuration
+title: Overview
 ---
 
 There are three different places where you can configure the Starlight Site Graph plugin:
