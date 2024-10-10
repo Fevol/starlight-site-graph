@@ -274,7 +274,9 @@ export class SiteMapBuilder {
 				return link;
 			}
 		} else if (this.config.includeExternalLinks) {
-			links.add(ensureTrailingSlash(link));
+			if (!link.includes('#')) link = ensureTrailingSlash(link);
+
+			links.add(link);
 			return link;
 		}
 		return undefined;
