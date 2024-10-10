@@ -11,14 +11,21 @@ import Graph from "./Graph.astro";
 import { stripSlashes } from '../util';
 import { firstMatchingPattern } from "../../sitemap/util";
 
-const graphData: PageGraphConfig | undefined = Astro.props.entry['data'].graph;
+let graphData: Partial<PageGraphConfig> = {};
+let { slug, class: className, showGraph } = Astro.props as CurrentProps;
+
+// If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
+if (Astro.props.entry) {
+    graphData = Astro.props.entry['data']?.graph;
+}
+
+// Infer slug from URL if not explicitly provided
+slug ??= Astro.url.pathname;
 
 interface CurrentProps extends Props {
     class: string;
     showGraph?: boolean;
 }
-
-let { slug, showGraph, class: className } = Astro.props as CurrentProps;
 
 if (showGraph === undefined) {
     if (graphData?.visible !== undefined) {
@@ -32,19 +39,19 @@ const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("
 ---
 
 {showGraph &&
-    <div class:list={className}>
-        <slot name="title"/>
-        <Graph
-            slug={slugWithBase}
-            sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
-            config={{
-                ...config.graphConfig,
-                ...graphData
-            }}
-            debug={config.debug}
-        />
-    </div>
-}
+<div class:list={className}>
+    <slot name="title"/>
+    <Graph
+        slug={slugWithBase}
+        sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
+        config={{
+            ...config.graphConfig,
+            ...graphData
+        }}
+        debug={config.debug}
+    />
+</div>
+    }
 
 <script>
     window.addEventListener('DOMContentLoaded', async () => {
