@@ -234,7 +234,7 @@ body:has(.background-blur) {
 	backdrop-filter: blur(4px);
 }
 
-.graph-action-button {
+.graph-action-button.graph-action-button {
 	display: flex;
 
 	color: var(--slsg-graph-action-color);
@@ -243,6 +243,8 @@ body:has(.background-blur) {
 
 	border: unset;
 	border-radius: 4px;
+
+	margin-top: unset;
 
 	padding: 0.2rem;
 	opacity: 0.5;
