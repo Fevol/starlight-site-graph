@@ -303,7 +303,6 @@ body:has(.background-blur) {
 	display: inline-flex;
 	background-color: var(--slsg-context-menu-background-color);
 	border: 1px var(--slsg-context-menu-border-color) solid;
-	width: 170px;
 	border-radius: 10px;
 	overflow: hidden;
 	flex-direction: column;
