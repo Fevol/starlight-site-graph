@@ -8,14 +8,13 @@ import {
 	ensureLeadingPound,
 	ensureTrailingSlash, stripLeadingSlash, onlyTrailingSlash, trimSlashes,
 	firstMatchingPattern,
-	resolveIndex, slugifyPath, walk
+	resolveIndex, slugifyPath, walk, extractInnerText, getMostCommonItem
 } from './util';
 
 interface IntermediateSitemapEntry {
 	external: boolean;
 	filePath: string | undefined;
 	linkPath: string;
-	title: string;
 	tags: Set<string>;
 	links: Set<string>;
 	backlinks: Set<string>;
@@ -27,10 +26,15 @@ export class SiteMapBuilder {
 	private contentRoot: string;
 	private excludedPaths: Set<string> = new Set();
 	basePath!: string;
+	implicitNameAssociations: Map<string, string[]> = new Map();
+	officialNameAssociations: Map<string, string> = new Map();
 
 	constructor(private config: SitemapConfig) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
+		this.officialNameAssociations = new Map(
+			Object.entries(this.config.pageTitles).map(([k, v]) => [onlyTrailingSlash(k), v]),
+		);
 	}
 
 	setBasePath(basePath: string) {
@@ -40,9 +44,12 @@ export class SiteMapBuilder {
 
 	async addHTMLContentFolder(folder: string, patterns: string[] = []) {
 		for await (const p of walk(folder)) {
+			// Skip mapping 404 page
+			if (p.endsWith('404.html')) continue;
+
 			if (path.extname(p) === '.html') {
 				if (firstMatchingPattern(p, patterns, false)) {
-					await this.addHTMLContent(p);
+					await this.addHTMLContent(p, folder);
 				}
 			}
 		}
@@ -50,17 +57,31 @@ export class SiteMapBuilder {
 		return this;
 	}
 
-	async addHTMLContent(filePath: string) {
+	async addHTMLContent(filePath: string, folderPath: string) {
 		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
-		const linkPath = this.getLinkPath(filePath.slice(0, -5), this.basePath, '');
+		const linkPath = path.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, '')).replace(/\\/g, '/');
 		let links = new Set<string>();
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
-		for (const match of content.match(/([\w|data-]+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/gm) ?? []) {
-			if (match.startsWith('href')) {
-				const link = match.slice(6, match.endsWith('"') ? -1 : 0);
-				if (link.length && !(link.startsWith("#") || link.startsWith("/_astro/") || link.endsWith(".svg"))) {
-					this.resolveLink(linkPath, link, links);
+
+		// FIXME: This requires a better bodge, without resorting to a HTML parser package
+		const starlightSidebar = content.match(/<ul[^>]*class=["'][^"']*\btop-level\b[^"']*["'][^>]*>/gs)?.[0] ?? '';
+		const sidebarLinkIdentifier = starlightSidebar.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
+
+		// NOTE: This misses links that are not within <a> tags, but is the easiest way to avoid resources being included as links
+		for (const tag of content.match(/<a\b[^>]*?>.*?<\/a>?/gm) ?? []) {
+			const classes = (tag.match(/class="([^"]*)"/)?.[1] ?? '').split(' ');
+			if (sidebarLinkIdentifier && classes.includes(sidebarLinkIdentifier)) {
+				continue;
+			}
+
+			let link = tag.match(/href="([^"]*)"/)?.[1] ?? '';
+			const text = extractInnerText(tag);
+			if (link.length && !link.startsWith("#")) {
+				link = this.resolveLink(linkPath, link, links);
+				if (link && text.length) {
+					link = ensureTrailingSlash(link);
+					this.implicitNameAssociations.set(link, [...(this.implicitNameAssociations.get(link) ?? []), text]);
 				}
 			}
 		}
@@ -84,7 +105,6 @@ export class SiteMapBuilder {
 				external: false,
 				filePath,
 				linkPath,
-				title: path.basename(linkPath),
 				tags: new Set(),
 				links,
 				backlinks: new Set(),
@@ -107,11 +127,8 @@ export class SiteMapBuilder {
 	}
 
 	async addMDContent(filePath: string) {
-		const extname = path.extname(filePath);
-
 		const linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
 
-		let title = path.basename(linkPath, extname);
 		let links = new Set<string>();
 		const tags = new Set<string>();
 		let nodeStyle = {} as Partial<NodeStyle>;
@@ -128,7 +145,9 @@ export class SiteMapBuilder {
 				return this;
 			}
 
-			title = frontmatter.data.title ?? title;
+			if (frontmatter.data.title && !this.officialNameAssociations.has(linkPath)) {
+				this.officialNameAssociations.set(linkPath, frontmatter.data.title);
+			}
 		}
 
 		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(
@@ -184,7 +203,6 @@ export class SiteMapBuilder {
 			external: false,
 			filePath,
 			linkPath,
-			title,
 			tags,
 			links,
 			backlinks: new Set<string>(),
@@ -205,7 +223,6 @@ export class SiteMapBuilder {
 						external: link.startsWith('http'),
 						filePath: undefined,
 						linkPath: link,
-						title: path.basename(link),
 						tags: new Set(),
 						links: new Set(),
 						backlinks: new Set(),
@@ -232,7 +249,10 @@ export class SiteMapBuilder {
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
 				external: entry.external,
 				exists: entry.filePath !== undefined || entry.external,
-				title: entry.title,
+				title:
+					this.officialNameAssociations.get(entry.linkPath) ??
+					getMostCommonItem([...this.implicitNameAssociations.get(entry.linkPath) ?? []]) ??
+					path.basename(entry.linkPath),
 				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
@@ -251,10 +271,13 @@ export class SiteMapBuilder {
 			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
 			if (link !== current) {
 				links.add(link);
+				return link;
 			}
 		} else if (this.config.includeExternalLinks) {
 			links.add(ensureTrailingSlash(link));
+			return link;
 		}
+		return undefined;
 	}
 
 	/**

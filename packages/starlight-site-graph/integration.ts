@@ -126,7 +126,6 @@ export default defineIntegration({
 						try {
 							await fs.promises.access(outputPath);
 							options.sitemapConfig.sitemap = (await builder
-								.setBasePath(outputPath)
 								.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
 								.process()
 								.toSitemap();

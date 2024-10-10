@@ -81,3 +81,16 @@ export async function* walk(dir: string): AsyncGenerator<string> {
 		else if (d.isFile()) yield entry;
 	}
 }
+
+export function extractInnerText(tag: string) {
+	return tag.replace(/<[^>]*>/g, '').trim();
+}
+
+export function getMostCommonItem<T>(arr: T[]): T | undefined {
+	if (arr.length === 0) return undefined;
+	const counts = new Map<T, number>();
+	for (const item of arr) {
+		counts.set(item, (counts.get(item) ?? 0) + 1);
+	}
+	return [...counts.entries()].reduce((a, b) => (b[1] > a[1] ? b : a))[0];
+}

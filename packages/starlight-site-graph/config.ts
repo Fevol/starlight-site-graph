@@ -700,6 +700,17 @@ const globalSitemapConfigSchema = z.object({
 	sitemap: sitemapSchema.optional(),
 
 	/**
+	 * Title of nodes for specific nodes of the graph (including external nodes).
+	 * **Overrides** the title of the page specified in the frontmatter.
+	 * The specified link should match the full path of the page or external link.
+	 *
+	 * @example The node with endpoint "BASEPATH/intro" should be called "Main" (instead of its frontmatter title "Introduction")
+	 * { "BASEPATH/intro": "Main" }
+	 */
+	pageTitles: z.record(z.string(), z.string()).default({}),
+
+
+	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
 	 * The page is included/excluded if the file's _path_ matches one of the rules.
 	 * When a rule starts with `!`, the file is _excluded_ if matched.
@@ -712,6 +723,8 @@ const globalSitemapConfigSchema = z.object({
 	 * ["api/**", "!**\/*"]
 	 * @example Include all files except those in the "secret" folder:
 	 * ["!secret/**", "**\/*"]
+	 * @example Remove external links to GitHub for "Edit page":
+	 * ["!https://**\/edit/**", "**\/*"]
 	 */
 	pageInclusionRules: z.array(z.string()).default(['**/*']),
 
