@@ -2,7 +2,7 @@ import type { NodeStyle, Sitemap, SitemapConfig } from '../config';
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
-import type { PageFrontmatter } from '../schema';
+import type { PageSiteGraphFrontmatter } from '../schema';
 // prettier-ignore
 import {
 	ensureLeadingPound,
@@ -117,7 +117,7 @@ export class SiteMapBuilder {
 		let nodeStyle = {} as Partial<NodeStyle>;
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
-		const frontmatter = matter(content) as unknown as { data: PageFrontmatter };
+		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter };
 		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
 			this.resolveLink(linkPath, match.match(/\((.*?)\)/)![1]!, links);
 		}
