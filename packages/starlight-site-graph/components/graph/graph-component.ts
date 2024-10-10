@@ -204,6 +204,7 @@ export class GraphComponent extends HTMLElement {
 
 		this.placeholderContainer.style.display = 'none';
 		this.style.visibility = 'visible';
+		this.renderer.resize();
 	}
 
 	enableFullscreen() {
