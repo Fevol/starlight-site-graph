@@ -47,9 +47,15 @@ export default defineIntegration({
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
 						if (command === 'dev' || command === 'build') {
 							builder.setBasePath(config.base);
-							await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
-							options.sitemapConfig.sitemap = command === 'dev' ? builder.process().toSitemap() : {};
-							logger.info('Finished retrieving links from Markdown content');
+							try {
+								await fs.promises.access(sitemapConfig.contentRoot);
+								await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
+								options.sitemapConfig.sitemap = command === 'dev' ? builder.process().toSitemap() : {};
+								logger.info('Finished retrieving links from Markdown content');
+							} catch (e) {
+								logger.error('Failed to retrieve links from Markdown content, reason: ' + e);
+								return;
+							}
 						}
 					} else {
 						logger.info('Using applied sitemap');
