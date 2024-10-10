@@ -4,13 +4,20 @@ title: Graph Container
 
 import GraphExample from "../../../../components/GraphExample.astro";
 
-import { frozenConfig, randomNodeSitemap } from '../constants.js';
+import {
+	frozenConfig,
+	randomNodeSitemap,
+} from '../constants.js';
 
 ## Actions
 
-`actions` is an array of strings which specify which action buttons are included in the graph.
+`actions` is an array of strings which specify which action buttons are included in the graph. \
+The order of the actions in the array determines the order in which they are displayed in the top right of the graph.
+
+For more information on what each individual action does, see the [Graph Actions](/starlight-site-graph/configuration/graph/graphactions) page.
 
 <GraphExample id="action-configuration" config={{
-	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"],
+	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "render-external", "render-unresolved", "settings"],
 	depth: 4,
 }} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+

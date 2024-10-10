@@ -1,0 +1,92 @@
+---
+title: Graph Actions
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+
+import {
+	baseConfig,
+	maxDepthConfig,
+	randomNodeSitemap,
+	singleNodeSitemap,
+	specialNodeSitemap,
+	largeRandomNodeSitemap,
+	threeNodeSitemap
+} from '../constants.js';
+
+## Fullscreen
+
+The `fullscreen` action button allows the user to toggle the graph between fullscreen and normal view. \
+When the canvas is focused, the user can also press `F` to toggle fullscreen.
+
+<GraphExample id="fullscreen-showcase" config={{
+	actions: ["fullscreen"],
+}} baseConfig={maxDepthConfig} sitemap={threeNodeSitemap} slug={"node/"} />
+
+## Depth
+
+The `depth` action button changes the depth of the graph. The depth determines the maximum number of hops between two nodes,
+a depth of 2 would mean that the graph only shows nodes that are 2 hops away from the current node.
+
+When the depth is negative _or_ greater than the maximum depth of 5,
+the graph will show _all_ nodes in the graph, even if they are not reachable from the current node.
+
+<GraphExample id="depth-showcase" config={{
+	actions: ["depth"],
+	depth: 1,
+}} baseConfig={baseConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+
+## Reset Zoom
+
+The `reset-zoom` action button resets the zoom level of the graph to the default zoom level,
+and re-centers the graph on the current node.
+
+<GraphExample id="reset-zoom-showcase" config={{
+	actions: ["reset-zoom"],
+}} baseConfig={baseConfig} sitemap={singleNodeSitemap} slug={"node/"} />
+
+## Render Arrows
+
+The `render-arrows` action button toggles the rendering of arrows on the edges of the graph. \
+When arrows are rendered, they indicate which way the link is pointing.
+
+<GraphExample id="render-arrows-showcase" config={{
+	actions: ["render-arrows"],
+	renderArrows: true,
+}} baseConfig={maxDepthConfig} sitemap={threeNodeSitemap} slug={"node/"} configListener />
+
+## Render External
+
+The `render-external` action button toggles the rendering of links going to external pages on the graph.
+
+<GraphExample id="render-external-showcase" config={{
+	actions: ["render-external"],
+	renderExternal: true,
+}} baseConfig={baseConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+
+
+## Render Unresolved
+
+The `render-unresolved` action button toggles the rendering of unresolved nodes on the graph. \
+Unresolved nodes are links that do lead to pages that do not exist in the website.
+
+<GraphExample id="render-unresolved-showcase" config={{
+	actions: ["render-unresolved"],
+	renderUnresolved: true,
+}} baseConfig={baseConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+
+
+## Settings
+
+The `settings` action button opens a modal that allows the user to configure the simulation forces.
+For more information on how the simulation forces work, see the [Simulation Forces](/docs/configuration/graph/simulationforces) page.
+
+<GraphExample id="settings-showcase" config={{
+	actions: ["settings"],
+	repelForce: 0.5,
+	centerForce: 0.3,
+	linkDistance: 30,
+	nodeForce: 0.05,
+	colliderPadding: 20,
+}} baseConfig={maxDepthConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener fullWidth />
+

@@ -1,10 +1,13 @@
 import config from 'virtual:starlight-site-graph/config';
-import { generateSitemap, randomlyLinkNodes } from './generationUtil.ts';
+import { generateRandomSitemap, generateSitemap } from './generationUtil.ts';
 
 export const baseConfig = config.graphConfig;
-export const frozenConfig = {
+export const maxDepthConfig = {
 	...baseConfig,
 	depth: 8,
+}
+export const frozenConfig = {
+	...maxDepthConfig,
 	enablePan: false,
 	enableZoom: false,
 	enableDrag: false,
@@ -21,12 +24,18 @@ export const focusSingleNode = {
 
 
 
-export const singleNodeSitemap = generateSitemap([{ name: 'node' }]);
+export const singleNodeSitemap = generateSitemap([{ id: 'node' }]);
 
-export const twoNodeSitemap = generateSitemap([{ name: 'node' }, { name: 'other-node', config: config.graphConfig.nodeDefaultStyle }]);
+export const twoNodeSitemap = generateSitemap([{ id: 'node' }, { id: 'other-node', nodeStyle: config.graphConfig.nodeDefaultStyle }]);
 
-export const fourtyNodeSitemap = generateSitemap([{ name: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle }))]);
+export const threeNodeSitemap = generateSitemap([{ id: 'node', links: ['other-node'] }, { id: 'other-node', links: ['another-node'] }, { id: 'another-node', links: ['node'] }]);
 
-export const starNodeSitemap = generateSitemap([{ name: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle, links: ["node/"] }))]);
+export const fourtyNodeSitemap = generateSitemap([{ id: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ id: `node${i + 1}`, nodeStyle: config.graphConfig.nodeDefaultStyle }))]);
 
-export const randomNodeSitemap = randomlyLinkNodes([{ name: 'node', connectPct: 0.8 }, ...Array.from({ length: 19 }, (_, i) => ({ name: `node${i + 1}`, config: config.graphConfig.nodeDefaultStyle }))], 0.05);
+export const starNodeSitemap = generateSitemap([{ id: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ id: `node${i + 1}`, nodeStyle: config.graphConfig.nodeDefaultStyle, links: ["node/"] }))]);
+
+export const randomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.2 }], 19, 0.15, 0.1, 0.1);
+
+export const largeRandomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.15 }], 40, 0.03, 0, 0);
+
+export const specialNodeSitemap = generateSitemap([{ id: 'node', links: ['basic-node', 'external-node', 'unresolved-node'] }, { id: 'basic-node' }, { id: 'external-node', external: true }, { id: 'unresolved-node', exists: false } ]);

@@ -1,0 +1,34 @@
+.flex-row {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    justify-items: baseline;
+    align-items: baseline;
+    padding: 0 4rem;
+
+    .break-line {
+        display: contents;
+    }
+
+    .break-line::before {
+        content: '';
+        width: 100%;
+    }
+}
+
+.flex-column {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    justify-items: baseline;
+    align-items: baseline;
+}
+
+.items-full-width.items-full-width > * {
+    flex-basis: 100%;
+}
+
+.corner-type-button button {
+    background-color: var(--sl-color-gray-4);
+}

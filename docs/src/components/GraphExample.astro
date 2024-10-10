@@ -22,8 +22,9 @@ interface Props {
 	}>;
 	dropdowns?: Record<string, Record<string, object>>;
 	configListener?: boolean;
+	fullWidth: boolean;
 }
-const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, configListener } = Astro.props;
+const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, configListener, fullWidth } = Astro.props;
 
 
 export function isObject(item: unknown) {
@@ -56,7 +57,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 ---
 
 <div id={id} class="graph-example" >
-	<div class="place-aside">
+	<div class={(fullWidth ? "items-full-width " : "") + "place-aside" }>
 		<Graph
 			debug={false}
 			config={fullConfig}
