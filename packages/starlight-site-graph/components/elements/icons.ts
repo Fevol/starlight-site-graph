@@ -12,6 +12,8 @@ import line from '../../assets/svgs/line.svg?raw';
 import settings from '../../assets/svgs/settings.svg?raw';
 import link from '../../assets/svgs/link.svg?raw';
 import unlink from '../../assets/svgs/unlink.svg?raw';
+import resolved from '../../assets/svgs/resolved.svg?raw';
+import unresolved from '../../assets/svgs/unresolved.svg?raw';
 
 export const icons = {
 	minimize: minimize,
@@ -31,6 +33,9 @@ export const icons = {
 
 	link: link,
 	unlink: unlink,
+
+	resolved: resolved,
+	unresolved: unresolved,
 
 	settings: settings,
 } as const satisfies Record<string, string>;

@@ -126,13 +126,34 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 			actionElement.oncontextmenu = e => {
 				showContextMenu(e, [
-					{ text: 'Show External Links', icon: icons.link, onClick: () => {
+					{ text: 'Show External Pages', icon: icons.link, onClick: () => {
 						context.config.renderExternal = true;
 						context.full_refresh();
 						e.stopPropagation();
 					}},
-					{ text: 'Hide External Links', icon: icons.unlink, onClick: () => {
+					{ text: 'Hide External Pages', icon: icons.unlink, onClick: () => {
 						context.config.renderExternal = false;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
+				]);
+			};
+		} else if (action === 'render-unresolved') {
+			actionElement.innerHTML = context.config.renderUnresolved ? icons.resolved : icons.unresolved;
+			actionElement.onclick = e => {
+				context.config.renderUnresolved = !context.config.renderUnresolved;
+				context.full_refresh();
+				e.stopPropagation();
+			};
+			actionElement.oncontextmenu = e => {
+				showContextMenu(e, [
+					{ text: 'Show Unresolved Pages', icon: icons.resolved, onClick: () => {
+						context.config.renderUnresolved = true;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
+					{ text: 'Hide Unresolved Pages', icon: icons.unresolved, onClick: () => {
+						context.config.renderUnresolved = false;
 						context.full_refresh();
 						e.stopPropagation();
 					}},

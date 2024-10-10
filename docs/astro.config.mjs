@@ -31,7 +31,7 @@ export default defineConfig({
 						depth: 1,
 						renderArrows: true,
 						tagRenderMode: 'same',
-						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings', 'render-external']
+						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings', 'render-external', 'render-unresolved']
 					},
 					sitemapConfig: {
 						// pageInclusionRules: [ "**/configuration/**" ],

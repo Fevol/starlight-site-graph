@@ -228,6 +228,7 @@ export const graphConfigSchema = z.object({
 	 * - `reset-zoom`: Reset the zoom level and center the graph on node of current page
 	 * - `render-arrows`: Toggle the rendering of arrows
 	 * - `render-external`: Toggle the rendering of nodes representing external pages
+	 * - `render-unresolved`: Toggle the rendering of nodes representing unresolved pages
 	 * - `settings`: Open the simulation settings modal
 	 *
 	 * @default ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"]
@@ -240,6 +241,7 @@ export const graphConfigSchema = z.object({
 				z.literal('reset-zoom'),
 				z.literal('render-arrows'),
 				z.literal('render-external'),
+				z.literal('render-unresolved'),
 				z.literal('settings')
 			]),
 		)
