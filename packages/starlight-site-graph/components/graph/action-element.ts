@@ -72,7 +72,9 @@ export function renderActionContainer(context: GraphComponent) {
 		} else if (action === 'render-arrows') {
 			actionElement.innerHTML = context.config.renderArrows ? icons.arrow : icons.line;
 			actionElement.onclick = e => {
-				context.full_refresh();
+				context.config.renderArrows = !context.config.renderArrows;
+				context.simulator.requestRender = true;
+				renderActionContainer(context);
 				e.stopPropagation();
 			};
 			actionElement.oncontextmenu = e => {
