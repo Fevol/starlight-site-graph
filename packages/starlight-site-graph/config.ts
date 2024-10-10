@@ -227,6 +227,7 @@ export const graphConfigSchema = z.object({
 	 * - `depth`: Increase the depth of the graph
 	 * - `reset-zoom`: Reset the zoom level and center the graph on node of current page
 	 * - `render-arrows`: Toggle the rendering of arrows
+	 * - `render-external`: Toggle the rendering of nodes representing external pages
 	 * - `settings`: Open the simulation settings modal
 	 *
 	 * @default ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"]
@@ -238,7 +239,8 @@ export const graphConfigSchema = z.object({
 				z.literal('depth'),
 				z.literal('reset-zoom'),
 				z.literal('render-arrows'),
-				z.literal('settings'),
+				z.literal('render-external'),
+				z.literal('settings')
 			]),
 		)
 		.default(['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']),
@@ -368,6 +370,13 @@ export const graphConfigSchema = z.object({
 	 * @default false
 	 */
 	renderUnresolved: z.boolean().default(false),
+	/**
+	 * Whether to render external pages in the graph
+	 *
+	 * @remarks External nodes only exist in the sitemap if `includeExternalLinks` of `sitemapConfig` is set to `true`.
+	 * @default true
+	 */
+	renderExternal: z.boolean().default(true),
 
 	/**
 	 * Whether to scale the links based on the zoom level

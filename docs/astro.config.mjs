@@ -30,7 +30,8 @@ export default defineConfig({
 					graphConfig: {
 						depth: 1,
 						renderArrows: true,
-						tagRenderMode: 'same'
+						tagRenderMode: 'same',
+						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings', 'render-external']
 					},
 					sitemapConfig: {
 						// pageInclusionRules: [ "**/configuration/**" ],

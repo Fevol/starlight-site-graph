@@ -10,6 +10,8 @@ import focus from '../../assets/svgs/focus.svg?raw';
 import arrow from '../../assets/svgs/arrow.svg?raw';
 import line from '../../assets/svgs/line.svg?raw';
 import settings from '../../assets/svgs/settings.svg?raw';
+import link from '../../assets/svgs/link.svg?raw';
+import unlink from '../../assets/svgs/unlink.svg?raw';
 
 export const icons = {
 	minimize: minimize,
@@ -26,6 +28,9 @@ export const icons = {
 
 	arrow: arrow,
 	line: line,
+
+	link: link,
+	unlink: unlink,
 
 	settings: settings,
 } as const satisfies Record<string, string>;

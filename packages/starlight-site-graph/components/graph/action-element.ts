@@ -57,9 +57,7 @@ export function renderActionContainer(context: GraphComponent) {
 						onClick: () => {
 							if (context.config.depth !== i) {
 								context.config.depth = i;
-								context.setup();
-								renderActionContainer(context);
-								context.simulator.resetZoom();
+								context.full_refresh();
 							}
 						},
 					})),
@@ -74,9 +72,7 @@ export function renderActionContainer(context: GraphComponent) {
 		} else if (action === 'render-arrows') {
 			actionElement.innerHTML = context.config.renderArrows ? icons.arrow : icons.line;
 			actionElement.onclick = e => {
-				context.config.renderArrows = !context.config.renderArrows;
-				context.simulator.requestRender = true;
-				renderActionContainer(context);
+				context.full_refresh();
 				e.stopPropagation();
 			};
 			actionElement.oncontextmenu = e => {
@@ -119,6 +115,27 @@ export function renderActionContainer(context: GraphComponent) {
 					nodeForceSlider,
 					colliderPaddingSlider,
 					linkDistanceSlider,
+				]);
+			};
+		} else if (action === 'render-external') {
+			actionElement.innerHTML = context.config.renderExternal ? icons.link : icons.unlink;
+			actionElement.onclick = e => {
+				context.config.renderExternal = !context.config.renderExternal;
+				context.full_refresh();
+				e.stopPropagation();
+			};
+			actionElement.oncontextmenu = e => {
+				showContextMenu(e, [
+					{ text: 'Show External Links', icon: icons.link, onClick: () => {
+						context.config.renderExternal = true;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
+					{ text: 'Hide External Links', icon: icons.unlink, onClick: () => {
+						context.config.renderExternal = false;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
 				]);
 			};
 		}

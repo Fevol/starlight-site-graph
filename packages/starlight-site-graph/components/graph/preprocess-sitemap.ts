@@ -22,6 +22,10 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	if (!context.config.renderUnresolved) {
 		corrected_data = corrected_data.filter(([_, v]) => v.exists);
 	}
+	if (!context.config.renderExternal) {
+		corrected_data = corrected_data.filter(([_, v]) => !v.external);
+	}
+
 	const data = new Map(corrected_data);
 
 	let depth = context.config.depth;

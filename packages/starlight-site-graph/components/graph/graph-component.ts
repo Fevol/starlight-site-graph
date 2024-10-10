@@ -174,6 +174,12 @@ export class GraphComponent extends HTMLElement {
 		}
 	}
 
+	full_refresh() {
+		this.setup();
+		renderActionContainer(this);
+		this.simulator.resetZoom();
+	}
+
 	setup() {
 		this.placeholderContainer.style.display = '';
 		this.style.visibility = 'hidden';
