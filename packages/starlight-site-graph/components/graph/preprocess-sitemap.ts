@@ -50,8 +50,9 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 			} else if (!neighbourhood.has(current)) {
 				const node = data.get(current)!;
 				// FIXME: This means that the target does not exist, link should have been removed
+				//   NOTE 2: Depends on whether node is unresolved
 				if (!node) {
-					console.error("[STARLIGHT-SITE-GRAPH] Node doesn't exist in sitemap:", current, data);
+					// console.error("[STARLIGHT-SITE-GRAPH] Node doesn't exist in sitemap:", current, data);
 					continue;
 				}
 
