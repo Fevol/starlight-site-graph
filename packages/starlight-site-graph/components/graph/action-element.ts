@@ -7,7 +7,6 @@ import {
 	MAX_DEPTH,
 	CENTER_FORCE_SLIDER_MIN, CENTER_FORCE_SLIDER_MAX, CENTER_FORCE_SLIDER_STEP,
 	CHARGE_FORCE_SLIDER_MIN, CHARGE_FORCE_SLIDER_MAX, CHARGE_FORCE_SLIDER_STEP,
-	NODE_FORCE_SLIDER_MIN, NODE_FORCE_SLIDER_MAX, NODE_FORCE_SLIDER_STEP,
 	COLLIDER_PADDING_SLIDER_MIN, COLLIDER_PADDING_SLIDER_MAX, COLLIDER_PADDING_SLIDER_STEP,
 	LINK_DISTANCE_SLIDER_MIN, LINK_DISTANCE_SLIDER_MAX, LINK_DISTANCE_SLIDER_STEP
 } from './constants';
@@ -96,11 +95,6 @@ export function renderActionContainer(context: GraphComponent) {
 						context.simulator.update();
 				});
 
-				const nodeForceSlider = createValueSlider('Node Force', context.config.nodeForce, NODE_FORCE_SLIDER_MIN, NODE_FORCE_SLIDER_MAX, NODE_FORCE_SLIDER_STEP, (value) => {
-						context.config.nodeForce = value;
-						context.simulator.update();
-				});
-
 				const colliderPaddingSlider = createValueSlider('Collider Padding', context.config.colliderPadding, COLLIDER_PADDING_SLIDER_MIN, COLLIDER_PADDING_SLIDER_MAX, COLLIDER_PADDING_SLIDER_STEP, (value) => {
 						context.config.colliderPadding = value;
 						context.simulator.update();
@@ -114,7 +108,6 @@ export function renderActionContainer(context: GraphComponent) {
 				showPopupMenu(context.actionContainer, [
 					chargeForceSlider,
 					centerForceSlider,
-					nodeForceSlider,
 					colliderPaddingSlider,
 					linkDistanceSlider,
 				]);

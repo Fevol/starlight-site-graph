@@ -89,15 +89,14 @@ export class GraphSimulator {
 			.stop()
 			.force('link', linkForce)
 			.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.context.config.repelForce))
-			.force('forceX', d3.forceX().strength(this.context.config.nodeForce))
-			.force('forceY', d3.forceY().strength(this.context.config.nodeForce))
+			.force('forceX', d3.forceX().strength(this.context.config.centerForce))
+			.force('forceY', d3.forceY().strength(this.context.config.centerForce))
 			.force(
 				'collision',
 				d3
 					.forceCollide()
 					.radius(node => (node as NodeData).colliderSize! + this.context.config.colliderPadding),
 			)
-			.force('center', d3.forceCenter(this.context.config.centerForce))
 			.alpha(1)
 			.restart();
 	}

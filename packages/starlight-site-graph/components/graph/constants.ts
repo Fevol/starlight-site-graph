@@ -30,12 +30,8 @@ export const CHARGE_FORCE_SLIDER_MAX = 500;
 export const CHARGE_FORCE_SLIDER_STEP = 1;
 
 export const CENTER_FORCE_SLIDER_MIN = 0;
-export const CENTER_FORCE_SLIDER_MAX = 200;
-export const CENTER_FORCE_SLIDER_STEP = 1;
-
-export const NODE_FORCE_SLIDER_MIN = 0;
-export const NODE_FORCE_SLIDER_MAX = 1;
-export const NODE_FORCE_SLIDER_STEP = 0.01;
+export const CENTER_FORCE_SLIDER_MAX = 1;
+export const CENTER_FORCE_SLIDER_STEP = 0.01;
 
 export const COLLIDER_PADDING_SLIDER_MIN = 0;
 export const COLLIDER_PADDING_SLIDER_MAX = 100;
@@ -46,7 +42,6 @@ export const LINK_DISTANCE_SLIDER_MAX = 500;
 export const LINK_DISTANCE_SLIDER_STEP = 1;
 
 export const REQUIRE_SIMULATION_UPDATE = [
-	'nodeForce',
 	'colliderPadding',
 	'repelForce',
 	'centerForce',

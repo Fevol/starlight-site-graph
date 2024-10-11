@@ -613,7 +613,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.05
 	 */
-	nodeForce: z.number().min(0, "Node force may not be negative").default(0.05),
+	centerForce: z.number().min(0, "Center force may not be negative").default(0.05),
 	/**
 	 * The collision force between nodes in the graph
 	 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
@@ -628,12 +628,6 @@ export const graphConfigSchema = z.object({
 	 * @default 200
 	 */
 	repelForce: z.number().min(0, "Repel force may not be negative").default(200),
-	/**
-	 * The force that pulls nodes towards the center of gravity of the graph
-	 *
-	 * @default 0
-	 */
-	centerForce: z.number().min(0, "Center force may not be negative").default(0),
 	/**
 	 * The distance between linked nodes in the graph
 	 * If set to 0, link distance are determined by the force simulation
@@ -881,7 +875,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     arrowAngle: Math.PI / 6,
 		 *
 		 *     repelForce: 0.5,
-		 *     centerForce: 0.3,
+		 *     centerForce: 0.05,
 		 *     linkDistance: 30,
 		 * }```
 		 */
