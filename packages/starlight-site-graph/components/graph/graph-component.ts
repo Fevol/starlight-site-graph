@@ -9,7 +9,8 @@ import { renderActionContainer } from './action-element';
 import { processSitemapData } from './preprocess-sitemap';
 import { getGraphColors, type GraphColorConfig } from '../../color';
 
-import { onClickOutside, stripSlashes, ensureTrailingSlash } from '../util';
+import { REQUIRE_SIMULATION_UPDATE, REQUIRE_RENDER_UPDATE, REQUIRE_ZOOM_UPDATE, REQUIRE_FULL_REFRESH } from './constants';
+import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -129,8 +130,34 @@ export class GraphComponent extends HTMLElement {
 		this.propertyObserver = new MutationObserver(mutations => {
 			mutations.forEach(mutation => {
 				if (!this.ignoreConfigUpdate && mutation.attributeName === 'data-config') {
+					const previousConfig = this.config;
 					this.setConfigListener(this.dataset['config']);
-					this.setup();
+					const diff = deepDiff(previousConfig, this.config);
+
+					let requireSimulationUpdate = false;
+					let requireRendererUpdate = false;
+					let requireZoomUpdate = false;
+
+					for (const key in diff) {
+						if (REQUIRE_SIMULATION_UPDATE.includes(key)) requireSimulationUpdate = true;
+						else if (REQUIRE_RENDER_UPDATE.includes(key)) requireRendererUpdate = true;
+						else if (REQUIRE_ZOOM_UPDATE.includes(key)) requireZoomUpdate = true;
+						else {
+							this.full_refresh();
+							return;
+						}
+					}
+
+					if (requireSimulationUpdate) {
+						this.simulator.update();
+					}
+					if (requireRendererUpdate) {
+						this.simulator.requestRender = true;
+					}
+					if (requireZoomUpdate) {
+						const scale = diff['scale'].newValue;
+						this.simulator.updateZoom(scale);
+					}
 				}
 				if (mutation.attributeName === 'data-sitemap') {
 					this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');

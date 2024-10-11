@@ -44,3 +44,65 @@ export const COLLIDER_PADDING_SLIDER_STEP = 1;
 export const LINK_DISTANCE_SLIDER_MIN = 0;
 export const LINK_DISTANCE_SLIDER_MAX = 500;
 export const LINK_DISTANCE_SLIDER_STEP = 1;
+
+export const REQUIRE_SIMULATION_UPDATE = [
+	'nodeForce',
+	'colliderPadding',
+	'repelForce',
+	'centerForce',
+	'linkDistance',
+];
+export const REQUIRE_RENDER_UPDATE = [
+	'renderLabels',
+	'renderArrows',
+	'renderUnresolved',
+	'renderExternal',
+
+	'scaleLinks',
+	'scaleArrows',
+	'minZoomArrows',
+	'labelOpacityScale',
+	'labelMutedOpacity',
+	'labelHoverOpacity',
+	'labelAdjacentOpacity',
+	'labelFontSize',
+	'labelHoverScale',
+	'labelOffset',
+	'labelHoverOffset',
+
+	'linkWidth',
+	'linkHoverWidth',
+
+	'arrowSize',
+	'arrowAngle'
+
+];
+export const REQUIRE_ZOOM_UPDATE = [
+	'scale',
+];
+export const REQUIRE_FULL_REFRESH = [
+	'enableDrag',
+	'enableZoom',
+	'enablePan',
+	'enableHover',
+	'enableClick',
+
+	'depth',
+	'depthDirection',
+
+	'minZoom',
+	'maxZoom',
+
+	'zoomDuration',
+	'zoomEase',
+
+	'hoverDuration',
+	'hoverEase',
+
+	'nodeDefaultStyle',
+	'nodeVisitedStyle',
+	'nodeCurrentStyle',
+	'nodeUnresolvedStyle',
+	'nodeExternalStyle',
+	'tagDefaultStyle',
+]

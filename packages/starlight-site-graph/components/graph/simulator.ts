@@ -268,15 +268,11 @@ export class GraphSimulator {
 		return Math.max((k * this.context.config.labelOpacityScale - 1) / 3.75, 0);
 	}
 
-	updateTransform(immediate: boolean = false) {
-		this.transform = this.zoomTransform
-			.translate(this.centerTransform.x, this.centerTransform.y)
-			.scale(this.centerTransform.k);
-
+	updateZoom(scale?: number, x?: number, y?: number, immediate: boolean = false) {
 		const values: { zoom: number; transformX: number; transformY: number; labelOpacity?: number } = {
-			zoom: this.transform.k,
-			transformX: this.transform.x,
-			transformY: this.transform.y,
+			zoom: scale ?? this.transform.k,
+			transformX: x ?? this.transform.x,
+			transformY: y ?? this.transform.y,
 		};
 		if (!this.currentlyHovered) {
 			values.labelOpacity = this.getCurrentLabelOpacity(this.transform.k);
@@ -288,6 +284,13 @@ export class GraphSimulator {
 		} else {
 			this.context.animator.startAnimations(values);
 		}
+	}
+
+	updateTransform(immediate: boolean = false) {
+		this.transform = this.zoomTransform
+			.translate(this.centerTransform.x, this.centerTransform.y)
+			.scale(this.centerTransform.k);
+		this.updateZoom(this.transform.k, this.transform.x, this.transform.y, immediate);
 	}
 
 	/**
