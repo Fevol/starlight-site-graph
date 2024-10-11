@@ -6,6 +6,7 @@ export const maxDepthConfig = {
 	...baseConfig,
 	depth: 8,
 }
+
 export const frozenConfig = {
 	...maxDepthConfig,
 	enablePan: false,
@@ -15,6 +16,12 @@ export const frozenConfig = {
 	prefetchPages: false,
 	actions: []
 }
+
+export const largeFrozenSitemapConfig = {
+	...frozenConfig,
+	scale: 0.55,
+}
+
 export const focusSingleNode = {
 	...frozenConfig,
 	scale: 3,
@@ -36,6 +43,6 @@ export const starNodeSitemap = generateSitemap([{ id: 'node', backlinks: Array.f
 
 export const randomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.2 }], 19, 0.15, 0.1, 0.1);
 
-export const largeRandomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.15 }], 40, 0.03, 0, 0);
+export const largeRandomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.15 }], 49, 0.025, 0, 0);
 
 export const specialNodeSitemap = generateSitemap([{ id: 'node', links: ['basic-node', 'external-node', 'unresolved-node'] }, { id: 'basic-node' }, { id: 'external-node', external: true }, { id: 'unresolved-node', exists: false } ]);

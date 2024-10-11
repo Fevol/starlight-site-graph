@@ -1,0 +1,84 @@
+---
+title: Simulation
+---
+
+import { largeRandomNodeSitemap, largeFrozenSitemapConfig } from '../constants.js';
+import GraphExample from "../../../../components/GraphExample.astro";
+
+The Graph is simulated using [d3](https://d3js.org/), and works based on the principle of push-and-pull:
+nodes push each other away, and links pull nodes together.
+
+## Repel Force
+
+The repel force determines how much nodes push each other away, the higher the force, the further apart nodes will be.
+Negative values (i.e. positive pull forces) are not allowed.
+
+For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcemanybody).
+
+<GraphExample id="repel-force-showcase" config={{
+	repelForce: -100,
+}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
+	"repelForce": {
+		"title": "repelForce",
+		"min": 0,
+		"max": 500,
+		"step": 1,
+		"val": 200,
+	}
+}} fullWidth />
+
+## Collider Padding
+
+The collider padding gives additional padding around the node's collider, making the minimum distance between nodes larger.
+
+For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcecollide).
+
+<GraphExample id="collider-padding-showcase" config={{
+	colliderPadding: 20,
+}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
+	"colliderPadding": {
+		"title": "colliderPadding",
+		"min": 0,
+		"max": 100,
+		"step": 1,
+		"val": 20,
+	}
+}} fullWidth />
+
+## Center Force
+
+The center force determines how much nodes are pulled towards the center of the graph.
+
+For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcex-and-forcey).
+
+<GraphExample id="center-force-showcase" config={{
+	centerForce: 0.05,
+}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
+	"centerForce": {
+		"title": "centerForce",
+		"min": 0,
+		"max": 1,
+		"step": 0.01,
+		"val": 0.05,
+	}
+}} fullWidth />
+
+## Link Distance
+
+The link distance specifies that links between nodes should be a fixed distance apart.
+If the link distance is set to 0, the distance between nodes will be determined by the simulation.
+
+For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcelink).
+
+<GraphExample id="link-distance-showcase" config={{
+	linkDistance: 0.001,
+}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
+	"linkDistance": {
+		"title": "linkDistance",
+		"min": 0,
+		"max": 500,
+		"step": 1,
+		"val": 0.001,
+	}
+}} fullWidth />
+

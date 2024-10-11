@@ -76,45 +76,49 @@ const fullConfig = mergeDeep(baseConfig, config);
 				<Code code={JSON.stringify(fullConfig, null, 2)} lang="json"/>
 			</TabItem>
 		</Tabs>
+
+		<div class="user-config">
+			{Object.keys(buttons ?? {}).length !== 0 &&
+				<div class="flex-row unselectable">
+					{Object.entries(buttons!).map(([key, { class: className }]) => (
+						<div class={className}>
+							<button>{key}</button>
+						</div>
+					))}
+				</div>
+			}
+
+			{Object.keys(sliders ?? {}).length !== 0 &&
+				<div class="flex-column unselectable">
+					{Object.entries(sliders!).map(([key, value]) => (
+						// Slight trick: slider is hidden if initial value is nullish (to only show shapePoints slider if shape is polygon/star)
+				<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
+							<span class="slider-title"> { value.title } </span>
+							<input data-key={key} type="range" min={value.min} max={value.max} step={value.step} value={value.val} />
+							<span class="slider-value"> { value.val + (value.type === "percentage" ? "%" : "") } </span>
+						</div>
+					))}
+				</div>
+			}
+
+			{Object.keys(dropdowns ?? {}).length !== 0 &&
+				<div class="flex-column unselectable">
+					{Object.entries(dropdowns!).map(([key, value]) => (
+						<div>
+							<span class="dropdown-title">{key}</span>
+							<select data-key={key}>
+								{Object.entries(value).map(([k, v]) => (
+									<option value={JSON.stringify(v)}>{k}</option>
+								))}
+							</select>
+						</div>
+					))}
+				</div>
+			}
+		</div>
 	</div>
 
-	{Object.keys(buttons ?? {}).length !== 0 &&
-		<div class="flex-row unselectable">
-			{Object.entries(buttons!).map(([key, { class: className }]) => (
-				<div class={className}>
-					<button>{key}</button>
-				</div>
-			))}
-		</div>
-	}
 
-	{Object.keys(sliders ?? {}).length !== 0 &&
-		<div class="flex-column unselectable">
-			{Object.entries(sliders!).map(([key, value]) => (
-				// Slight trick: slider is hidden if initial value is nullish (to only show shapePoints slider if shape is polygon/star)
-				<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
-					<span class="slider-title"> { value.title } </span>
-					<input data-key={key} type="range" min={value.min} max={value.max} step={value.step} value={value.val} />
-					<span class="slider-value"> { value.val + (value.type === "percentage" ? "%" : "") } </span>
-				</div>
-			))}
-		</div>
-	}
-
-	{Object.keys(dropdowns ?? {}).length !== 0 &&
-		<div class="flex-column unselectable">
-			{Object.entries(dropdowns!).map(([key, value]) => (
-				<div>
-					<span class="dropdown-title">{key}</span>
-					<select data-key={key}>
-						{Object.entries(value).map(([k, v]) => (
-							<option value={JSON.stringify(v)}>{k}</option>
-						))}
-					</select>
-				</div>
-			))}
-		</div>
-	}
 </div>
 
 <script define:vars={{ id, buttons, sliders, dropdowns, configListener }}>

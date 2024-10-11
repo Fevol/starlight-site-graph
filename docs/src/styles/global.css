@@ -25,10 +25,31 @@
     align-items: baseline;
 }
 
+.corner-type-button button {
+    background-color: var(--sl-color-gray-4);
+}
+
+/* FIXME: These styles don't work inside astro components, investigate */
+@media (max-width: 50em) {
+    .graph-example .place-aside starlight-tabs {
+        height: unset;
+    }
+}
+
 .items-full-width.items-full-width > * {
     flex-basis: 100%;
 }
 
-.corner-type-button button {
-    background-color: var(--sl-color-gray-4);
+
+
+.items-full-width .graph-component {
+    order: 0;
+}
+
+.items-full-width .user-config {
+    order: 1;
+}
+
+.items-full-width starlight-tabs {
+    order: 2;
 }
