@@ -152,8 +152,13 @@ export class GraphComponent extends HTMLElement {
 						this.simulator.update();
 					}
 					if (requireRendererUpdate) {
-						// TODO: Could also be updates by tweening the values
-						this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
+						const newAnimatables = animatables(this.config, this.colors);
+						delete newAnimatables['transformX'];
+						delete newAnimatables['transformY'];
+						delete newAnimatables['zoom'];
+						for (const [key, value] of Object.entries(newAnimatables)) {
+							this.animator.setProperties(key, (value as any).properties);
+						}
 						this.simulator.requestRender = true;
 					}
 					if (requireZoomUpdate) {

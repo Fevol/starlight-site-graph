@@ -48,22 +48,18 @@ export const REQUIRE_SIMULATION_UPDATE = [
 	'linkDistance',
 ];
 export const REQUIRE_RENDER_UPDATE = [
-	'renderLabels',
 	'renderArrows',
-	'renderUnresolved',
-	'renderExternal',
 
 	'scaleLinks',
 	'scaleArrows',
 	'minZoomArrows',
+	'labelHoverScale',
+	'labelOffset',
+	'labelHoverOffset',
 	'labelOpacityScale',
 	'labelMutedOpacity',
 	'labelHoverOpacity',
 	'labelAdjacentOpacity',
-	'labelFontSize',
-	'labelHoverScale',
-	'labelOffset',
-	'labelHoverOffset',
 
 	'linkWidth',
 	'linkHoverWidth',
@@ -74,8 +70,15 @@ export const REQUIRE_RENDER_UPDATE = [
 ];
 export const REQUIRE_ZOOM_UPDATE = [
 	'scale',
+	'labelOpacityScale',
 ];
 export const REQUIRE_FULL_REFRESH = [
+	'renderLabels',
+	'renderUnresolved',
+	'renderExternal',
+
+	'labelFontSize',
+
 	'enableDrag',
 	'enableZoom',
 	'enablePan',

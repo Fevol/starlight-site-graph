@@ -31,6 +31,20 @@ export function enforceValidNodes(nodes: NodeConfig[]) {
 		node.links = node.links ? node.links.map((link) => link.endsWith('/') ? link : `${link}/`) : [];
 		node.backlinks = node.backlinks ? node.backlinks.map((link) => link.endsWith('/') ? link : `${link}/`) : [];
 	}
+
+	// Yes this is inefficient, too bad! (Okay, I'm just trying to get all of this finished by the evening)
+	for (const node of nodes) {
+		for (const link of node.links!) {
+			const linkedNode = nodes.find((n) => n.id === link);
+			linkedNode?.backlinks?.push(node.id);
+		}
+	}
+
+	for (const node of nodes) {
+		node.links = [...new Set(node.links)];
+		node.backlinks = [...new Set(node.backlinks)];
+	}
+
 	return nodes;
 }
 

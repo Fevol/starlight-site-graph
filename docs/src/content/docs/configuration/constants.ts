@@ -27,6 +27,7 @@ export const focusSingleNode = {
 	scale: 3,
 	nodeCurrentStyle: {},
 	renderLabels: false,
+	centerForce: 0.001,
 }
 
 

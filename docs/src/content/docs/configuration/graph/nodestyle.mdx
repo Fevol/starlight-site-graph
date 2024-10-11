@@ -40,7 +40,7 @@ this property is ignored for other shapes.
 ## Size Config
 You can change the size of the node by setting the `shapeSize` property.
 
-<GraphExample id="sizeSelect" config={{ nodeDefaultStyle: { shapeSize: 10 } }} baseConfig={{ ...focusSingleNode, scale: 1 }} sitemap={twoNodeSitemap} slug={"node/"}
+<GraphExample id="sizeSelect" config={{ nodeDefaultStyle: { shapeSize: 10 } }} baseConfig={{ ...focusSingleNode, scale: 1, repelForce: 5 }} sitemap={twoNodeSitemap} slug={"node/"}
 	sliders={{
 		"nodeDefaultStyle.shapeSize": {
 			"title": "shapeSize",
@@ -234,7 +234,7 @@ You can change the node scaling by setting the `scale` property.
 					  nodeScale: 1
 				  }
 			  }}
-			  baseConfig={focusSingleNode} sitemap={twoNodeSitemap} slug={"node/"}
+			  baseConfig={{ ...focusSingleNode, repelForce: 5 }} sitemap={twoNodeSitemap} slug={"node/"}
 			  sliders={{
 				  "nodeDefaultStyle.nodeScale": {
 					  "title": "nodeScale",
