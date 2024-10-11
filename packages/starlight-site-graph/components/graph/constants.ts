@@ -65,7 +65,10 @@ export const REQUIRE_RENDER_UPDATE = [
 	'linkHoverWidth',
 
 	'arrowSize',
-	'arrowAngle'
+	'arrowAngle',
+
+	'zoomDuration',
+	'zoomEase',
 
 ];
 export const REQUIRE_ZOOM_UPDATE = [
@@ -90,9 +93,6 @@ export const REQUIRE_FULL_REFRESH = [
 
 	'minZoom',
 	'maxZoom',
-
-	'zoomDuration',
-	'zoomEase',
 
 	'hoverDuration',
 	'hoverEase',

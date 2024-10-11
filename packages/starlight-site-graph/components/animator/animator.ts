@@ -116,6 +116,18 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		}
 	}
 
+	setDuration<K extends keyof T>(key: K, duration: number): void {
+		this.configs[key]!.duration = duration;
+	}
+
+	setEasing<K extends keyof T>(key: K, easing: AnimationConfig<unknown>['easing']): void {
+		this.configs[key]!.easing = easing;
+	}
+
+	setInterpolator<K extends keyof T>(key: K, interpolator: AnimationConfig<unknown>['interpolator']): void {
+		this.configs[key]!.interpolator = interpolator;
+	}
+
 	private resetAnimation<K extends keyof T>(key: K): void {
 		const animation = this.animations[key]!;
 

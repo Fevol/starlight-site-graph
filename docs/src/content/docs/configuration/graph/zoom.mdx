@@ -1,0 +1,114 @@
+---
+title: Zoom Logic
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+import {
+	focusSingleNode,
+	frozenConfig,
+	singleNodeSitemap,
+	threeNodeSitemap, twoNodeSitemap
+} from '../constants.js';
+
+
+## Scale
+
+The `scale` option determines the initial zoom level of the graph.
+
+<GraphExample id="scale-showcase" config={{
+	scale: 1.1,
+}} baseConfig={{ ...focusSingleNode }} sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"scale": {
+			"title": "scale",
+			"min": 0.1,
+			"max": 5,
+			"step": 0.1,
+			"val": 1.1,
+		}
+	}}
+/>
+
+
+## Minimum Zoom
+
+The `minZoom` option determines the minimum zoom level of the graph, the lowest zoom extent that the user can zoom out to.
+A higher value means that the user can zoom out less.
+
+<GraphExample id="min-zoom-showcase" config={{
+	minZoom: 0.05,
+	enableZoom: true,
+	enablePan: true,
+}} baseConfig={{ ...focusSingleNode, scale: 1.1 }} sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"minZoom": {
+			"title": "minZoom",
+			"min": 0.1,
+			"max": 5,
+			"step": 0.1,
+			"val": 0.05,
+		}
+	}}
+/>
+
+
+## Maximum Zoom
+
+The `maxZoom` option determines the maximum zoom level of the graph, the highest zoom extent that the user can zoom in to.
+A higher value means that the user can zoom in more.
+
+<GraphExample id="max-zoom-showcase" config={{
+	maxZoom: 4,
+	enableZoom: true,
+	enablePan: true,
+}} baseConfig={{ ...focusSingleNode, scale: 1.1 }} sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"maxZoom": {
+			"title": "maxZoom",
+			"min": 0.1,
+			"max": 5,
+			"step": 0.1,
+			"val": 4,
+		}
+	}}
+/>
+
+
+## Zoom Duration
+
+The `zoomDuration` option determines the duration of the zoom animation in milliseconds.
+This includes zooming in, zooming out and panning.
+
+<GraphExample id="zoom-duration-showcase" config={{
+	zoomDuration: 75,
+	enableZoom: true,
+	enablePan: true,
+}} baseConfig={{ ...focusSingleNode, scale: 1.1 }} sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"zoomDuration": {
+			"title": "zoomDuration",
+			"min": 0,
+			"max": 1000,
+			"step": 25,
+			"val": 75,
+		}
+	}}
+/>
+
+## Zoom Easer
+
+The `zoomEasing` option determines the easing function used for the zoom animation.
+This includes zooming in, zooming out and panning.
+
+<GraphExample id="zoom-easer-showcase" config={{
+	zoomEasing: "easeInOutCubic",
+	enableZoom: true,
+	enablePan: true,
+}} baseConfig={{ ...focusSingleNode, scale: 1.1 }} sitemap={singleNodeSitemap} slug={"node/"}
+	buttons={{
+		"Linear": { config: { zoomEasing: "linear" } },
+		"Quadratic Ease In": { config: { zoomEasing: "in_quad" } },
+		"Quadratic Ease Out": { config: { zoomEasing: "out_quad" } },
+		"Quadratic Ease In Out": { config: { zoomEasing: "in_out_quad" } },
+	}}
+/>

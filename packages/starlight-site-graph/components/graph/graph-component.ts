@@ -153,11 +153,12 @@ export class GraphComponent extends HTMLElement {
 					}
 					if (requireRendererUpdate) {
 						const newAnimatables = animatables(this.config, this.colors);
-						delete newAnimatables['transformX'];
-						delete newAnimatables['transformY'];
-						delete newAnimatables['zoom'];
+						// TODO: This could be made more efficient by only updating the changed properties
 						for (const [key, value] of Object.entries(newAnimatables)) {
 							this.animator.setProperties(key, (value as any).properties);
+							this.animator.setDuration(key, (value as any).duration);
+							this.animator.setEasing(key, (value as any).easing);
+							this.animator.setInterpolator(key, (value as any).interpolator);
 						}
 						this.simulator.requestRender = true;
 					}
