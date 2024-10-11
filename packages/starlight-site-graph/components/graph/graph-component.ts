@@ -9,7 +9,12 @@ import { renderActionContainer } from './action-element';
 import { processSitemapData } from './preprocess-sitemap';
 import { getGraphColors, type GraphColorConfig } from '../../color';
 
-import { REQUIRE_SIMULATION_UPDATE, REQUIRE_RENDER_UPDATE, REQUIRE_ZOOM_UPDATE, REQUIRE_FULL_REFRESH } from './constants';
+import {
+	REQUIRE_SIMULATION_UPDATE,
+	REQUIRE_RENDER_UPDATE,
+	REQUIRE_ZOOM_UPDATE,
+	REQUIRE_NOTHING
+} from './constants';
 import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff } from '../util';
 import { GraphSimulator } from './simulator';
 
@@ -139,6 +144,8 @@ export class GraphComponent extends HTMLElement {
 					let requireZoomUpdate = false;
 
 					for (const key in diff) {
+						if (REQUIRE_NOTHING.includes(key)) continue;
+
 						if (REQUIRE_SIMULATION_UPDATE.includes(key)) requireSimulationUpdate = true;
 						else if (REQUIRE_RENDER_UPDATE.includes(key)) requireRendererUpdate = true;
 						else if (REQUIRE_ZOOM_UPDATE.includes(key)) requireZoomUpdate = true;

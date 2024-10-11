@@ -70,6 +70,12 @@ export class GraphSimulator {
 		this.simulation.stop();
 		this.simulation.nodes([]);
 		this.simulation.force('link', null);
+
+		d3.select(this.container).on('drag', null);
+		d3.select(this.container).on('zoom', null);
+		d3.select(this.container).on('click', null);
+		d3.select(this.container).on('mousemove', null);
+		d3.select(this.container).on('mouseleave', null);
 	}
 
 	destroy() {
@@ -200,8 +206,12 @@ export class GraphSimulator {
 				) {
 					if (closestNode.external) {
 						window.open(closestNode.id, '_blank');
+					} else if (this.context.config.followLink === 'graph') {
+						this.context.currentPage = closestNode.id;
+						this.context.full_refresh();
+						this.context.setStyleDefault();
 					} else {
-						window.open(ensureLeadingSlash(closestNode.id), '_self');
+						window.open(ensureLeadingSlash(closestNode.id), this.context.config.followLink === 'new-tab' ? '_blank' : '_self');
 					}
 				}
 				this.lastClick = clickTime;

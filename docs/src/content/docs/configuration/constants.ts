@@ -17,6 +17,11 @@ export const frozenConfig = {
 	actions: []
 }
 
+export const nonInteractiveConfig = {
+	...frozenConfig,
+	enableHover: false,
+}
+
 export const largeFrozenSitemapConfig = {
 	...frozenConfig,
 	scale: 0.55,

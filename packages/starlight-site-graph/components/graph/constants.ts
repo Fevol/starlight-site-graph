@@ -47,6 +47,10 @@ export const REQUIRE_SIMULATION_UPDATE = [
 	'centerForce',
 	'linkDistance',
 ];
+
+export const REQUIRE_NOTHING = [
+	'followLink',
+]
 export const REQUIRE_RENDER_UPDATE = [
 	'renderArrows',
 

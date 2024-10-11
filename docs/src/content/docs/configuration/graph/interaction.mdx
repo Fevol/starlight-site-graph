@@ -1,0 +1,100 @@
+---
+title: User Interactions
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+import config from "virtual:starlight-site-graph/config"
+
+import {
+	nonInteractiveConfig,
+	randomNodeSitemap, singleNodeSitemap, starNodeSitemap, threeNodeSitemap
+} from '../constants.js';
+
+## Zooming
+
+When the `enableZoom` configuration is enabled, the user can zoom in and out of the graph using the mouse wheel.
+If `enablePan` is disabled, the zoom will be from the center of the graph, and not from the mouse cursor.
+
+:::caution[Warning]
+The central zooming feature is currently broken, it is recommended to enable `enablePan` when using `enableZoom`.
+:::
+
+<GraphExample id="zoom-configuration" config={{
+	enableZoom: true,
+}} baseConfig={nonInteractiveConfig} sitemap={threeNodeSitemap} slug={"node/"} />
+
+## Panning
+
+When the `enablePan` configuration is enabled, the user can drag the graph around using the mouse.
+
+<GraphExample id="drag-configuration" config={{
+	enablePan: true
+}} baseConfig={{ ...nonInteractiveConfig, depth: 2 }} sitemap={randomNodeSitemap} slug={"node/"} />
+
+## Dragging
+
+When the `enableDrag` configuration is enabled, the user can drag nodes around the graph.
+The dragged nodes will still be subject to the physics simulation, so they will eventually return to a stable position.
+
+<GraphExample id="drag-nodes-configuration" config={{
+	enableDrag: true
+}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"node/"} />
+
+## Hovering
+
+When the `enableHover` configuration is enabled, the user can hover over nodes to apply their hovered styles.
+
+<GraphExample id="hover-configuration" config={{
+	enableHover: true
+}} baseConfig={nonInteractiveConfig} sitemap={randomNodeSitemap} slug={"node/"} />
+
+
+## Clicking
+
+When the `enableClick` configuration is enabled, the user can click on nodes to follow the link to the node's page.
+
+:::note[Note]
+Clicking is disabled for unresolved nodes, tags and the current page node.
+:::
+
+This settings has four options:
+- `auto`: The default option, require a double click for the link to be followed on mobile devices, and a single click on desktop.
+- `disable`: The link is never followed.
+- `click`: The link is followed on a single click.
+- `dblclick`: The link is followed on a double click.
+
+
+<GraphExample id="click-configuration" config={{
+	followLink: 'graph',
+	enableClick: "auto",
+	enableHover: true
+}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"node/"}
+	buttons={{
+		"auto": { config: { enableClick: "auto" } },
+		"disable": { config: { enableClick: "disable" } },
+		"click": { config: { enableClick: "click" } },
+		"dblclick": { config: { enableClick: "dblclick" } },
+	}}
+/>
+
+
+## Link Following
+
+The `followLink` configuration determines what happens when a node with a valid link is clicked.
+- `same`: The link is opened in the same tab.
+- `new-tab`: The link is opened in a new tab.
+- `graph`: The clicked node is set as the current node in the graph.
+
+By default, a link is opened in the same tab. External links will always be opened in a new tab (regardless of this setting).
+
+<GraphExample id="link-configuration" config={{
+	followLink: 'graph',
+	enableClick: 'auto',
+	enableHover: true
+}} baseConfig={nonInteractiveConfig} sitemap={config.sitemapConfig.sitemap} slug={"starlight-site-graph/configuration/graph/interaction/"}
+	buttons={{
+		"Same Tab": { config: { followLink: "same" } },
+		"New Tab": { config: { followLink: "new-tab" } },
+		"Graph": { config: { followLink: "graph" } },
+	}}
+/>

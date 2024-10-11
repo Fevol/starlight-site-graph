@@ -336,6 +336,18 @@ export const graphConfigSchema = z.object({
 	depthDirection: z.union([z.literal('both'), z.literal('incoming'), z.literal('outgoing')]).default('both'),
 
 	/**
+	 * Determine what should happen when a link is followed
+	 * - `same`: Open the link in the same tab
+	 * - `new-tab`: Open the link in a new tab
+	 * - `graph`: Set the link as the current node in the graph
+	 *
+	 * @remark This does _not_ apply to external links, which will always open in a new tab
+	 * @default "tab"
+	 */
+	followLink: z.union([z.literal('same'), z.literal('new-tab'), z.literal('graph')]).default('same'),
+
+
+	/**
 	 * The scale of the graph, determines the zoom level
 	 *
 	 * @default 1.1
