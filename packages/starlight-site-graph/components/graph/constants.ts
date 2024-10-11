@@ -74,6 +74,8 @@ export const REQUIRE_RENDER_UPDATE = [
 	'zoomDuration',
 	'zoomEase',
 
+	'hoverDuration',
+	'hoverEase',
 ];
 export const REQUIRE_ZOOM_UPDATE = [
 	'scale',
@@ -97,9 +99,6 @@ export const REQUIRE_FULL_REFRESH = [
 
 	'minZoom',
 	'maxZoom',
-
-	'hoverDuration',
-	'hoverEase',
 
 	'nodeDefaultStyle',
 	'nodeVisitedStyle',

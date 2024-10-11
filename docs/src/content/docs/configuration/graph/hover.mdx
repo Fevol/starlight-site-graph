@@ -1,0 +1,49 @@
+---
+title: Hover Logic
+sidebar:
+  order: 6
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+import {
+	focusSingleNode,
+	singleNodeSitemap,
+} from '../constants.js';
+
+
+## Hover Duration
+
+The `hoverDuration` option determines the time in milliseconds for the hover style to be fully applied to nodes, links and labels.
+
+<GraphExample id="hover-duration-showcase" config={{
+	hoverDuration: 200,
+}} baseConfig={ focusSingleNode } sitemap={singleNodeSitemap} slug={"node/"}
+	sliders={{
+		"hoverDuration": {
+			"title": "hoverDuration",
+			"min": 0,
+			"max": 1000,
+			"step": 50,
+			"val": 200,
+		}
+	}}
+/>
+
+
+## Hover Easer
+
+The `hoverEaser` option determines the easing function used to apply the hover style to nodes, links and labels.
+
+<GraphExample id="hover-easer-showcase" config={{
+	zoomEase: "out_quad",
+	enableZoom: true,
+	enablePan: true,
+}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+  buttons={{
+	  "Linear": { config: { zoomEase: "linear" } },
+	  "Quadratic Ease In": { config: { zoomEase: "in_quad" } },
+	  "Quadratic Ease Out": { config: { zoomEase: "out_quad" } },
+	  "Quadratic Ease In Out": { config: { zoomEase: "in_out_quad" } },
+  }}
+/>
+

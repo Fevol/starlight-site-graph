@@ -1,0 +1,81 @@
+---
+title: General
+sidebar:
+  order: 2
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+
+import {
+	frozenConfig, largeFrozenSitemapConfig, largeRandomNodeSitemap,
+	randomNodeSitemap,
+} from '../constants.js';
+
+## Depth
+
+The `depth` option determines the depth of the graph, how many levels of links are shown.
+- `-x`: Show the entire graph (the particular value of `x` is ignored).
+- `0`: Show only the current node.
+- `1`: Show the current node and its immediate neighbors.
+- `x`: Show nodes up to `x` hops away from the current node.
+- `5>`: Show the entire graph (the particular value of `x` is ignored).
+
+When the depth is negative, the graph will show _all_ nodes in the graph, even if they are not reachable from the current node.
+
+The graph will be traversed in the direction specified by the `depthDirection` option.
+
+<GraphExample id="depth-showcase" config={{
+	depth: 1,
+}} baseConfig={{ ...largeFrozenSitemapConfig, scale: 0.65 }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener
+	sliders={{
+		"depth": {
+			"title": "depth",
+			"min": -1,
+			"max": 5,
+			"step": 1,
+			"val": 1,
+		}
+	}}
+/>
+
+## Depth Direction
+
+The `depthDirection` option determines the direction in which the links of the graph are expanded.
+- `both`: The graph will be expanded in both directions.
+- `incoming`: The graph will only be expanded in the direction of incoming links.
+- `outgoing`: The graph will only be expanded in the direction of outgoing links.
+
+This setting is ignored once a depth of 5 or higher is reached.
+
+<GraphExample id="depth-direction-showcase" config={{
+	depth: 1,
+	depthDirection: "both",
+}} baseConfig={{ ...largeFrozenSitemapConfig, scale: 0.65, minZoomArrows: 0.01, arrowSize: 4 }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener
+	sliders={{
+		depth: {
+			"title": "depth",
+			"min": -1,
+			"max": 5,
+			"step": 1,
+			"val": 1,
+		}
+	}}
+	buttons={{
+	  "both": { config: { depthDirection: "both" } },
+	  "incoming": { config: { depthDirection: "incoming" } },
+	  "outgoing": { config: { depthDirection: "outgoing" } },
+	}}
+/>
+
+## Actions
+
+`actions` is an array of strings which specify which action buttons are included in the graph. \
+The order of the actions in the array determines the order in which they are displayed in the top right of the graph.
+
+For more information on what each individual action does, see the [Graph Actions](/starlight-site-graph/configuration/graph/actions) page.
+
+<GraphExample id="action-configuration" config={{
+	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "render-external", "render-unresolved", "settings"],
+	depth: 4,
+}} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+

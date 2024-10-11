@@ -1,13 +1,14 @@
 ---
 title: User Interactions
+sidebar:
+  order: 4
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
 import config from "virtual:starlight-site-graph/config"
 
 import {
-	nonInteractiveConfig,
-	randomNodeSitemap, singleNodeSitemap, starNodeSitemap, threeNodeSitemap
+	nonInteractiveConfig, randomNodeSitemap, starNodeSitemap, threeNodeSitemap
 } from '../constants.js';
 
 ## Zooming
@@ -98,3 +99,7 @@ By default, a link is opened in the same tab. External links will always be open
 		"Graph": { config: { followLink: "graph" } },
 	}}
 />
+
+## Page Prefetching
+
+The `prefetchPages` configuration determines whether a page should be prefetched when it is hovered over.
