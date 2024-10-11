@@ -1,0 +1,98 @@
+---
+title: Link Rendering
+---
+
+
+import GraphExample from "../../../../components/GraphExample.astro";
+import { frozenConfig, threeNodeSitemap } from '../constants.js';
+
+
+## Link Width
+
+The `linkWidth` determines the width of the links between nodes. The higher the value, the thicker the links.
+
+<GraphExample id="link-width-showcase" config={{
+	linkWidth: 1,
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
+	"linkWidth": {
+		"title": "linkWidth",
+		"min": 1,
+		"max": 10,
+		"step": 1,
+		"val": 1,
+	}
+}} />
+
+
+## Link Hover Width
+
+The `linkHoverWidth` determines the width of the links between nodes when hovered over. The higher the value, the thicker the links.
+
+<GraphExample id="link-hover-width-showcase" config={{
+	linkHoverWidth: 5,
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
+	"linkHoverWidth": {
+		"title": "linkHoverWidth",
+		"min": 1,
+		"max": 10,
+		"step": 1,
+		"val": 5,
+	}
+}} />
+
+
+## Arrow Rendering
+
+The `renderArrows` option toggles the rendering of arrows on the edges of the graph. When arrows are rendered, they indicate which way the link is pointing.
+
+<GraphExample id="render-arrows-showcase" config={{
+	renderArrows: true,
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"}
+	buttons={{
+		"Hide Arrows": { config: { renderArrows: false } },
+		"Render Arrows": { config: { renderArrows: true } },
+	}}
+/>
+
+
+## Arrow Size
+
+The `arrowSize` determines the size of the arrows on the links between nodes. The higher the value, the larger the arrows.
+Arrows between links are only rendered if the `renderArrows` option is enabled.
+
+<GraphExample id="arrow-size-showcase" config={{
+	renderArrows: true,
+	arrowSize: 5,
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
+	"arrowSize": {
+		"title": "arrowSize",
+		"min": 1,
+		"max": 20,
+		"step": 1,
+		"val": 10,
+	}
+}} />
+
+
+## Arrow Angle
+
+The `arrowAngle` determines the 'pointiness' of the arrows on the links between nodes. The higher the value, the more pointed the arrows.
+Arrows between links are only rendered if the `renderArrows` option is enabled.
+
+:::note
+For this example, the value is expressed as a fraction of π.
+The default value is π/6.
+:::
+
+<GraphExample id="arrow-angle-showcase" config={{
+	renderArrows: true,
+	arrowAngle: Math.PI / 6,
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
+	"arrowAngle": {
+		"title": "arrowAngle",
+		"min": 0,
+		"max": Math.PI / 2,
+		"step": Math.PI / 48,
+		"val": Math.PI / 6,
+	}
+}} />
