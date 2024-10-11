@@ -3,6 +3,7 @@ interface Node {
 	external?: boolean;
 	title?: string;
 	links?: string[];
+	tags?: string[];
 	backlinks?: string[];
 	nodeStyle?: object;
 }

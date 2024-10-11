@@ -26,7 +26,7 @@ export default defineConfig({
 				}),
 				starlightSiteGraph({
 					debug: false,
-					trackVisitedPages: false,
+					trackVisitedPages: true,
 					graphConfig: {
 						depth: 1,
 						renderArrows: true,

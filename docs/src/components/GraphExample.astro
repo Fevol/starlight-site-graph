@@ -1,4 +1,6 @@
 ---
+// Word of warning: this component is full of bodges.
+
 import { Graph } from 'starlight-site-graph/components'
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
 
@@ -21,10 +23,11 @@ interface Props {
 		type?: "percentage";
 	}>;
 	dropdowns?: Record<string, Record<string, object>>;
+	dropdownMergeOrder?: string[];
 	configListener?: boolean;
 	fullWidth: boolean;
 }
-const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, configListener, fullWidth } = Astro.props;
+const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, dropdownMergeOrder, configListener, fullWidth } = Astro.props;
 
 
 export function isObject(item: unknown) {
@@ -107,8 +110,11 @@ const fullConfig = mergeDeep(baseConfig, config);
 						<div>
 							<span class="dropdown-title">{key}</span>
 							<select data-key={key}>
-								{Object.entries(value).map(([k, v]) => (
-									<option value={JSON.stringify(v)}>{k}</option>
+								{Object.entries(value).map(([k, v], idx) => (
+									(
+										config[key] ? <option selected={JSON.stringify(v[key]) === JSON.stringify(config[key]) || v[key].selected} value={JSON.stringify(v)}>{k}</option>
+													: <option selected={idx === 0} value={JSON.stringify(v)}>{k}</option>
+									)
 								))}
 							</select>
 						</div>
@@ -121,7 +127,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 
 </div>
 
-<script define:vars={{ id, buttons, sliders, dropdowns, configListener }}>
+<script define:vars={{ id, buttons, sliders, dropdowns, dropdownMergeOrder, configListener }}>
 	const isObject = i => i && typeof i == 'object' && !Array.isArray(i);
 	const mergeDeep = (t, s) => (isObject(t) && isObject(s)) ? Object.keys(s).reduce((o, k) => (o[k] = isObject(s[k]) ? mergeDeep(t[k]||{}, s[k]) : s[k], o), {...t}) : t;
 	const getPrimitives = (o, p = '') => Object.entries(o).flatMap(([k,v]) => typeof v === 'object' ? getPrimitives(v, p + k + '.') : [[p + k, v]]);
@@ -218,7 +224,18 @@ const fullConfig = mergeDeep(baseConfig, config);
 		dropdownEls.forEach(dropdown => {
 			dropdown.addEventListener('change', () => {
 				const config = JSON.parse(graph.getAttribute('data-config'));
-				const newConfig = JSON.parse(dropdown.value);
+				let newConfig = JSON.parse(dropdown.value);
+				if (dropdownMergeOrder) {
+					const curr_key = dropdown.getAttribute('data-key');
+					const currentIndex = dropdownMergeOrder.indexOf(curr_key);
+					const dropdownElements = Array.from(dropdownEls);
+					let previousConfig = currentIndex ? config[dropdownMergeOrder[currentIndex - 1]] : {};
+					for (const key of dropdownMergeOrder.slice(currentIndex)) {
+						const dropdownValue = JSON.parse(dropdownElements.find(el => el.getAttribute('data-key') === key).value)[key];
+						newConfig[key] = mergeDeep(previousConfig, dropdownValue);
+						previousConfig = newConfig[key];
+					}
+				}
 				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
 				updateTabText(0, newConfig);
 				updateTabText(2, newConfig);
