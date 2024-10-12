@@ -1,0 +1,55 @@
+---
+title: Structure
+sidebar:
+  order: 3
+---
+
+
+## Graph
+### Graph Container
+- `(.right-sidebar-panel .graph-panel)`: Holds the entire graph component. Classes passed by component props.
+  - `h2`: Graph title. 
+  - `.graph-component .graph-skeleton`: Only visible while the graph is loading, ensures visual consistency.
+  - `.graph-component`: Holds all graph-related elements.
+    - `.graph-container (.is-fullscreen)`: Holds the graph canvas, fullscreen class is applied when maximized.
+      - `.graph-action-container`: Holds the graph action icons.
+        - `button.graph-action-button`: A graph action icon.
+            - `svg`: Action icon.
+      - `canvas`: Where the graph is actually drawn.
+    - (`.background-blur`: Element is only added when the graph is maximized, blurs the site background.)
+
+You can also style the performance stats when [debug](/todo) is enabled:
+- `#graph-stats`: Performance stats container.
+
+
+### Context Menu
+On right clicking a `.graph-action-button`, a context menu will appear:
+- `body`: Document body
+  - `menu-container`: Context menu container, positions the context menu.
+    - `menu`: Context menu items list
+      - `menu-item`: Context menu item
+        - `menu-item-icon`: Context menu item icon
+        - `menu-item-title`: Context menu item title
+
+### Popup Menu
+On activating the simulation settings (via the corresponding quick action), a popup menu will be created
+inside the `.graph-action-container`:
+- `.graph-container`: Graph container
+  - `.graph-action-container`: Holds the graph action icons.
+    - `button.graph-action-button`: A graph action icon.
+    - **`.popup-menu`**: Popup menu container
+      - `.popup-menu-content`: Popup menu item
+        - `.value-slider`: Slider for adjusting configuration values
+          - `.value-slider-text`: Slider label
+          - `input[type="range"]`: Slider input
+
+## Backlinks
+
+- `(.right-sidebar-panel .backlinks-panel)`: Holds the backlinks component. Classes passed by component props.
+  - `h2`: Backlinks title. 
+  - `ul .backlink`: Backlinks list element
+    - `li` Backlink item
+      - `a`: Backlink anchor
+        - `span`: Backlink text
+
+  

@@ -35,7 +35,7 @@ export function getGraphColors(node: HTMLElement): GraphColorConfig {
 	const style = getComputedStyle(document.body);
 	const nodeStyle = getComputedStyle(node);
 	return {
-		backgroundColor: nodeStyle.getPropertyValue('--slsg-background-color'),
+		backgroundColor: nodeStyle.getPropertyValue('--slsg-graph-bg-color'),
 
 		nodeColor: style.getPropertyValue('--slsg-node-color'),
 		nodeColorHover: style.getPropertyValue('--slsg-node-color-hover'),

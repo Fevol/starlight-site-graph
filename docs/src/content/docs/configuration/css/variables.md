@@ -1,0 +1,178 @@
+---
+title: Variables
+sidebar:
+  order: 2
+---
+
+## Graph Container
+### Text Colors
+- `--slsg-text-color`: The base color of the text in the graph. Inherited by label colors.
+- `--slsg-text-color-accent`: The accent color of the text in the graph. Inherited by label hover colors.
+
+### Container
+- `--slsg-graph-width`: The width of the graph container.
+- `--slsg-graph-height`: The height of the graph container.
+- `--slsg-graph-minimized-bg-color`: The background color of the graph when it is minimized.
+- `--slsg-graph-maximized-bg-color`: The background color of the graph when it is fullscreen.
+- `--slsg-graph-outline-color`: The color of the graph's outline.
+
+### Actions
+- `--slsg-graph-action-color`: The color of the graph action icons.
+- `--slsg-graph-action-color-hover`: The color of the graph action icons when hovered.
+- `--slsg-graph-action-bg-color-hover`: The color of the graph action icons when active.
+
+### Context Menu
+- `--slsg-context-menu-border-color`: The background color of the context menu.
+- `--slsg-context-menu-bg-color`: The color of the context menu text.
+- `--slsg-context-menu-bg-color-hover`: The color of the context menu text when hovered.
+
+
+## Graph Elements
+### Nodes
+- `--slsg-node-color`: The base color of the nodes in the graph.
+  <br>
+- `--slsg-node-color-hover`: The node's color when hovered.
+- `--slsg-node-color-adjacent`: The node's color when they are adjacent to the hovered node.
+- `--slsg-node-color-muted`: The node's color when they are not adjacent or hovered.
+  <br>
+- `--slsg-node-color-current`: The node's color when it is the same as the current page.
+- `--slsg-node-color-visited`: The node's color when the user has visited the page.
+- `--slsg-node-color-unresolved`: The node's color when the page does not exist.
+- `--slsg-node-color-external`: The node's color when the node leads to an external page.
+- `--slsg-node-color-tag`: The node's color when the node is a tag.
+  <br>
+- `--slsg-node-color-1`: The node's color when it has `nodeColor1` set in its style.
+- `--slsg-node-color-2`: The node's color when it has `nodeColor2` set in its style.
+- `--slsg-node-color-3`: The node's color when it has `nodeColor3` set in its style.
+- `--slsg-node-color-4`: The node's color when it has `nodeColor4` set in its style.
+- `--slsg-node-color-5`: The node's color when it has `nodeColor5` set in its style.
+- `--slsg-node-color-6`: The node's color when it has `nodeColor6` set in its style.
+- `--slsg-node-color-7`: The node's color when it has `nodeColor7` set in its style.
+- `--slsg-node-color-8`: The node's color when it has `nodeColor8` set in its style.
+- `--slsg-node-color-9`: The node's color when it has `nodeColor9` set in its style.
+
+### Links
+- `--slsg-link-color`: The color of the links in the graph.
+- `--slsg-link-color-hover`: The color of the links when hovered.
+- `--slsg-link-color-muted`: The color of the links when they are not next to the hovered node.
+
+### Labels
+- `--slsg-label-color`: The color of the labels in the graph.
+- `--slsg-label-color-hover`: The color of the labels when hovered.
+- `--slsg-label-color-muted`: The color of the labels when they are not next to the hovered node.
+
+
+## Default Config
+If you want to a sensible default configuration for a regular light/dark themed Astro website,
+you can make use of the following CSS variables:
+
+```css
+:root {
+    /* Graph Container Size */
+    --slsg-graph-width: 250px;
+    --slsg-graph-height: 250px;
+
+    /* Text Sizes for Menu/Backlinks component */
+    --slsg-text-lg: 1.125rem;
+    --slsg-text-md: 1rem;
+    --slsg-text-sm: 0.875rem;
+    --slsg-text-xs: 0.75rem;
+
+    /* Label colors */
+    --slsg-label-color: var(--slsg-text-color);
+    --slsg-label-color-hover: var(--slsg-text-color-accent);
+    --slsg-label-color-muted: var(--slsg-text-color);
+}
+
+:root[data-theme='light'] {
+    /* Graph Container Colors */
+    --slsg-graph-minimized-bg-color: #ffffff;
+    --slsg-graph-maximized-bg-color: #edeef3;
+    --slsg-graph-outline-color: #e2e3e8;
+
+    --slsg-graph-action-color: #17181c;
+    --slsg-graph-action-color-hover: #17181c;
+    --slsg-graph-action-bg-color-hover: #c1c3c8;
+
+    --slsg-context-menu-border-color: #888c96;
+    --slsg-context-menu-bg-color: #edeef3;
+    --slsg-context-menu-bg-color-hover: #c1c3c8;
+
+    /* Text Colors */
+    --slsg-text-color: #17181c;
+    --slsg-text-color-accent: #2d8dc5;
+
+    /* Node colors */
+    --slsg-node-color: #888c96;
+    --slsg-node-color-hover: #2d8dc5;
+    --slsg-node-color-muted: #d3d3d3;
+    --slsg-node-color-adjacent: #888c96;
+
+    --slsg-node-color-current: #76bd6e;
+    --slsg-node-color-visited: #7fb7bd;
+    --slsg-node-color-unresolved: #ea7f7f;
+    --slsg-node-color-external: #c3a6ff;
+    --slsg-node-color-tag: #c777dc;
+
+    --slsg-node-color-1: #ff595e;
+    --slsg-node-color-2: #ff924c;
+    --slsg-node-color-3: #ffca3a;
+    --slsg-node-color-4: #c5ca30;
+    --slsg-node-color-5: #8ac926;
+    --slsg-node-color-6: #52a675;
+    --slsg-node-color-7: #1982c4;
+    --slsg-node-color-8: #4267ac;
+    --slsg-node-color-9: #7d5ba6;
+
+    /* Link colors */
+    --slsg-link-color: #888c96;
+    --slsg-link-color-hover: #2d8dc5;
+    --slsg-link-color-muted: #c1c3c8;
+}
+
+:root[data-theme='dark'] {
+    /* Graph Container Colors */
+    --slsg-graph-minimized-bg-color: #17181c;
+    --slsg-graph-maximized-bg-color: #23262f;
+    --slsg-graph-outline-color: #555962;
+
+    --slsg-graph-action-color: #ffffff;
+    --slsg-graph-action-color-hover: #ffffff;
+    --slsg-graph-action-bg-color-hover: #353841;
+
+    --slsg-context-menu-border-color: #555962;
+    --slsg-context-menu-bg-color: #23262f;
+    --slsg-context-menu-bg-color-hover: #353841;
+
+    /* Text Colors */
+    --slsg-text-color: #ffffff;
+    --slsg-text-color-accent: #3372ae;
+
+    /* Node colors */
+    --slsg-node-color: #ffffff;
+    --slsg-node-color-hover: #3372ae;
+    --slsg-node-color-muted: #353841;
+    --slsg-node-color-adjacent: #c1c3c8;
+
+    --slsg-node-color-current: #9acd93;
+    --slsg-node-color-visited: #86b9c5;
+    --slsg-node-color-unresolved: #e88585;
+    --slsg-node-color-external: #b163c5;
+    --slsg-node-color-tag: #c3a6ff;
+
+    --slsg-node-color-1: #ff595e;
+    --slsg-node-color-2: #ff924c;
+    --slsg-node-color-3: #ffca3a;
+    --slsg-node-color-4: #c5ca30;
+    --slsg-node-color-5: #8ac926;
+    --slsg-node-color-6: #52a675;
+    --slsg-node-color-7: #1982c4;
+    --slsg-node-color-8: #4267ac;
+    --slsg-node-color-9: #7d5ba6;
+
+    /* Link colors */
+    --slsg-link-color: #555962;
+    --slsg-link-color-hover: #3372ae;
+    --slsg-link-color-muted: #353841;
+}
+```
