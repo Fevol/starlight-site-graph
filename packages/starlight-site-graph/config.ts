@@ -802,25 +802,16 @@ export const starlightSiteGraphConfigSchema = z
 		debug: z.boolean().default(false),
 
 		/**
-		 * The prefix used for the key which stores the visited pages in the browser's storage.
-		 *
-		 * @default "graph-"
-		 */
-		storageKey: z.string().default('graph-'),
-		/**
-		 * The specific location in the browser where the visited pages are stored.
+		 * Whether to track pages of the website that were visited by the user.
+		 * If disabled, the graph will not show visited pages in a different style (defined by `nodeVisitedStyle`). \
+		 * The tracking can be set to:
+		 * - `disable`: Do not track visited pages
+		 * - `session`: Track visited pages for the current session
+		 * - `local`: Track visited pages across sessions
 		 *
 		 * @default "session"
 		 */
-		storageLocation: z.union([z.literal('none'), z.literal('session'), z.literal('local')]).default('session'),
-		/**
-		 * Whether to track pages of the website that were visited by the user.
-		 * If disabled, the graph will not show visited pages in a different style (defined by `nodeVisitedStyle`). \
-		 * Storage location and key can be configured in the `storageLocation` and `storageKey` options.
-		 *
-		 * @default true
-		 */
-		trackVisitedPages: z.boolean().default(true),
+		trackVisitedPages: z.union([z.literal('disable'), z.literal('session'), z.literal('local')]).default('session'),
 
 		/**
 		 * Configuration for the PageSidebar graph component.

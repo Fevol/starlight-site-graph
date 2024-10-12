@@ -1,12 +1,12 @@
 import config from 'virtual:starlight-site-graph/config';
 
 export function getVisitedEndpoints(): Set<string> {
-	if (!config.trackVisitedPages) return new Set();
+	if (config.trackVisitedPages === 'disable') return new Set();
 
 	return new Set(
 		JSON.parse(
-			(config.storageLocation === 'session' ? sessionStorage : localStorage).getItem(
-				config.storageKey + 'visited',
+			(config.trackVisitedPages === 'session' ? sessionStorage : localStorage).getItem(
+				'starlight-site-graph--visited-pages',
 			) ?? '[]',
 		),
 	);
