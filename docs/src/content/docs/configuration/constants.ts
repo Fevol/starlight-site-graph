@@ -45,6 +45,7 @@ export const threeNodeSitemap = generateSitemap([{ id: 'node', links: ['other-no
 
 export const fourNodeSitemap  = generateSitemap([{ id: 'node', links: ['other-node'], tags: ["Tag"] }, { id: 'other-node', links: ['another-node'] }, { id: 'another-node', links: ['node'] }]);
 
+export const twoTagSitemap = generateSitemap([{ id: 'node', tags: ['Tag 1', 'Tag 2'], links: ['other-node'] }, { id: 'other-node', tags: ['Tag 1'] }, { id: 'another-node', tags: ['Tag 2', 'Tag 1'] }]);
 
 export const fourtyNodeSitemap = generateSitemap([{ id: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ id: `node${i + 1}`, nodeStyle: config.graphConfig.nodeDefaultStyle }))]);
 

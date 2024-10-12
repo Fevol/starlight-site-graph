@@ -13,8 +13,11 @@ import {
 	singleNodeSitemap,
 	specialNodeSitemap,
 	largeRandomNodeSitemap,
-	threeNodeSitemap
+	threeNodeSitemap, frozenConfig
 } from '../constants.js';
+
+The quick actions are a set of buttons that allow the user to quickly change some of the graph's settings through the UI.
+In most cases, the buttons also have context menu options which show all available options for that action.
 
 ## Fullscreen
 
@@ -36,7 +39,7 @@ the graph will show _all_ nodes in the graph, even if they are not reachable fro
 <GraphExample id="depth-showcase" config={{
 	actions: ["depth"],
 	depth: 1,
-}} baseConfig={baseConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+}} baseConfig={{ ...frozenConfig, scale: 0.8 }} sitemap={randomNodeSitemap} slug={"node/"} configListener />
 
 ## Reset Zoom
 
@@ -55,7 +58,7 @@ When arrows are rendered, they indicate which way the link is pointing.
 <GraphExample id="render-arrows-showcase" config={{
 	actions: ["render-arrows"],
 	renderArrows: true,
-}} baseConfig={maxDepthConfig} sitemap={threeNodeSitemap} slug={"node/"} configListener />
+}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} configListener />
 
 ## Render External
 
@@ -64,7 +67,7 @@ The `render-external` action button toggles the rendering of links going to exte
 <GraphExample id="render-external-showcase" config={{
 	actions: ["render-external"],
 	renderExternal: true,
-}} baseConfig={baseConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
 
 
 ## Render Unresolved
@@ -75,7 +78,7 @@ Unresolved nodes are links that do lead to pages that do not exist in the websit
 <GraphExample id="render-unresolved-showcase" config={{
 	actions: ["render-unresolved"],
 	renderUnresolved: true,
-}} baseConfig={baseConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
 
 
 ## Settings
@@ -89,5 +92,5 @@ For more information on how the simulation forces work, see the [Simulation Conf
 	centerForce: 0.05,
 	linkDistance: 30,
 	colliderPadding: 20,
-}} baseConfig={maxDepthConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener fullWidth />
+}} baseConfig={{ ...maxDepthConfig, enableClick: "disable" }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener fullWidth />
 

@@ -132,6 +132,12 @@ const fullConfig = mergeDeep(baseConfig, config);
 	const mergeDeep = (t, s) => (isObject(t) && isObject(s)) ? Object.keys(s).reduce((o, k) => (o[k] = isObject(s[k]) ? mergeDeep(t[k]||{}, s[k]) : s[k], o), {...t}) : t;
 	const getPrimitives = (o, p = '') => Object.entries(o).flatMap(([k,v]) => typeof v === 'object' ? getPrimitives(v, p + k + '.') : [[p + k, v]]);
 	const getNestedKey = (o, k) => k.split('.').reduce((a, c) => a[c], o);
+	const transformNestedKeys = o => Object.keys(o).reduce((r, k) => {
+		let [p, c] = k.split('.');
+		(r[p] ??= {})[c] = o[k];
+		return r;
+	}, {});
+
 	// Bodgy way to update the config (without importing remark code generation here)
 	const updateTabText = (tab, partialConfig) => {
 		const code = document.querySelectorAll(`#${id} starlight-tabs code`)[tab];
@@ -224,7 +230,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 		dropdownEls.forEach(dropdown => {
 			dropdown.addEventListener('change', () => {
 				const config = JSON.parse(graph.getAttribute('data-config'));
-				let newConfig = JSON.parse(dropdown.value);
+				let newConfig = transformNestedKeys(JSON.parse(dropdown.value));
 				if (dropdownMergeOrder) {
 					const curr_key = dropdown.getAttribute('data-key');
 					const currentIndex = dropdownMergeOrder.indexOf(curr_key);

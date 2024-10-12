@@ -106,4 +106,6 @@ export const REQUIRE_FULL_REFRESH = [
 	'nodeUnresolvedStyle',
 	'nodeExternalStyle',
 	'tagDefaultStyle',
+
+	'tagStyles'
 ]

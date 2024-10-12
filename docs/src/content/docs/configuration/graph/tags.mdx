@@ -1,0 +1,79 @@
+---
+title: Tag Rendering
+sidebar:
+  order: 8
+---
+
+import GraphExample from "../../../../components/GraphExample.astro";
+import {
+	fourNodeSitemap,
+	frozenConfig, stylesDropdown,
+	tagDefaultStylesConfig,
+	tagDefaultStylesPartialConfig,
+	twoTagSitemap
+} from '../constants.js';
+
+
+Tags are pseudo-nodes that are created when a page has tags associated with it (either via [frontmatter](/todo) or [`tagRules`](/todo)).
+
+
+## Tags
+
+<GraphExample id="tag-style-default-showcase" config={{
+	tagRenderMode: "node"
+}} baseConfig={{ ...frozenConfig }} sitemap={{ ...fourNodeSitemap }} slug={"node/"}
+/>
+
+
+## Tag Rendering Mode
+
+The `tagRenderMode` option determines how tags are rendered in the graph:
+- `none`: Tags are not rendered in the graph.
+- `node`: Tags are rendered as individual nodes in the graph, connected to all nodes that have the corresponding tag.
+		The style of the tags is determined by the `tagStyles` option.
+- `same`: Nodes assume the style of the associated tag(s) defined in `tagStyles`.
+		Nodes with multiple tags will assume the style of the first tag in the list.
+- `both`: Tags are rendered as individual nodes in the graph, connected to all nodes that have the corresponding tag,
+		and the nodes themselves assume the style of the associated tag(s) defined in `tagStyles`.
+
+<GraphExample id="tag-render-mode-showcase" config={{
+	tagRenderMode: "node",
+	tagStyles: {
+		"Tag": { shape: "square", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" }
+	}
+}} baseConfig={{ ...frozenConfig }} sitemap={{ ...fourNodeSitemap }} slug={"node/"}
+	buttons={{
+		"none": { config: { tagRenderMode: "none" } },
+		"node": { config: { tagRenderMode: "node" } },
+		"same": { config: { tagRenderMode: "same" } },
+		"both": { config: { tagRenderMode: "both" } },
+	}}
+/>
+
+
+## Tag Styles
+
+The `tagStyles` option is an object that defines the style of tags in the graph.
+Each key in the object corresponds to a tag name, and the value corresponds to a [Node Style](/todo) object.
+
+Nodes copy styles from the associated tag(s) based on the order in which they are specified in the node's `tags` list.
+
+<GraphExample id="tag-style-custom-showcase" config={{
+	tagRenderMode: "node",
+	tagStyles: {
+		"Tag 1": { ...tagDefaultStylesConfig, shape: "square", shapeColor: "nodeColor1", strokeWidth: 0 },
+		"Tag 2": { ...tagDefaultStylesConfig, shape: "triangle", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" },
+	}
+}} baseConfig={{ ...frozenConfig }} sitemap={{ ...twoTagSitemap }} slug={"node/"}
+  buttons={{
+	  "none": { config: { tagRenderMode: "none" } },
+	  "node": { config: { tagRenderMode: "node" } },
+	  "same": { config: { tagRenderMode: "same" } },
+	  "both": { config: { tagRenderMode: "both" } },
+  }}
+  dropdowns={{
+	  ...stylesDropdown('tagStyles.Tag 1', { ...tagDefaultStylesPartialConfig, shape: "square", shapeColor: "nodeColor1", strokeWidth: 0 }),
+	  ...stylesDropdown('tagStyles.Tag 2', { ...tagDefaultStylesPartialConfig, shape: "triangle", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" }),
+  }}
+/>
+
