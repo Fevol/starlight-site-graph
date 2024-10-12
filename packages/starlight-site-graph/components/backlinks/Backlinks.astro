@@ -1,0 +1,21 @@
+---
+import type { Sitemap } from '../../config';
+
+interface Props {
+    backlinks: string[];
+    sitemap: Sitemap | undefined;
+}
+
+let { backlinks, sitemap } = Astro.props;
+
+---
+
+{backlinks.map((link) => (
+        <ul class="backlink" style="--depth: 0;">
+            <li style="--depth: 0;">
+                <a href={"/" + link } style="--depth: 0;" target="_self">
+                    <span style="--depth: 0;">{sitemap![link]!.title}</span>
+                </a>
+            </li>
+        </ul>
+))}

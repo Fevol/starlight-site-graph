@@ -1,6 +1,5 @@
 ---
 import path from 'node:path';
-import type { Props } from '@astrojs/starlight/props';
 import type { PageGraphConfig } from "../../schema";
 
 import config from 'virtual:starlight-site-graph/config';
@@ -11,13 +10,15 @@ import Graph from "./Graph.astro";
 import { stripSlashes } from '../util';
 import { firstMatchingPattern } from "../../sitemap/util";
 
-interface CurrentProps extends Props {
+interface Props {
+    slug: string;
     class: string;
     showGraph?: boolean;
+    entry?: Record<string, any>;
 }
 
 let graphData: Partial<PageGraphConfig> = {};
-let { slug, class: className, showGraph } = Astro.props as CurrentProps;
+let { slug, class: className, showGraph } = Astro.props;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
 if (Astro.props.entry) {
