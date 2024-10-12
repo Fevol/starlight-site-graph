@@ -151,7 +151,7 @@ export class SiteMapBuilder {
 		}
 
 		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(
-			this.config.pageInclusionRules,
+			this.config.linkInclusionRules,
 		);
 		if (currentLinkRules.length) {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
