@@ -740,8 +740,6 @@ const globalSitemapConfigSchema = z.object({
 	 * ["api/**", "!**\/*"]
 	 * @example Include all files except those in the "secret" folder:
 	 * ["!secret/**", "**\/*"]
-	 * @example Remove external links to GitHub for "Edit page":
-	 * ["!https://**\/edit/**", "**\/*"]
 	 */
 	pageInclusionRules: z.array(z.string()).default(['**/*']),
 
@@ -758,6 +756,8 @@ const globalSitemapConfigSchema = z.object({
 	 * ["api/**"]
 	 * @example Include all links except those to the "secret" subdirectory:
 	 * ["!secret/**", "**\/*"]
+	 * @example Remove external links to GitHub for "Edit page":
+	 * ["!https://**\/edit/**", "**\/*"]
 	 */
 	linkInclusionRules: z.array(z.string()).default(['**/*']),
 
@@ -786,9 +786,9 @@ const globalSitemapConfigSchema = z.object({
 	 *
 	 * @default {}
 	 * @example Make all nodes in the "api" folder take the color of `nodeColor5` (lime)
-	 * [{ rules: ["api/**"], shapeColor: "nodeColor5" }]
+	 * { ["api/**"]: { shapeColor: "nodeColor5" } }
 	 * @example Make the shape of all nodes except those in the "public" folder doubly as large and hollow
-	 * [{ rules: ["!public/**", "**\/*"], nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" } ]
+	 * { ["!public/**", "**\/*"]: { nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" } }
 	 */
 	styleRules: z.map(z.array(z.string()), nodeStyle.partial()).default(new Map()),
 });

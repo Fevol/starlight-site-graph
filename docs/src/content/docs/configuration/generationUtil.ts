@@ -1,3 +1,5 @@
+import micromatch from 'micromatch';
+
 interface Node {
 	exists?: boolean;
 	external?: boolean;
@@ -83,4 +85,52 @@ export function randomlyLinkNodes(nodes: RandomConfig[], defaultConnectPct: numb
 		node.connectPct = undefined;
 	}
 	return nodes;
+}
+
+export function renameNodes(sitemap: Record<string, NodeConfig>, renames: Record<string, string>) {
+	const sitemapCopy = structuredClone(sitemap);
+	for (const [id, newName] of Object.entries(renames)) {
+		if (sitemapCopy[id]) {
+			sitemapCopy[id].title = newName;
+		}
+	}
+	return sitemapCopy;
+}
+
+export function firstMatchingPattern(
+	text: string,
+	patterns: string | string[],
+	defaultMatch?: boolean,
+): boolean | undefined {
+	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
+	for (const pattern of patternList) {
+		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
+			return !pattern.startsWith('!');
+		}
+	}
+	return defaultMatch;
+}
+
+export function restyleNodes(sitemap: Record<string, NodeConfig>, styles: Map<string[], object>) {
+	const sitemapCopy = structuredClone(sitemap);
+	for (const [rules, style] of styles) {
+		for (const [id, node] of Object.entries(sitemapCopy)) {
+			if (firstMatchingPattern(id, rules)) {
+				node.nodeStyle = { ...node.nodeStyle, ...style };
+			}
+		}
+	}
+	return sitemapCopy;
+}
+
+export function addTags(sitemap: Record<string, NodeConfig>, tags: Record<string, string[]>) {
+	const sitemapCopy = structuredClone(sitemap);
+	for (const [tag, rules] of Object.entries(tags)) {
+		for (const [id, node] of Object.entries(sitemapCopy)) {
+			if (firstMatchingPattern(id, rules)) {
+				node.tags = [...new Set([...(node.tags ?? []), tag])];
+			}
+		}
+	}
+	return sitemapCopy;
 }

@@ -1,0 +1,84 @@
+---
+title: Post Processing
+sidebar:
+  order: 4
+---
+
+import { renameNodes, restyleNodes, addTags } from '../generationUtil.js';
+import { nameExampleSitemap, frozenConfig, styleRulesExampleSitemap } from '../constants.js';
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import GraphExample from "../../../../components/GraphExample.astro";
+
+## Page Titles
+
+The `pageTitles` option allows you to explicitly set the title of a specific endpoint/URL as the node title.
+Normally, the node title is either derived from the frontmatter `title` field, or the most common
+label associated with the link.
+
+If you specify a title for a page in the `pageTitles` object, it will override the default behavior.
+
+<Tabs>
+	<TabItem label='{}' >
+		Sitemap with no custom page titles.
+		<GraphExample id="unchanged-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={nameExampleSitemap} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{ "node/": "Custom Name"}'>
+		Node is renamed to "Custom Name".
+		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={renameNodes(nameExampleSitemap, { "node/": "Custom Name"})} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{ "https://astro.build/showcase/": "Astro Showcases"}'>
+		External node to https://astro.build/showcase/ is renamed to "Astro Showcases".
+		<GraphExample id="external-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={renameNodes(nameExampleSitemap, { "https://astro.build/showcase/": "Astro Showcases"})} slug={"node/"}/>
+	</TabItem>
+</Tabs>
+
+
+## Style Rules
+
+The `styleRules` option allows you to specify a set of rules that will be applied to pages based on their  **resource path**.
+The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The first rule that matches the file path will be applied to the page.
+
+If a custom style was specified in the page's frontmatter, it will override the style rule,
+otherwise, these styles have precedence over all other styles.
+
+<Tabs>
+	<TabItem label='{}' >
+		Sitemap with no style rules applied.
+		<GraphExample id="unchanged-style-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={styleRulesExampleSitemap} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{["**/dir/**"]: {shapeColor: "nodeColor7"}}' >
+		Sitemap with a `shapeColor` style applied to all pages in the `dir` resource.
+		<GraphExample id="unchanged-style-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={restyleNodes(styleRulesExampleSitemap, new Map([[["**/dir/**"], {shapeColor: "nodeColor7"}]]))} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{["**/node"]: {shape: "triangle"}}' >
+		Sitemap with a `shape` style applied where the last part of the URL is `node`.
+		<GraphExample id="unchanged-style-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={restyleNodes(styleRulesExampleSitemap, new Map([[["**/node/"], {shape: "triangle"}]]))} slug={"node/"}/>
+	</TabItem>
+</Tabs>
+
+## Tag Rules
+
+The `tagRules` option allows you to specify a set of rules which will add tags to pages based on their **resource path**.
+The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The first rule that matches the file path will be applied to the page.
+
+:::danger[Important]
+If a rule with `!` is matched, the tag will **be removed** from the page.
+:::
+
+<Tabs>
+	<TabItem label='{}' >
+		Sitemap with no tag rules applied.
+		<GraphExample id="unchanged-tag-graph-showcase" config={{ tagRenderMode: "node" }} baseConfig={frozenConfig} sitemap={styleRulesExampleSitemap} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{ "dir": ["**/dir/**"]}' >
+		Sitemap with `dir` tag applied to all pages in the `dir` directory.
+		<GraphExample id="unchanged-tag-graph-showcase" config={{ tagRenderMode: "node" }} baseConfig={frozenConfig} sitemap={addTags(styleRulesExampleSitemap, { "dir": ["**/dir/**"] })} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{ "node": ["**/node"]}' >
+		Sitemap with `node` tag applied where the last part of the URL is `node`.
+		<GraphExample id="unchanged-tag-graph-showcase" config={{ tagRenderMode: "node" }} baseConfig={frozenConfig} sitemap={addTags(styleRulesExampleSitemap, { "node": ["**/node/"] })} slug={"node/"}/>
+	</TabItem>
+</Tabs>
+

@@ -35,8 +35,6 @@ export const focusSingleNode = {
 	centerForce: 0.001,
 }
 
-
-
 export const singleNodeSitemap = generateSitemap([{ id: 'node' }]);
 
 export const twoNodeSitemap = generateSitemap([{ id: 'node' }, { id: 'other-node', nodeStyle: config.graphConfig.nodeDefaultStyle }]);
@@ -56,6 +54,12 @@ export const randomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct
 export const largeRandomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.15 }], 49, 0.025, 0, 0);
 
 export const specialNodeSitemap = generateSitemap([{ id: 'node', links: ['basic-node', 'external-node', 'unresolved-node'] }, { id: 'basic-node' }, { id: 'external-node', external: true }, { id: 'unresolved-node', exists: false } ]);
+
+export const exampleSitemap = generateSitemap([{ id: 'node', links: ['custom-node', 'external'], tags: ['Tag'] }, { id: 'custom-node', nodeStyle: { shapeColor: "nodeColor3" } }, { id: 'external', external: true }]);
+
+export const nameExampleSitemap = generateSitemap([{ id: 'node', links: ['https://astro.build/showcase/']}, { id: 'https://astro.build/showcase/', title: "showcase", external: true} ]);
+
+export const styleRulesExampleSitemap = generateSitemap([{ id: 'node', title: 'node/', links: ['dir/a' ] }, { id: 'dir/a', title: "dir/a/" }, { id: 'dir/b', title: "dir/b/", links: ['dir/a', 'dir/node'] }, { id: 'dir/node', title: "dir/node/" }]);
 
 
 export const stylesDropdown = (styleType: string, style: object, selected?: string) => {

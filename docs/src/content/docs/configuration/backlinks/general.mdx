@@ -1,0 +1,14 @@
+---
+title: General
+sidebar:
+  order: 2
+---
+
+## Visibility Rules
+
+The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [Backlinks component](todo/)
+(the backlinks in the sidebar) will be shown. By default, the backlinks is shown on all pages where the sidebar is visible.
+
+If `visibilityRules` is set to `["!starlight-site-graph/configuration/backlinks/general/", "**/*"]`, the backlinks would be shown for all pages except for the
+current page.
+

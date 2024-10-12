@@ -79,3 +79,12 @@ For more information on what each individual action does, see the [Graph Actions
 	depth: 4,
 }} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
 
+## Visibility Rules
+
+The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [PageGraph component](todo/)
+(the graph in the sidebar) will be shown. By default, the graph is shown on all pages where the sidebar is visible.
+
+If `visibilityRules` is set to `["!starlight-site-graph/configuration/graph/general/", "**/*"]`, the graph would be shown for all pages except for the
+current page.
+
+

@@ -1,0 +1,252 @@
+---
+title: Inclusion
+sidebar:
+  order: 3
+---
+
+import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page details configuration options for changing what is included in the sitemap.
+
+## Content Root
+
+The `contentRoot` option specifies from which directory files should be parsed to generate the sitemap.
+By default, this is set to `./src/content/docs`. If you have your pages stored elsewhere, you will likely have to change this option.
+
+**Example:**
+
+<Tabs>
+	<TabItem label="./src/content/docs" icon="seti:happenings">
+		<FileTree>
+			- src
+				- content
+					- **docs**
+						- **private** These files _are_ included in the sitemap
+							- **basic-secretive-page.md**
+							- **reactive-hidden-page.mdx**
+							- **yet-another-special-page.mdoc**
+							- **astronomically-exclusive.astro**
+							- **...**
+						- **public** These files _are_ included in the sitemap
+							- **index.md**
+							- **about.mdx**
+							- **contact.mdoc**
+							- **faq.astro**
+							- **...**
+		</FileTree>
+	</TabItem>
+	<TabItem label="./src/content/docs/public" icon="list-format">
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private These files _are not_ included in the sitemap
+							- basic-secretive-page.md
+							- reactive-hidden-page.mdx
+							- yet-another-special-page.mdoc
+							- astronomically-exclusive.astro
+							- ...
+						- **public** These files _are_ included in the sitemap
+							- **index.md**
+							- **about.mdx**
+							- **contact.mdoc**
+							- **faq.astro**
+							- **...**
+		</FileTree>
+	</TabItem>
+</Tabs>
+
+
+## Page Inclusion Rules
+
+The `pageInclusionRules` option allows you to specify which pages should be included in the sitemap based on their _file path_.
+The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The first rule that was matched, determines whether the page is included or not.
+
+
+If the inclusion of a page was specified in its frontmatter, it will take precedence over the rules specified here.
+
+<Tabs>
+	<TabItem label='["**/*"]'>
+		All files are included in the sitemap.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- **basic-secretive-page.md**
+							- **reactive-hidden-page.mdx**
+							- **yet-another-special-page.mdoc**
+							- **astronomically-exclusive.astro**
+							- **...**
+						- public
+							- **index.md**
+							- **about.mdx**
+							- **contact.mdoc**
+							- **faq.astro**
+							- **...**
+		</FileTree>
+	</TabItem>
+	<TabItem label='["**/*.md"]'>
+		Only normal markdown files are included in the sitemap.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- **basic-secretive-page.md**
+							- reactive-hidden-page.mdx
+							- yet-another-special-page.mdoc
+							- astronomically-exclusive.astro
+							- ...
+						- public
+							- **index.md**
+							- about.mdx
+							- contact.mdoc
+							- faq.astro
+							- ...
+		</FileTree>
+	</TabItem>
+	<TabItem label='["public/**"]'>
+		Only files in the `public` directory are included.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- basic-secretive-page.md
+							- reactive-hidden-page.mdx
+							- yet-another-special-page.mdoc
+							- astronomically-exclusive.astro
+							- ...
+						- public
+							- **index.md**
+							- **about.mdx**
+							- **contact.mdoc**
+							- **faq.astro**
+							- **...**
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/*", "**/*"]'>
+		No files are matches, because the first rule is always matched first.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- basic-secretive-page.md
+							- reactive-hidden-page.mdx
+							- yet-another-special-page.mdoc
+							- astronomically-exclusive.astro
+							- ...
+						- public
+							- index.md
+							- about.mdx
+							- contact.mdoc
+							- faq.astro
+							- ...
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/*.mdoc", "**/*"]'>
+		Only files that are not `.mdoc` files are included.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- **basic-secretive-page.md**
+							- **reactive-hidden-page.mdx**
+							- yet-another-special-page.mdoc
+							- **astronomically-exclusive.astro**
+							- ...
+						- public
+							- **index.md**
+							- **about.mdx**
+							- contact.mdoc
+							- **faq.astro**
+							- ...
+		</FileTree>
+	</TabItem>
+</Tabs>
+
+
+## Link Inclusion Rules
+
+The `linkInclusionRules` option allows you to specify which links should be included in the sitemap based on their _target path_.
+The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The first rule that was matched, determines whether the link is included or not.
+
+If a link was specified in the frontmatter of a page, it will always be included, regardless of the rules specified here.
+
+<Tabs>
+	<TabItem label='["**/*"]'>
+		All links are matched.
+
+		```md ins="[links](/link)" ins="[another link here](/here/another/link)" ins="[Astro](https://astro.build)" ins="[nowhere](https://no.w/here/)"
+		// a-linked-document.md
+		This document contains many [links](/link) to other pages.
+		Here is one that goes to [another link here](/here/another/link).
+		This one goes to [Astro](https://astro.build).
+		And this one goes [nowhere](https://no.w/here/).
+		```
+	</TabItem>
+	<TabItem label='["**/link"]'>
+		Only links that end in `/link` are matched.
+
+		```md ins="[links](/link)" ins="[another link here](/here/another/link)"
+		// a-linked-document.md
+		This document contains many [links](/link) to other pages.
+		Here is one that goes to [another link here](/here/another/link).
+		This one goes to [Astro](https://astro.build).
+		And this one goes [nowhere](https://no.w/here/).
+		```
+	</TabItem>
+	<TabItem label='["**/here/**"]'>
+		Only links to the `here` subdirectory are matched.
+
+		```md ins="[another link here](/here/another/link)" ins="[nowhere](https://no.w/here/)"
+		// a-linked-document.md
+		This document contains many [links](/link) to other pages.
+		Here is one that goes to [another link here](/here/another/link).
+		This one goes to [Astro](https://astro.build).
+		And this one goes [nowhere](https://no.w/here/).
+		```
+	</TabItem>
+	<TabItem label='["!https://**/*", "**/*"]'>
+		Only links that are not external are matched. This is equivalent to [`includeExternalLinks: false`](/todo).
+
+		```md ins="[links](/link)" ins="[another link here](/here/another/link)"
+		// a-linked-document.md
+		This document contains many [links](/link) to other pages.
+		Here is one that goes to [another link here](/here/another/link).
+		This one goes to [Astro](https://astro.build).
+		And this one goes [nowhere](https://no.w/here/).
+		```
+	</TabItem>
+</Tabs>
+
+## Include External Links
+
+The `includeExternalLinks` option toggles whether external links will be included in the sitemap.
+
+<Tabs>
+	<TabItem label="True" icon="approve-check">
+		```md ins="[a boring page](/another-page)" ins="[Starlight](https://starlight.astro.build)"
+		// a-cool-document.md
+		This is a *cool* document
+			which links to [a boring page](/another-page).
+		Because I am a **very cool** document,
+			I will also link to [Starlight](https://starlight.astro.build).
+		```
+	</TabItem>
+	<TabItem label="False" icon="close">
+		```md ins="[a boring page](/another-page)"
+		// a-cool-document.md
+		This is a *cool* document
+			which links to [a boring page](/another-page).
+		Because I am a **very cool** document,
+			I will also link to [Starlight](https://starlight.astro.build).
+		```
+	</TabItem>
+</Tabs>
+

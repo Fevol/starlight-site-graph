@@ -1,0 +1,23 @@
+---
+title: General
+---
+
+This page discusses configuration for the top-level configuration of the Starlight Site Graph plugin.
+
+## Debug
+
+The `debug` option is a boolean that enables or disables debug mode. When enabled, more things will be logged,
+and a performance graph will be shown, which visualizes the FPS of the graph.
+
+
+## Track Visited Pages
+
+The `trackVisitedPages` option is a string that enables or disables tracking of visited pages, and the
+location where the visited pages are stored. The possible options are:
+
+- `disable`: The visited pages are not stored.
+- `session`: The visited pages are stored in the [session storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage).
+- `local`: The visited pages are stored in the [local storage](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage).
+
+By default, the visited pages are stored in session storage, meaning they are lost when the browser is closed.
+The data is stored under the `starlight-site-graph--visited-pages` key.

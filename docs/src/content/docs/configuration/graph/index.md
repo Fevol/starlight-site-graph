@@ -21,5 +21,6 @@ Following pages contain examples on how you can configure the graph component:
 - **Rendering**
   - [Nodes](/starlight-site-graph/configuration/graph/nodes/): Style groups of nodes.
   - [Node Style](/starlight-site-graph/configuration/graph/nodestyle/): Style individual nodes.
+  - [Tags](/starlight-site-graph/configuration/graph/tags/): Style the tags and associated nodes.
   - [Links](/starlight-site-graph/configuration/graph/links/): Style the links between nodes.
   - [Labels](/starlight-site-graph/configuration/graph/labels/): Style the labels of the nodes.

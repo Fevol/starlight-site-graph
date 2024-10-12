@@ -26,7 +26,6 @@ export default defineConfig({
 				}),
 				starlightSiteGraph({
 					debug: false,
-					trackVisitedPages: true,
 					graphConfig: {
 						depth: 1,
 						renderArrows: true,
@@ -34,8 +33,7 @@ export default defineConfig({
 						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'render-external', 'settings']
 					},
 					sitemapConfig: {
-						// pageInclusionRules: [ "**/configuration/**" ],
-						includeExternalLinks: true,
+						includeExternalLinks: true
 					}
 				}),
 			],
@@ -48,7 +46,11 @@ export default defineConfig({
 					label: 'Configuration',
 					items: [
 						{ label: 'Overview', link: '/configuration/' },
-						{ label: 'Graph Configuration', autogenerate: { directory: 'configuration/graph' } },
+						{ label: 'General', link: '/configuration/general' },
+						{ label: 'Graph', autogenerate: { directory: 'configuration/graph' } },
+						{ label: 'Sitemap', autogenerate: { directory: 'configuration/sitemap' } },
+						{ label: 'Backlinks', autogenerate: { directory: 'configuration/backlinks' } },
+						{ label: 'CSS', autogenerate: { directory: 'configuration/css' } },
 					]
 				},
 				{
