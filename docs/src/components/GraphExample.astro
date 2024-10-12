@@ -133,8 +133,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 	const getPrimitives = (o, p = '') => Object.entries(o).flatMap(([k,v]) => typeof v === 'object' ? getPrimitives(v, p + k + '.') : [[p + k, v]]);
 	const getNestedKey = (o, k) => k.split('.').reduce((a, c) => a[c], o);
 	const transformNestedKeys = o => Object.keys(o).reduce((r, k) => {
-		let [p, c] = k.split('.');
-		(r[p] ??= {})[c] = o[k];
+		k.split('.').reduce((a, b, i, arr) => a[b] || (a[b] = i === arr.length - 1 ? o[k] : {}), r);
 		return r;
 	}, {});
 
