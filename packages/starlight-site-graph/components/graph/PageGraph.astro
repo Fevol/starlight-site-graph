@@ -11,6 +11,11 @@ import Graph from "./Graph.astro";
 import { stripSlashes } from '../util';
 import { firstMatchingPattern } from "../../sitemap/util";
 
+interface CurrentProps extends Props {
+    class: string;
+    showGraph?: boolean;
+}
+
 let graphData: Partial<PageGraphConfig> = {};
 let { slug, class: className, showGraph } = Astro.props as CurrentProps;
 
@@ -21,21 +26,15 @@ if (Astro.props.entry) {
 
 // Infer slug from URL if not explicitly provided
 slug ??= Astro.url.pathname;
-
-interface CurrentProps extends Props {
-    class: string;
-    showGraph?: boolean;
-}
+const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("\\", "/"));
 
 if (showGraph === undefined) {
     if (graphData?.visible !== undefined) {
         showGraph = graphData.visible;
     } else {
-        showGraph = config.graphConfig.visibilityRules ? firstMatchingPattern(slug, config.graphConfig.visibilityRules, false) : true;
+        showGraph = config.graphConfig.visibilityRules ? firstMatchingPattern(slugWithBase, config.graphConfig.visibilityRules, false) : true;
     }
 }
-
-const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("\\", "/"));
 ---
 
 {showGraph &&

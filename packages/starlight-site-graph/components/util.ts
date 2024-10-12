@@ -52,13 +52,15 @@ export function ensureTrailingSlash(path: string): string {
 }
 
 export function getRelativePath(current: string, next: string) {
-	const currentSegments = current.split('/');
-	const nextSegments = next.split('/');
-	const common = currentSegments.reduce((acc, cur, i) => (cur === nextSegments[i] ? i : acc), 0);
-	const back = currentSegments.length - common;
-	let forward = nextSegments.slice(common).join('/');
-	if (!forward.endsWith('/') && !forward.includes('#')) forward += '/';
-	return `${'../'.repeat(back)}${forward}`;
+	const currentParts = current.split('/').filter(Boolean);
+	const nextParts = next.split('/').filter(Boolean);
+
+	const commonParts = currentParts.filter((part, index) => nextParts[index] === part);
+
+	const back = currentParts.slice(commonParts.length).map(() => '..');
+	const forward = nextParts.slice(commonParts.length);
+
+	return [...back, ...forward].join('/');
 }
 
 export function createValueSlider(

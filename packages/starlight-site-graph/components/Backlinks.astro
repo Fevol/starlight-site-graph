@@ -1,8 +1,12 @@
 ---
+import path from 'node:path';
 import type { Props } from '@astrojs/starlight/props';
-import config from 'virtual:starlight-site-graph/config'
+import type { PageGraphConfig } from '../schema';
 
-import {ensureTrailingSlash, getRelativePath} from "./util";
+import config from 'virtual:starlight-site-graph/config'
+import astroConfig from 'virtual:starlight-site-graph/astro-config';
+
+import { ensureTrailingSlash, stripSlashes } from './util';
 import {firstMatchingPattern} from "../sitemap/util";
 
 interface CurrentProps extends Props {
@@ -10,14 +14,24 @@ interface CurrentProps extends Props {
     showBacklinks?: boolean;
 }
 
+let backlinksData: Partial<PageGraphConfig> = {};
 let { slug, showBacklinks, class: className } = Astro.props as CurrentProps;
 
-const backlinksData = Astro.props.entry['data'].backlinks;
+// If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
+if (Astro.props.entry) {
+    backlinksData = Astro.props.entry['data']?.backlinks;
+}
+
+// Infer slug from URL if not explicitly provided
+slug ??= Astro.url.pathname;
+const slugWithBase = ensureTrailingSlash(stripSlashes(path.join(astroConfig.base, slug).replaceAll("\\", "/")));
+
 const sitemap = config.sitemapConfig.sitemap;
+
 let backlinks: string[] = [];
 if (sitemap) {
-    const sitemap_entry = sitemap[ensureTrailingSlash(slug)];
-    if (sitemap_entry)
+    const sitemap_entry = sitemap[slugWithBase];
+    if (sitemap_entry?.backlinks)
         backlinks = sitemap_entry.backlinks.sort((a, b) => sitemap[a]!.title.localeCompare(sitemap[b]!.title));
 }
 
@@ -25,7 +39,7 @@ if (showBacklinks === undefined) {
     if (backlinksData?.visible !== undefined) {
         showBacklinks = backlinksData.visible;
     } else {
-        showBacklinks = config.backlinksConfig.visibilityRules ? firstMatchingPattern(slug, config.backlinksConfig.visibilityRules, false) : true;
+        showBacklinks = config.backlinksConfig.visibilityRules ? firstMatchingPattern(slugWithBase, config.backlinksConfig.visibilityRules, false) : true;
     }
 }
 
@@ -37,7 +51,7 @@ if (showBacklinks === undefined) {
         {backlinks.map((link) => (
                 <ul class="backlink" style="--depth: 0;">
                     <li style="--depth: 0;">
-                        <a href={getRelativePath(slug, link)} style="--depth: 0;", target="_self">
+                        <a href={"/" + link } style="--depth: 0;", target="_self">
                             <span style="--depth: 0;">{sitemap![link]!.title}</span>
                         </a>
                     </li>
