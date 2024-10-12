@@ -26,6 +26,8 @@ export class GraphRenderer {
 	arrowGraphics!: PIXI.Graphics;
 	arrowHoverGraphics!: PIXI.Graphics;
 
+	visibilityObserver!: IntersectionObserver;
+
 	constructor(private context: GraphComponent) {
 		this.app = new PIXI.Application();
 	}
@@ -41,6 +43,13 @@ export class GraphRenderer {
 			resizeTo: this.container,
 		} as PIXI.ApplicationOptions);
 		this.container.appendChild(this.app.canvas);
+
+		this.visibilityObserver = new IntersectionObserver((entries) => {
+			if (entries[0]?.isIntersecting) {
+				this.resize();
+			}
+		});
+		this.visibilityObserver.observe(this.container);
 
 		this.app.stage.addChild(this.linkGraphics = new PIXI.Graphics());
 		this.app.stage.addChild(this.linkHoverGraphics = new PIXI.Graphics());
@@ -99,6 +108,7 @@ export class GraphRenderer {
 		this.app = undefined!;
 		this.simulator = undefined!;
 		this.context = undefined!;
+		this.visibilityObserver.disconnect();
 	}
 
 	tick(ticker: PIXI.Ticker) {
