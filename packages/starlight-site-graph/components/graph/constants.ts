@@ -41,11 +41,16 @@ export const LINK_DISTANCE_SLIDER_MIN = 0;
 export const LINK_DISTANCE_SLIDER_MAX = 500;
 export const LINK_DISTANCE_SLIDER_STEP = 1;
 
+export const ALPHA_DECAY_SLIDER_MIN = 0;
+export const ALPHA_DECAY_SLIDER_MAX = 0.3;
+export const ALPHA_DECAY_SLIDER_STEP = 0.001;
+
 export const REQUIRE_SIMULATION_UPDATE = [
 	'colliderPadding',
 	'repelForce',
 	'centerForce',
 	'linkDistance',
+	'alphaDecay'
 ];
 
 export const REQUIRE_NOTHING = [

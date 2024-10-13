@@ -103,6 +103,7 @@ export class GraphSimulator {
 					.forceCollide()
 					.radius(node => (node as NodeData).colliderSize! + this.context.config.colliderPadding),
 			)
+			.alphaDecay(this.context.config.alphaDecay)
 			.alpha(1)
 			.restart();
 	}

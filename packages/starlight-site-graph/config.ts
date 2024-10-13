@@ -620,33 +620,41 @@ export const graphConfigSchema = z.object({
 	arrowAngle: z.number().min(0, "Arrow angle may not be negative").default(Math.PI / 6),
 
 	/**
-	 * The strength of the force that pulls nodes towards the center of the graph
+	 * The strength of the force that pulls nodes towards the center of the graph. \
 	 * A higher value will bring nodes closer together
 	 *
 	 * @default 0.05
 	 */
 	centerForce: z.number().min(0, "Center force may not be negative").default(0.05),
 	/**
-	 * The collision force between nodes in the graph
+	 * The collision force between nodes in the graph. \
 	 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
 	 *
 	 * @default 20
 	 */
 	colliderPadding: z.number().min(0, "Collider padding may not be negative").default(20),
 	/**
-	 * The attraction/repulsion force between nodes in the graph
+	 * The attraction/repulsion force between nodes in the graph. \
 	 * A higher value will increase the distance between nodes
 	 *
 	 * @default 200
 	 */
 	repelForce: z.number().min(0, "Repel force may not be negative").default(200),
 	/**
-	 * The distance between linked nodes in the graph
+	 * The distance between linked nodes in the graph. \
 	 * If set to 0, link distance are determined by the force simulation
 	 *
 	 * @default 0
 	 */
 	linkDistance: z.number().min(0, "Link distance may not be negative").default(0),
+	/**
+	 * The speed at which the graph stabilizes after a simulation update. \
+	 * A higher value will make the graph stabilize faster, but may result in a less accurate layout. \
+	 * If set to 0, the graph will run continuously without stabilization.
+	 *
+	 * @default 0.228
+	 */
+	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(0.0228),
 });
 
 const globalGraphConfigSchema = graphConfigSchema.extend({
@@ -878,9 +886,11 @@ export const starlightSiteGraphConfigSchema = z
 		 *     arrowSize: 5,
 		 *     arrowAngle: Math.PI / 6,
 		 *
-		 *     repelForce: 0.5,
 		 *     centerForce: 0.05,
-		 *     linkDistance: 30,
+		 *	   colliderPadding: 20,
+		 *     repelForce: 200,
+		 *     linkDistance: 0,
+		 *     alphaDecay: 0.0228
 		 * }```
 		 */
 		graphConfig: globalGraphConfigSchema.default({}),

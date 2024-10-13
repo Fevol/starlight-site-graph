@@ -8,7 +8,8 @@ import {
 	CENTER_FORCE_SLIDER_MIN, CENTER_FORCE_SLIDER_MAX, CENTER_FORCE_SLIDER_STEP,
 	CHARGE_FORCE_SLIDER_MIN, CHARGE_FORCE_SLIDER_MAX, CHARGE_FORCE_SLIDER_STEP,
 	COLLIDER_PADDING_SLIDER_MIN, COLLIDER_PADDING_SLIDER_MAX, COLLIDER_PADDING_SLIDER_STEP,
-	LINK_DISTANCE_SLIDER_MIN, LINK_DISTANCE_SLIDER_MAX, LINK_DISTANCE_SLIDER_STEP
+	LINK_DISTANCE_SLIDER_MIN, LINK_DISTANCE_SLIDER_MAX, LINK_DISTANCE_SLIDER_STEP,
+	ALPHA_DECAY_SLIDER_MIN, ALPHA_DECAY_SLIDER_MAX, ALPHA_DECAY_SLIDER_STEP,
 } from './constants';
 import type { GraphComponent } from './graph-component';
 
@@ -105,11 +106,17 @@ export function renderActionContainer(context: GraphComponent) {
 						context.simulator.update();
 				});
 
+				const alphaDecaySlider = createValueSlider('Alpha Decay', context.config.alphaDecay, ALPHA_DECAY_SLIDER_MIN, ALPHA_DECAY_SLIDER_MAX, ALPHA_DECAY_SLIDER_STEP, (value) => {
+					context.config.alphaDecay = value;
+					context.simulator.update();
+				});
+
 				showPopupMenu(context.actionContainer, [
 					chargeForceSlider,
 					centerForceSlider,
 					colliderPaddingSlider,
 					linkDistanceSlider,
+					alphaDecaySlider
 				]);
 			};
 		} else if (action === 'render-external') {
