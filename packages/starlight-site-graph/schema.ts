@@ -24,6 +24,15 @@ const pageSitemapConfigSchema = z.object({
 	 */
 	include: z.boolean().optional(),
 	/**
+	 * Specifies the title of the page in the sitemap (and thus graph and backlinks). \
+	 * If not provided, either the `title` frontmatter field, the global `pageTitles` setting,
+	 *   or the last part of the page's path is used as the title
+	 * Otherwise, the `pageTitle` overrides all other title sources.
+	 *
+	 * @optional
+	 */
+	pageTitle: z.string().optional(),
+	/**
 	 * Determine for this page which links are included in the sitemap.
 	 * The link is included/excluded if the link's target _path_ matches one of the rules.
 	 * When a rule starts with `!`, the link is _excluded_ if matched.

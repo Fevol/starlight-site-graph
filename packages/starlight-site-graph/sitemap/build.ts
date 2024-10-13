@@ -145,7 +145,9 @@ export class SiteMapBuilder {
 				return this;
 			}
 
-			if (frontmatter.data.title && !this.officialNameAssociations.has(linkPath)) {
+			if (frontmatter.data.sitemap?.pageTitle) {
+				this.officialNameAssociations.set(linkPath, frontmatter.data.sitemap.pageTitle);
+			} else if (frontmatter.data.title && !this.officialNameAssociations.has(linkPath)) {
 				this.officialNameAssociations.set(linkPath, frontmatter.data.title);
 			}
 		}

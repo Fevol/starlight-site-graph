@@ -717,8 +717,9 @@ const globalSitemapConfigSchema = z.object({
 	sitemap: sitemapSchema.optional(),
 
 	/**
-	 * Title of nodes for specific nodes of the graph (including external nodes).
-	 * **Overrides** the title of the page specified in the frontmatter.
+	 * Title of nodes for specific nodes of the graph (including external nodes). \
+	 * **Overrides** the title of the page specified in the frontmatter, but
+	 *   can be **overridden** by the `sitemap.pageTitle` frontmatter field. \
 	 * The specified link should match the full path of the page or external link.
 	 *
 	 * @example The node with endpoint "BASEPATH/intro" should be called "Main" (instead of its frontmatter title "Introduction")
