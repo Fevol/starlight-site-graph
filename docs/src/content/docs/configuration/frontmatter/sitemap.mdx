@@ -1,0 +1,122 @@
+---
+title: Sitemap
+sidebar:
+  order: 2
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Links
+The `links` frontmatter key allows you to specify additional links for a page.
+These links can be used to create arbitrary connections between pages in the graph.
+
+```md {4-6}
+// src/content/docs/linked-page.md
+---
+title: My Page
+links:
+  - /another-page
+  - /subdir/page
+---
+
+Some content
+```
+
+## Tags
+The `tags` frontmatter key allows you to specify tags for a page.
+These tags can be used to group together, or style, pages in the graph.
+For more information, check out the [`tagRenderMode` option](/starlight-site-graph/configuration/graph/tags#tag-rendering-mode).
+
+```md {4-6}
+// src/content/docs/tagged-page.md
+---
+title: My Page
+tags:
+  - important
+  - featured
+---
+
+Some content
+```
+
+## Sitemap Include
+The `include` frontmatter key allows you to explicitly include or exclude a page from the sitemap.
+
+<Tabs>
+	<TabItem label="Included">
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		sitemap:
+		  include: true
+		---
+
+		Some important text.
+		```
+	</TabItem>
+	<TabItem label="Excluded">
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		sitemap:
+		  include: false
+		---
+
+		Some important text.
+		```
+	</TabItem>
+</Tabs>
+
+
+## Link Inclusion Rules
+The `linkInclusionRules` frontmatter key allows you to filter which links may be included for this specific page,
+based on their _target path_.
+The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The first rule that was matched, determines whether the link is included or not.
+
+<Tabs>
+	<TabItem label='["**/*"]'>
+		All links are included.
+		```md {4-5} ins="[another page](/another-page)" ins="[subdirectory](/subdir/page)"
+		// src/content/docs/my-page.md
+		---
+		title: A linked page
+		sitemap:
+		  linkInclusionRules: ["**/*"]
+		---
+
+		This page links to [another page](/another-page),
+		and also to one in a [subdirectory](/subdir/page).
+		```
+	</TabItem>
+	<TabItem label='["!**/*", "**/*"]'>
+		No links are included, because the first rule is always matched first.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: A linked page
+		sitemap:
+		  linkInclusionRules: ["!**/*", "**/*"]
+		---
+
+		This page links to [another page](/another-page),
+		and also to one in a [subdirectory](/subdir/page).
+		```
+	</TabItem>
+	<TabItem label='["**/subdir/*"]'>
+		Only links to the `subdir` subdirectory are included.
+		```md {4-5} ins="[subdirectory](/subdir/page)"
+		// src/content/docs/my-page.md
+		---
+		title: A linked page
+		sitemap:
+		  linkInclusionRules: ["**/subdir/*"]
+		---
+
+		This page links to [another page](/another-page),
+		and also to one in a [subdirectory](/subdir/page).
+		```
+	</TabItem>
+</Tabs>

@@ -1,0 +1,150 @@
+---
+title: Graph
+sidebar:
+  order: 3
+---
+
+import { restyleNodes } from '../generationUtil.js';
+import GraphExample from "../../../../components/GraphExample.astro";
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { focusSingleNode, singleNodeSitemap } from '../constants.js';
+
+## Visibility
+The `visible` frontmatter key allows you to explicitly show or hide the graph view for a page,
+when using the [`<PageGraph>`](/todo) component.
+
+<Tabs>
+	<TabItem label="Shown" icon="approve-check">
+		Graph _will_ be revealed in the page.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		graph:
+		  visible: true
+		---
+
+		Some important text.
+		```
+	</TabItem>
+	<TabItem label="Hidden" icon="close">
+		Graph _will not_ be revealed in the page.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		graph:
+		  visible: false
+		---
+
+		Some important text.
+		```
+	</TabItem>
+</Tabs>
+
+## Node Style
+The `nodeStyle` frontmatter key allows you to specify the style of the node corresponding to this page in the graph.
+Any style defined in [Node Style](/starlight-site-graph/configuration/graph/nodestyle) can be used here.
+This will override any and all other styles applied to the node.
+
+<Tabs>
+	<TabItem label='{}' >
+		A regular, unstyled node.
+		```md
+		// src/content/docs/node.md
+		---
+		title: Node
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug="node/" />
+	</TabItem>
+	<TabItem label='{shapeColor: "nodeColor1"}'>
+		Node with a custom color.
+		```md {4-6}
+		// src/content/docs/node.md
+		---
+		title: Node
+		graph:
+		  nodeStyle:
+		    shapeColor: "nodeColor1"
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{}} baseConfig={focusSingleNode} sitemap={restyleNodes(singleNodeSitemap, new Map([[["**/node/"], {shapeColor: "nodeColor1"}]]))} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{shape: "square", shapeRotation: 45}'>
+		Node with a square shape and a 45 degree rotation.
+		```md {4-7}
+		// src/content/docs/node.md
+		---
+		title: Node
+		graph:
+		  nodeStyle:
+		    shape: "square"
+		    shapeRotation: 45
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{}} baseConfig={focusSingleNode} sitemap={restyleNodes(singleNodeSitemap, new Map([[["**/node/"], {shape: "square", shapeRotation: 45}]]))} slug={"node/"}/>
+	</TabItem>
+</Tabs>
+
+
+## Other Config
+
+You can also override any of the global graph settings using the frontmatter of a page.
+Specifically, any of the [graph configuration options](/starlight-site-graph/configuration/graph) can be set in the frontmatter of a page,
+except for the `prefetchPages` and `visiblityRules` options.
+
+<Tabs>
+	<TabItem label='{}' >
+		Unchanged graph.
+		```md
+		// src/content/docs/node.md
+		---
+		title: Node
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug="node/" />
+	</TabItem>
+	<TabItem label='{actions: ["fullscreen"]}' >
+		Graph with the fullscreen action specified for this page.
+		```md {4-5}
+		// src/content/docs/node.md
+		---
+		title: Node
+		graph:
+		  actions: ["fullscreen"]
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{ actions: ["fullscreen"] }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug="node/" />
+	</TabItem>
+	<TabItem label='{scale: 0.6}' >
+		Graph with an initial scale of 0.6.
+		```md {4-5}
+		// src/content/docs/node.md
+		---
+		title: Node
+		graph:
+		  scale: 0.6
+		---
+
+		Some important text.
+		```
+
+		<GraphExample id="base-style-graph-showcase" config={{ scale: 0.6 }} baseConfig={focusSingleNode} sitemap={restyleNodes(singleNodeSitemap, new Map([[["**/node/"], {shape: "square", shapeRotation: 45}]]))} slug={"node/"}/>
+	</TabItem>
+</Tabs>

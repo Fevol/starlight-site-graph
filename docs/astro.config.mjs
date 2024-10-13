@@ -47,8 +47,9 @@ export default defineConfig({
 					items: [
 						{ label: 'Overview', link: '/configuration/' },
 						{ label: 'General', link: '/configuration/general' },
-						{ label: 'Graph', autogenerate: { directory: 'configuration/graph' } },
+						{ label: 'Frontmatter', autogenerate: { directory: 'configuration/frontmatter' } },
 						{ label: 'Sitemap', autogenerate: { directory: 'configuration/sitemap' } },
+						{ label: 'Graph', autogenerate: { directory: 'configuration/graph' } },
 						{ label: 'Backlinks', autogenerate: { directory: 'configuration/backlinks' } },
 						{ label: 'CSS', autogenerate: { directory: 'configuration/css' } },
 					]

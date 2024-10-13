@@ -1,0 +1,40 @@
+---
+title: Backlinks
+sidebar:
+  order: 4
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+## Visibility
+The `visible` frontmatter key allows you to explicitly show or hide the backlinks view for a page,
+when using the [`<PageBacklinks>`](/todo) component.
+
+<Tabs>
+	<TabItem label="Shown" icon="approve-check">
+		Backlinks _will_ be revealed in the page.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		backlinks:
+		  visible: true
+		---
+
+		Some important text.
+		```
+	</TabItem>
+	<TabItem label="Hidden" icon="close">
+		Backlinks _will not_ be revealed in the page.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		backlinks:
+		  visible: false
+		---
+
+		Some important text.
+		```
+	</TabItem>
+</Tabs>
