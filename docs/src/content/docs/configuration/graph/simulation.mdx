@@ -86,3 +86,22 @@ For more information, check out [d3-force documentation](https://www.d3indepth.c
 	}
 }} fullWidth />
 
+## Alpha Decay
+
+The alpha decay determines how quickly the simulation cools down.
+A higher value means that after having dragged a node in the graph, it will stabilize faster.
+
+For more information, check out [d3-force documentation](https://d3js.org/d3-force/simulation#simulation_alphaDecay).
+
+<GraphExample id="alpha-decay-showcase" config={{
+	alphaDecay: 0.02,
+	enableDrag: true
+}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
+	"alphaDecay": {
+		"title": "alphaDecay",
+		"min": 0,
+		"max": 0.3,
+		"step": 0.001,
+		"val": 0.0228
+	}
+}} fullWidth />
