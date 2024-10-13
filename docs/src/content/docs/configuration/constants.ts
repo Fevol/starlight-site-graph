@@ -61,6 +61,7 @@ export const nameExampleSitemap = generateSitemap([{ id: 'node', links: ['https:
 
 export const styleRulesExampleSitemap = generateSitemap([{ id: 'node', title: 'node/', links: ['dir/a' ] }, { id: 'dir/a', title: "dir/a/" }, { id: 'dir/b', title: "dir/b/", links: ['dir/a', 'dir/node'] }, { id: 'dir/node', title: "dir/node/" }]);
 
+export const directoryLinkExampleSitemap = generateSitemap([{ id: 'my-page', links: ['another-page/', 'dir/my-page'] }, { id: 'another-page/' }, { id: 'dir/my-page', title: "Dir Page" }]);
 
 export const stylesDropdown = (styleType: string, style: object, selected?: string) => {
 	const style_obj = {

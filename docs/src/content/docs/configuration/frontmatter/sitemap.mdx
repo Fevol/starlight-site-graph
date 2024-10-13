@@ -4,23 +4,45 @@ sidebar:
   order: 2
 ---
 
+import { directoryLinkExampleSitemap, focusSingleNode, frozenConfig, singleNodeSitemap } from '../constants.js';
+import { renameNodes } from '../generationUtil.js';
+import GraphExample from "../../../../components/GraphExample.astro";
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
 ## Links
 The `links` frontmatter key allows you to specify additional links for a page.
 These links can be used to create arbitrary connections between pages in the graph.
 
-```md {4-6}
-// src/content/docs/linked-page.md
----
-title: My Page
-links:
-  - /another-page
-  - /subdir/page
----
+<Tabs>
+	<TabItem label='Links in frontmatter'>
+		Page title selected from the `pageTitle` frontmatter key.
+		```md {4-6}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		links:
+		- /another-page
+		- /subdir/page
+		---
 
-Some content
-```
+		Some important text.
+		```
+		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={directoryLinkExampleSitemap} slug={"my-page/"}/>
+	</TabItem>
+	<TabItem label='Links in content' >
+		No custom links specified.
+		```md "[another page](/another-page)" "[subdirectory](/subdir/page)"
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		---
+
+		Some important text, with a link to [another page](/another-page).
+		And another link to a [subdirectory](/subdir/page).
+		```
+		<GraphExample id="unchanged-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={directoryLinkExampleSitemap} slug={"my-page/"}/>
+	</TabItem>
+</Tabs>
 
 ## Tags
 The `tags` frontmatter key allows you to specify tags for a page.
@@ -69,6 +91,41 @@ The `include` frontmatter key allows you to explicitly include or exclude a page
 	</TabItem>
 </Tabs>
 
+## Page Title
+The `pageTitle` frontmatter key allows you to specify the title of a page for _only_ the
+[`<PageGraph>`](/todo) and [`<PageBacklinks>`](/todo) components.
+
+This setting will override both the `title` frontmatter key, as well as any overrides specified in the
+[`pageTitles`](/starlight-site-graph/configuration/sitemap/processing/#page-titles) configuration.
+
+<Tabs>
+	<TabItem label='{}' >
+		Page title selected from the `title` frontmatter key.
+		```md {3}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		---
+
+		Some important text.
+		```
+		<GraphExample id="unchanged-name-graph-showcase" config={{}} baseConfig={{ ...focusSingleNode, renderLabels: true, scale: 2 }} sitemap={singleNodeSitemap} slug={"node/"}/>
+	</TabItem>
+	<TabItem label='{ "node/": "Custom Name"}'>
+		Page title selected from the `pageTitle` frontmatter key.
+		```md {4-5}
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		sitemap:
+		  pageTitle: Custom Name
+		---
+
+		Some important text.
+		```
+		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={{ ...focusSingleNode, renderLabels: true, scale: 2 }} sitemap={renameNodes(singleNodeSitemap, { "node/": "Custom Name"})} slug={"node/"}/>
+	</TabItem>
+</Tabs>
 
 ## Link Inclusion Rules
 The `linkInclusionRules` frontmatter key allows you to filter which links may be included for this specific page,
