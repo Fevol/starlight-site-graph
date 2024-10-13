@@ -1,0 +1,70 @@
+---
+title: <PageSidebar>
+sidebar:
+  order: 2
+---
+
+import { Steps } from '@astrojs/starlight/components'
+
+The `<PageSidebar>` component is an override of [Starlight](https://starlight.astro.build)'s
+[`<PageSidebar>`](https://starlight.astro.build/reference/overrides/#pagesidebar)
+component, which contains both a [`<PageGraph>`](/starlight-site-graph/components/pagegraph)
+and a [`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) component.
+
+The sidebar itself does not handle any logic, if you want to hide either of the components,
+there are several different ways to do so.
+For more information, check out
+either the [`<PageGraph>`](/starlight-site-graph/components/pagegraph#visibility) or
+[`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks#visibility) documentation.
+
+
+## Usage
+
+### Overriding
+
+If you want to extend the `<PageSidebar>` component for your own website, while keeping the graph and backlinks
+components, you can do so by creating your own override as follows:
+
+<Steps>
+	1. Create your own `PageSidebar.astro` component in the `src/overrides` directory (or `src/components` if you prefer).
+		```astro
+		// src/overrides/PageSidebar.astro
+		---
+		import Default from "@astrojs/starlight/components/PageSidebar.astro";
+		import type { Props } from '@astrojs/starlight/props';
+
+		import { PageGraph, PageBacklinks } from "starlight-site-graph/components";
+		---
+
+		<PageGraph {...Astro.props} class="right-sidebar-panel graph-panel">
+			<h2 slot="title">{Astro.locals.t('starlight-site-graph.graph')}</h2>
+		</PageGraph>
+
+		<Default {...Astro.props}>
+			<slot />
+		</Default>
+
+		<PageBacklinks {...Astro.props} class="right-sidebar-panel backlinks-panel">
+			<h2 slot="title">{Astro.locals.t('starlight-site-graph.backlinks')}</h2>
+		</PageBacklinks>
+		```
+	2. Add the override to your `astro.config.mjs` file.
+		```diff lang="js"
+		// astro.config.mjs
+
+		import { defineConfig } from 'astro/config';
+		import starlight from '@astrojs/starlight';
+
+		export default defineConfig({
+		  integrations: [
+			starlight({
+			  title: 'My Docs with Overrides',
+			  components: {
+				  // Override the plugin's `PageSidebar` component.
+		+		  PageSidebar: './src/overrides/PageSidebar.astro',
+			  },
+			}),
+		  ],
+		});
+		```
+</Steps>

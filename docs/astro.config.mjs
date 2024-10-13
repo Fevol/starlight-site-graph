@@ -2,6 +2,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import starlightSiteGraph from 'starlight-site-graph';
 import starlightLinksValidator from 'starlight-links-validator';
+import markdocGrammar from './grammars/markdoc.tmLanguage.json';
 
 export default defineConfig({
 	site: "https://fevol.github.io",
@@ -20,6 +21,7 @@ export default defineConfig({
 			customCss: [
 				'./src/styles/global.css'
 			],
+			expressiveCode: { shiki: { langs: [markdocGrammar] } },
 			plugins: [
 				starlightLinksValidator({
 					errorOnInvalidHashes: false

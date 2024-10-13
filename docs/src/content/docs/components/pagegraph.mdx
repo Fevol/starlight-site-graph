@@ -1,0 +1,84 @@
+---
+title: <PageGraph>
+sidebar:
+  order: 3
+---
+
+import { Preview } from "../../../components";
+import { PageGraph } from 'starlight-site-graph/components';
+
+The `<PageGraph>` component extends the [`<Graph>`](/starlight-site-graph/components/graph) component,
+and handles whether the graph should be displayed on this page, automatically sets the
+`slug` prop of the `<Graph>` component to the current page's slug, and the passed frontmatter properties.
+
+## Import
+```jsx
+import { PageGraph } from 'starlight-site-graph/components';
+```
+
+## Usage
+Display the graph component corresponding to the current page.
+
+<Preview>
+	```mdx
+	<PageGraph>
+		<span slot="title">Fancy Graph Title</span>
+	</PageGraph>
+	```
+
+	<Fragment slot="markdoc">
+	```markdoc
+	{% pagegraph /%}
+	```
+	</Fragment>
+
+	<PageGraph slot="preview">
+		<span slot="title">Fancy Graph Title</span>
+	</PageGraph>
+</Preview>
+
+## Visibility
+
+The visibility of the `<PageGraph>` component is determined, in order of precedence, by the following:
+
+1. This component's [`showGraph`](#showgraph) prop
+2. The page's [`visible`](/starlight-site-graph/configuration/frontmatter/graph#visibility) frontmatter property
+3. The graphConfig's [`visibilityRules`](/starlight-site-graph/configuration/graph/general#visibility-rules) configuration
+
+
+## `<PageGraph>` Props
+
+The `<PageGraph>` component accepts the following props:
+
+### `slug`
+**type:** `string` (optional)
+
+Determines the slug of the current page. If not provided, the slug will be determined by the current page's URL.
+When passing `{...Astro.props}` to this component, this is already set for you.
+
+### `entry`
+**type:** `{ data: PageSiteGraphFrontmatter }` (optional)
+
+The frontmatter properties related to the current page, for more information of what
+properties can be passed via this object, check out the [frontmatter config](/starlight-site-graph/configuration/frontmatter/).
+When passing `{...Astro.props}` to this component, this might already be set for you.
+
+### `class`
+**type:** `string` (optional)
+
+Additional classes to apply to the component.
+
+### `showGraph`
+**type:** `boolean` (optional)
+
+Determines whether the graph should be displayed on this page.
+Will override both the page's `visible` frontmatter property and the graphConfig's `visibilityRules` configuration.
+
+
+## `<PageGraph>` Slots
+
+### `title`
+
+The title of the graph, displayed at the top of the graph component.
+
+

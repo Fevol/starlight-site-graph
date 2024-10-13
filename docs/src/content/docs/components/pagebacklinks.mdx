@@ -1,0 +1,79 @@
+---
+title: <PageBacklinks>
+sidebar:
+  order: 5
+---
+
+import { Preview } from "../../../components";
+import { PageBacklinks } from 'starlight-site-graph/components';
+
+The `<PageBacklinks>` component extends the [`<Backlinks>`](/starlight-site-graph/components/backlinks) component,
+and handles whether the backlinks should be displayed on this page, automatically sets the
+`slug` prop of the `<Backlinks>` component to the current page's slug, and the passed frontmatter properties.
+
+## Import
+```jsx
+import { PageBacklinks } from 'starlight-site-graph/components';
+```
+
+## Usage
+Display the backlinks component corresponding to the current page.
+
+<Preview>
+	```mdx
+	<PageBacklinks>
+		<span slot="title">Fancy Backlinks Title</span>
+	</PageBacklinks>
+	```
+
+	<Fragment slot="markdoc">
+	```markdoc
+	{% pagebacklinks /%}
+	```
+	</Fragment>
+
+	<PageBacklinks slot="preview">
+		<span slot="title">Fancy Backlinks Title</span>
+	</PageBacklinks>
+</Preview>
+
+## Visibility
+
+The visibility of the `<PageBacklinks>` component is determined, in order of precedence, by the following:
+
+1. This component's [`showBacklinks`](#showbacklinks) prop
+2. The page's [`visible`](/starlight-site-graph/configuration/frontmatter/backlinks#visibility) frontmatter property
+3. The backlinksConfig's [`visibilityRules`](/starlight-site-graph/configuration/backlinks/general#visibility-rules) configuration
+
+
+## `<PageBacklinks>` Props
+
+The `<PageBacklinks>` component accepts the following props:
+
+### `slug`
+
+**type:** `string` (optional)
+
+Determines the slug of the current page. If not provided, the slug will be determined by the current page's URL.
+When passing `{...Astro.props}` to this component, this is already set for you.
+
+### `entry`
+
+**type:** `{ data: PageSiteGraphFrontmatter }` (optional)
+
+The frontmatter properties related to the current page, for more information of what
+properties can be passed via this object, check out the [frontmatter config](/starlight-site-graph/configuration/frontmatter/).
+When passing `{...Astro.props}` to this component, this might already be set for you.
+
+### `class`
+
+**type:** `string` (optional)
+
+Additional classes to apply to the component.
+
+### `showBacklinks`
+
+**type:** `boolean` (optional)
+
+Determines whether the backlinks should be displayed on this page.
+Will override both the page's `visible` frontmatter property and the backlinksConfig's `visibilityRules` configuration.

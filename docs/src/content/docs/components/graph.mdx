@@ -1,0 +1,86 @@
+---
+title: <Graph>
+sidebar:
+  order: 4
+---
+
+import { Preview } from "../../../components";
+import { Graph } from 'starlight-site-graph/components';
+
+import { frozenConfig } from '../configuration/constants.js';
+
+The `<Graph>` component handles the rendering of the graph given slug, config and sitemap properties.
+This can be useful when you want to display a completely custom graph.
+
+## Import
+```jsx
+import { Graph } from 'starlight-site-graph/components';
+```
+
+## Usage
+Display a graph component with a custom configuration and sitemap.
+
+<Preview>
+	```mdx
+	<Graph
+		config={{...}}
+		sitemap={{"node/": { title: "Node", exists: true }}}
+		slug={"node/"}
+	/>
+	```
+
+	<Fragment slot="markdoc">
+		```markdoc
+		{% graph
+			config={{...}}
+			sitemap={{"node/": { title: "Node", exists: true }}}
+			slug={"node/"}
+		/%}
+		```
+	</Fragment>
+
+	<Graph config={frozenConfig} sitemap={{"node/": { title: "Node", exists: true }}} slug={"node/"} slot="preview"/>
+</Preview>
+
+## `<Graph>` Props
+
+The `<Graph>` component accepts the following props:
+
+### `slug`
+**type:** `string`
+
+Determines the slug of the current page.
+
+### `config`
+**type:** `GraphConfig`
+
+The configuration object for the graph, for information on what can be passed, check out [the configuration documentation](/starlight-site-graph/configuration/graph/).\
+
+:::caution[Warning]
+By default, the config requires you to have most properties set, if you want to use the default configuration, you can add it the following way:
+```mdx
+// src/content/docs/some-page.mdx
+---
+title: Some Page
+sidebar:
+  order: 3
+---
+
+import config from 'virtual:starlight-site-graph/config';
+import { Graph } from 'starlight-site-graph/components';
+
+<Graph
+	config={config}
+	sitemap={{"some-page": { title: "Some Page", exists: true }}}
+	slug={"some-page"}
+/>
+```
+
+This default configuration is inherited from the one passed to the plugin in the `astro.config.mjs`.
+:::
+
+### `sitemap`
+**type:** `sitemapSchema`
+
+The sitemap object, which contains all the information about pages, links and other information.
+For more information on how this object should be structured, check out the [sitemap configuration documentation](/starlight-site-graph/configuration/sitemap/).

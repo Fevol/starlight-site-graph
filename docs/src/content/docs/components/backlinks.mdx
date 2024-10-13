@@ -1,0 +1,71 @@
+---
+title: <Backlinks>
+sidebar:
+  order: 6
+---
+
+import { Preview } from "../../../components";
+import { Backlinks } from 'starlight-site-graph/components';
+
+The `<Backlinks>` component visualizes all the backlinks of a particular slug in an ordered list.
+This component makes use of the `sitemap` prop to determine the titles of the backlinks prop.
+
+## Import
+```jsx
+import { Backlinks } from 'starlight-site-graph/components';
+```
+
+## Usage
+
+Display backlinks for a custom page.
+
+<Preview>
+	```mdx
+	<Backlinks
+		backlinks={['node/1', 'node/2']}
+		sitemap={{
+			"node/": { title: "Node", exists: true, backlinks: ["node/1", "node/2"] },
+			"node/1": { title: "Node 1", exists: true, links: ["node/"] },
+			"node/2": { title: "Node 2", exists: true, links: ["node/"] }
+		}}
+	/>
+	```
+
+	<Fragment slot="markdoc">
+	```markdoc
+	{% backlinks
+		backlinks={['node/1', 'node/2']}
+		sitemap={{
+			"node/": { title: "Node", exists: true, backlinks: ["node/1", "node/2"] },
+			"node/1": { title: "Node 1", exists: true, links: ["node/"] },
+			"node/2": { title: "Node 2", exists: true, links: ["node/"] }
+		}}
+	/%}
+	```
+	</Fragment>
+
+	<Backlinks
+		backlinks={['node/1', 'node/2']}
+		sitemap={{
+			"node/": { title: "Node", exists: true, backlinks: ["node/1", "node/2"] },
+			"node/1": { title: "Node 1", exists: true, links: ["node/"] },
+			"node/2": { title: "Node 2", exists: true, links: ["node/"] }
+		}}
+		slot="preview"
+	/>
+</Preview>
+
+## `<Backlinks>` Props
+
+The `<Backlinks>` component accepts the following props:
+
+### `backlinks`
+**type:** `string[]`
+
+An array of slugs that represent the backlinks of the current page.
+
+### `sitemap`
+**type:** `sitemapSchema`
+
+The sitemap object, which contains all the information about pages, links and other information.
+For more information on how this object should be structured, check out the [sitemap configuration documentation](/starlight-site-graph/configuration/sitemap/).
