@@ -65,7 +65,6 @@ export const REQUIRE_RENDER_UPDATE = [
 	'labelHoverScale',
 	'labelOffset',
 	'labelHoverOffset',
-	'labelOpacityScale',
 	'labelMutedOpacity',
 	'labelHoverOpacity',
 	'labelAdjacentOpacity',
@@ -84,6 +83,8 @@ export const REQUIRE_RENDER_UPDATE = [
 ];
 export const REQUIRE_ZOOM_UPDATE = [
 	'scale',
+];
+export const REQUIRE_LABEL_UPDATE = [
 	'labelOpacityScale',
 ];
 export const REQUIRE_FULL_REFRESH = [

@@ -13,7 +13,8 @@ import {
 	REQUIRE_SIMULATION_UPDATE,
 	REQUIRE_RENDER_UPDATE,
 	REQUIRE_ZOOM_UPDATE,
-	REQUIRE_NOTHING
+	REQUIRE_NOTHING,
+	REQUIRE_LABEL_UPDATE
 } from './constants';
 import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff } from '../util';
 import { GraphSimulator } from './simulator';
@@ -142,6 +143,7 @@ export class GraphComponent extends HTMLElement {
 					let requireSimulationUpdate = false;
 					let requireRendererUpdate = false;
 					let requireZoomUpdate = false;
+					let requireLabelUpdate = false;
 
 					for (const key in diff) {
 						if (REQUIRE_NOTHING.includes(key)) continue;
@@ -149,6 +151,7 @@ export class GraphComponent extends HTMLElement {
 						if (REQUIRE_SIMULATION_UPDATE.includes(key)) requireSimulationUpdate = true;
 						else if (REQUIRE_RENDER_UPDATE.includes(key)) requireRendererUpdate = true;
 						else if (REQUIRE_ZOOM_UPDATE.includes(key)) requireZoomUpdate = true;
+						else if (REQUIRE_LABEL_UPDATE.includes(key)) requireLabelUpdate = true;
 						else {
 							this.full_refresh();
 							return;
@@ -157,6 +160,20 @@ export class GraphComponent extends HTMLElement {
 
 					if (requireSimulationUpdate) {
 						this.simulator.update();
+					}
+					if (requireLabelUpdate) {
+						this.config.labelOpacityScale = diff['labelOpacityScale'].newValue;
+						const labelOpacity = this.simulator.getCurrentLabelOpacity();
+						this.animator.startAnimations({
+							labelOpacity,
+							labelOpacityHover: labelOpacity,
+							labelOpacityAdjacent: labelOpacity,
+						});
+						this.simulator.requestRender = true;
+					}
+					if (requireZoomUpdate) {
+						const scale = diff['scale'].newValue;
+						this.simulator.updateZoom(scale);
 					}
 					if (requireRendererUpdate) {
 						const newAnimatables = animatables(this.config, this.colors);
@@ -168,10 +185,6 @@ export class GraphComponent extends HTMLElement {
 							this.animator.setInterpolator(key, (value as any).interpolator);
 						}
 						this.simulator.requestRender = true;
-					}
-					if (requireZoomUpdate) {
-						const scale = diff['scale'].newValue;
-						this.simulator.updateZoom(scale);
 					}
 				}
 				if (mutation.attributeName === 'data-sitemap') {
