@@ -1,6 +1,6 @@
 ---
 import path from 'node:path';
-import type { PageGraphConfig } from "../../schema";
+import type { PageGraphConfig, PageSiteGraphFrontmatter } from "../../schema";
 
 import config from 'virtual:starlight-site-graph/config';
 import astroConfig from 'virtual:starlight-site-graph/astro-config';
@@ -11,10 +11,10 @@ import { stripSlashes } from '../util';
 import { firstMatchingPattern } from "../../sitemap/util";
 
 interface Props {
-    slug: string;
-    class: string;
+    slug?: string;
+    class?: string;
     showGraph?: boolean;
-    entry?: Record<string, any>;
+    entry?: { data: PageSiteGraphFrontmatter };
 }
 
 let graphData: Partial<PageGraphConfig> = {};
@@ -22,12 +22,11 @@ let { slug, class: className, showGraph } = Astro.props;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
 if (Astro.props.entry) {
-    graphData = Astro.props.entry['data']?.graph;
+    graphData = Astro.props.entry['data']?.graph as PageGraphConfig;
 }
 
 // Infer slug from URL if not explicitly provided
-slug ??= Astro.url.pathname;
-const slugWithBase = stripSlashes(path.join(astroConfig.base, slug).replaceAll("\\", "/"));
+const slugWithBase = stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"));
 
 if (showGraph === undefined) {
     if (graphData?.visible !== undefined) {
@@ -39,7 +38,7 @@ if (showGraph === undefined) {
 ---
 
 {showGraph &&
-    <div class:list={className}>
+    <div class:list={className ?? ""}>
         <slot name="title"/>
         <Graph
             slug={slugWithBase}
