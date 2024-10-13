@@ -1,5 +1,7 @@
 ---
 title: Overview
+sitemap:
+  pageTitle: Configuration
 ---
 
 There are three different places where you can configure the Starlight Site Graph plugin:

@@ -2,6 +2,8 @@
 title: Intro
 sidebar:
   order: 1
+sitemap:
+  pageTitle: Backlinks Configuration
 ---
 
 

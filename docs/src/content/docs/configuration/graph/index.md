@@ -2,6 +2,8 @@
 title: Intro
 sidebar:
   order: 1
+sitemap:
+  pageTitle: Graph Configuration
 ---
 
 This page contains information pertaining the configuration of the _graph_ itself, 

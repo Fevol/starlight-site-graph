@@ -2,6 +2,8 @@
 title: Variables
 sidebar:
   order: 2
+sitemap:
+  pageTitle: CSS Variables
 ---
 
 ## Graph Container

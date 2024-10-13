@@ -2,6 +2,8 @@
 title: Intro
 sidebar:
   order: 1
+sitemap:
+  pageTitle: Frontmatter Configuration
 ---
 
 You can also configure both the sitemap generation, graph and backlinks rendering

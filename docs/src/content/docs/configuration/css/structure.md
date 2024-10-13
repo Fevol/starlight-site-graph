@@ -2,6 +2,8 @@
 title: Structure
 sidebar:
   order: 3
+sitemap:
+  pageTitle: CSS Structure
 ---
 
 

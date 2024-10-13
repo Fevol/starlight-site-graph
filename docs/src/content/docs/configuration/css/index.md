@@ -2,6 +2,8 @@
 title: General
 sidebar:
   order: 1
+sitemap:
+  pageTitle: CSS Styling
 ---
 
 This plugin mainly makes use of existing Starlight CSS variables to provide an easier out-of-the-box experience for 
