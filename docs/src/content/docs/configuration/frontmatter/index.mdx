@@ -1,0 +1,37 @@
+---
+title: Intro
+sidebar:
+  order: 1
+sitemap:
+  pageTitle: Frontmatter Configuration
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import { LinkCardIcon } from '../../../../components';
+
+You can also configure both the sitemap generation, graph and backlinks rendering
+by specifying frontmatter for individual pages. These will always have precedence on
+any other configuration.
+
+## Sections
+<CardGrid stagger>
+	<LinkCardIcon
+		icon="seti:json"
+		title="Sitemap Frontmatter"
+		href="/starlight-site-graph/configuration/frontmatter/sitemap/"
+		description="Learn more about the sitemap frontmatter configuration."
+	/>
+	<LinkCardIcon
+		icon="seti:graphql"
+		title="Graph Frontmatter"
+		href="/starlight-site-graph/configuration/frontmatter/graph/"
+		description="Learn more about the graph frontmatter configuration."
+	/>
+	<LinkCardIcon
+		icon="external"
+		title="Backlinks Frontmatter"
+		href="/starlight-site-graph/configuration/frontmatter/backlinks/"
+		description="Learn more about the backlinks frontmatter configuration."
+	/>
+
+</CardGrid>

@@ -1,0 +1,114 @@
+---
+title: Intro
+sidebar:
+  order: 1
+sitemap:
+  pageTitle: Graph Configuration
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import { LinkCardIcon } from '../../../../components';
+
+This page contains information pertaining the configuration of the _graph_ itself,
+if you are looking for ways to configure the sitemap,
+see the [sitemap configuration](/starlight-site-graph/configuration/sitemap/).
+
+Following pages contain examples on how you can configure the graph component:
+
+- [General](/starlight-site-graph/configuration/graph/general/): General configuration options for the graph.
+- **Simulation**
+  - [Simulation](/starlight-site-graph/configuration/graph/simulation/): Simulation parameters for the graph.
+- **Interaction**
+  - [User Interactions](/starlight-site-graph/configuration/graph/interaction/): The interaction capabilities of the graph.
+  - [Quick Actions](/starlight-site-graph/configuration/graph/actions/): Quick actions that can be performed on the graph.
+  - [Zoom](/starlight-site-graph/configuration/graph/zoom/): Zooming options for the graph.
+  - [Hover](/starlight-site-graph/configuration/graph/hover/): Hovering options for the graph.
+- **Rendering**
+  - [Nodes](/starlight-site-graph/configuration/graph/nodes/): Style groups of nodes.
+  - [Node Style](/starlight-site-graph/configuration/graph/nodestyle/): Style individual nodes.
+  - [Tags](/starlight-site-graph/configuration/graph/tags/): Style the tags and associated nodes.
+  - [Links](/starlight-site-graph/configuration/graph/links/): Style the links between nodes.
+  - [Labels](/starlight-site-graph/configuration/graph/labels/): Style the labels of the nodes.
+
+
+
+## Sections
+### General
+<CardGrid>
+	<LinkCardIcon
+		icon="setting"
+		title="General Setting"
+		href="/starlight-site-graph/configuration/graph/general/"
+		description="Configure general settings for the graph."
+	/>
+	<LinkCardIcon
+		icon="seti:graphql"
+		title="Graph Simulation"
+		href="/starlight-site-graph/configuration/graph/simulation/"
+		description="Configure the simulation parameters for the graph."
+	/>
+</CardGrid>
+
+### Interaction
+<CardGrid>
+	<LinkCardIcon
+		icon="seti:code-climate"
+		title="User Interactions"
+		href="/starlight-site-graph/configuration/graph/interaction/"
+		description="Configure the interaction capabilities of the graph."
+	/>
+	<LinkCardIcon
+		icon="seti:yml"
+		title="Quick Actions"
+		href="/starlight-site-graph/configuration/graph/actions/"
+		description="Configure the quick actions that can be performed on the graph."
+	/>
+	<LinkCardIcon
+		icon="seti:code-search"
+		title="Zoom"
+		href="/starlight-site-graph/configuration/graph/zoom/"
+		description="Configure zooming options for the graph."
+	/>
+	<LinkCardIcon
+		icon="seti:purescript"
+		title="Hover"
+		href="/starlight-site-graph/configuration/graph/hover/"
+		description="Configure hovering options for the graph."
+	/>
+</CardGrid>
+
+
+### Rendering
+<CardGrid stagger>
+	<LinkCardIcon
+		icon="seti:svg"
+		title="Nodes"
+		href="/starlight-site-graph/configuration/graph/nodes/"
+		description="Configure how nodes are rendered."
+	/>
+	<LinkCardIcon
+		icon="pencil"
+		title="Node Style"
+		href="/starlight-site-graph/configuration/graph/nodestyle/"
+		description="Style individual nodes."
+	/>
+	<LinkCardIcon
+		icon="seti:mdo"
+		title="Tags"
+		href="/starlight-site-graph/configuration/graph/tags/"
+		description="Configure how tags are handled."
+	/>
+	<LinkCardIcon
+		icon="seti:pipeline"
+		title="Links"
+		href="/starlight-site-graph/configuration/graph/links/"
+		description="Configure how links are rendered."
+	/>
+	<LinkCardIcon
+		icon="seti:font"
+		title="Labels"
+		href="/starlight-site-graph/configuration/graph/labels/"
+		description="Configure how labels are rendered."
+	/>
+</CardGrid>
+

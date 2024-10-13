@@ -1,0 +1,49 @@
+---
+title: Overview
+sitemap:
+  pageTitle: Configuration
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import { LinkCardIcon } from '../../../components';
+
+Some placeholder text.
+
+<CardGrid stagger>
+	<LinkCardIcon
+		icon="setting"
+		title="General Settings"
+		href="/starlight-site-graph/configuration/general/"
+		description="Configure the top-level settings of the plugin."
+	/>
+	<LinkCardIcon
+		icon="bars"
+		title="Frontmatter Configuration"
+		href="/starlight-site-graph/configuration/frontmatter/"
+		description="Configure the sitemap, graph and backlinks via frontmatter."
+	/>
+	<LinkCardIcon
+		icon="seti:json"
+		title="Sitemap Settings"
+		href="/starlight-site-graph/configuration/sitemap/"
+		description="Configure the generation of the sitemap."
+	/>
+	<LinkCardIcon
+		icon="seti:graphql"
+		title="Graph Settings"
+		href="/starlight-site-graph/configuration/graph/"
+		description="Configure the appearance and behavior of the graph."
+	/>
+	<LinkCardIcon
+		icon="external"
+		title="Backlinks Settings"
+		href="/starlight-site-graph/configuration/backlinks/"
+		description="Configure the appearance of backlinks."
+	/>
+	<LinkCardIcon
+		icon="pencil"
+		title="CSS Configuration"
+		href="/starlight-site-graph/configuration/css/"
+		description="Configure the appearance of the components using CSS."
+	/>
+</CardGrid>

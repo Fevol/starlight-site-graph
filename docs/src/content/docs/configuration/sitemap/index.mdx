@@ -1,0 +1,39 @@
+---
+title: Intro
+sidebar:
+  order: 1
+sitemap:
+  pageTitle: Sitemap Configuration
+---
+
+import { CardGrid } from '@astrojs/starlight/components';
+import { LinkCardIcon } from '../../../../components';
+
+
+This page contains information pertaining the configuration of the _sitemap_ generation process,
+if you are looking for ways to configure the graph component,
+see the [graph configuration](/starlight-site-graph/configuration/graph/).
+
+
+## Sections
+<CardGrid stagger>
+	<LinkCardIcon
+		icon="setting"
+		title="General Settings"
+		href="/starlight-site-graph/configuration/sitemap/general/"
+		description="Configure the general settings for the sitemap generation."
+	/>
+	<LinkCardIcon
+		icon="seti:code-search"
+		title="Inclusion Settings"
+		href="/starlight-site-graph/configuration/sitemap/inclusion/"
+		description="Configure which pages/links will get included in the sitemap."
+	/>
+	<LinkCardIcon
+		icon="pencil"
+		title="Post-Processing Settings"
+		href="/starlight-site-graph/configuration/sitemap/processing/"
+		description="Configure what additional information gets added to the sitemap."
+	/>
+
+</CardGrid>
