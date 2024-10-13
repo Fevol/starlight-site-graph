@@ -47,7 +47,7 @@ export const twoTagSitemap = generateSitemap([{ id: 'node', tags: ['Tag 1', 'Tag
 
 export const fourtyNodeSitemap = generateSitemap([{ id: 'node' }, ...Array.from({ length: 39 }, (_, i) => ({ id: `node${i + 1}`, nodeStyle: config.graphConfig.nodeDefaultStyle }))]);
 
-export const starNodeSitemap = generateSitemap([{ id: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ id: `node${i + 1}`, nodeStyle: config.graphConfig.nodeDefaultStyle, links: ["node/"] }))]);
+export const starNodeSitemap = generateSitemap([{ id: 'node', backlinks: Array.from({ length: 6 }, (_, i) => `node${i + 1}/`) }, ...Array.from({ length: 6 }, (_, i) => ({ id: `node${i + 1}`, links: ["node/"] }))]);
 
 export const randomNodeSitemap = generateRandomSitemap([{ id: 'node', connectPct: 0.2 }], 19, 0.15, 0.1, 0.1);
 

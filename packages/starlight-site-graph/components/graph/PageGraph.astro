@@ -39,19 +39,19 @@ if (showGraph === undefined) {
 ---
 
 {showGraph &&
-<div class:list={className}>
-    <slot name="title"/>
-    <Graph
-        slug={slugWithBase}
-        sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
-        config={{
-            ...config.graphConfig,
-            ...graphData
-        }}
-        debug={config.debug}
-    />
-</div>
-    }
+    <div class:list={className}>
+        <slot name="title"/>
+        <Graph
+            slug={slugWithBase}
+            sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
+            config={{
+                ...config.graphConfig,
+                ...graphData
+            }}
+            debug={config.debug}
+        />
+    </div>
+}
 
 <script>
     window.addEventListener('DOMContentLoaded', async () => {
