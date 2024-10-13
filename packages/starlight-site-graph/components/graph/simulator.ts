@@ -275,7 +275,7 @@ export class GraphSimulator {
 	}
 
 	getCurrentLabelOpacity(k: number = this.transform.k): number {
-		return Math.max((k * this.context.config.labelOpacityScale - 1) / 3.75, 0);
+		return Math.max((k * this.context.config.labelOpacityScale - 1) / 0.9, 0);
 	}
 
 	updateZoom(scale?: number, x?: number, y?: number, immediate: boolean = false) {
