@@ -32,10 +32,9 @@ export type GraphColorConfig = {
 };
 
 export function getGraphColors(node: HTMLElement): GraphColorConfig {
-	const style = getComputedStyle(document.body);
-	const nodeStyle = getComputedStyle(node);
+	const style = getComputedStyle(node);
 	return {
-		backgroundColor: nodeStyle.getPropertyValue('--slsg-graph-bg-color'),
+		backgroundColor: style.getPropertyValue('--slsg-graph-bg-color'),
 
 		nodeColor: style.getPropertyValue('--slsg-node-color'),
 		nodeColorHover: style.getPropertyValue('--slsg-node-color-hover'),
