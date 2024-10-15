@@ -1,6 +1,7 @@
 ---
 import path from 'node:path';
 import type { PageGraphConfig, PageSiteGraphFrontmatter } from "../../schema";
+import type { GraphConfig } from '../../config';
 
 import config from 'virtual:starlight-site-graph/config';
 import astroConfig from 'virtual:starlight-site-graph/astro-config';
@@ -14,11 +15,12 @@ interface Props {
     slug?: string;
     class?: string;
     showGraph?: boolean;
+    config?: GraphConfig;
     entry?: { data: PageSiteGraphFrontmatter };
 }
 
 let graphData: Partial<PageGraphConfig> = {};
-let { slug, class: className, showGraph } = Astro.props;
+let { slug, class: className, showGraph, config: graphConfig } = Astro.props;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
 if (Astro.props.entry) {
@@ -45,7 +47,8 @@ if (showGraph === undefined) {
             sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
             config={{
                 ...config.graphConfig,
-                ...graphData
+                ...graphData,
+                ...(graphConfig ?? {})
             }}
             debug={config.debug}
         />

@@ -56,6 +56,13 @@ The `<PageGraph>` component accepts the following props:
 Determines the slug of the current page. If not provided, the slug will be determined by the current page's URL.
 When passing `{...Astro.props}` to this component, this is already set for you.
 
+
+### `config`
+**type:** `GraphConfig`
+
+The configuration object for the graph, for information on what can be passed, check out [the configuration documentation](/starlight-site-graph/configuration/graph/).\
+This overrides any configuration applied via the plugin settings or frontmatter.
+
 ### `entry`
 **type:** `{ data: PageSiteGraphFrontmatter }` (optional)
 
