@@ -17,6 +17,18 @@
 
 	--slsg-text-color: var(--sl-color-white);
 	--slsg-text-color-accent: var(--sl-color-text-accent);
+	--slsg-text-color-muted: var(--sl-color-gray-4);
+
+	--slsg-node-color-hover: var(--slsg-color-accent);
+	--slsg-node-color-muted: var(--slsg-color-muted);
+
+	--slsg-link-color-hover: var(--slsg-color-accent);
+	--slsg-link-color-muted: var(--slsg-color-muted);
+
+	--slsg-label-color: var(--slsg-text-color);
+	--slsg-label-color-hover: var(--slsg-text-color-accent);
+	--slsg-label-color-muted: var(--slsg-text-color-muted);
+
 
 	--slsg-text-lg: var(--sl-text-lg);
 	--slsg-text-md: var(--sl-text-base);
@@ -25,10 +37,12 @@
 }
 
 :root[data-theme='dark'] {
+	--slsg-color-accent: var(--sl-color-accent-high);
+	--slsg-color-muted: var(--sl-color-gray-5);
+
 	--slsg-node-color: var(--sl-color-white);
-	--slsg-node-color-hover: var(--sl-color-accent-high);
-	--slsg-node-color-muted: var(--sl-color-gray-5);
 	--slsg-node-color-adjacent: var(--sl-color-gray-2);
+	--slsg-link-color: var(--sl-color-gray-4);
 
 	--slsg-node-color-current: var(--sl-color-green-high);
 	--slsg-node-color-visited: var(--sl-color-orange-high);
@@ -46,20 +60,15 @@
 	--slsg-node-color-8: #6a86d1;
 	--slsg-node-color-9: #a287ca;
 
-	--slsg-link-color: var(--sl-color-gray-4);
-	--slsg-link-color-hover: var(--sl-color-accent-high);
-	--slsg-link-color-muted: var(--sl-color-gray-5);
-
-	--slsg-label-color: var(--slsg-text-color);
-	--slsg-label-color-hover: var(--sl-color-accent-high);
-	--slsg-label-color-muted: var(--sl-color-text);
 }
 
 :root[data-theme='light'] {
+	--slsg-color-accent: var(--sl-color-accent);
+	--slsg-color-muted: var(--sl-color-gray-5);
+
 	--slsg-node-color: var(--sl-color-gray-4);
-	--slsg-node-color-hover: var(--sl-color-accent);
-	--slsg-node-color-muted: var(--sl-color-gray-6);
 	--slsg-node-color-adjacent: var(--sl-color-gray-5);
+	--slsg-link-color: var(--sl-color-gray-5);
 
 	--slsg-node-color-current: var(--sl-color-green);
 	--slsg-node-color-visited: var(--sl-color-orange);
@@ -76,14 +85,6 @@
 	--slsg-node-color-7: #1982c4;
 	--slsg-node-color-8: #4267ac;
 	--slsg-node-color-9: #7d5ba6;
-
-	--slsg-link-color: var(--sl-color-gray-5);
-	--slsg-link-color-hover: var(--sl-color-accent);
-	--slsg-link-color-muted: var(--sl-color-gray-6);
-
-	--slsg-label-color: var(--slsg-text-color);
-	--slsg-label-color-hover: var(--slsg-text-color-accent);
-	--slsg-label-color-muted: var(--slsg-text-color);
 }
 
 /* ========================================= Sidebar Styling ================================================ */

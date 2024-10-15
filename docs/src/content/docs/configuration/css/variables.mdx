@@ -22,7 +22,9 @@ Below is a short example on how you can override these variables:
 ```
 
 ## Graph Container
-### Text Colors
+### General Colors
+- `--slsg-color-accent`: The base color of an accented element. Inherited by node and link hover colors.
+- `--slsg-color-muted`: The base color of a muted element. Inherited by muted node and link colors.
 - `--slsg-text-color`: The base color of the text in the graph. Inherited by label colors.
 - `--slsg-text-color-accent`: The accent color of the text in the graph. Inherited by label hover colors.
 
@@ -48,9 +50,9 @@ Below is a short example on how you can override these variables:
 ### Nodes
 - `--slsg-node-color`: The base color of the nodes in the graph.
 	<br/>
-- `--slsg-node-color-hover`: The node's color when hovered.
+- `--slsg-node-color-hover`: The node's color when hovered. Inherits from `--slsg-color-accent`.
 - `--slsg-node-color-adjacent`: The node's color when they are adjacent to the hovered node.
-- `--slsg-node-color-muted`: The node's color when they are not adjacent or hovered.
+- `--slsg-node-color-muted`: The node's color when they are not adjacent or hovered. Inherits from `--slsg-color-muted`.
 	<br/>
 - `--slsg-node-color-current`: The node's color when it is the same as the current page.
 - `--slsg-node-color-visited`: The node's color when the user has visited the page.
@@ -70,13 +72,13 @@ Below is a short example on how you can override these variables:
 
 ### Links
 - `--slsg-link-color`: The color of the links in the graph.
-- `--slsg-link-color-hover`: The color of the links when hovered.
-- `--slsg-link-color-muted`: The color of the links when they are not next to the hovered node.
+- `--slsg-link-color-hover`: The color of the links when hovered. Inherits from `--slsg-color-accent`.
+- `--slsg-link-color-muted`: The color of the links when they are not next to the hovered node. Inherits from `--slsg-color-muted`.
 
 ### Labels
-- `--slsg-label-color`: The color of the labels in the graph.
-- `--slsg-label-color-hover`: The color of the labels when hovered.
-- `--slsg-label-color-muted`: The color of the labels when they are not next to the hovered node.
+- `--slsg-label-color`: The color of the labels in the graph. Inherits from `--slsg-text-color`.
+- `--slsg-label-color-hover`: The color of the labels when hovered. Inherits from `--slsg-text-color-accent`.
+- `--slsg-label-color-muted`: The color of the labels when they are not next to the hovered node. Inherits from `--slsg-text-color`.
 
 
 ## Default Config
