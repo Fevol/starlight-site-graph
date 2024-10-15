@@ -16,12 +16,29 @@ Starlight users.
 If you installed the plugin in an Astro environment without Starlight, you will very likely need to provide your own
 CSS variables to make the Graph component look nice.
 
-A default configuration is provided [at the bottom of the page](#default-config).
+A semi-sane default configuration is provided [in the variables section](/starlight-site-graph/configuration/css/variables#default-config).
 :::
 
 Since no `!important`'s were used in the making of this plugin, you can override all styling of the graph containers,
 etc. However, you will _not_ be able to target the Graph elements themselves (i.e. nodes, links, labels), as these
 exist within a `<Canvas>` context.
+
+An example (unrecommended) override of the CSS would look something like:
+```css
+// src/styles/global.css
+:root[data-theme='light'] {
+    --slsg-node-color: #00ff0a;
+}
+
+:root[data-theme='dark'] {
+    --slsg-node-color: #ffea00;
+}
+
+.graph-container {
+    border: 1px solid red;
+}
+```
+
 
 ## Sections
 

@@ -13,6 +13,9 @@ import {
 	nonInteractiveConfig, randomNodeSitemap, starNodeSitemap, threeNodeSitemap
 } from '../constants.js';
 
+The user can interact with the graph in several ways, like zooming, dragging, pagging, hovering and clicking.
+Each individual action can be turned off, and some of the behaviour can also be customized.
+
 ## Zooming
 
 When the `enableZoom` configuration is enabled, the user can zoom in and out of the graph using the mouse wheel.
@@ -105,3 +108,4 @@ By default, a link is opened in the same tab. External links will always be open
 ## Page Prefetching
 
 The `prefetchPages` configuration determines whether a page should be prefetched when it is hovered over.
+Behind the scenes, this is calling `Astro:prefetch`'s `prefetch` method.

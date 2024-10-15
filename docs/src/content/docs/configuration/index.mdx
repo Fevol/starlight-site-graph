@@ -7,7 +7,79 @@ sitemap:
 import { CardGrid } from '@astrojs/starlight/components';
 import { LinkCardIcon } from '../../../components';
 
-Some placeholder text.
+The pages below details how you can configure the plugin to suit your needs.
+In general, you can configure the plugin in several ways:
+1. **Configuration via Plugin settings:** You can configure the plugin by passing options.
+ 	<br/>	See [General Settings](/starlight-site-graph/configuration/general), [Sitemap Settings](/starlight-site-graph/configuration/sitemap), [Graph Settings](/starlight-site-graph/configuration/graph), and [Backlinks Settings](/starlight-site-graph/configuration/backlinks).
+ 	<br/>	*(this is the most common way to configure the plugin)*
+	```diff lang="js"
+		// astro.config.mjs
+		import starlight from '@astrojs/starlight'
+		import { defineConfig } from 'astro/config'
+			import starlightSiteGraph from 'starlight-site-graph'
+				 export default defineConfig({
+					 integrations: [
+						starlight({
+							plugins: [starlightSiteGraph({
+	+							debug: false, 			// See "General Settings"
+	+							sitemapCongig: {},  	// See "Sitemap Settings"
+	+							graphConfig: {},  		// See "Graph Settings"
+	+							backlinksConfig: {},  	// See "Backlinks Settings"
+							})],
+						 }),
+					 ],
+				 })
+	```
+2. **Configuration via Frontmatter:** You can configure the plugin by specifying frontmatter to your markdown files,
+	this overrides the regular plugin settings.
+	<br/>	See [Frontmatter Configuration](/starlight-site-graph/configuration/frontmatter).
+	```diff lang="md"
+	// src/content/docs/my-page.md
+	---
+	 title: My Page
+	+ links: [],		// See "Frontmatter Configuration - Sitemap"
+	+ tags: [],			//   ...
+	+ sitemap: ...		//   ...
+	+ graph: ...		// See "Frontmatter Configuration - Graph"
+	+ backlinks: ...	// See "Frontmatter Configuration - Backlinks"
+	---
+
+	My page content goes here!
+	```
+3. **Configuration via Components:** You can also configure the graph and backlinks components
+		by passing props directly to the components.
+		<br/>	See [Components](/starlight-site-graph/components).
+		```diff lang="mdx"
+		// src/pages/docs/my-page.mdx
+		---
+		title: My Page
+		---
+
+		import { Graph } from 'starlight-site-graph/components'
+
+		+ <Graph
+		+ 	config: {}		// See "Graph Settings"
+		+	 sitemap: {}		// See "Sitemap Settings - General"
+		+ />
+		```
+4. **Configuration via CSS:** You can configure the appearance of the components using CSS.
+	<br/>	See [CSS Configuration](/starlight-site-graph/configuration/css).
+	```diff lang="css"
+	/* src/styles/global.css */
+	:root[data-theme='dark'] {
+	+ 	--slsg-node-color: red; /* See "CSS Configuration - Variables" */
+	}
+
+	:root[data-theme='light'] {
+	+ 	--slsg-node-color: blue;
+	}
+
+	.graph-component {
+	+   /* Any CSS */
+	}
+	```
+
+## Configuration Pages
 
 <CardGrid stagger>
 	<LinkCardIcon

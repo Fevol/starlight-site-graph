@@ -6,29 +6,68 @@ sitemap:
   pageTitle: Graph Configuration
 ---
 
-import { CardGrid } from '@astrojs/starlight/components';
+import { CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 import { LinkCardIcon } from '../../../../components';
 
 This page contains information pertaining the configuration of the _graph_ itself,
 if you are looking for ways to configure the sitemap,
-see the [sitemap configuration](/starlight-site-graph/configuration/sitemap/).
+see the [sitemap configuration](/starlight-site-graph/configuration/sitemap).
 
-Following pages contain examples on how you can configure the graph component:
+The graph config can be set in three different ways, each overriding the previous one:
+<Tabs>
+	<TabItem label="Via Plugin Settings" icon="seti:json">
+		```diff lang="js"
+		// astro.config.mjs
+		import starlight from '@astrojs/starlight'
+		import { defineConfig } from 'astro/config'
+		import starlightSiteGraph from 'starlight-site-graph'
+		export default defineConfig({
+			integrations: [
+				starlight({
+					plugins: [starlightSiteGraph({
+		+				graphConfig: {
+		+					// Global graph configuration
+		+				}
+					})],
+				}),
+			],
+		})
+		```
+	</TabItem>
 
-- [General](/starlight-site-graph/configuration/graph/general/): General configuration options for the graph.
-- **Simulation**
-  - [Simulation](/starlight-site-graph/configuration/graph/simulation/): Simulation parameters for the graph.
-- **Interaction**
-  - [User Interactions](/starlight-site-graph/configuration/graph/interaction/): The interaction capabilities of the graph.
-  - [Quick Actions](/starlight-site-graph/configuration/graph/actions/): Quick actions that can be performed on the graph.
-  - [Zoom](/starlight-site-graph/configuration/graph/zoom/): Zooming options for the graph.
-  - [Hover](/starlight-site-graph/configuration/graph/hover/): Hovering options for the graph.
-- **Rendering**
-  - [Nodes](/starlight-site-graph/configuration/graph/nodes/): Style groups of nodes.
-  - [Node Style](/starlight-site-graph/configuration/graph/nodestyle/): Style individual nodes.
-  - [Tags](/starlight-site-graph/configuration/graph/tags/): Style the tags and associated nodes.
-  - [Links](/starlight-site-graph/configuration/graph/links/): Style the links between nodes.
-  - [Labels](/starlight-site-graph/configuration/graph/labels/): Style the labels of the nodes.
+	<TabItem label="Via Frontmatter" icon="bars">
+		:::note[Note]
+		This only applies to the `<PageGraph/>` component.
+		:::
+
+		```diff lang="md
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		+ graph:
+		+   visible: true
+		+   config: ...
+		---
+
+		My page content goes here!
+		```
+	</TabItem>
+
+	<TabItem label="Via Component Props" icon="seti:html">
+		```diff lang="mdx"
+		// src/content/docs/my-page.mdx
+		---
+		title: My Page
+		---
+
+		 import { Graph, PageGraph } from 'starlight-site-graph/components';
+
+		 This page contains two different graphs:
+		+ <Graph sitemap={{...}} config={{...}} slug="my-page/" />
+		+ <PageGraph config={{...}}/>
+		```
+	</TabItem>
+</Tabs>
 
 
 

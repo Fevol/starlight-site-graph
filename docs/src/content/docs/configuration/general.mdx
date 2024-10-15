@@ -5,6 +5,24 @@ sitemap:
 ---
 
 This page discusses configuration for the top-level configuration of the Starlight Site Graph plugin.
+The general configuration can only be set in the `astro.config.mjs` file.
+
+```diff lang="js"
+	// astro.config.mjs
+	import starlight from '@astrojs/starlight'
+	import { defineConfig } from 'astro/config'
+	import starlightSiteGraph from 'starlight-site-graph'
+	export default defineConfig({
+		integrations: [
+			starlight({
+				plugins: [starlightSiteGraph({
++					debug: boolean,
++					trackVisitedPages: 'disable' | 'session' | 'local',
+				})],
+			 }),
+		 ],
+	 })
+```
 
 ## Debug
 

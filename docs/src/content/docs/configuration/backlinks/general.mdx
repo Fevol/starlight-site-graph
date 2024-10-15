@@ -6,11 +6,79 @@ sitemap:
   pageTitle: Backlinks General Config
 ---
 
+import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
+
 ## Visibility Rules
 
-The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [Backlinks component](todo/)
-(the backlinks in the sidebar) will be shown. By default, the backlinks is shown on all pages where the sidebar is visible.
+The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [`<Backlinks>`](/starlight-site-graph/components/backlinks)
+(e.g. the backlinks in the Starlight sidebar) will be shown.
+When using the plugin it its default configuration (with Starlight), the backlinks will also only be shown if the sidebar is visible.
 
-If `visibilityRules` is set to `["!starlight-site-graph/configuration/backlinks/general/", "**/*"]`, the backlinks would be shown for all pages except for the
-current page.
+<Tabs>
+	<TabItem label='["**/*"]'>
+		`<PageBacklinks />` is shown on all pages.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- **private**
+							- **page.md** // `<PageBacklinks>` is shown
+						- **public**
+							- **page.md** // `<PageBacklinks>` is shown
+							- **cool-stuff.md** // `<PageBacklinks>` is shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/*", "**/*"]'>
+		`<PageBacklinks />` is never shown because the first rule matches all pages.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- page.md // `<PageBacklinks>` is _not_ shown
+						- public
+							- page.md // `<PageBacklinks>` is _not_ shown
+							- cool-stuff.md // `<PageBacklinks>` is _not_ shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["**/public/*"]'>
+		`<PageBacklinks />` is only shown on pages in the `public` directory.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- page.md // `<PageBacklinks>` is _not_ shown
+						- **public**
+							- **page.md** // `<PageBacklinks>` is shown
+							- **cool-stuff.md** // `<PageBacklinks>` is shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["**/page.md"]'>
+		`<PageBacklinks />` is only shown on pages with the name `page.md`.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- **page.md** // `<PageBacklinks>` is shown
+						- public
+							- **page.md** // `<PageBacklinks>` is shown
+							- cool-stuff.md // `<PageBacklinks>` is _not_ shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/public/**, "**/*"]'>
+		`<PageBacklinks />` is shown on all pages except for those in the `public` directory.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- **private**
+							- **page.md** // `<PageBacklinks>` is shown
+						- public
+							- page.md // `<PageBacklinks>` is _not_ shown
+							- cool-stuff.md // `<PageBacklinks>` is _not_ shown
+		</FileTree>
+	</TabItem>
+</Tabs>
 

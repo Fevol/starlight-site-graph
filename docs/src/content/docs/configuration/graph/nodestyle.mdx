@@ -9,6 +9,8 @@ sitemap:
 import GraphExample from "../../../../components/GraphExample.astro";
 import { focusSingleNode, singleNodeSitemap, twoNodeSitemap, fourtyNodeSitemap, starNodeSitemap } from "../constants.js";
 
+Here, you can find all configuration options related to the styling of nodes in the site graph.
+
 ## Basic Node
 
 This is the styling of a basic node, with no additional styles applied to it.
@@ -59,6 +61,11 @@ You can change the size of the node by setting the `shapeSize` property.
 
 ## Color Config
 You can change the color of the node by setting the `shapeColor` property.
+
+:::note[Note]
+Changing the actual colors used for each color type can be done
+by [changing the CSS variables](/starlight-site-graph/configuration/css/variables#nodes).
+:::
 
 <GraphExample id="colorSelect" config={{ nodeDefaultStyle: { shapeColor: "nodeColor" } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
 	dropdowns={{

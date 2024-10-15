@@ -13,6 +13,28 @@ You can also configure both the sitemap generation, graph and backlinks renderin
 by specifying frontmatter for individual pages. These will always have precedence on
 any other configuration.
 
+In general, the frontmatter options are:
+```diff lang="md"
+// src/content/docs/my-page.md
+---
+title: My Page
++ links: [],		// See "Sitemap Frontmatter"
++ tags: [],			//   ...
++ sitemap: ...		//   ...
++ graph: ...		// See "Graph Frontmatter"
++ backlinks: ...	// See "Backlinks Frontmatter"
+---
+
+My page content goes here!
+```
+
+:::note[Note]
+If this plugin is being used without Starlight (i.e. not as a plugin),
+then the frontmatter will only be included if:
+1. [`<PageGraph />`](/starlight-site-graph/components/pagegraph) or [`<PageBacklinks />`](/starlight-site-graph/components/pagebacklinks) components are used in the page.
+2. The page's frontmatter is properly passed ot the component via the `entry` prop.
+:::
+
 ## Sections
 <CardGrid stagger>
 	<LinkCardIcon

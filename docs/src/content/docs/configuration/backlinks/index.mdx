@@ -6,10 +6,67 @@ sitemap:
   pageTitle: Backlinks Configuration
 ---
 
-import { CardGrid } from '@astrojs/starlight/components';
+import { CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 import { LinkCardIcon } from '../../../../components';
 
 This page contains information pertaining the configuration of the _backlinks_ component.
+
+Compared to the graph component, the backlinks does not have as many configuration options _(or more correctly: just 1)_.
+Regardless, the backlinks component can be 'configured' in one of three ways:
+<Tabs>
+	<TabItem label="Via Plugin Settings" icon="seti:json">
+		```diff lang="js"
+		// astro.config.mjs
+		import starlight from '@astrojs/starlight'
+		import { defineConfig } from 'astro/config'
+		import starlightSiteGraph from 'starlight-site-graph'
+		export default defineConfig({
+			integrations: [
+				starlight({
+					plugins: [starlightSiteGraph({
+		+				backlinksConfig: {
+		+					// Global backlinks configuration
+		+				}
+					})],
+				}),
+			],
+		})
+		```
+	</TabItem>
+
+	<TabItem label="Via Frontmatter" icon="bars">
+		:::note[Note]
+		This only applies to the `<PageBacklinks/>` component.
+		:::
+
+		```diff lang="md
+		// src/content/docs/my-page.md
+		---
+		title: My Page
+		+ backlinks:
+		+   visible: true
+		---
+
+		My page content goes here!
+		```
+	</TabItem>
+
+	<TabItem label="Via Component Props" icon="seti:html">
+		```diff lang="mdx"
+		// src/content/docs/my-page.mdx
+		---
+		title: My Page
+		---
+
+		 import { Backlinks, PageBacklinks } from 'starlight-site-graph/components';
+
+		 This page contains two different graphs:
+		+ <Backlinks sitemap={{...}} backlinks={[...]} />
+		+ <PageBacklinks />
+		```
+	</TabItem>
+</Tabs>
+
 
 ## Sections
 

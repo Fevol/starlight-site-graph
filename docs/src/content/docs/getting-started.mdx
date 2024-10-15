@@ -3,13 +3,13 @@ title: Getting Started
 description: Learn how to use the Starlight Site Graph plugin in your Starlight site.
 ---
 
-import { Steps } from '@astrojs/starlight/components'
+import { Icon, Steps } from '@astrojs/starlight/components'
 import { PackageManagers } from 'starlight-package-managers'
 
 Starlight Site Graph is a [Starlight](https://starlight.astro.build) plugin that seamlessly adds a customizable graph to your site,
 visualizing links between your pages for easy navigation.
 
-Check out the [configuration](/starlight-site-graph/configuration/) guide and [examples](/starlight-site-graph/examples/)
+Check out the [configuration](/starlight-site-graph/configuration) guide and [examples](/starlight-site-graph/examples)
 to learn more about the plugin's features.
 
 ## Prerequisites
@@ -22,7 +22,7 @@ This plugin requires a [Starlight](https://starlight.astro.build) version of at 
 in several components. An [Astro](https://astro.build) version equal or higher than `^4.14.0` is also required for type injection.
 :::
 
-## <span style="display: flex; gap: 8px">Installation (Starlight) <Icon name="starlight" /></span>
+## <span style="display: flex; gap: 8px"><Icon name="starlight" /> Installation (Starlight)</span>
 
 <Steps>
     1. Starlight Site Graph is a Starlight [plugin](https://starlight.astro.build/reference/plugins/) that you can install using your favorite package manager:
@@ -65,11 +65,17 @@ in several components. An [Astro](https://astro.build) version equal or higher t
 
 That's it! You should now see the Starlight Site Graph is now added to your Starlight website.
 
-If you want to configure the graph component, sitemap generation or backlinks, check out the [configuration](/starlight-site-graph/configuration/) guide.
+If you want to configure the graph component, sitemap generation or backlinks, check out the [configuration](/starlight-site-graph/configuration) guide.
 
-## <span style="display: flex; gap: 8px">Installation (Astro) <Icon name="astro" /></span>
+:::caution[Warning]
+If you have a plugin which overrides the default `<PageSidebar>` component, it will likely not work, depending on
+how the plugin is implemented. Check out this plugin's [`<PageSidebar>`](/starlight-site-graph/components/pagesidebar) component for reference.
+:::
 
-While the plugin is mainly developed with Starlight support in mind, it is also possible to add the Graph or Backlink components
+## <span style="display: flex; gap: 8px"><Icon name="astro" /> Installation (Astro)</span>
+
+While the plugin is mainly developed with Starlight support in mind, it is also possible to add the
+[`<PageGraph>`](/starlight-site-graph/components/pagegraph) or [`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) components
 to regular Astro projects (without a sidebar), though it will require a little more manual setup.
 
 
@@ -108,21 +114,21 @@ to regular Astro projects (without a sidebar), though it will require a little m
 		+		})
 		+	};
 		```
-	4. You can now add the plugin's [components](/starlight-site-graph/components/) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+	4. You can now add the plugin's [components](/starlight-site-graph/components) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
 		or [`.mdoc`](https://docs.astro.build/en/guides/integrations-guide/markdoc/) pages (for the latter two, the proper integrations need to be added).<br/>
 		An example:
-		```astro
-			// src/content/docs/my-page.mdx
-			---
-			title: "My Page"
-			---
-			import { PageGraph } from 'starlight-site-graph/components'
+		```mdx
+		// src/content/docs/my-page.mdx
+		---
+		title: "My Page"
+		---
+		import { PageGraph } from 'starlight-site-graph/components'
 
-			<!-- This will render a graph centered on the current page -->
-			<PageGraph />
+		<!-- This will render a graph centered on the current page -->
+		<PageGraph />
 
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
 		```
-		For more info, check out the [components](/starlight-site-graph/components/) guide.
+		For more info, check out the [components](/starlight-site-graph/components) guide.
 	5. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the graph in action.
 </Steps>

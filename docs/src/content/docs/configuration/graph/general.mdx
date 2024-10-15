@@ -7,11 +7,15 @@ sitemap:
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
+import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
 import {
 	frozenConfig, largeFrozenSitemapConfig, largeRandomNodeSitemap,
 	randomNodeSitemap,
 } from '../constants.js';
+
+This page gives an overview of all the general configuration options for the graph component,
+specifically about how it is determines which nodes are shown in the graph, what actions are available, and when the graph is displayed.
 
 ## Depth
 
@@ -83,10 +87,75 @@ For more information on what each individual action does, see the [Graph Actions
 
 ## Visibility Rules
 
-The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [PageGraph component](todo/)
-(the graph in the sidebar) will be shown. By default, the graph is shown on all pages where the sidebar is visible.
+The `visibilityRules` option is a list of [glob patterns](todo/) that determine when the [`<PageGraph />` component](/starlight-site-graph/components/pagegraph)
+(e.g. the graph in the Starlight sidebar) will be shown.
+When using the plugin it its default configuration (with Starlight), the graph will also only be shown if the sidebar is visible.
 
-If `visibilityRules` is set to `["!starlight-site-graph/configuration/graph/general/", "**/*"]`, the graph would be shown for all pages except for the
-current page.
-
+<Tabs>
+	<TabItem label='["**/*"]'>
+		`<PageGraph />` is shown on all pages.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- **private**
+							- **page.md** // `<PageGraph>` is shown
+						- **public**
+							- **page.md** // `<PageGraph>` is shown
+							- **cool-stuff.md** // `<PageGraph>` is shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/*", "**/*"]'>
+		`<PageGraph />` is never shown because the first rule matches all pages.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- page.md // `<PageGraph>` is _not_ shown
+						- public
+							- page.md // `<PageGraph>` is _not_ shown
+							- cool-stuff.md // `<PageGraph>` is _not_ shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["**/public/*"]'>
+		`<PageGraph />` is only shown on pages in the `public` directory.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- page.md // `<PageGraph>` is _not_ shown
+						- **public**
+							- **page.md** // `<PageGraph>` is shown
+							- **cool-stuff.md** // `<PageGraph>` is shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["**/page.md"]'>
+		`<PageGraph />` is only shown on pages with the name `page.md`.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- private
+							- **page.md** // `<PageGraph>` is shown
+						- public
+							- **page.md** // `<PageGraph>` is shown
+							- cool-stuff.md // `<PageGraph>` is _not_ shown
+		</FileTree>
+	</TabItem>
+	<TabItem label='["!**/public/**, "**/*"]'>
+		`<PageGraph />` is shown on all pages except for those in the `public` directory.
+		<FileTree>
+			- src
+				- content
+					- docs
+						- **private**
+							- **page.md** // `<PageGraph>` is shown
+						- public
+							- page.md // `<PageGraph>` is _not_ shown
+							- cool-stuff.md // `<PageGraph>` is _not_ shown
+		</FileTree>
+	</TabItem>
+</Tabs>
 

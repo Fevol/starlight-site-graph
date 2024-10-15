@@ -11,6 +11,8 @@ import { renameNodes } from '../generationUtil.js';
 import GraphExample from "../../../../components/GraphExample.astro";
 import { Tabs, TabItem } from '@astrojs/starlight/components';
 
+This page discusses how you can use frontmatter to configure how this page is included in the sitemap.
+
 ## Links
 The `links` frontmatter key allows you to specify additional links for a page.
 These links can be used to create arbitrary connections between pages in the graph.
@@ -95,7 +97,7 @@ The `include` frontmatter key allows you to explicitly include or exclude a page
 
 ## Page Title
 The `pageTitle` frontmatter key allows you to specify the title of a page for _only_ the
-[`<PageGraph>`](/todo) and [`<PageBacklinks>`](/todo) components.
+[`<PageGraph />`](/starlight-site-graph/components/pagegraph) and [`<PageBacklinks />`](/starlight-site-graph/components/pagebacklinks) components.
 
 This setting will override both the `title` frontmatter key, as well as any overrides specified in the
 [`pageTitles`](/starlight-site-graph/configuration/sitemap/processing/#page-titles) configuration.

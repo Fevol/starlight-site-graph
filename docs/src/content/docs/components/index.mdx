@@ -1,0 +1,92 @@
+---
+title: Overview
+sidebar:
+  order: 1
+---
+
+import { CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import { LinkCardIcon } from '../../../components';
+
+This package also exports all the components that are used to generate the new sidebar.
+So, if you want to use these components in different places, you can do so by importing them from the package.
+
+<Tabs>
+	<TabItem label='MDX' icon='mdx'>
+		```mdx
+		// src/content/docs/my-page.mdx
+		---
+		title: My Page
+		---
+
+		import { PageGraph } from 'starlight-site-graph/components';
+
+		<PageGraph />
+		```
+	</TabItem>
+
+	<TabItem label='Markdoc' icon='mdoc'>
+		```mdx
+		// src/content/docs/my-page.mdx
+		---
+		title: My Page
+		---
+
+		import { PageGraph } from 'starlight-site-graph/components';
+
+		<PageGraph />
+		```
+	</TabItem>
+
+	<TabItem label='Astro' icon='astro'>
+		```astro
+		// my-component.astro
+		---
+		import { PageGraph } from 'starlight-site-graph/components';
+		---
+
+		<PageGraph />
+		```
+	</TabItem>
+</Tabs>
+
+
+
+## Components
+
+<CardGrid stagger>
+	<LinkCardIcon
+		icon="seti:rescript"
+		title="Page Sidebar"
+		href="/starlight-site-graph/components/pagesidebar"
+		description="Overrides Starlight's <code><​PageSidebar></code> component, contains a <code><​PageGraph></code> and <code><​PageBacklinks></code>."
+	/>
+
+	<LinkCardIcon
+		icon="seti:graphql"
+		title="Page Graph"
+		href="/starlight-site-graph/components/pagegraph"
+		description="Visualizes the graph for the current page."
+	/>
+
+	<LinkCardIcon
+		icon="external"
+		title="Page Backlinks"
+		href="/starlight-site-graph/components/pagebacklinks"
+		description="Displays backlinks for the current page."
+	/>
+
+	<LinkCardIcon
+		icon="seti:graphql"
+		title="Graph"
+		href="/starlight-site-graph/components/graph"
+		description="Visualizes a graph, given a config, slug and sitemap."
+	/>
+
+	<LinkCardIcon
+		icon="external"
+		title="Backlinks"
+		href="/starlight-site-graph/components/backlinks"
+		description="Visualizes backlinks given backlinks and sitemap."
+	/>
+
+</CardGrid>

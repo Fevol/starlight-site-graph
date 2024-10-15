@@ -6,6 +6,21 @@ sitemap:
   pageTitle: CSS Variables
 ---
 
+All variables used by the components are listed on this page, alongside with a default
+config if you are not using Starlight.
+
+Below is a short example on how you can override these variables:
+
+```css
+:root[data-theme='light'] {
+	--slsg-node-color: #00ff0a;
+}
+
+:root[data-theme='dark'] {
+	--slsg-node-color: #ffea00;
+}
+```
+
 ## Graph Container
 ### Text Colors
 - `--slsg-text-color`: The base color of the text in the graph. Inherited by label colors.
@@ -32,17 +47,17 @@ sitemap:
 ## Graph Elements
 ### Nodes
 - `--slsg-node-color`: The base color of the nodes in the graph.
-  <br>
+	<br/>
 - `--slsg-node-color-hover`: The node's color when hovered.
 - `--slsg-node-color-adjacent`: The node's color when they are adjacent to the hovered node.
 - `--slsg-node-color-muted`: The node's color when they are not adjacent or hovered.
-  <br>
+	<br/>
 - `--slsg-node-color-current`: The node's color when it is the same as the current page.
 - `--slsg-node-color-visited`: The node's color when the user has visited the page.
 - `--slsg-node-color-unresolved`: The node's color when the page does not exist.
 - `--slsg-node-color-external`: The node's color when the node leads to an external page.
 - `--slsg-node-color-tag`: The node's color when the node is a tag.
-  <br>
+	<br/>
 - `--slsg-node-color-1`: The node's color when it has `nodeColor1` set in its style.
 - `--slsg-node-color-2`: The node's color when it has `nodeColor2` set in its style.
 - `--slsg-node-color-3`: The node's color when it has `nodeColor3` set in its style.

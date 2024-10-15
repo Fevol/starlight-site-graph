@@ -20,6 +20,10 @@ import {
 	threeNodeSitemap,
 } from '../constants.js';
 
+On this page, you can find all the configuration options related to the rendering of nodes in the site graph,
+both in terms of which nodes are shown and how they are styled.
+
+If you are looking for how an individual node can be styled, check out the [node style page](/starlight-site-graph/configuration/graph/nodestyle).
 
 ## Render Unresolved Nodes
 
@@ -67,6 +71,14 @@ An example: a node can be both `visited` as well as `current` at the same time, 
 2. Styles specified by `visited` style
 3. Styles specified by `default` style
 
+For information about how these node styles can be configured, see the [node style page](/starlight-site-graph/configuration/graph/nodestyle).
+
+:::note[Note]
+If you actually just want to **change the color** used for a particular type of node,
+you can override the corresponding CSS variable in your site's stylesheet,
+check out the [CSS configuration](/starlight-site-graph/configuration/css/variables) page for more information.
+:::
+
 
 ### Default
 
@@ -81,7 +93,7 @@ An example: a node can be both `visited` as well as `current` at the same time, 
 ### External
 
 `nodeExternalStyle` is a style applied to nodes that refer to pages on other sites.
-External nodes only appear if the [`renderExternal`](/todo) option is enabled in the graph config.
+External nodes only appear if the [`renderExternal`](/starlight-site-graph/configuration/graph/nodes/#render-external-nodes) option is enabled in the graph config.
 
 <GraphExample id="node-style-external-showcase" config={{
 	nodeExternalStyle: nodeExternalStyleConfig
@@ -97,7 +109,7 @@ External nodes only appear if the [`renderExternal`](/todo) option is enabled in
 ### Visited
 
 `nodeVisitedStyle` is a style applied to nodes corresponding to pages that have been visited by the user.
-Visited nodes only appear if the [`trackVisitedPages`](todo/) option is enabled in the general config.
+Visited nodes only appear if the [`trackVisitedPages`](/starlight-site-graph/configuration/general#track-visited-pages) option is enabled in the general config.
 
 <GraphExample id="node-style-visited-showcase" config={{
 	nodeVisitedStyle: nodeVisitedStyleConfig
@@ -112,7 +124,7 @@ Visited nodes only appear if the [`trackVisitedPages`](todo/) option is enabled 
 ### Tags
 
 `tagDefaultStyle` is the default style for tags in the graph.
-Tags are pseudo-nodes that are created when a page has tags (either via [frontmatter](/todo) or [`tagRules`](/todo)).
+Tags are pseudo-nodes that are created when a page has tags (either via [frontmatter](/starlight-site-graph/configuration/frontmatter) or [`tagRules`](/starlight-site-graph/configuration/sitemap/processing/#tag-rules)).
 
 <GraphExample id="tag-style-default-showcase" config={{
 	tagDefaultStyle: tagDefaultStylesConfig,
@@ -145,7 +157,7 @@ The current node corresponds to the page that the user is currently viewing.
 ### Unresolved
 
 `nodeUnresolvedStyle` is the style applied to nodes that refer to pages that do not exist.
-Unresolved nodes only appear if the [`renderUnresolved`](/todo) option is enabled in the graph config.
+Unresolved nodes only appear if the [`renderUnresolved`](/starlight-site-graph/configuration/graph/nodes/#render-unresolved-nodes) option is enabled in the graph config.
 
 <GraphExample id="node-style-unresolved-showcase" config={{
 	nodeUnresolvedStyle: nodeUnresolvedStyleConfig

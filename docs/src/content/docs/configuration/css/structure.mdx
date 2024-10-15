@@ -6,11 +6,20 @@ sitemap:
   pageTitle: CSS Structure
 ---
 
+This page contains information about the CSS structure of the plugin (i.e. how the components exist within the DOM).
+An example style override for the components could look something like:
+
+```css
+// src/styles/global.css
+.graph-container {
+    border: 1px solid red;
+}
+```
 
 ## Graph
 ### Graph Container
 - `(.right-sidebar-panel .graph-panel)`: Holds the entire graph component. Classes passed by component props.
-  - `h2`: Graph title. 
+  - `h2`: Graph title.
   - `.graph-component .graph-skeleton`: Only visible while the graph is loading, ensures visual consistency.
   - `.graph-component`: Holds all graph-related elements.
     - `.graph-container (.is-fullscreen)`: Holds the graph canvas, fullscreen class is applied when maximized.
@@ -20,7 +29,7 @@ sitemap:
       - `canvas`: Where the graph is actually drawn.
     - (`.background-blur`: Element is only added when the graph is maximized, blurs the site background.)
 
-You can also style the performance stats when [debug](/todo) is enabled:
+You can also style the performance stats when [debug](/starlight-site-graph/configuration/general#debug) is enabled:
 - `#graph-stats`: Performance stats container.
 
 
@@ -48,10 +57,10 @@ inside the `.graph-action-container`:
 ## Backlinks
 
 - `(.right-sidebar-panel .backlinks-panel)`: Holds the backlinks component. Classes passed by component props.
-  - `h2`: Backlinks title. 
+  - `h2`: Backlinks title.
   - `ul .backlink`: Backlinks list element
     - `li` Backlink item
       - `a`: Backlink anchor
         - `span`: Backlink text
 
-  
+

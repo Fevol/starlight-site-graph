@@ -6,13 +6,58 @@ sitemap:
   pageTitle: Sitemap Configuration
 ---
 
-import { CardGrid } from '@astrojs/starlight/components';
+import { CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 import { LinkCardIcon } from '../../../../components';
-
 
 This page contains information pertaining the configuration of the _sitemap_ generation process,
 if you are looking for ways to configure the graph component,
-see the [graph configuration](/starlight-site-graph/configuration/graph/).
+see the [graph configuration](/starlight-site-graph/configuration/graph).
+
+The sitemap configuration can be set in one of two ways:
+<Tabs>
+	<TabItem label="Via Plugin Settings" icon="seti:json">
+		```diff lang="js"
+		// astro.config.mjs
+		import starlight from '@astrojs/starlight'
+		import { defineConfig } from 'astro/config'
+		import starlightSiteGraph from 'starlight-site-graph'
+		export default defineConfig({
+			integrations: [
+				starlight({
+					plugins: [starlightSiteGraph({
+		+				sitemapConfig: {
+		+					// Global sitemap configuration
+		+				}
+					})],
+				}),
+			],
+		})
+		```
+	</TabItem>
+
+	<TabItem label="Via Frontmatter" icon="bars">
+		:::note[Note]
+		This only applies to the `<PageGraph/>` and `<PageBacklinks/>` components.
+		Furthermore, this does not affect the whole sitemap, but only the sitemap data for the current page.
+		:::
+
+
+		```diff lang="md
+		// src/content/docs/my-page.md
+		---
+		 title: My Page
+		+ sitemap:
+		+   include: true
+		+   config: ...
+		---
+
+		My page content goes here!
+		```
+	</TabItem>
+</Tabs>
+
+
+
 
 
 ## Sections
