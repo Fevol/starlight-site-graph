@@ -112,6 +112,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 							<select data-key={key}>
 								{Object.entries(value).map(([k, v], idx) => (
 									(
+										// @ts-expect-error Prevent bloatage from excessive typeage
 										config[key] ? <option selected={JSON.stringify(v[key]) === JSON.stringify(config[key]) || v[key].selected} value={JSON.stringify(v)}>{k}</option>
 													: <option selected={idx === 0} value={JSON.stringify(v)}>{k}</option>
 									)
