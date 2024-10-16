@@ -62,7 +62,7 @@ By default, this is set to `./src/content/docs`. If you have your pages stored e
 ## Page Inclusion Rules
 
 The `pageInclusionRules` option allows you to specify which pages should be included in the sitemap based on their _file path_.
-The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The rules are specified as a list of strings, where each string is a [glob pattern](/starlight-site-graph/concepts/globs).
 The first rule that was matched, determines whether the page is included or not.
 
 If the inclusion of a page was specified in its frontmatter, it will take precedence over the rules specified here.
@@ -174,7 +174,7 @@ If the inclusion of a page was specified in its frontmatter, it will take preced
 ## Link Inclusion Rules
 
 The `linkInclusionRules` option allows you to specify which links should be included in the sitemap based on their _target path_.
-The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The rules are specified as a list of strings, where each string is a [glob pattern](/starlight-site-graph/concepts/globs).
 The first rule that was matched, determines whether the link is included or not.
 
 If a link was specified in the frontmatter of a page, it will always be included, regardless of the rules specified here.

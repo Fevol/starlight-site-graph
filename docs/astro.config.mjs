@@ -70,6 +70,10 @@ export default defineConfig({
 					items: [{ label: 'Getting Started', link: '/getting-started/' }],
 				},
 				{
+					label: 'Concepts',
+					autogenerate: { directory: 'concepts' },
+				},
+				{
 					label: 'Configuration',
 					items: [
 						{ label: 'Overview', link: '/configuration/' },

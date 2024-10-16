@@ -41,7 +41,7 @@ If you specify a title for a page in the `pageTitles` object, it will override t
 ## Style Rules
 
 The `styleRules` option allows you to specify a set of rules that will be applied to pages based on their  **resource path**.
-The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The rules are specified as a list of strings, where each string is a [glob pattern](/starlight-site-graph/concepts/globs).
 The first rule that matches the file path will be applied to the page.
 
 If a custom style was specified in the page's frontmatter, it will override the style rule,
@@ -65,7 +65,7 @@ otherwise, these styles have precedence over all other styles.
 ## Tag Rules
 
 The `tagRules` option allows you to specify a set of rules which will add tags to pages based on their **resource path**.
-The rules are specified as a list of strings, where each string is a [glob pattern](/test).
+The rules are specified as a list of strings, where each string is a [glob pattern](/starlight-site-graph/concepts/globs).
 The first rule that matches the file path will be applied to the page.
 
 :::danger[Important]

@@ -163,9 +163,11 @@ export const stylesDropdown = (styleType: string, style: object, selected?: stri
 		}
 	};
 	for (const key in style_obj[styleType]) {
+		// @ts-expect-error I don't really want to fix these typings
 		style_obj[styleType][key][styleType] = { ...style, ...style_obj[styleType][key][styleType] };
 	}
 	if (selected) {
+		// @ts-expect-error See above
 		style_obj[styleType][selected][styleType].selected = true;
 	}
 
