@@ -52,3 +52,21 @@
     height: unset;
     order: 2;
 }
+
+:root[data-theme='dark'] .right-sidebar graph-component {
+    --slsg-node-color: #d6a331;
+    --slsg-node-color-current: #EBB442;
+    --slsg-node-color-visited: #ba9032;
+    --slsg-node-color-external: #d3a446;
+    --slsg-color-accent: #f3ba41;
+    --slsg-text-color-accent: var(--sl-color-white);
+}
+
+:root[data-theme='light'] .right-sidebar graph-component {
+    --slsg-node-color: #f8b724;
+    --slsg-node-color-current: #f8b017;
+    --slsg-node-color-visited: #e3a524;
+    --slsg-node-color-external: #efb43e;
+    --slsg-color-accent: #f6ae0a;
+    --slsg-text-color-accent: var(--sl-color-white);
+}

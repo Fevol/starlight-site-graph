@@ -30,9 +30,34 @@ export default defineConfig({
 					debug: false,
 					graphConfig: {
 						depth: 1,
+						scale: 1,
+						labelOpacityScale: 1.5,
+						labelFontSize: 11,
+						labelHoverScale: 1.3,
 						renderArrows: true,
 						tagRenderMode: 'same',
-						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'render-external', 'settings']
+						actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'render-external', 'settings'],
+						nodeDefaultStyle: {
+							shape: 'star',
+							cornerType: 'round',
+							shapeCornerRadius: "25%",
+							nodeScale: 1.6,
+							shapeRotation: 'random',
+						},
+						nodeExternalStyle: {
+							shape: 'star',
+							shapePoints: 4,
+							nodeScale: 0.9,
+						},
+						nodeVisitedStyle: {
+							nodeScale: 1.1,
+						},
+						nodeCurrentStyle: {
+							shapePoints: 6,
+							nodeScale: 2.2,
+							shapeRotation: 0,
+							colliderScale: 1.4
+						}
 					},
 					sitemapConfig: {
 						includeExternalLinks: true
