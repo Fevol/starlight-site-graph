@@ -53,6 +53,12 @@
     order: 2;
 }
 
+:root[data-theme='dark'] {
+    --sl-color-accent-low: #826400;
+    --sl-color-accent: #aa860f;
+    --sl-color-accent-high: #bd9a28;
+}
+
 :root[data-theme='dark'] .right-sidebar graph-component {
     --slsg-node-color: #d6a331;
     --slsg-node-color-current: #EBB442;
@@ -60,6 +66,14 @@
     --slsg-node-color-external: #d3a446;
     --slsg-color-accent: #f3ba41;
     --slsg-text-color-accent: var(--sl-color-white);
+}
+
+:root[data-theme='light'] {
+    --sl-color-accent-low: #fdc65e;
+    --sl-color-accent: #d59215;
+    --sl-color-accent-high: #ca8c17 ;
+
+    --slsg-graph-bg-color: var(--sl-color-black);
 }
 
 :root[data-theme='light'] .right-sidebar graph-component {
