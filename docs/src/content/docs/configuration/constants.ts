@@ -1,7 +1,89 @@
 import config from 'virtual:starlight-site-graph/config';
 import { generateRandomSitemap, generateSitemap } from './generationUtil.ts';
 
-export const baseConfig = config.graphConfig;
+export const baseConfig = {
+	"actions": [],
+	"tagStyles": {},
+	"tagRenderMode": "none",
+	"enableDrag": false,
+	"enableZoom": false,
+	"enablePan": false,
+	"enableHover": true,
+	"enableClick": "disable",
+	"depth": 1,
+	"depthDirection": "both",
+	"followLink": "same",
+	"scale": 0.65,
+	"minZoom": 0.05,
+	"maxZoom": 4,
+	"renderLabels": true,
+	"renderArrows": false,
+	"renderUnresolved": false,
+	"renderExternal": true,
+	"scaleLinks": true,
+	"scaleArrows": true,
+	"minZoomArrows": 0.8,
+	"labelOpacityScale": 1.3,
+	"labelMutedOpacity": 0,
+	"labelHoverOpacity": 1,
+	"labelAdjacentOpacity": 1,
+	"labelFontSize": 12,
+	"labelHoverScale": 1,
+	"labelOffset": 10,
+	"labelHoverOffset": 14,
+	"zoomDuration": 75,
+	"zoomEase": "out_quad",
+	"hoverDuration": 200,
+	"hoverEase": "out_quad",
+	"nodeDefaultStyle": {
+		"shape": "circle",
+		"shapeColor": "nodeColor",
+		"shapeSize": 10,
+		"strokeWidth": 0,
+		"colliderScale": 1,
+		"nodeScale": 1,
+		"neighborScale": 0.5
+	},
+	"nodeVisitedStyle": {
+		"shapeColor": "nodeColorVisited"
+	},
+	"nodeCurrentStyle": {
+		"shapeColor": "nodeColorCurrent"
+	},
+	"nodeUnresolvedStyle": {
+		"shapeColor": "nodeColorUnresolved"
+	},
+	"nodeExternalStyle": {
+		"shape": "square",
+		"shapeColor": "nodeColorExternal",
+		"strokeColor": "inherit",
+		"nodeScale": 0.6
+	},
+	"tagDefaultStyle": {
+		"shape": "circle",
+		"shapeSize": 6,
+		"shapeColor": "backgroundColor",
+		"strokeColor": "nodeColorTag",
+		"strokeWidth": 1,
+		"colliderScale": 1,
+		"nodeScale": 1,
+		"neighborScale": 0.7
+	},
+	"linkWidth": 1,
+	"linkHoverWidth": 1,
+	"arrowSize": 5,
+	"arrowAngle": 0.5235987755982988,
+	"centerForce": 0.05,
+	"colliderPadding": 20,
+	"repelForce": 200,
+	"linkDistance": 0,
+	"alphaDecay": 0.0228,
+	"visibilityRules": [
+		"**/*"
+	],
+	"prefetchPages": false
+};
+
 export const maxDepthConfig = {
 	...baseConfig,
 	depth: 8,
