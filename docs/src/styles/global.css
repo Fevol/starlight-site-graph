@@ -48,6 +48,7 @@
     order: 1;
 }
 
-.items-full-width starlight-tabs {
+.items-full-width.items-full-width starlight-tabs {
+    height: unset;
     order: 2;
 }
