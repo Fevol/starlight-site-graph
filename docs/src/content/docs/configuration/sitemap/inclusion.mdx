@@ -170,6 +170,35 @@ If the inclusion of a page was specified in its frontmatter, it will take preced
 	</TabItem>
 </Tabs>
 
+## Ignore Starlight Links
+
+By default, Starlight adds additional links to every page, such as the "Edit this page", "Built with Starlight",
+and icons links. Since this is not necessarily useful (meaningful) for the graph, as it will
+clutter pages together, you can choose to ignore these types of links via the `ignoreStarlightLinks` option -
+this setting is `true` by default.
+
+Here are all the types of links that are ignored:
+- `Edit this page` (created by `editLink: { 'baseUrl': '...' }`)
+- `Built with Starlight` (created by `credits: true`)
+- Social links (created by `social: { ... }`)
+- Pagination links connecting previous and next pages (created by `pagination: true`)
+- Links to the landing page/root page (always added for title)
+
+These ignores are added as part of the [`linkInclusionRules`](#link-inclusion-rules) configuration.
+If you want to override the behaviour (i.e. keep a link that would otherwise be ignored),
+you can do so by specifying the link as a positive rule in the `linkInclusionRules` configuration
+(without a `!` prefix).
+
+As an example, specifying `linkInclusionRules: ["https://starlight.astro.build", "**/*"]` will result in the
+credits link _not_ being ignored.
+
+:::note[Note]
+Links in the Starlight sidebar are always ignored by default, otherwise every page would be connected to every other page.
+:::
+
+Finally, if you are not using Starlight, this setting will have no effect.
+
+
 
 ## Link Inclusion Rules
 
