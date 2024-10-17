@@ -126,7 +126,7 @@ This plugin makes use of existing projects such as:
 
 And was originally inspired by [Quartz](https://github.com/jackyzha0/quartz)'s graph component.
 
-This README makes use of [shields.io](https://shields.io) for badges.
+This README makes use of [shields.io](https://shields.io) for adding badges to display some cursory information about the project.
 
 ---
 
@@ -134,7 +134,7 @@ This README makes use of [shields.io](https://shields.io) for badges.
 
 ## 🤝 Contributors
 
-[ProjectsCode](https://github.com/mProjectsCode/) - For making large improvements to the graph's rendering logic and fixing many bugs. <br>
+[mProjectsCode](https://github.com/mProjectsCode/) - For making large improvements to the graph's rendering logic and fixing many bugs. <br>
 [Hideoo](https://github.com/HiDeoo/) and [Delucis](https://github.com/delucis) - For helping me to figure out how to solve some of the more difficult problems I encountered, and giving many helpful suggestions on how to improve the project.
 
 ---
