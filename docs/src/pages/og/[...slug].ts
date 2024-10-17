@@ -42,8 +42,8 @@ export const { getStaticPaths, GET } = OGImageRoute({
 			],
 			padding: 90,
 			logo: {
-				path: './src/pages/og/starlight-site-graph-icon.png',
-				size: [350]
+				path: '../assets/icon.png',
+				size: [450]
 			},
 		};
 	},
