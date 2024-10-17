@@ -42,6 +42,7 @@ export default defineConfig({
 							cornerType: 'round',
 							shapeCornerRadius: "25%",
 							nodeScale: 1.6,
+							neighbourScale: 30.0,
 							shapeRotation: 'random',
 						},
 						nodeExternalStyle: {
