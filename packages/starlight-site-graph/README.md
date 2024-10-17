@@ -135,7 +135,7 @@ This README makes use of [shields.io](https://shields.io) for adding badges to d
 ## 🤝 Contributors
 
 [mProjectsCode](https://github.com/mProjectsCode/) - For making large improvements to the graph's rendering logic and fixing many bugs. <br>
-[Hideoo](https://github.com/HiDeoo/) and [Delucis](https://github.com/delucis) - For helping me to figure out how to solve some of the more difficult problems I encountered, and giving many helpful suggestions on how to improve the project.
+[HiDeoo](https://github.com/HiDeoo/) and [Delucis](https://github.com/delucis) - For helping me to figure out how to solve some of the more difficult problems I encountered, and giving many helpful suggestions on how to improve the project.
 
 ---
 
@@ -144,5 +144,4 @@ This README makes use of [shields.io](https://shields.io) for adding badges to d
 ## ❤️ Support
 
 If you like this project, please consider giving it a star on GitHub,
-contributing some code, or sponsoring me via [GitHub Sponsors](https://github.com/sponsors/Fevol)
-(but my personal preference goes to the first two options).
+contributing some code, or sponsoring me via [GitHub Sponsors](https://github.com/sponsors/Fevol).
