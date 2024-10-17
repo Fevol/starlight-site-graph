@@ -1,5 +1,202 @@
 ---
 title: Glob Patterns
+sidebar:
+  order: 3
+sitemap:
+  pageTitle: Glob Patterns
 ---
 
-Glob patterns will need to be added here.
+import { Tabs, TabItem, FileTree } from '@astrojs/starlight/components';
+
+Glob patterns are used all throughout the package's configuration
+to determine whether a path/file should have some specific behavior applied to it.
+For the most part, the package makes use of the [fast-glob](https://github.com/mrmlnc/fast-glob#basic-syntax)
+syntax, with one notable exception. If you want to test out some glob patterns, there is a [playground](https://globster.xyz/) available.
+
+:::danger[Important]
+Compared to other globbing libraries, this package has a different way of processing patterns.
+Most notably, the package will search for **the first** pattern that matches the file path,
+and apply some behaviour based on whether the pattern is negated or not.
+See the [Pattern processing](#pattern-processing) section for more information.
+:::
+
+## Basic Syntax
+
+- **`*`** matches any character, except for `/` and hidden files (starting with `.`).
+- **`**`** matches zero or more directories
+- **`?`** matches a _single_ character, except for `/`
+- **`[seq]`** matches any character in `seq`
+
+
+<Tabs>
+	<TabItem label="*">
+		Only matches a file in the root directory (because `/` are not matched).
+		<FileTree>
+			- **page.md**
+			- **script.js**
+			- some
+				- dir
+					- important.ts
+					- file.md
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
+	<TabItem label="*.md">
+		Only matches files with the `.md` extension in the root directory.
+		<FileTree>
+			- **page.md**
+			- script.js
+			- some
+				- dir
+					- important.ts
+					- file.md
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
+	<TabItem label="**">
+		Matches all files in all directories.
+		<FileTree>
+			- **page.md**
+			- **script.js**
+			- some
+				- dir
+					- **important.ts**
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- **note.mdx**
+					- **regular.md**
+		</FileTree>
+	</TabItem>
+	<TabItem label="**/*.md">
+		Matches all files with the `.md` extension in all directories.
+		<FileTree>
+			- **page.md**
+			- script.js
+			- some
+				- dir
+					- important.ts
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- **regular.md**
+		</FileTree>
+	</TabItem>
+	<TabItem label="**/*.??">
+		Matches all files with a two-character extension in all directories.
+		<FileTree>
+			- **page.md**
+			- **script.js**
+			- some
+				- dir
+					- **important.ts**
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- **regular.md**
+		</FileTree>
+	</TabItem>
+	<TabItem label="**/*.[tj]s">
+		Matches all files with a two-character extension in all directories.
+		<FileTree>
+			- page.md
+			- **script.js**
+			- some
+				- dir
+					- **important.ts**
+					- file.md
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
+</Tabs>
+
+## Advanced Syntax
+
+- **`?(a|b)`** matches `a` or `b` (zero or one times)
+- **`*(a|b)`** matches `a` or `b` (zero or more times)
+- **`+(a|b)`** matches `a` or `b` (one or more times)
+- **`@(a|b)`** matches `a` or `b` (exactly one time)
+- **`!(a|b)`** matches anything except `a` or `b`
+
+
+## Pattern processing
+
+- Patterns are processed in the order they are defined.
+- The **first** pattern that matches the file path will be used to determine the behavior.
+- If a **`!`** is present at the start of the pattern, the behavior will be negated.
+
+
+Some examples:
+<Tabs>
+	<TabItem label="['**/*']">
+		Matches all files.
+		<FileTree>
+			- **page.md**
+			- **script.js**
+			- some
+				- dir
+					- **important.ts**
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- **note.mdx**
+					- **regular.md**
+		</FileTree>
+	</TabItem>
+	<TabItem label="['!**/*', '**/*']">
+		Matches no files, even if the second pattern matches all files, because the first pattern is matched first.
+		<FileTree>
+			- page.md
+			- script.js
+			- some
+				- dir
+					- important.ts
+					- file.md
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
+	<TabItem label="['**/dir/**.*']">
+		Matches all files in the `dir` directory.
+		<FileTree>
+			- page.md
+			- script.js
+			- some
+				- dir
+					- **important.ts**
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
+	<TabItem label="['!**/dir/**.*', '**/some/**.*']">
+		Matches all files in the `some` directory, _except_ for those `dir` directory.
+		<FileTree>
+			- page.md
+			- script.js
+			- some
+				- dir
+					- important.ts
+					- file.md
+					- .hidden.md
+				- other-dir
+					- **note.mdx**
+					- **regular.md**
+		</FileTree>
+	</TabItem>
+</Tabs>
