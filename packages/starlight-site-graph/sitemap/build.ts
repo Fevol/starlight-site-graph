@@ -67,11 +67,17 @@ export class SiteMapBuilder {
 		// FIXME: This requires a better bodge, without resorting to a HTML parser package
 		const starlightSidebar = content.match(/<ul[^>]*class=["'][^"']*\btop-level\b[^"']*["'][^>]*>/gs)?.[0] ?? '';
 		const sidebarLinkIdentifier = starlightSidebar.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
+		const starlightPagination = content.match(/<div[^>]*class=["'][^"']*\bpagination-links\b[^"']*["'][^>]*>/gs)?.[0] ?? '';
+		const paginationIdentifier = starlightPagination.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
 
 		// NOTE: This misses links that are not within <a> tags, but is the easiest way to avoid resources being included as links
 		for (const tag of content.match(/<a\b[^>]*?>.*?<\/a>?/gm) ?? []) {
 			const classes = (tag.match(/class="([^"]*)"/)?.[1] ?? '').split(' ');
 			if (sidebarLinkIdentifier && classes.includes(sidebarLinkIdentifier)) {
+				continue;
+			}
+
+			if (this.config.ignoreStarlightLinks && paginationIdentifier && classes.includes(paginationIdentifier)) {
 				continue;
 			}
 
@@ -90,8 +96,8 @@ export class SiteMapBuilder {
 			return this;
 		}
 
-		if (this.config.pageInclusionRules.length) {
-			links = new Set([...links].filter(link => firstMatchingPattern(link, this.config.pageInclusionRules, false)));
+		if (this.config.linkInclusionRules.length) {
+			links = new Set([...links].filter(link => firstMatchingPattern(link, this.config.linkInclusionRules, false)));
 		}
 
 		if (this.map.has(linkPath)) {

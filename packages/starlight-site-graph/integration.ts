@@ -5,6 +5,7 @@ import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import { starlightSiteGraphConfigSchema } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
+import { onlyTrailingSlash } from './sitemap/util';
 
 import { fileURLToPath } from 'node:url';
 
@@ -43,6 +44,13 @@ export default defineIntegration({
 								? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
 								: ''),
 						);
+
+						if (sitemapConfig.ignoreStarlightLinks) {
+							let starlightIgnoredLinks = [`!${onlyTrailingSlash(config.base)}`];
+
+							sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
+							logger.info('Ignoring following Starlight links in sitemap: ' + starlightIgnoredLinks.join(', '));
+						}
 
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
 						if (command === 'dev' || command === 'build') {

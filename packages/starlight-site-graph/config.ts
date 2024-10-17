@@ -737,6 +737,21 @@ const globalSitemapConfigSchema = z.object({
 
 
 	/**
+	 * Ignore links produced by Starlight which exist on every page.
+	 * Specifically, these are:
+	 *   - `/`: The root link, which exists within the title
+	 *   - `social`: Any social link
+	 *   - `edit`: The link for editing the current page
+	 *   - `credits`: The "Starlight Attribution" link
+	 *   - Pagination links
+	 *
+	 * All links of the sidebar are _always_ ignored.
+	 * These ignore rules will be added to the `pageInclusionRules` setting (inserted _before_ the last rule).
+	 *
+	 * @default true
+	 */
+	ignoreStarlightLinks: z.boolean().default(true),
+	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
 	 * The page is included/excluded if the file's _path_ matches one of the rules.
 	 * When a rule starts with `!`, the file is _excluded_ if matched.
