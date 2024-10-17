@@ -212,7 +212,7 @@ You can change the stroke of the node by setting the `strokeWidth`, `strokeColor
 
 ## Collider Scaling
 
-You can change the collider scaling of the node by setting the `colliderScale` property.
+You can change how much the size of the node's collider should be scaled by, by setting the `colliderScale` property.
 
 <GraphExample id="colliderScale"
 			  config={{
@@ -236,7 +236,8 @@ You can change the collider scaling of the node by setting the `colliderScale` p
 
 ## Node Scaling
 
-You can change the node scaling by setting the `scale` property.
+You can change how much a node is scaled with respect to the `shapeSize` property,
+by setting the `nodeScale` property.
 
 <GraphExample id="nodeScale"
 			  config={{
@@ -258,9 +259,11 @@ You can change the node scaling by setting the `scale` property.
 			  }}
 />
 
+## Neighbor Scaling
 
-The node can also be scaled based on the amount of neighbors it has, this is configurable via
-the `neighborScale` property.
+A node can have different amount of links compared to other nodes.
+If you want a node to be larger than its surrounding nodes if it has more links,
+you can do so by increasing the `neighborScale` property.
 
 <GraphExample id="neighborScale"
 			  config={{
