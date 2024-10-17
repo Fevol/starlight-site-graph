@@ -54,7 +54,7 @@ const { title, description, icon, ...attributes } = Astro.props;
         gap: 0.5rem;
     }
 
-    .title {
+    .title.title {
         color: var(--sl-color-white);
         font-weight: 600;
         font-size: var(--sl-text-lg);
@@ -80,8 +80,8 @@ const { title, description, icon, ...attributes } = Astro.props;
 
     /* Hover state */
     .sl-link-card-icon:hover {
-        background: var(--sl-color-gray-7, var(--sl-color-gray-6));
-        border-color: var(--sl-color-gray-2);
+        background: var(--sl-color-gray-7);
+        border-color: var(--sl-color-accent-high);
     }
 
     .sl-link-card-icon:hover .icon {
