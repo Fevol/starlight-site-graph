@@ -93,11 +93,7 @@ export default defineConfig({
 				{
 					label: 'Components',
 					autogenerate: { directory: 'components' },
-				},
-				{
-					label: 'Examples',
-					autogenerate: { directory: 'examples' },
-				},
+				}
 			],
 		}),
 	],
