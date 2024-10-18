@@ -95,6 +95,9 @@ export default defineConfig({
 					autogenerate: { directory: 'components' },
 				}
 			],
+			components: {
+				Head: './src/overrides/Head.astro',
+			},
 		}),
 	],
 	devToolbar: { enabled: false },
