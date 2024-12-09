@@ -58,7 +58,7 @@ export default defineIntegration({
 							try {
 								await fs.promises.access(sitemapConfig.contentRoot);
 								await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
-								options.sitemapConfig.sitemap = command === 'dev' ? builder.process().toSitemap() : {};
+								options.sitemapConfig.sitemap = builder.process().toSitemap();
 								logger.info('Finished retrieving links from Markdown content');
 							} catch (e) {
 								logger.error('Failed to retrieve links from Markdown content, reason: ' + e);
