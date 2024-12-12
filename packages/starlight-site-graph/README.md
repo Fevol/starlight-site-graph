@@ -5,7 +5,7 @@
 ---
 
 <div align="center">
-<a href="https://github.com/Fevol/starlight-site-graph/" style="text-decoration: none">
+<a href="https://www.npmjs.com/package/starlight-site-graph/" style="text-decoration: none">
 <img alt="Starlight Site Graph downloads - weekly" src="https://img.shields.io/npm/dw/starlight-site-graph?label=Downloads:&logo=npm&color=CB3837&logoColor=CB3837">
 </a>
 <a href="https://github.com/Fevol/starlight-site-graph/stargazers" style="text-decoration: none">
