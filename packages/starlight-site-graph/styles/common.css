@@ -105,7 +105,7 @@
 
 /* Move graph and other contents in page sidebar into bottom of page */
 @media (max-width: calc(72em - 1px)) {
-	.main-frame > div:has(.graph-panel) {
+	.main-frame > div:has(.graph-panel, .backlinks-panel) {
 		display: flex;
 		flex-direction: column-reverse;
 		.right-sidebar {
