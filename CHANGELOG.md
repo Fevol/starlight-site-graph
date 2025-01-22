@@ -1,4 +1,4 @@
-## [0.2.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.0) (2024/12/29)
+## [0.2.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.0) (2025/01/22)
 
 ### Upgrades
 
