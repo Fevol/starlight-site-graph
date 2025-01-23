@@ -1,3 +1,11 @@
+## [0.2.1](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.1) (2025/01/23)
+
+### Fixes
+
+-   CSS color variables for graph nodes not supporting color spaces other than `rgb` and `rgba`
+-   Re-add missing `gray-matter` dependency
+
+
 ## [0.2.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.0) (2025/01/22)
 
 ### Upgrades
