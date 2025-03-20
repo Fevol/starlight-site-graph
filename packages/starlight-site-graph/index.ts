@@ -10,9 +10,11 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 	return {
 		name: 'starlight-sitemap-plugin',
 		hooks: {
-			setup: async ({ addIntegration, config, command, logger, updateConfig, injectTranslations }) => {
-				if (command === 'preview')
-					return;
+			'i18n:setup'({ injectTranslations }) {
+				injectTranslations(translations);
+			},
+			'config:setup': async ({ addIntegration, config, command, logger, updateConfig }) => {
+				if (command === 'preview') return;
 
 				if (parsedConfig.sitemapConfig.ignoreStarlightLinks) {
 					let starlightIgnoredLinks = [];
@@ -36,8 +38,8 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 				const componentOverrides: typeof config.components = {};
 				const customCss: typeof config.customCss = ['starlight-site-graph/styles/common.css'];
 
-				injectTranslations(translations);
-
+				// injectTranslations(translations);
+				console.log('config.components?.PageSidebar', config.components?.PageSidebar);
 				if (config.components?.PageSidebar) {
 					logger.warn(
 						'It looks like you already have a `PageSidebar` component override in your Starlight configuration.',
@@ -60,3 +62,4 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 		},
 	};
 }
+
