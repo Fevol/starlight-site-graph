@@ -97,7 +97,7 @@ export default defineConfig({
 				}
 			],
 			components: {
-				Head: './src/overrides/Head.astro',
+				// Head: './src/overrides/Head.astro',
 			},
 		}),
 	],
