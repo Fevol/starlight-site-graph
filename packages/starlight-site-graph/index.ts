@@ -38,8 +38,6 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 				const componentOverrides: typeof config.components = {};
 				const customCss: typeof config.customCss = ['starlight-site-graph/styles/common.css'];
 
-				// injectTranslations(translations);
-				console.log('config.components?.PageSidebar', config.components?.PageSidebar);
 				if (config.components?.PageSidebar) {
 					logger.warn(
 						'It looks like you already have a `PageSidebar` component override in your Starlight configuration.',
@@ -62,4 +60,3 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 		},
 	};
 }
-
