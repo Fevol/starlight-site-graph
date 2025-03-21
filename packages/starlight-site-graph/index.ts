@@ -6,13 +6,15 @@ import { translations } from './i18n';
 import { ensureTrailingSlash } from './sitemap/util';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
-	const parsedConfig = validateConfig(userConfig);
+	const parsedConfig: StarlightSiteGraphConfig = validateConfig(userConfig);
 	return {
 		name: 'starlight-sitemap-plugin',
 		hooks: {
-			setup: async ({ addIntegration, config, command, logger, updateConfig, injectTranslations }) => {
-				if (command === 'preview')
-					return;
+			'i18n:setup'({ injectTranslations }) {
+				injectTranslations(translations);
+			},
+			'config:setup': async ({ addIntegration, config, command, logger, updateConfig }) => {
+				if (command === 'preview') return;
 
 				if (parsedConfig.sitemapConfig.ignoreStarlightLinks) {
 					let starlightIgnoredLinks = [];
@@ -35,8 +37,6 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 				addIntegration(integration(parsedConfig));
 				const componentOverrides: typeof config.components = {};
 				const customCss: typeof config.customCss = ['starlight-site-graph/styles/common.css'];
-
-				injectTranslations(translations);
 
 				if (config.components?.PageSidebar) {
 					logger.warn(
