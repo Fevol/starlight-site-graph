@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import starlightThemeObsidian from 'starlight-theme-obsidian';
+// import starlightThemeObsidian from 'starlight-theme-obsidian';
+import starlightSiteGraph from 'starlight-site-graph';
 import starlightLinksValidator from 'starlight-links-validator';
 import markdocGrammar from './grammars/markdoc.tmLanguage.json';
 
@@ -26,7 +27,7 @@ export default defineConfig({
 				starlightLinksValidator({
 					errorOnInvalidHashes: false
 				}),
-				starlightThemeObsidian({
+				starlightSiteGraph({
 					debug: false,
 					graphConfig: {
 						depth: 1,
