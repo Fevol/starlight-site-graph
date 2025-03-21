@@ -1,3 +1,23 @@
+## [0.3.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.0) (2025/03/21)
+### Upgrades
+-   ⚠️ **Minor change:** The minimum supported version of Starlight is now `0.32.0`, and Astro `5.5.0`.<br>
+    No breaking changes are introduced in this upgrade, but it is recommended to update component overrides
+    snippets that were provided by this plugin: please remove the following lines:
+    ```diff
+    ---
+    -import type { Props } from '@astrojs/starlight/props';
+    import Default from "@astrojs/starlight/components/PageSidebar.astro";
+    ---
+    
+    -<Default {...Astro.props}><slot /></Default>
+    +<Default><slot /></Default>
+    ```
+
+### Fixes
+-   Respect Astro's `trailingSlash` configuration for sitemap generation and link following
+-   Resolve mismatching Astro dependency versions due to old `astro` peer-dependency of `astro-integration-kit`
+-   Bug flag not being parsed correctly, resulting in a spurious `pixi-stats` missing error
+
 ## [0.2.2](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.2) (2025/01/23)
 ### Upgrades
 -   The minimum supported version of Starlight is now `0.31.0`, and Astro `5.1.5`.
@@ -9,7 +29,7 @@
 
 
 ## [0.2.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.2.0) (2025/01/22)
-### Upgrades
+### Upgrades 
 -   ⚠️ **BREAKING CHANGE:** The minimum supported version of Starlight is now `0.30.0`.<br>
     Please follow the [upgrade guide](https://github.com/withastro/starlight/releases/tag/%40astrojs/starlight%400.30.0) to update your project.<br>
     Note that the [`legacy.collections` flag](https://docs.astro.build/en/reference/legacy-flags/#collections) is not supported by this plugin and you should update your collections to use Astro's new Content Layer API.
