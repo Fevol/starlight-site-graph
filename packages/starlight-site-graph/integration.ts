@@ -26,6 +26,8 @@ export default defineIntegration({
 			hooks: {
 				'astro:config:setup': async (args) => {
 					const { config, logger, command, updateConfig, injectScript } = args;
+					const addTrailingSlash = config.trailingSlash !== 'never';
+					builder.setTrailingSlash(addTrailingSlash);
 
 					// Adapted from @shishkin/astro-pagefind
 					if (config.adapter?.name.startsWith("@astrojs/vercel")) {
@@ -47,10 +49,13 @@ export default defineIntegration({
 						);
 
 						if (settings.sitemapConfig.ignoreStarlightLinks) {
-							let starlightIgnoredLinks = [`!${onlyTrailingSlash(config.base)}`];
-
+							let starlightIgnoredLinks = [`!${config.base}`];
 							settings.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
-							logger.info('Ignoring following Starlight links in sitemap: ' + starlightIgnoredLinks.join(', '));
+							settings.sitemapConfig.linkInclusionRules = settings.sitemapConfig.linkInclusionRules
+								.map(x => onlyTrailingSlash(x, addTrailingSlash));
+
+							logger.info('Ignoring following Starlight links in sitemap: ' +
+										settings.sitemapConfig.linkInclusionRules.join(', '));
 						}
 
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content

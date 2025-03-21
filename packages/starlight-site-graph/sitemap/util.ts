@@ -24,7 +24,8 @@ export function ensureLeadingSlash(path: string): string {
 	return path.startsWith('/') ? path : `/${path}`;
 }
 
-export function ensureTrailingSlash(path: string): string {
+export function ensureTrailingSlash(path: string, add: boolean): string {
+	if (!add) return path.endsWith('/') ? path.slice(0, -1) : path;
 	return path.endsWith('/') ? path : `${path}/`;
 }
 
@@ -42,8 +43,8 @@ export function trimSlashes(path: string) {
 	return path;
 }
 
-export function onlyTrailingSlash(path: string) {
-	return ensureTrailingSlash(stripLeadingSlash(path));
+export function onlyTrailingSlash(path: string, add: boolean) {
+	return ensureTrailingSlash(stripLeadingSlash(path), add);
 }
 
 export function firstMatchingPattern(

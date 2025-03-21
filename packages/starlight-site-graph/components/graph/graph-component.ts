@@ -28,6 +28,7 @@ export class GraphComponent extends HTMLElement {
 	blurContainer: HTMLElement;
 
 	debug: boolean = false;
+	trailingSlashes: boolean = true;
 
 	renderer!: GraphRenderer;
 	simulator!: GraphSimulator;
@@ -73,6 +74,8 @@ export class GraphComponent extends HTMLElement {
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname));
 			this.debug = this.dataset['debug'] !== undefined;
+			this.trailingSlashes = this.dataset['trailing-slashes'] === 'true';
+			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname), this.trailingSlashes);
 		} catch (e) {
 			console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));
 		}

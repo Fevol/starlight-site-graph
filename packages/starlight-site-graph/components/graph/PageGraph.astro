@@ -17,10 +17,11 @@ interface Props {
     showGraph?: boolean;
     config?: GraphConfig;
     entry?: { data: PageSiteGraphFrontmatter };
+    trailingSlashes?: boolean;
 }
 
 let graphData: Partial<PageGraphConfig> = {};
-let { slug, class: className, showGraph, config: graphConfig } = Astro.props;
+let { slug, class: className, showGraph, config: graphConfig, trailingSlashes } = Astro.props;
 let { entry } = Astro.locals.starlightRoute;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
@@ -39,7 +40,6 @@ if (showGraph === undefined) {
     }
 }
 ---
-
 {showGraph &&
     <div class:list={className ?? ""}>
         <slot name="title"/>
@@ -52,6 +52,7 @@ if (showGraph === undefined) {
                 ...(graphConfig ?? {})
             }}
             debug={config.debug ?? false}
+            trailingSlashes={trailingSlashes ?? astroConfig.trailingSlashes !== 'never' ?? true}
         />
     </div>
 }

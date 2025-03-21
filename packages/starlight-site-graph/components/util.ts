@@ -47,7 +47,8 @@ export function ensureLeadingSlash(path: string): string {
 	return path.startsWith('/') ? path : `/${path}`;
 }
 
-export function ensureTrailingSlash(path: string): string {
+export function ensureTrailingSlash(path: string, add: boolean): string {
+	if (!add) return path.endsWith('/') ? path.slice(0, -1) : path;
 	return path.endsWith('/') ? path : `${path}/`;
 }
 

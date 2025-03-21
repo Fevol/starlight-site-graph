@@ -25,6 +25,7 @@ export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
 	private contentRoot: string;
 	private excludedPaths: Set<string> = new Set();
+	private addTrailingSlash: boolean = false;
 	basePath!: string;
 	implicitNameAssociations: Map<string, string[]> = new Map();
 	officialNameAssociations: Map<string, string> = new Map();
@@ -33,12 +34,17 @@ export class SiteMapBuilder {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.officialNameAssociations = new Map(
-			Object.entries(this.config.pageTitles).map(([k, v]) => [onlyTrailingSlash(k), v]),
+			Object.entries(this.config.pageTitles).map(([k, v]) => [onlyTrailingSlash(k, this.addTrailingSlash), v]),
 		);
 	}
 
 	setBasePath(basePath: string) {
 		this.basePath = trimSlashes(basePath);
+		return this;
+	}
+
+	setTrailingSlash(addTrailingSlash: boolean) {
+		this.addTrailingSlash = addTrailingSlash;
 		return this;
 	}
 
@@ -86,7 +92,7 @@ export class SiteMapBuilder {
 			if (link.length && !link.startsWith("#")) {
 				let resolvedLink = this.resolveLink(linkPath, link, links);
 				if (resolvedLink && text.length) {
-					resolvedLink = ensureTrailingSlash(resolvedLink);
+					resolvedLink = ensureTrailingSlash(resolvedLink, this.addTrailingSlash);
 					this.implicitNameAssociations.set(resolvedLink, [...(this.implicitNameAssociations.get(resolvedLink) ?? []), text]);
 				}
 			}
@@ -180,7 +186,7 @@ export class SiteMapBuilder {
 		if (frontmatter.data) {
 			if (frontmatter.data.links) {
 				for (const link of [].concat(frontmatter.data.links as any)) {
-					links.add(onlyTrailingSlash(link));
+					links.add(onlyTrailingSlash(link, this.addTrailingSlash));
 				}
 			}
 
@@ -277,13 +283,13 @@ export class SiteMapBuilder {
 			} else if (this.basePath !== '' && !trimSlashes(link).startsWith(this.basePath)) {
 				link = path.join(this.basePath, link);
 			}
-			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!).replace(/\\/g, '/'));
+			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!, this.addTrailingSlash).replace(/\\/g, '/'));
 			if (link !== current) {
 				links.add(link);
 				return link;
 			}
 		} else if (this.config.includeExternalLinks) {
-			if (!link.includes('#')) link = ensureTrailingSlash(link);
+			if (!link.includes('#')) link = ensureTrailingSlash(link, this.addTrailingSlash);
 
 			links.add(link);
 			return link;
@@ -312,6 +318,6 @@ export class SiteMapBuilder {
 		relative_path = slugifyPath(relative_path);
 
 		// Remove index from the end of the path
-		return ensureTrailingSlash(resolveIndex(relative_path));
+		return ensureTrailingSlash(resolveIndex(relative_path), this.addTrailingSlash);
 	}
 }

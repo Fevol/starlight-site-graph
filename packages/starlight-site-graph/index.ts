@@ -13,8 +13,10 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 			'i18n:setup'({ injectTranslations }) {
 				injectTranslations(translations);
 			},
-			'config:setup': async ({ addIntegration, config, command, logger, updateConfig }) => {
+			'config:setup': async ({ addIntegration, config, astroConfig, command, logger, updateConfig }) => {
 				if (command === 'preview') return;
+
+				const addTrailingSlashes = astroConfig.trailingSlash !== "never";
 
 				if (parsedConfig.sitemapConfig.ignoreStarlightLinks) {
 					let starlightIgnoredLinks = [];
@@ -23,11 +25,11 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 					}
 
 					if (config.editLink?.baseUrl) {
-						starlightIgnoredLinks.push(`!${ensureTrailingSlash(config.editLink.baseUrl)}**`);
+						starlightIgnoredLinks.push(`!${ensureTrailingSlash(config.editLink.baseUrl, addTrailingSlashes)}**`);
 					}
 
 					for (const link of Object.values(config.social ?? {})) {
-						starlightIgnoredLinks.push(`!${ensureTrailingSlash(link)}`);
+						starlightIgnoredLinks.push(`!${ensureTrailingSlash(link, addTrailingSlashes)}`);
 					}
 
 					parsedConfig.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
