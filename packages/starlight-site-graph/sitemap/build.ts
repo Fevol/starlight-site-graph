@@ -1,4 +1,4 @@
-import type { NodeStyle, Sitemap, SitemapConfig } from '../config';
+import type { NodeStyle, RemoveOptional, Sitemap, SitemapConfig } from '../config';
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
@@ -29,7 +29,7 @@ export class SiteMapBuilder {
 	implicitNameAssociations: Map<string, string[]> = new Map();
 	officialNameAssociations: Map<string, string> = new Map();
 
-	constructor(private config: SitemapConfig) {
+	constructor(private config: RemoveOptional<SitemapConfig>) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.officialNameAssociations = new Map(
@@ -84,10 +84,10 @@ export class SiteMapBuilder {
 			let link = tag.match(/href="([^"]*)"/)?.[1] ?? '';
 			const text = extractInnerText(tag);
 			if (link.length && !link.startsWith("#")) {
-				link = this.resolveLink(linkPath, link, links);
-				if (link && text.length) {
-					link = ensureTrailingSlash(link);
-					this.implicitNameAssociations.set(link, [...(this.implicitNameAssociations.get(link) ?? []), text]);
+				let resolvedLink = this.resolveLink(linkPath, link, links);
+				if (resolvedLink && text.length) {
+					resolvedLink = ensureTrailingSlash(resolvedLink);
+					this.implicitNameAssociations.set(resolvedLink, [...(this.implicitNameAssociations.get(resolvedLink) ?? []), text]);
 				}
 			}
 		}
@@ -252,7 +252,8 @@ export class SiteMapBuilder {
 	/**
 	 * Convert the intermediate sitemap to the final sitemap
 	 */
-	toSitemap(): Sitemap {
+	toSitemap(): RemoveOptional<Sitemap> {
+		// @ts-expect-error Object has been forcefully made non-optional
 		return Object.fromEntries(
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
 				external: entry.external,

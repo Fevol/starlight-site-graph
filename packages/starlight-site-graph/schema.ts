@@ -1,5 +1,5 @@
 import { z } from 'astro/zod';
-import { graphConfigSchema, nodeStyle } from './config';
+import { graphConfigSchema, nodeStyleSchema } from './config';
 
 const pageGraphConfigSchema = graphConfigSchema.extend({
 	/**
@@ -11,7 +11,7 @@ const pageGraphConfigSchema = graphConfigSchema.extend({
 	 * Custom styles for the node defined by this page
 	 * Overrides any other styles that may be applied to this node
 	 */
-	nodeStyle: nodeStyle.partial().optional(),
+	nodeStyle: nodeStyleSchema.partial().optional(),
 });
 export type PageGraphConfig = z.infer<typeof pageGraphConfigSchema>;
 

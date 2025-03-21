@@ -1,10 +1,10 @@
 import { ensureLeadingPound, firstMatchingPattern } from './util';
-import type { NodeStyle, Sitemap, StarlightSiteGraphConfig } from '../config';
+import type { FullStarlightSiteGraphConfig, NodeStyle, RemoveOptional, Sitemap } from '../config';
 
 /**
  * Ensure that the passed sitemap is valid and has all rules applied to it
  */
-export function processSitemap(sitemap: Sitemap, options: StarlightSiteGraphConfig) {
+export function processSitemap(sitemap: RemoveOptional<Sitemap>, options: FullStarlightSiteGraphConfig) {
 	for (const [linkPath, entry] of Object.entries(sitemap)) {
 		const tags = new Set<string>(entry.tags);
 		for (const [tag, tagRules] of Object.entries(options.sitemapConfig.tagRules)) {
@@ -27,6 +27,8 @@ export function processSitemap(sitemap: Sitemap, options: StarlightSiteGraphConf
 				};
 			}
 		}
+
+		// @ts-expect-error shapeColor cannot be correctly casted
 		entry.nodeStyle = {
 			...entry.nodeStyle,
 			...nodeStyle,

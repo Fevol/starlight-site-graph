@@ -2,12 +2,13 @@ import fs from 'node:fs';
 
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 
-import { starlightSiteGraphConfigSchema } from './config';
+import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 import { onlyTrailingSlash } from './sitemap/util';
 
 import { fileURLToPath } from 'node:url';
+
 
 /**
  * Generates a static sitemap for all md files in the docs directory inside public/sitemap.json,
@@ -17,8 +18,8 @@ export default defineIntegration({
 	name: 'starlight-sitemap-integration',
 	optionsSchema: starlightSiteGraphConfigSchema,
 	setup({ name, options }) {
-		const { sitemapConfig } = options;
-		const builder = new SiteMapBuilder(sitemapConfig);
+		let settings = options as FullStarlightSiteGraphConfig;
+		const builder = new SiteMapBuilder(settings.sitemapConfig);
 		let outputPath: string;
 
 		return {
@@ -37,18 +38,18 @@ export default defineIntegration({
 						outputPath = fileURLToPath(config.outDir);
 					}
 
-					if (!options.sitemapConfig.sitemap) {
+					if (!settings.sitemapConfig.sitemap) {
 						logger.info(
 							'Retrieving links from Markdown content' +
-							(sitemapConfig.pageInclusionRules.length
-								? ` (with patterns ${sitemapConfig.pageInclusionRules.join(', ')})`
+							(settings.sitemapConfig.pageInclusionRules.length
+								? ` (with patterns ${settings.sitemapConfig.pageInclusionRules.join(', ')})`
 								: ''),
 						);
 
-						if (sitemapConfig.ignoreStarlightLinks) {
+						if (settings.sitemapConfig.ignoreStarlightLinks) {
 							let starlightIgnoredLinks = [`!${onlyTrailingSlash(config.base)}`];
 
-							sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
+							settings.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
 							logger.info('Ignoring following Starlight links in sitemap: ' + starlightIgnoredLinks.join(', '));
 						}
 
@@ -56,18 +57,20 @@ export default defineIntegration({
 						if (command === 'dev' || command === 'build') {
 							builder.setBasePath(config.base);
 							try {
-								await fs.promises.access(sitemapConfig.contentRoot);
-								await builder.addMDContentFolder(sitemapConfig.contentRoot, sitemapConfig.pageInclusionRules)
-								options.sitemapConfig.sitemap = builder.process().toSitemap();
+								await fs.promises.access(settings.sitemapConfig.contentRoot);
+								await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
+								settings.sitemapConfig.sitemap = builder.process().toSitemap();
 								logger.info('Finished retrieving links from Markdown content');
 							} catch (e) {
 								logger.error('Failed to retrieve links from Markdown content, reason: ' + e);
+								// TODO: Should virtual config always be added regardless of correct MD content generation?
+								//		Failsafe?
 								return;
 							}
 						}
 					} else {
 						logger.info('Using applied sitemap');
-						options.sitemapConfig.sitemap = processSitemap(options.sitemapConfig.sitemap, options);
+						settings.sitemapConfig.sitemap = processSitemap(settings.sitemapConfig.sitemap, settings);
 					}
 
 					if (command === 'dev' && options.debug) {
@@ -129,23 +132,23 @@ export default defineIntegration({
 						);
 					}
 
-					if (!Object.keys(options.sitemapConfig.sitemap!).length) {
+					if (!Object.keys(settings.sitemapConfig.sitemap!).length) {
 						logger.info('Retrieving links from generated HTML content');
 						try {
 							await fs.promises.access(outputPath);
-							options.sitemapConfig.sitemap = (await builder
-								.addHTMLContentFolder(outputPath, sitemapConfig.pageInclusionRules))
+							settings.sitemapConfig.sitemap = (await builder
+								.addHTMLContentFolder(outputPath, settings.sitemapConfig.pageInclusionRules))
 								.process()
 								.toSitemap();
 							logger.info('Finished generating sitemap from generated HTML content');
 						} catch (e) {
-							options.sitemapConfig.sitemap = builder.process().toSitemap();
+							settings.sitemapConfig.sitemap = builder.process().toSitemap();
 							logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
 						}
 					}
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
-					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(options.sitemapConfig.sitemap, null, 2));
+					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(settings.sitemapConfig.sitemap, null, 2));
 					logger.info("`sitemap.json` created at `dist/sitegraph`");
 				}
 			}
