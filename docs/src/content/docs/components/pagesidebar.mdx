@@ -32,20 +32,19 @@ components, you can do so by creating your own override as follows:
 		// src/overrides/PageSidebar.astro
 		---
 		import Default from "@astrojs/starlight/components/PageSidebar.astro";
-		import type { Props } from '@astrojs/starlight/props';
 
 		import { PageGraph, PageBacklinks } from "starlight-site-graph/components";
 		---
 
-		<PageGraph {...Astro.props} class="right-sidebar-panel graph-panel">
+		<PageGraph class="right-sidebar-panel graph-panel">
 			<h2 slot="title">{Astro.locals.t('starlight-site-graph.graph')}</h2>
 		</PageGraph>
 
-		<Default {...Astro.props}>
+		<Default>
 			<slot />
 		</Default>
 
-		<PageBacklinks {...Astro.props} class="right-sidebar-panel backlinks-panel">
+		<PageBacklinks class="right-sidebar-panel backlinks-panel">
 			<h2 slot="title">{Astro.locals.t('starlight-site-graph.backlinks')}</h2>
 		</PageBacklinks>
 		```

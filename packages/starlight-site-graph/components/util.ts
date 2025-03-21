@@ -116,11 +116,14 @@ export function isMobileDevice() {
 			)
 		)
 			check = true;
-	})(navigator.userAgent || navigator.vendor || window.opera);
+	})
+	// @ts-expect-error window.opera is not part of type definitions
+	(navigator.userAgent || navigator.vendor || window.opera);
 	return check;
 }
 
 export function hasTouch() {
+	// @ts-expect-error msMaxTouchPoints is old MS API, but still used in some places
 	return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
 }
 
