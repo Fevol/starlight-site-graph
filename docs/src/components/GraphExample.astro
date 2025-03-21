@@ -1,14 +1,15 @@
 ---
 // Word of warning: this component is full of bodges.
 
+import type { GraphConfig, Sitemap } from 'starlight-site-graph/config';
 import { Graph } from 'starlight-site-graph/components'
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
 
 interface Props {
 	slug: string;
-	config: object;
+	config: GraphConfig;
 	baseConfig: object;
-	sitemap: object;
+	sitemap: Sitemap;
 	id: string;
 	buttons?: Record<string, {
 		class: string;
@@ -62,7 +63,6 @@ const fullConfig = mergeDeep(baseConfig, config);
 <div id={id} class="graph-example" >
 	<div class={(fullWidth ? "items-full-width " : "") + "place-aside" }>
 		<Graph
-			debug={false}
 			config={fullConfig}
 			sitemap={sitemap}
 			slug={slug}

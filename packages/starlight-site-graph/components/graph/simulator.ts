@@ -44,7 +44,7 @@ export class GraphSimulator {
 		return this.simulation !== undefined;
 	}
 
-	initialize(nodes: NodeData[], links: LinkData[], currentNode: NodeData | undefined, scale: number) {
+	initialize(nodes: NodeData[], links: LinkData[], currentNode: NodeData | undefined, scale: number = 1.0) {
 		this.nodes = nodes;
 		this.links = links;
 		this.currentNode = currentNode;

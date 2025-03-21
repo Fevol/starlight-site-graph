@@ -198,7 +198,9 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		return false;
 	}
 
-	getValue<K extends keyof T>(key: K): ConfigValueType<T[K]> {
+	// FIXME: Type of the return value is wrong (unknown)
+	// getValue<K extends keyof T>(key: K): ConfigValueType<T[K]> {
+	getValue<K extends keyof T>(key: K): any {
 		if (!this.animations[key]) {
 			console.error(key);
 			console.trace();

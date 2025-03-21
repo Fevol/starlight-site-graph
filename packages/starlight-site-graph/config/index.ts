@@ -59,7 +59,7 @@ export { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, type Starligh
 export { globalGraphConfig, graphConfigSchema, globalGraphConfigSchema, type GraphConfig } from './graph';
 export { type SitemapEntry, type Sitemap, globalSitemapConfig, globalSitemapConfigSchema, type SitemapConfig } from './sitemap';
 export {
-	nodeStyleSchema, type NodeStyle,
+	nodeStyleSchema, type NodeStyle, type NodeShapeType,
 	nodeDefaultStyle, nodeVisitedStyle, nodeCurrentStyle, nodeUnresolvedStyle, nodeExternalStyle, tagDefaultStyle
 } from './node';
 export { globalBacklinksConfig, globalBacklinksConfigSchema, type BacklinksConfig } from './backlinks';

@@ -66,6 +66,7 @@ export class GraphRenderer {
 		if (import.meta.env.DEV && this.context.debug) {
 			setTimeout(async () => {
 				try {
+					// @ts-expect-error Safe import of pixi-stats, if it doesn't exist, then we ignore this setting
 					const pixistats = await import('pixi-stats');
 					const stats = pixistats.addStats(document, this.app);
 					this.app.ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
