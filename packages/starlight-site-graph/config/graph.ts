@@ -16,6 +16,7 @@ const graphConfig = {
 	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'] as ('fullscreen' | 'depth' | 'reset-zoom' | 'render-arrows' | 'settings')[],
 	tagStyles: {},
 	tagRenderMode: 'none' as ('none' | 'node' | 'same' | 'both'),
+	prefetchPages: true,
 	enableDrag: true,
 	enableZoom: true,
 	enablePan: true,
@@ -65,7 +66,6 @@ const graphConfig = {
 export const globalGraphConfig = {
 	...graphConfig,
 	visibilityRules: ['**/*'],
-	prefetchPages: true,
 }
 
 export const graphConfigSchema = z.object({
@@ -123,6 +123,13 @@ export const graphConfigSchema = z.object({
 	tagRenderMode: z
 		.union([z.literal('none'), z.literal('node'), z.literal('same'), z.literal('both')])
 		.default(graphConfig.tagRenderMode),
+
+	/**
+	 * Whether to prefetch pages on hover in the graph component.
+	 *
+	 * @default true
+	 */
+	prefetchPages: z.boolean().default(globalGraphConfig.prefetchPages),
 
 	/**
 	 * Whether to enable user dragging of nodes in the graph
@@ -489,10 +496,4 @@ export const globalGraphConfigSchema = graphConfigSchema.extend({
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
 	visibilityRules: z.array(z.string()).default(globalGraphConfig.visibilityRules),
-	/**
-	 * Whether to prefetch pages on hover in the sidebar graph component.
-	 *
-	 * @default true
-	 */
-	prefetchPages: z.boolean().default(globalGraphConfig.prefetchPages),
 }).partial();

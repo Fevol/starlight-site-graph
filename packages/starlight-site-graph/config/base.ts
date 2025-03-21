@@ -18,6 +18,8 @@ export const starlightSiteGraphConfigSchema = z
 		/**
 		 * Whether debug mode is enabled
 		 * - Adds a frametime counter to the graph
+		 *
+		 * @default false
 		 */
 		debug: z.boolean().default(starlightSiteGraphConfig.debug),
 
@@ -40,13 +42,13 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 * @default ```{
 		 *     visibilityRules: ["**\/*"],
-		 *     prefetchPages: true,
 		 *
 		 *     actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'],
 		 *
 		 *     tagStyles: {},
 		 *     tagRenderMode: 'none',
 		 *
+		 * 	   prefetchPages: true,
 		 *     enableDrag: true,
 		 *     enableZoom: true,
 		 *     enableHover: true,
