@@ -14,10 +14,11 @@ interface Props {
 	class?: string;
 	showBacklinks?: boolean;
 	entry?: Record<string, any>;
+	trailingSlashes?: boolean;
 }
 
 let backlinksData: Partial<PageGraphConfig> = {};
-let { slug, showBacklinks, class: className } = Astro.props;
+let { slug, showBacklinks, class: className, trailingSlashes } = Astro.props;
 let { entry } = Astro.locals.starlightRoute;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
@@ -25,8 +26,10 @@ if (entry.id) {
 	backlinksData = entry.data?.backlinks;
 }
 
+trailingSlashes = trailingSlashes ?? astroConfig.trailingSlashes !== 'never' ?? true;
+
 // Infer slug from URL if not explicitly provided
-const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")));
+const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")), trailingSlashes);
 
 const sitemap = config.sitemapConfig!.sitemap;
 

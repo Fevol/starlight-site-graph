@@ -71,7 +71,7 @@ export class GraphComponent extends HTMLElement {
 		try {
 			this.setConfigListener(this.dataset['config']);
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
-			this.trailingSlashes = this.dataset['trailing-slashes'] === 'true';
+			this.trailingSlashes = this.dataset['trailingSlashes'] === 'true';
 			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname), this.trailingSlashes);
 			this.debug = this.dataset['debug'] === 'true';
 		} catch (e) {

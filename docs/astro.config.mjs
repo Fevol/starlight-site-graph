@@ -8,8 +8,6 @@ import markdocGrammar from './grammars/markdoc.tmLanguage.json';
 export default defineConfig({
 	site: "https://fevol.github.io",
 	base: "/starlight-site-graph",
-	trailingSlash: 'never',
-	output: "static",
 	integrations: [
 		starlight({
 			title: 'Starlight Site Graph',
