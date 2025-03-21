@@ -81,7 +81,7 @@ export class SiteMapBuilder {
 				continue;
 			}
 
-			let link = tag.match(/href="([^"]*)"/)?.[1] ?? '';
+			let link: string | undefined = tag.match(/href="([^"]*)"/)?.[1] ?? '';
 			const text = extractInnerText(tag);
 			if (link.length && !link.startsWith("#")) {
 				link = this.resolveLink(linkPath, link, links);

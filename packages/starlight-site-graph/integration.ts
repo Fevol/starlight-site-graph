@@ -31,7 +31,7 @@ export default defineIntegration({
 						outputPath = fileURLToPath(new URL(".vercel/output/static/", config.root));
 					} else if (config.adapter?.name === "@astrojs/cloudflare") {
 						outputPath = fileURLToPath(new URL(config.base?.replace(/^\//, ""), config.outDir));
-					} else if (config.adapter?.name === "@astrojs/node" && config.output === "hybrid") {
+					} else if (config.adapter?.name === "@astrojs/node" && config.output === "server") {
 						outputPath = fileURLToPath(config.build.client!);
 					} else {
 						outputPath = fileURLToPath(config.outDir);

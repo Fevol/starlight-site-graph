@@ -6,7 +6,7 @@ import { translations } from './i18n';
 import { ensureTrailingSlash } from './sitemap/util';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
-	const parsedConfig = validateConfig(userConfig);
+	const parsedConfig: StarlightSiteGraphConfig = validateConfig(userConfig);
 	return {
 		name: 'starlight-sitemap-plugin',
 		hooks: {

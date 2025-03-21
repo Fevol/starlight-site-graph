@@ -257,8 +257,8 @@ function processStyle(style: Partial<NodeStyle>): NodeStyle {
 	}
 
 	if (style.cornerType === 'round' || style.cornerType === 'bevel') {
-		style.shapeCornerRadius = Math.min(Math.max(0, style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS), style.shapeSize!);
-		style.strokeCornerRadius = Math.min(Math.max(0, style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS), style.strokeWidth!);
+		style.shapeCornerRadius = Math.min(Math.max(0, Number(style.shapeCornerRadius ?? DEFAULT_CORNER_RADIUS)), style.shapeSize!);
+		style.strokeCornerRadius = Math.min(Math.max(0, Number(style.strokeCornerRadius ?? DEFAULT_CORNER_RADIUS)), style.strokeWidth!);
 	} else {
 		style.shapeCornerRadius = 0;
 		style.strokeCornerRadius = 0;

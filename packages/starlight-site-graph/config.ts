@@ -32,14 +32,17 @@ const nodeColorTypes = z.union([
 	z.literal('linkColor'),
 ]);
 
-const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not be negative"), z.string()
-	.refine(val => val.match(/^\d+\.?\d?\d?%?$/), {
-		message: 'Invalid percentage format, expected a string in the format "XX%"',
-	})
-	.refine((s) => parseFloat(s) >= 0 && parseFloat(s) <= 100, {
-		message: 'Invalid percentage value, expected a number between 0 and 100',
-	})]
-)
+const percentageSchema = z.union([
+	z.number().min(0, 'Shape corner radius may not be negative'),
+	z
+		.string()
+		.refine(val => val.match(/^\d+\.?\d?\d?%?$/), {
+			message: 'Invalid percentage format, expected a string in the format "XX%"',
+		})
+		.refine(s => parseFloat(s) >= 0 && parseFloat(s) <= 100, {
+			message: 'Invalid percentage value, expected a number between 0 and 100',
+		}),
+]);
 
 const nodeShapeTypes = z.union([
 	/**
@@ -80,13 +83,13 @@ export const nodeStyle = z.object({
 	 *
 	 * @default "circle"
 	 */
-	shape: nodeShapeTypes.default('circle'),
+	shape: nodeShapeTypes,
 	/**
 	 * Size of the node in the graph, further scaled by `linkScale`
 	 *
 	 * @default 10
 	 */
-	shapeSize: z.number().gt(0, "Shape size may not be zero or negative").default(10),
+	shapeSize: z.number().gt(0, 'Shape size may not be zero or negative').default(10),
 	/**
 	 * Color of the node shape in the graph, overridden if the node is visited, current, or unresolved
 	 * If set to `'stroke'`, the color will be taken from the stroke color, if it exists, otherwise defaults to `nodeColor`
@@ -99,7 +102,7 @@ export const nodeStyle = z.object({
 	 *
 	 * @optional
 	 */
-	shapePoints: z.number().min(2, "The number of points for the shape may not be smaller than 2").optional(),
+	shapePoints: z.number().min(2, 'The number of points for the shape may not be smaller than 2').optional(),
 	/**
 	 * Rotation of the polygon or star shape in degrees. \
 	 * If set to `'random'`, the shape will be rotated randomly.
@@ -242,7 +245,7 @@ export const graphConfigSchema = z.object({
 				z.literal('render-arrows'),
 				z.literal('render-external'),
 				z.literal('render-unresolved'),
-				z.literal('settings')
+				z.literal('settings'),
 			]),
 		)
 		.default(['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings']),
@@ -346,25 +349,24 @@ export const graphConfigSchema = z.object({
 	 */
 	followLink: z.union([z.literal('same'), z.literal('new-tab'), z.literal('graph')]).default('same'),
 
-
 	/**
 	 * The scale of the graph, determines the zoom level
 	 *
 	 * @default 1.1
 	 */
-	scale: z.number().gt(0, "Graph scale may not be zero or negative").default(1.1),
+	scale: z.number().gt(0, 'Graph scale may not be zero or negative').default(1.1),
 	/**
 	 * The minimum zoom level of the graph
 	 *
 	 * @default 0.05
 	 */
-	minZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(0.05),
+	minZoom: z.number().gt(0, 'Graph zoom may not be zero or negative').default(0.05),
 	/**
 	 * The maximum zoom level of the graph
 	 *
 	 * @default 4
 	 */
-	maxZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(4),
+	maxZoom: z.number().gt(0, 'Graph zoom may not be zero or negative').default(4),
 
 	/**
 	 * Whether to render page title labels on the nodes
@@ -410,7 +412,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.8
 	 */
-	minZoomArrows: z.number().min(0, "Minimum zoom for arrow rendering may not be negative").default(0.8),
+	minZoomArrows: z.number().min(0, 'Minimum zoom for arrow rendering may not be negative').default(0.8),
 
 	/**
 	 * The scale factor for the opacity of the labels, based on the zoom level
@@ -418,49 +420,53 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 1.3
 	 */
-	labelOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").default(1.3),
+	labelOpacityScale: z.number().min(0, 'Opacity scale for labels may not be negative').default(1.3),
 	/**
 	 * The opacity of unhovered labels (when hovering over a node)
 	 *
 	 * @default 0
 	 */
-	labelMutedOpacity: z.number().min(0, "Opacity scale for muted labels may not be negative").default(0),
+	labelMutedOpacity: z.number().min(0, 'Opacity scale for muted labels may not be negative').default(0),
 	/**
 	 * The opacity of the label when hovering over a node
 	 *
 	 * @default 1
 	 */
-	labelHoverOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").default(1),
+	labelHoverOpacity: z.number().min(0, 'Opacity scale for hovered labels may not be negative').default(1),
 	/**
 	 * The opacity of the label when adjacent to the hovered node. \
 	 * If explicitly set to undefined, the `labelMutedOpacity` will be used.
 	 */
-	labelAdjacentOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").optional().default(1),
+	labelAdjacentOpacity: z
+		.number()
+		.min(0, 'Opacity scale for hovered labels may not be negative')
+		.optional()
+		.default(1),
 	/**
 	 * The font size of the labels
 	 *
 	 * @remarks Labels should be disabled using the `renderLabels` option
 	 * @default 12
 	 */
-	labelFontSize: z.number().min(0, "Label font size may not be negative").default(12),
+	labelFontSize: z.number().min(0, 'Label font size may not be negative').default(12),
 	/**
 	 * The scale of the label when hovering over a node
 	 *
 	 * @default 1
 	 */
-	labelHoverScale: z.number().min(0, "Label hover scale may not be negative").default(1),
+	labelHoverScale: z.number().min(0, 'Label hover scale may not be negative').default(1),
 	/**
 	 * The offset of the labels from the nodes
 	 *
 	 * @default 10
 	 */
-	labelOffset: z.number().min(0, "Label offset may not be negative").default(10),
+	labelOffset: z.number().min(0, 'Label offset may not be negative').default(10),
 	/**
 	 * The offset of the label from the node when hovering over said node
 	 *
 	 * @default 14
 	 */
-	labelHoverOffset: z.number().min(0, "Label hover offset may not be negative").default(14),
+	labelHoverOffset: z.number().min(0, 'Label hover offset may not be negative').default(14),
 
 	/**
 	 * The duration of the zoom animation in milliseconds \
@@ -468,7 +474,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 75
 	 */
-	zoomDuration: z.number().min(0, "Zoom duration may not be negative").default(75),
+	zoomDuration: z.number().min(0, 'Zoom duration may not be negative').default(75),
 	/**
 	 * The easing function for the zoom animation
 	 * This controls the acceleration of zooming and panning
@@ -482,7 +488,7 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 200
 	 */
-	hoverDuration: z.number().min(0, "Hover duration may not be negative").default(200),
+	hoverDuration: z.number().min(0, 'Hover duration may not be negative').default(200),
 	/**
 	 * The easing function for the hover animation
 	 * This controls the acceleration of the node/link/label highlighting transitions
@@ -505,18 +511,16 @@ export const graphConfigSchema = z.object({
 	 * 	   neighborScale: 0.5
 	 * 	}```
 	 */
-	nodeDefaultStyle: nodeStyle
-		.optional()
-		.transform(val => ({
-			shape: 'circle',
-			shapeColor: 'nodeColor',
-			shapeSize: 10,
-			strokeWidth: 0,
-			colliderScale: 1,
-			nodeScale: 1,
-			neighborScale: 0.5,
-			...val,
-		})),
+	nodeDefaultStyle: nodeStyle.optional().transform(val => ({
+		shape: 'circle' as const,
+		shapeColor: 'nodeColor' as z.infer<typeof nodeColorTypes>,
+		shapeSize: 10,
+		strokeWidth: 0,
+		colliderScale: 1,
+		nodeScale: 1,
+		neighborScale: 0.5,
+		...val,
+	})),
 	/**
 	 * The style of node representing a visited page in the graph. \
 	 * This style overwrites styles defined in `nodeDefaultStyle`.
@@ -527,7 +531,7 @@ export const graphConfigSchema = z.object({
 		.partial()
 		.optional()
 		.transform(val => ({
-			shapeColor: 'nodeColorVisited',
+			shapeColor: 'nodeColorVisited' as const,
 			...val,
 		})),
 	/**
@@ -540,7 +544,7 @@ export const graphConfigSchema = z.object({
 		.partial()
 		.optional()
 		.transform(val => ({
-			shapeColor: 'nodeColorCurrent',
+			shapeColor: 'nodeColorCurrent' as const,
 			...val,
 		})),
 	/**
@@ -553,7 +557,7 @@ export const graphConfigSchema = z.object({
 		.partial()
 		.optional()
 		.transform(val => ({
-			shapeColor: 'nodeColorUnresolved',
+			shapeColor: 'nodeColorUnresolved' as const,
 			...val,
 		})),
 	/**
@@ -567,9 +571,9 @@ export const graphConfigSchema = z.object({
 		.partial()
 		.optional()
 		.transform(val => ({
-			shape: 'square',
-			shapeColor: 'nodeColorExternal',
-			strokeColor: 'inherit',
+			shape: 'square' as const,
+			shapeColor: 'nodeColorExternal' as const,
+			strokeColor: 'inherit' as const,
 			nodeScale: 0.6,
 			...val,
 		})),
@@ -582,10 +586,10 @@ export const graphConfigSchema = z.object({
 		.partial()
 		.optional()
 		.transform(val => ({
-			shape: 'circle',
+			shape: 'circle' as const,
 			shapeSize: 6,
-			shapeColor: 'backgroundColor',
-			strokeColor: 'nodeColorTag',
+			shapeColor: 'backgroundColor' as const,
+			strokeColor: 'nodeColorTag' as const,
 			strokeWidth: 1,
 			colliderScale: 1,
 			nodeScale: 1,
@@ -598,26 +602,29 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 1
 	 */
-	linkWidth: z.number().min(0, "Link width may not be negative").default(1),
+	linkWidth: z.number().min(0, 'Link width may not be negative').default(1),
 	/**
 	 * The width of the hovered links in the graph
 	 *
 	 * @default 1
 	 */
-	linkHoverWidth: z.number().min(0, "Hover link width may not be negative").default(1),
+	linkHoverWidth: z.number().min(0, 'Hover link width may not be negative').default(1),
 
 	/**
 	 * The size of the arrows on the links
 	 *
 	 * @default 5
 	 */
-	arrowSize: z.number().min(0, "Arrow size may not be negative").default(5),
+	arrowSize: z.number().min(0, 'Arrow size may not be negative').default(5),
 	/**
 	 * The angle of the arrowhead of the links, a smaller angle will make the arrowhead pointier
 	 *
 	 * @default Math.PI / 6
 	 */
-	arrowAngle: z.number().min(0, "Arrow angle may not be negative").default(Math.PI / 6),
+	arrowAngle: z
+		.number()
+		.min(0, 'Arrow angle may not be negative')
+		.default(Math.PI / 6),
 
 	/**
 	 * The strength of the force that pulls nodes towards the center of the graph. \
@@ -625,28 +632,28 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.05
 	 */
-	centerForce: z.number().min(0, "Center force may not be negative").default(0.05),
+	centerForce: z.number().min(0, 'Center force may not be negative').default(0.05),
 	/**
 	 * The collision force between nodes in the graph. \
 	 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
 	 *
 	 * @default 20
 	 */
-	colliderPadding: z.number().min(0, "Collider padding may not be negative").default(20),
+	colliderPadding: z.number().min(0, 'Collider padding may not be negative').default(20),
 	/**
 	 * The attraction/repulsion force between nodes in the graph. \
 	 * A higher value will increase the distance between nodes
 	 *
 	 * @default 200
 	 */
-	repelForce: z.number().min(0, "Repel force may not be negative").default(200),
+	repelForce: z.number().min(0, 'Repel force may not be negative').default(200),
 	/**
 	 * The distance between linked nodes in the graph. \
 	 * If set to 0, link distance are determined by the force simulation
 	 *
 	 * @default 0
 	 */
-	linkDistance: z.number().min(0, "Link distance may not be negative").default(0),
+	linkDistance: z.number().min(0, 'Link distance may not be negative').default(0),
 	/**
 	 * The speed at which the graph stabilizes after a simulation update. \
 	 * A higher value will make the graph stabilize faster, but may result in a less accurate layout. \
@@ -654,7 +661,11 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.228
 	 */
-	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(0.0228),
+	alphaDecay: z
+		.number()
+		.min(0, 'Alpha decay may not be negative')
+		.max(1, 'Alpha decay may not be greater than 1')
+		.default(0.0228),
 });
 
 const globalGraphConfigSchema = graphConfigSchema.extend({
@@ -734,7 +745,6 @@ const globalSitemapConfigSchema = z.object({
 	 * { "BASEPATH/intro": "Main" }
 	 */
 	pageTitles: z.record(z.string(), z.string()).default({}),
-
 
 	/**
 	 * Ignore links produced by Starlight which exist on every page.
