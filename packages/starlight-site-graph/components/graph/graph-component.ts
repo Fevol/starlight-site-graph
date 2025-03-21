@@ -1,5 +1,4 @@
-import type { GraphConfig } from '../../config';
-import type { Sitemap } from '../../types';
+import { type GraphConfig, type RemoveOptional, type Sitemap, globalGraphConfig } from '../../config';
 
 import { Animator } from '../animator';
 import { animatables, animated_colors } from './animatables';
@@ -16,7 +15,7 @@ import {
 	REQUIRE_NOTHING,
 	REQUIRE_LABEL_UPDATE
 } from './constants';
-import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff } from '../util';
+import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff, deepMerge } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -33,7 +32,7 @@ export class GraphComponent extends HTMLElement {
 	renderer!: GraphRenderer;
 	simulator!: GraphSimulator;
 
-	config!: GraphConfig;
+	config!: RemoveOptional<GraphConfig>;
 	sitemap!: Sitemap;
 
 	defaultColorTransitions = Object.fromEntries(
@@ -214,7 +213,8 @@ export class GraphComponent extends HTMLElement {
 	}
 
 	setConfigListener(config?: string) {
-		this.config = new Proxy(JSON.parse(config || '{}'), {
+		const mergedConfig = deepMerge(globalGraphConfig, JSON.parse(config || '{}'));
+		this.config = new Proxy(mergedConfig, {
 			set: (target, prop, value) => {
 				target[prop as keyof GraphConfig] = value;
 				this.dataset['config'] = JSON.stringify(this.config);

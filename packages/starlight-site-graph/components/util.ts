@@ -158,3 +158,27 @@ export function deepDiff(obj1: any, obj2: any): any {
 
 	return changes;
 }
+
+function isObject(item: any): boolean {
+	return (item && typeof item === 'object' && !Array.isArray(item));
+}
+
+/**
+ * Adapted from https://stackoverflow.com/a/37164538/23278914
+ */
+export function deepMerge(target: any, source: any): any {
+	let output = Object.assign({}, target);
+	if (isObject(target) && isObject(source)) {
+		for (const [key, value] of Object.entries(source)) {
+			if (isObject(value)) {
+				if (!(key in target))
+					Object.assign(output, { [key]: value });
+				else
+					output[key] = deepMerge(target[key], value);
+			} else {
+				Object.assign(output, { [key]: value });
+			}
+		}
+	}
+	return output;
+}
