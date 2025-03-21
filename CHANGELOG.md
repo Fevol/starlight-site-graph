@@ -14,6 +14,7 @@
     ```
 
 ### Fixes
+-   Allow for the plugin configuration to be defined partially, instead of throwing an error
 -   Respect Astro's `trailingSlash` configuration for sitemap generation and link following
 -   Resolve mismatching Astro dependency versions due to old `astro` peer-dependency of `astro-integration-kit`
 -   Bug flag not being parsed correctly, resulting in a spurious `pixi-stats` missing error
