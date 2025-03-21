@@ -30,6 +30,7 @@
 	},
 	"bugs": "https://github.com/fevol/starlight-site-graph/issues",
 	"dependencies": {
+		"@types/chroma-js": "^3.1.1",
 		"@types/d3": "^7.4.3",
 		"astro-integration-kit": "^0.18.0",
 		"chroma-js": "^3.1.2",
