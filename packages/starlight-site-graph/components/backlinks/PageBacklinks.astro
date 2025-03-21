@@ -18,16 +18,17 @@ interface Props {
 
 let backlinksData: Partial<PageGraphConfig> = {};
 let { slug, showBacklinks, class: className } = Astro.props;
+let { entry } = Astro.locals.starlightRoute;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
-if (Astro.props.entry) {
-	backlinksData = Astro.props.entry['data']?.backlinks;
+if (entry.id) {
+	backlinksData = entry.data?.backlinks;
 }
 
 // Infer slug from URL if not explicitly provided
 const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")));
 
-const sitemap = config.sitemapConfig.sitemap;
+const sitemap = config.sitemapConfig!.sitemap;
 
 let backlinks: string[] = [];
 if (sitemap) {
@@ -40,14 +41,14 @@ if (showBacklinks === undefined) {
 	if (backlinksData?.visible !== undefined) {
 		showBacklinks = backlinksData.visible;
 	} else {
-		showBacklinks = config.backlinksConfig.visibilityRules ? firstMatchingPattern(slugWithBase, config.backlinksConfig.visibilityRules, false) : true;
+		showBacklinks = config.backlinksConfig!.visibilityRules ? firstMatchingPattern(slugWithBase, config.backlinksConfig!.visibilityRules, false) : true;
 	}
 }
 
 ---
 
 {showBacklinks && backlinks.length > 0 &&
-	<div class:list={className}>
+	<div class:list={className ?? ""}>
 		<slot name="title"/>
 		<Backlinks backlinks={backlinks} sitemap={sitemap} />
 	</div>

@@ -21,10 +21,11 @@ interface Props {
 
 let graphData: Partial<PageGraphConfig> = {};
 let { slug, class: className, showGraph, config: graphConfig } = Astro.props;
+let { entry } = Astro.locals.starlightRoute;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
-if (Astro.props.entry) {
-    graphData = Astro.props.entry['data']?.graph as PageGraphConfig;
+if (entry.id) {
+    graphData = entry.data?.graph as PageGraphConfig;
 }
 
 // Infer slug from URL if not explicitly provided
@@ -34,7 +35,7 @@ if (showGraph === undefined) {
     if (graphData?.visible !== undefined) {
         showGraph = graphData.visible;
     } else {
-        showGraph = config.graphConfig.visibilityRules ? firstMatchingPattern(slugWithBase, config.graphConfig.visibilityRules, false) : true;
+        showGraph = config.graphConfig!.visibilityRules ? firstMatchingPattern(slugWithBase, config.graphConfig!.visibilityRules, false) : true;
     }
 }
 ---
@@ -44,13 +45,13 @@ if (showGraph === undefined) {
         <slot name="title"/>
         <Graph
             slug={slugWithBase}
-            sitemap={import.meta.env.DEV ? config.sitemapConfig.sitemap : {}}
+            sitemap={import.meta.env.DEV ? config.sitemapConfig!.sitemap : {}}
             config={{
                 ...config.graphConfig,
                 ...graphData,
                 ...(graphConfig ?? {})
             }}
-            debug={config.debug}
+            debug={config.debug ?? false}
         />
     </div>
 }
