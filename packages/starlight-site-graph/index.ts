@@ -29,7 +29,7 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 					}
 
 					for (const link of Object.values(config.social ?? {})) {
-						starlightIgnoredLinks.push(`!${ensureTrailingSlash(link, addTrailingSlashes)}`);
+						starlightIgnoredLinks.push(`!${ensureTrailingSlash(link.href, addTrailingSlashes)}`);
 					}
 
 					parsedConfig.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
