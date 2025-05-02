@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
-import starlightThemeObsidian from 'starlight-theme-obsidian';
-// import starlightSiteGraph from 'starlight-site-graph';
+// import starlightThemeObsidian from 'starlight-theme-obsidian';
+import starlightSiteGraph from 'starlight-site-graph';
 import starlightLinksValidator from 'starlight-links-validator';
 import markdocGrammar from './grammars/markdoc.tmLanguage.json';
 
@@ -12,10 +12,10 @@ export default defineConfig({
 		starlight({
 			title: 'Starlight Site Graph',
 			credits: true,
-			social: {
-				discord: 'https://discord.com/users/264169866511122432',
-				github: 'https://github.com/fevol/starlight-site-graph'
-			},
+			social: [
+				{ icon: 'discord', label: 'Discord', href: 'https://discord.com/users/264169866511122432' },
+				{ icon: 'github', label: 'GitHub', href: 'https://github.com/fevol/starlight-site-graph' },
+			],
 			editLink: {
 				baseUrl: 'https://github.com/fevol/starlight-site-graph/edit/main/docs/',
 			},
@@ -27,7 +27,7 @@ export default defineConfig({
 				starlightLinksValidator({
 					errorOnInvalidHashes: false
 				}),
-				starlightThemeObsidian({
+				starlightSiteGraph({
 					debug: false,
 					graphConfig: {
 						depth: 1,
