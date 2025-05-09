@@ -40,6 +40,27 @@ An example (unrecommended) override of the CSS would look something like:
 }
 ```
 
+[//]: # (This section is largely based on the one found in the Starlight Rapide theme, all credits go to HiDeoo!)
+
+## Cascade Layer
+Like Starlight, the Starlight Site Graph package internally makes use of [cascade layers](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Cascade_layers)
+to manage the order of its styles.
+This ensures a predictable CSS order and allows for simpler overrides.
+Any custom unlayered CSS will override the default styles from the `sitegraph` layer.
+
+If you are using cascade layers, you can use [`@layer`](https://developer.mozilla.org/en-US/docs/Web/CSS/@layer)
+in your [custom CSS](https://starlight.astro.build/guides/css-and-tailwind/#custom-css-styles) to define
+the order of precedence for different layers, relative to the base Starlight and this package's styles:
+
+```css "starlight" "sitegraph"
+/* src/styles/custom.css */
+@layer my-base, starlight, sitegraph, my-overrides;
+```
+
+The example above defines a custom layer named `my-base`, applied before all the Starlight and the Site Graph's style layers,
+and another named `my-overrides`, applied after all Starlight and Site Graph's layers.
+Any styles in the `my-overrides` layer would take precedence over the Starlight and this package's layers,
+but those layers will themselves override any styles set in the `my-base` layer.
 
 ## Sections
 
