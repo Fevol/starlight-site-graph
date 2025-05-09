@@ -33,8 +33,20 @@ export type GraphColorConfig = {
 	labelColorMuted: string;
 };
 
+/**
+ * Retrieve a HEX color value from a CSS variable
+ * @param style - The CSSStyleDeclaration of the element
+ * @param property - The CSS variable name (e.g., '--slsg-node-color')
+ */
 function getStyleColorProperty(style: CSSStyleDeclaration, property: string): string {
-	return chroma(style.getPropertyValue(property)).hex();
+	const color = style.getPropertyValue(property);
+	if (!color) {
+		// FIXME: Rarely, the property of the value is unset, and passing an empty string to chroma
+		//		results in an error. Since the color _is_ eventually found after multiple invocations of this function
+		// 		the best solution is to just return a default color and prevent the error.
+		return '#000000';
+	}
+	return chroma(color).hex();
 }
 
 export function getGraphColors(node: HTMLElement): GraphColorConfig {
