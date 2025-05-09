@@ -1,7 +1,18 @@
+## [0.3.2](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.2) (2025/05/09)
+### Upgrades
+-    Switch all CSS provided by this package to a CSS cascade layer.
+     - The theme now exists on the `sitegraph` layer, added after the base `starlight` layer.
+     - Styles added by this package can now be more easily overridden with custom CSS.
+
+### Fixes
+-   Made the package version constraint less stringent, making `npm` less likely to throw a peer dependency error 
+    when installing the package.
+-   Catch cases where an unloaded CSS variable gets passed to `chroma`, causing a minor error in the console.
+
+
 ## [0.3.1](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.1) (2025/05/02)
 ### Upgrades
 -   The minimum supported version of Starlight is now `0.33.0` due to a change in the social link syntax.
-
 
 ## [0.3.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.0) (2025/03/21)
 ### Upgrades
