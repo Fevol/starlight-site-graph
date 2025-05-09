@@ -112,7 +112,9 @@ export const largeFrozenSitemapConfig = {
 export const focusSingleNode = {
 	...frozenConfig,
 	scale: 3,
-	nodeCurrentStyle: {},
+	nodeCurrentStyle: {
+		shapeColor: "nodeColor",
+	},
 	renderLabels: false,
 	centerForce: 0.001,
 }

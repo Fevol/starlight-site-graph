@@ -94,7 +94,7 @@ const fullConfig = mergeDeep(baseConfig, config);
 			{Object.keys(sliders ?? {}).length !== 0 &&
 				<div class="flex-column unselectable">
 					{Object.entries(sliders!).map(([key, value]) => (
-						// Slight trick: slider is hidden if initial value is nullish (to only show shapePoints slider if shape is polygon/star)
+						// Slight trick: slider is hidden if the initial value is nullish (to only show shapePoints slider if the shape is polygon/star)
 				<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
 							<span class="slider-title"> { value.title } </span>
 							<input data-key={key} type="range" min={value.min} max={value.max} step={value.step} value={value.val} />
