@@ -132,3 +132,11 @@
     display: flex;
     align-items: center;
 }
+
+/* FIXME: obsidian theme should account for 'preview' code examples having borders */
+figure starlight-tabs .expressive-code figure {
+    outline: 1px solid var(--sl-color-gray-5);
+    margin: 1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
