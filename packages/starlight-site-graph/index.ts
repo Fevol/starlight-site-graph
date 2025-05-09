@@ -38,7 +38,10 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 
 				addIntegration(integration(parsedConfig));
 				const componentOverrides: typeof config.components = {};
-				const customCss: typeof config.customCss = ['starlight-site-graph/styles/common.css'];
+				const customCss: typeof config.customCss = [
+					'starlight-site-graph/styles/layers.css',
+					'starlight-site-graph/styles/common.css'
+				];
 
 				if (config.components?.PageSidebar) {
 					logger.warn(
