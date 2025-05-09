@@ -43,8 +43,8 @@
 		"@types/micromatch": "^4.0.9"
 	},
 	"peerDependencies": {
-		"@astrojs/starlight": "^0.33.0",
-		"astro": "^5.5.3",
+		"@astrojs/starlight": ">=0.33.0",
+		"astro": ">=5.5.0",
 		"pixi-stats": "^1.3.10"
 	},
 	"peerDependenciesMeta": {
