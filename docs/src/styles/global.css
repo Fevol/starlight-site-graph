@@ -126,3 +126,9 @@
 [data-has-hero] .hero > img {
     filter: drop-shadow(0 0 3rem var(--sl-hero-color));
 }
+
+/* FIXME: anchor links are not properly put on same line causing additional space */
+.sl-heading-wrapper {
+    display: flex;
+    align-items: center;
+}
