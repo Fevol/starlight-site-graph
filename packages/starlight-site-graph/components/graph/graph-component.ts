@@ -205,6 +205,7 @@ export class GraphComponent extends HTMLElement {
 		this.graphContainer.remove();
 		this.mockGraphContainer.remove();
 		this.blurContainer.remove();
+		document.body.dataset['graphBlur'] = '';
 
 		this.themeObserver.disconnect();
 		this.propertyObserver.disconnect();
@@ -272,6 +273,7 @@ export class GraphComponent extends HTMLElement {
 		this.graphContainer.classList.toggle('is-fullscreen', true);
 		this.appendChild(this.mockGraphContainer);
 		this.appendChild(this.blurContainer);
+		document.body.dataset['graphBlur'] = 'true';
 		this.fullscreenExitHandler = onClickOutside(this.graphContainer, () => {
 			this.disableFullscreen();
 		});
@@ -285,6 +287,7 @@ export class GraphComponent extends HTMLElement {
 		if (!this.isFullscreen) return;
 
 		this.isFullscreen = false;
+		document.body.dataset['graphBlur'] = 'false';
 
 		this.graphContainer.classList.toggle('is-fullscreen', false);
 		this.removeChild(this.mockGraphContainer);
