@@ -1,3 +1,14 @@
+## [0.3.3](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.3) (2025/05/22)
+### Features
+-   Added the `overridePageSidebar` flag to the plugin configuration, enabling you to completely disable the
+    plugin's sidebar override, which normally adds the `<PageGraph>` and `<PageBacklinks>` components to the sidebar.
+-   Added the ability to quickly disable either the `<PageGraph>` or `<PageBacklinks>` component
+    in the sidebar by setting the `graph` and/or `backlinks` flags to `false` in the plugin configuration.
+
+### Fixes
+-   Prevent the graph from taking up the full width of the vanilla Starlight sidebar, leading to the sidebar
+    being much wider than the page content.
+
 ## [0.3.2](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.2) (2025/05/09)
 ### Upgrades
 -    Switch all CSS provided by this package to a CSS cascade layer.
