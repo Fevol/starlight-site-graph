@@ -140,7 +140,7 @@
 
 	.graph-container {
 		position: relative;
-		width: 100%;
+		width: var(--slsg-graph-width);
 		height: inherit;
 
 		box-sizing: border-box;
