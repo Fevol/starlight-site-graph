@@ -18,8 +18,9 @@ The general configuration can only be set in the `astro.config.mjs` file.
 			starlight({
 				plugins: [starlightSiteGraph({
 +					debug: boolean,
-					graph: boolean,
-					backlinks: boolean,
++					overridePageSidebar: boolean,
++					graph: boolean,
++					backlinks: boolean,
 +					trackVisitedPages: 'disable' | 'session' | 'local',
 				})],
 			 }),
@@ -29,8 +30,33 @@ The general configuration can only be set in the `astro.config.mjs` file.
 
 ## Debug
 
-The `debug` option is a boolean that enables or disables debug mode. When enabled, more things will be logged,
-and a performance graph will be shown, which visualizes the FPS of the graph.
+The `debug` option is a boolean that enables or disables debug mode. When enabled, more internal stats will be logged,
+and a performance graph will be shown on the page, visualizing the current performance of the graph in FPS.
+
+## Override `<PageSidebar>`
+
+The `overridePageSidebar` option is a boolean that enables or disables the `<PageSidebar>` override, removing
+the `<PageGraph>` and `<PageBacklinks>` components from the sidebar, and using the vanilla or another overridden Starlight sidebar instead.
+This flag is enabled by default, and unless you are planning to move the `<PageGraph>` and `<PageBacklinks>` components
+to another location on the page, you probably want to keep it enabled.
+
+```diff lang="js"
+	// astro.config.mjs
+	import starlight from '@astrojs/starlight'
+	import { defineConfig } from 'astro/config'
+	import starlightSiteGraph from 'starlight-site-graph'
+
+	export default defineConfig({
+		integrations: [
+			starlight({
+				plugins: [starlightSiteGraph({
++					overridePageSidebar: false
+				})],
+				title: 'My Docs',
+			}),
+		],
+	})
+```
 
 ## Render graph
 

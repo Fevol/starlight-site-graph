@@ -7,6 +7,7 @@ import { globalBacklinksConfigSchema, globalBacklinksConfig } from './backlinks'
 
 export const starlightSiteGraphConfig = {
 	debug: false,
+	overridePageSidebar: true,
 	trackVisitedPages: 'session' as 'disable' | 'session' | 'local',
 	graph: true,
 	graphConfig: globalGraphConfig,
@@ -24,6 +25,11 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default false
 		 */
 		debug: z.boolean().default(starlightSiteGraphConfig.debug),
+
+		/**
+		 * Override the sidebar component for the graph, disabling this will completely remove both the graph and backlinks from the sidebar.
+		 */
+		overridePageSidebar: z.boolean().default(starlightSiteGraphConfig.overridePageSidebar),
 
 		/**
 		 * Whether to track pages of the website that were visited by the user.

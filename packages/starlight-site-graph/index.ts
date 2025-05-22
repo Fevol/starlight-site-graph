@@ -18,7 +18,7 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 
 				const addTrailingSlashes = astroConfig.trailingSlash !== "never";
 
-				// TODO: Temporary implementation of graph/backlinks exclusion from theme
+				// TODO: Temporary implementation of graph/backlinks exclusion from plugin
 				if (!parsedConfig.graph) {
 					parsedConfig.graphConfig.visibilityRules = [];
 				}
@@ -55,15 +55,20 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 					'starlight-site-graph/styles/common.css'
 				];
 
-				if (config.components?.PageSidebar) {
-					logger.warn(
-						'It looks like you already have a `PageSidebar` component override in your Starlight configuration.',
-					);
-					logger.warn(
-						'To use `starlight-site-graph`, either remove the override or manually render `starlight-site-graph/components/Graph.astro`.',
-					);
-				} else {
-					componentOverrides.PageSidebar = 'starlight-site-graph/overrides/PageSidebar.astro';
+				if (parsedConfig.overridePageSidebar) {
+					if (config.components?.PageSidebar) {
+						logger.warn(
+							'It looks like you already have a `PageSidebar` component override in your Starlight configuration.',
+						);
+						logger.warn(
+							'To use `starlight-site-graph`, either remove the override or manually render `starlight-site-graph/components/Graph.astro`.',
+						);
+						logger.info(
+							"If you do not want this plugin to override your `PageSidebar` at all, you can set `overridePageSidebar` to `false` in the configuration.",
+						)
+					} else {
+						componentOverrides.PageSidebar = 'starlight-site-graph/overrides/PageSidebar.astro';
+					}
 				}
 
 				updateConfig({

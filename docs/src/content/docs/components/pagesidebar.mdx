@@ -5,7 +5,9 @@ sidebar:
   order: 2
 ---
 
-import { Steps } from '@astrojs/starlight/components'
+import PageSidebar from "../packages/starlight-site-graph/overrides/PageSidebar.astro?raw";
+
+import { Code, Steps } from '@astrojs/starlight/components'
 
 The `<PageSidebar>` component is an override of [Starlight](https://starlight.astro.build)'s
 [`<PageSidebar>`](https://starlight.astro.build/reference/overrides/#pagesidebar)
@@ -28,26 +30,7 @@ components, you can do so by creating your own override as follows:
 
 <Steps>
 	1. Create your own `PageSidebar.astro` component in the `src/overrides` directory (or `src/components` if you prefer).
-		```astro
-		// src/overrides/PageSidebar.astro
-		---
-		import Default from "@astrojs/starlight/components/PageSidebar.astro";
-
-		import { PageGraph, PageBacklinks } from "starlight-site-graph/components";
-		---
-
-		<PageGraph class="right-sidebar-panel graph-panel">
-			<h2 slot="title">{Astro.locals.t('starlight-site-graph.graph')}</h2>
-		</PageGraph>
-
-		<Default>
-			<slot />
-		</Default>
-
-		<PageBacklinks class="right-sidebar-panel backlinks-panel">
-			<h2 slot="title">{Astro.locals.t('starlight-site-graph.backlinks')}</h2>
-		</PageBacklinks>
-		```
+		<Code code={PageSidebar} lang="astro" title="src/overrides/PageSidebar.astro" />
 	2. Add the override to your `astro.config.mjs` file.
 		```diff lang="js"
 		// astro.config.mjs
