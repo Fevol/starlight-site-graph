@@ -18,6 +18,8 @@ The general configuration can only be set in the `astro.config.mjs` file.
 			starlight({
 				plugins: [starlightSiteGraph({
 +					debug: boolean,
+					graph: boolean,
+					backlinks: boolean,
 +					trackVisitedPages: 'disable' | 'session' | 'local',
 				})],
 			 }),
@@ -30,6 +32,51 @@ The general configuration can only be set in the `astro.config.mjs` file.
 The `debug` option is a boolean that enables or disables debug mode. When enabled, more things will be logged,
 and a performance graph will be shown, which visualizes the FPS of the graph.
 
+## Render graph
+
+If you want to _completely disable_ the graph from appearing anywhere, including the page sidebar, you can do so by setting `graph` to `false` in the plugin settings.
+This setting is equivalent to setting the `visibilityRules` option to `[]` for the [`<PageGraph>`](/starlight-site-graph/components/pagegraph) component.
+
+```diff lang="js"
+    // astro.config.mjs
+    import starlight from '@astrojs/starlight'
+    import { defineConfig } from 'astro/config'
+    import starlightSiteGraph from 'starlight-site-graph'
+
+    export default defineConfig({
+        integrations: [
+            starlight({
+                plugins: [starlightSiteGraph({
++                  graph: false
+                })],
+                title: 'My Docs',
+            }),
+        ],
+    })
+```
+
+## Render backlinks
+
+If you want to _completely disable_ the backlinks from appearing anywhere, including the page sidebar, you can do so by setting `backlinks` to `false` in the plugin settings.
+This setting is equivalent to setting the `visibilityRules` option to `[]` for the [`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) component.
+
+```diff lang="js"
+    // astro.config.mjs
+    import starlight from '@astrojs/starlight'
+    import { defineConfig } from 'astro/config'
+    import starlightSiteGraph from 'starlight-site-graph'
+
+    export default defineConfig({
+        integrations: [
+            starlight({
+                plugins: [starlightSiteGraph({
++                  backlinks: false
+                })],
+                title: 'My Docs',
+            }),
+        ],
+    })
+```
 
 ## Track Visited Pages
 

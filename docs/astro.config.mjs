@@ -84,7 +84,7 @@ export default defineConfig({
 					label: 'Configuration',
 					items: [
 						{ label: 'Overview', link: '/configuration/' },
-						{ label: 'General', link: '/configuration/general' },
+						{ label: 'General', link: '/configuration/general', badge: { text: "Updated", variant: "tip" }},
 						{ label: 'Frontmatter', autogenerate: { directory: 'configuration/frontmatter' } },
 						{ label: 'Sitemap', autogenerate: { directory: 'configuration/sitemap' } },
 						{ label: 'Graph', autogenerate: { directory: 'configuration/graph' } },

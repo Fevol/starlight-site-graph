@@ -18,6 +18,18 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 
 				const addTrailingSlashes = astroConfig.trailingSlash !== "never";
 
+				// TODO: Temporary implementation of graph/backlinks exclusion from theme
+				if (!parsedConfig.graph) {
+					parsedConfig.graphConfig.visibilityRules = [];
+				}
+				if (!parsedConfig.backlinks) {
+					parsedConfig.backlinksConfig.visibilityRules = [];
+				}
+				if (!(parsedConfig.graph || parsedConfig.backlinks)) {
+					// EXPL: This bypasses the sitemap generation, so page contents don't have to be parsed
+					parsedConfig.sitemapConfig.pageInclusionRules = [];
+				}
+
 				if (parsedConfig.sitemapConfig.ignoreStarlightLinks) {
 					let starlightIgnoredLinks = [];
 					if (config.credits) {
