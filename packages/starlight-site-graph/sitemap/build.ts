@@ -27,6 +27,7 @@ export class SiteMapBuilder {
 	private excludedPaths: Set<string> = new Set();
 	private addTrailingSlash: boolean = false;
 	basePath!: string;
+	officialSlugAssociations: Map<string, string> = new Map();
 	implicitNameAssociations: Map<string, string[]> = new Map();
 	officialNameAssociations: Map<string, string> = new Map();
 
@@ -65,7 +66,10 @@ export class SiteMapBuilder {
 
 	async addHTMLContent(filePath: string, folderPath: string) {
 		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
-		const linkPath = path.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, '')).replace(/\\/g, '/');
+		const linkPath = this.officialSlugAssociations.get(filePath) ??
+			path
+				.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, ''))
+				.replace(/\\/g, '/');
 		let links = new Set<string>();
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
@@ -77,6 +81,7 @@ export class SiteMapBuilder {
 		const paginationIdentifier = starlightPagination.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
 
 		// NOTE: This misses links that are not within <a> tags, but is the easiest way to avoid resources being included as links
+		//			e.g. <img src="...">, <link rel="stylesheet" href="...">, etc.
 		for (const tag of content.match(/<a\b[^>]*?>.*?<\/a>?/gm) ?? []) {
 			const classes = (tag.match(/class="([^"]*)"/)?.[1] ?? '').split(' ');
 			if (sidebarLinkIdentifier && classes.includes(sidebarLinkIdentifier)) {
@@ -139,7 +144,25 @@ export class SiteMapBuilder {
 	}
 
 	async addMDContent(filePath: string) {
-		const linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
+		const content = await fs.promises.readFile(filePath, 'utf8');
+		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter };
+
+		let linkPath: string;
+
+		// Use the specified slug from the frontmatter if it exists
+		// 	The assumption is made that the `slug` field is always formatted as xx/yy/zz (no relative paths)
+		if (frontmatter.data.slug) {
+			linkPath = ensureTrailingSlash(frontmatter.data.slug, this.addTrailingSlash);
+			if (this.basePath !== '') {
+				linkPath = path.join(this.basePath, linkPath);
+			}
+			linkPath = linkPath.replace(/\\/g, '/');
+			this.officialSlugAssociations.set(linkPath, frontmatter.data.slug);
+		}
+		// Otherwise, re-create the Astro slug from the file path
+		else {
+			linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
+		}
 
 		let links = new Set<string>();
 		const tags = new Set<string>();
