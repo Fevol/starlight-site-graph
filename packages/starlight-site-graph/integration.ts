@@ -21,6 +21,7 @@ export default defineIntegration({
 		let settings = options as FullStarlightSiteGraphConfig;
 		const builder = new SiteMapBuilder(settings.sitemapConfig);
 		let outputPath: string;
+		const sitemapProvided = !!settings.sitemapConfig.sitemap;
 
 		return {
 			hooks: {
@@ -40,7 +41,7 @@ export default defineIntegration({
 						outputPath = fileURLToPath(config.outDir);
 					}
 
-					if (!settings.sitemapConfig.sitemap) {
+					if (!sitemapProvided) {
 						logger.info(
 							'Retrieving links from Markdown content' +
 							(settings.sitemapConfig.pageInclusionRules.length
@@ -137,7 +138,7 @@ export default defineIntegration({
 						);
 					}
 
-					if (!Object.keys(settings.sitemapConfig.sitemap!).length) {
+					if (!sitemapProvided) {
 						logger.info('Retrieving links from generated HTML content');
 						try {
 							await fs.promises.access(outputPath);
