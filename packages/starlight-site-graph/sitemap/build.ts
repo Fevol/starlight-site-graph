@@ -301,6 +301,11 @@ export class SiteMapBuilder {
 
 	private resolveLink(current: string, link: string, links: Set<string>) {
 		if (!link.startsWith('http')) {
+			// Leads to the current page, so it can be safely ignored
+			if (link.startsWith('#')) {
+				return;
+			}
+
 			if (link.startsWith('.')) {
 				link = path.join(current, link);
 			} else if (this.basePath !== '' && !trimSlashes(link).startsWith(this.basePath)) {
