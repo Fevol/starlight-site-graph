@@ -70,7 +70,7 @@ export class GraphRenderer {
 					const pixistats = await import('pixi-stats');
 					const stats = pixistats.addStats(document, this.app);
 					this.app.ticker.add(stats.update, stats, PIXI.UPDATE_PRIORITY.UTILITY);
-					stats.stats.domElement.id = 'graph-stats';
+					stats.stats.domElement.id = 'slsg-graph-stats';
 				} catch (e) {
 					console.error(
 						'[STARLIGHT-SITE-GRAPH] Failed to load pixi-stats, to enable the FPS counter for the graph view, make sure to install the dependency. Disable this message by setting `debug` to false in the graph component.',

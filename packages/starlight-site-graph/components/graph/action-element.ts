@@ -17,7 +17,7 @@ export function renderActionContainer(context: GraphComponent) {
 	context.actionContainer.replaceChildren();
 	for (const action of context.config.actions) {
 		const actionElement = document.createElement('button');
-		actionElement.classList.add('graph-action-button');
+		actionElement.classList.add('slsg-graph-action-button');
 		context.actionContainer.appendChild(actionElement);
 
 		if (action === 'fullscreen') {

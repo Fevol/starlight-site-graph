@@ -73,18 +73,18 @@ export function createValueSlider(
 	onChange: (value: number) => void,
 ) {
 	const container = document.createElement('div');
-	container.className = 'value-slider';
+	container.className = 'slsg-value-slider';
 
 	const textContainer = document.createElement('div');
-	textContainer.className = 'value-slider-text';
+	textContainer.className = 'slsg-value-slider-text';
 
 	const labelElement = document.createElement('span');
-	labelElement.className = 'value-slider-label';
+	labelElement.className = 'slsg-value-slider-label';
 	labelElement.innerText = label;
 	textContainer.appendChild(labelElement);
 
 	const valueElement = document.createElement('span');
-	valueElement.className = 'value-slider-value';
+	valueElement.className = 'slsg-value-slider-value';
 	valueElement.innerText = value.toString();
 	textContainer.appendChild(valueElement);
 

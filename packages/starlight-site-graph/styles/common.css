@@ -78,7 +78,7 @@
 	}
 
 	/* Ensures that override on specific element will still inherit proper accent/muted colors */
-	.graph-component {
+	.slsg-graph-component {
 		--slsg-node-color-hover: var(--slsg-color-accent);
 		--slsg-node-color-muted: var(--slsg-color-muted);
 
@@ -91,8 +91,8 @@
 	}
 
 	/* ========================================= Sidebar Styling ================================================ */
-	.graph-panel,
-	.backlinks-panel {
+	.slsg-graph-panel,
+	.slsg-backlinks-panel {
 		padding: 1rem var(--sl-sidebar-pad-x);
 
 		h2 {
@@ -106,7 +106,7 @@
 
 	/* Move graph and other contents in page sidebar into bottom of page */
 	@media (max-width: calc(72em - 1px)) {
-		.main-frame > div:has(.graph-panel, .backlinks-panel) {
+		.main-frame > div:has(.slsg-graph-panel, .slsg-backlinks-panel) {
 			display: flex;
 			flex-direction: column-reverse;
 
@@ -114,17 +114,17 @@
 				display: flex;
 				flex-wrap: wrap;
 
-				.graph-panel {
+				.slsg-graph-panel {
 					flex-grow: 1;
 					width: 50%;
 					min-width: var(--slsg-graph-width);
 
-					.graph-component {
+					.slsg-graph-component {
 						width: 100%;
 					}
 				}
 
-				.backlinks-panel {
+				.slsg-backlinks-panel {
 					flex-grow: 1;
 					width: 50%;
 				}
@@ -133,12 +133,12 @@
 	}
 
 	/* =================================== Graph Container Styling ============================================== */
-	.graph-component {
+	.slsg-graph-component {
 		width: var(--slsg-graph-width);
 		height: var(--slsg-graph-height);
 	}
 
-	.graph-container {
+	.slsg-graph-container {
 		position: relative;
 		width: var(--slsg-graph-width);
 		height: inherit;
@@ -158,7 +158,7 @@
 
 	/* ========================================================================================================= */
 	/* ====================================== Graph Stats Styling ============================================== */
-	#graph-stats {
+	#slsg-graph-stats {
 		position: fixed;
 		bottom: 40px;
 		right: 10px;
@@ -172,7 +172,7 @@
 
 	/* ========================================================================================================= */
 	/* ====================================== Fullscreen Styling =============================================== */
-	body[data-background-blur='true'] {
+	body[data-graph-blur='true'] {
 		#starlight__sidebar {
 			z-index: 0;
 		}
@@ -181,12 +181,12 @@
 			z-index: 0;
 		}
 
-		.right-sidebar:not(:has(.is-fullscreen)) {
+		.right-sidebar:not(:has(.slsg-is-fullscreen)) {
 			z-index: 0;
 		}
 	}
 
-	.background-blur {
+	.slsg-background-blur {
 		position: fixed;
 		top: 0;
 		left: 0;
@@ -198,7 +198,7 @@
 		z-index: 10;
 	}
 
-	.is-fullscreen {
+	.slsg-is-fullscreen {
 		--slsg-graph-bg-color: var(--slsg-graph-maximized-bg-color);
 
 		position: fixed;
@@ -212,14 +212,14 @@
 		height: 60vh;
 		width: 50vw;
 
-		.graph-action-container svg {
+		.slsg-graph-action-container svg {
 			width: 24px;
 			height: 24px;
 		}
 	}
 
 	@media (max-width: 1152px) {
-		.is-fullscreen {
+		.slsg-is-fullscreen {
 			height: 80vh;
 			width: 80vw;
 		}
@@ -227,7 +227,7 @@
 
 	/* ========================================================================================================== */
 	/* ====================================== Graph Action Styles =============================================== */
-	.graph-action-container:not(:empty) {
+	.slsg-graph-action-container:not(:empty) {
 		position: absolute;
 		right: 0;
 
@@ -241,7 +241,7 @@
 		backdrop-filter: blur(4px);
 	}
 
-	.graph-action-button.graph-action-button {
+	.slsg-graph-action-button.slsg-graph-action-button {
 		display: flex;
 
 		color: var(--slsg-graph-action-color);
@@ -271,11 +271,11 @@
 
 	/* ========================================================================================================== */
 	/* ======================================== Backlink Styling ================================================ */
-	.backlink {
+	.slsg-backlinks {
 		padding: 0;
 		list-style: none;
 
-		a {
+		a.slsg-backlink {
 			display: block;
 			font-size: var(--slsg-text-xs);
 			text-decoration: none;
@@ -297,12 +297,12 @@
 
 	/* ========================================================================================================== */
 	/* ====================================== Context Menu Styles =============================================== */
-	.menu-container {
+	.slsg-menu-container {
 		position: fixed;
 		z-index: 1000;
 	}
 
-	.menu {
+	.slsg-menu {
 		display: inline-flex;
 		background-color: var(--slsg-context-menu-bg-color);
 		border: 1px var(--slsg-context-menu-border-color) solid;
@@ -312,7 +312,7 @@
 		padding: 6px;
 	}
 
-	.menu-item {
+	.slsg-menu-item {
 		display: flex;
 		align-items: center;
 		gap: 8px;
@@ -322,27 +322,27 @@
 		white-space: nowrap;
 	}
 
-	.menu-item:hover {
+	.slsg-menu-item:hover {
 		background-color: var(--slsg-context-menu-bg-color-hover);
 	}
 
-	.menu-item-icon {
+	.slsg-menu-item-icon {
 		display: flex;
 	}
 
-	.menu-item-icon svg {
+	.slsg-menu-item-icon svg {
 		width: 20px;
 		height: 20px;
 	}
 
-	.menu-item-title {
+	.slsg-menu-item-title {
 		font-weight: 600;
 		font-size: var(--slsg-text-xs);
 	}
 
 	/* ========================================================================================================== */
 	/* ======================================== Popup Menu Styling ============================================== */
-	.popup-menu {
+	.slsg-popup-menu {
 		position: fixed;
 		z-index: 1000;
 		right: 8px;
@@ -357,17 +357,17 @@
 
 		backdrop-filter: blur(32px);
 
-		.value-slider {
+		.slsg-value-slider {
 			display: flex;
 			font-size: var(--slsg-text-xs);
 			flex-wrap: wrap;
 
-			.value-slider-text {
+			.slsg-value-slider-text {
 				display: flex;
 				gap: 0.5rem;
 			}
 
-			.value-slider-label {
+			.slsg-value-slider-label {
 				font-weight: 900;
 			}
 		}

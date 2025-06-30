@@ -21,23 +21,23 @@ export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 	removeMenu();
 
 	const menu_container = document.createElement('nav');
-	menu_container.className = 'menu-container';
+	menu_container.className = 'slsg-menu-container';
 
 	const menu = document.createElement('div');
-	menu.className = 'menu';
+	menu.className = 'slsg-menu';
 	menu_container.appendChild(menu);
 
 	const groupedItems = Object.groupBy(items, ({ group }) => group || '');
 	for (const [key, group] of Object.entries(groupedItems)) {
 		if (key !== '') {
 			const menuSeparator = document.createElement('div');
-			menuSeparator.className = 'menu-separator';
+			menuSeparator.className = 'slsg-menu-separator';
 			menu.appendChild(menuSeparator);
 		}
 
 		for (const item of group!) {
 			const menuItem = document.createElement('div');
-			menuItem.className = 'menu-item';
+			menuItem.className = 'slsg-menu-item';
 			menuItem.onclick = e => {
 				item.onClick();
 				e.stopPropagation();
@@ -47,13 +47,13 @@ export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 
 			if (item.icon) {
 				const menuIcon = document.createElement('div');
-				menuIcon.className = 'menu-item-icon';
+				menuIcon.className = 'slsg-menu-item-icon';
 				menuIcon.innerHTML = item.icon;
 				menuItem.appendChild(menuIcon);
 			}
 
 			const menuTitle = document.createElement('div');
-			menuTitle.className = 'menu-item-title';
+			menuTitle.className = 'slsg-menu-item-title';
 			menuTitle.innerText = item.text;
 			menuItem.appendChild(menuTitle);
 

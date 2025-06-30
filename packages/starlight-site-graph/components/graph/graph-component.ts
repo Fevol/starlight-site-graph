@@ -78,10 +78,10 @@ export class GraphComponent extends HTMLElement {
 			console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));
 		}
 
-		this.classList.add('graph-component');
+		this.classList.add('slsg-graph-component');
 
 		this.graphContainer = document.createElement('div');
-		this.graphContainer.classList.add('graph-container');
+		this.graphContainer.classList.add('slsg-graph-container');
 		this.graphContainer.onkeyup = e => {
 			if (e.key === 'f') this.enableFullscreen();
 		};
@@ -89,15 +89,15 @@ export class GraphComponent extends HTMLElement {
 		this.appendChild(this.graphContainer);
 
 		this.actionContainer = document.createElement('div');
-		this.actionContainer.classList.add('graph-action-container');
+		this.actionContainer.classList.add('slsg-graph-action-container');
 		renderActionContainer(this);
 		this.graphContainer.appendChild(this.actionContainer);
 
 		this.mockGraphContainer = document.createElement('div');
-		this.mockGraphContainer.classList.add('graph-container');
+		this.mockGraphContainer.classList.add('slsg-graph-container');
 
 		this.blurContainer = document.createElement('div');
-		this.blurContainer.classList.add('background-blur');
+		this.blurContainer.classList.add('slsg-background-blur');
 
 		this.colors = getGraphColors(this.graphContainer);
 
@@ -270,7 +270,7 @@ export class GraphComponent extends HTMLElement {
 
 		this.isFullscreen = true;
 
-		this.graphContainer.classList.toggle('is-fullscreen', true);
+		this.graphContainer.classList.toggle('slsg-is-fullscreen', true);
 		this.appendChild(this.mockGraphContainer);
 		this.appendChild(this.blurContainer);
 		document.body.dataset['graphBlur'] = 'true';
@@ -289,7 +289,7 @@ export class GraphComponent extends HTMLElement {
 		this.isFullscreen = false;
 		document.body.dataset['graphBlur'] = 'false';
 
-		this.graphContainer.classList.toggle('is-fullscreen', false);
+		this.graphContainer.classList.toggle('slsg-is-fullscreen', false);
 		this.removeChild(this.mockGraphContainer);
 		this.removeChild(this.blurContainer);
 		this.fullscreenExitHandler!();

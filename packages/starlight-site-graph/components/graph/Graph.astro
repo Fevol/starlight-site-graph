@@ -13,8 +13,8 @@ interface Props {
 const { config, sitemap, slug, debug = false, trailingSlashes = true } = Astro.props;
 ---
 
-<div class="graph-component graph-skeleton">
-	<div class="graph-container"/>
+<div class="slsg-graph-component slsg-graph-skeleton">
+	<div class="slsg-graph-container"/>
 </div>
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug} data-debug={debug} data-trailing-slashes={trailingSlashes}></graph-component>
 
