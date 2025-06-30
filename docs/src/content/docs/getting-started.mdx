@@ -33,7 +33,7 @@ Refer to the [CHANGELOG](/starlight-site-graph/changelog) for more information a
 
 <Steps>
     1. Starlight Site Graph is a Starlight [plugin](https://starlight.astro.build/reference/plugins/) that you can install using your favorite package manager:
-        <PackageManagers pkg="starlight-site-graph" />
+        <PackageManagers pkg="starlight-site-graph" pkgManagers={["npm", "pnpm", "yarn", "bun"]} type="add" />
     2. Configure the plugin in your Starlight [configuration](https://starlight.astro.build/reference/configuration/#plugins) in the `astro.config.mjs` file.
         ```diff lang="js"
             // astro.config.mjs
@@ -88,7 +88,7 @@ to regular Astro projects (without a sidebar), though it will require a little m
 
 <Steps>
 	1. Starlight Site Graph is a package that contains an integration and several components, which you can install using your favorite package manager:
-		<PackageManagers pkg="starlight-site-graph" />
+		<PackageManagers pkg="starlight-site-graph" pkgManagers={["npm", "pnpm", "yarn", "bun"]} type="add" />
 	2. Add the sitemap generation integration of the plugin in your `astro.config.mjs` file. You _may_ need to enable `prefetch` if you are encountering errors.
 		```diff lang="js"
 			// astro.config.mjs
