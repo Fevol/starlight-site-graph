@@ -83,7 +83,13 @@ export async function* walk(dir: string): AsyncGenerator<string> {
 	}
 }
 
-export function extractInnerText(tag: string) {
+export function extractMDLinkText(link: string): string {
+	const match = link.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+	// Remove markdown formatting characters like *, _, `, ~
+	return match![1]!.replace(/[*_`~]/g, '').trim();
+}
+
+export function extractHTMLInnerText(tag: string) {
 	return tag.replace(/<[^>]*>/g, '').trim();
 }
 

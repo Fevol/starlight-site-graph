@@ -8,7 +8,7 @@ import {
 	ensureLeadingPound,
 	ensureTrailingSlash, stripLeadingSlash, onlyTrailingSlash, trimSlashes,
 	firstMatchingPattern,
-	resolveIndex, slugifyPath, walk, extractInnerText, getMostCommonItem
+	resolveIndex, slugifyPath, walk, extractHTMLInnerText, getMostCommonItem, extractMDLinkText
 } from './util';
 
 interface IntermediateSitemapEntry {
@@ -20,6 +20,13 @@ interface IntermediateSitemapEntry {
 	backlinks: Set<string>;
 	nodeStyle: Partial<NodeStyle>;
 }
+
+
+const IGNORED_LINK_CLASSES = [
+	"site-title",
+	"sl-anchor-link",
+	"slsg-backlink"
+];
 
 export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
@@ -74,26 +81,17 @@ export class SiteMapBuilder {
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
 
-		// FIXME: This requires a better bodge, without resorting to a HTML parser package
-		const starlightSidebar = content.match(/<ul[^>]*class=["'][^"']*\btop-level\b[^"']*["'][^>]*>/gs)?.[0] ?? '';
-		const sidebarLinkIdentifier = starlightSidebar.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
-		const starlightPagination = content.match(/<div[^>]*class=["'][^"']*\bpagination-links\b[^"']*["'][^>]*>/gs)?.[0] ?? '';
-		const paginationIdentifier = starlightPagination.match(/class=["'][^"']*\b(astro-[^"'\s]*)[^"']*["']/s)?.[1] ?? '';
-
 		// NOTE: This misses links that are not within <a> tags, but is the easiest way to avoid resources being included as links
 		//			e.g. <img src="...">, <link rel="stylesheet" href="...">, etc.
 		for (const tag of content.match(/<a\b[^>]*?>.*?<\/a>?/gm) ?? []) {
 			const classes = (tag.match(/class="([^"]*)"/)?.[1] ?? '').split(' ');
-			if (sidebarLinkIdentifier && classes.includes(sidebarLinkIdentifier)) {
-				continue;
-			}
-
-			if (this.config.ignoreStarlightLinks && paginationIdentifier && classes.includes(paginationIdentifier)) {
+			// IF ENABLED, ignore common Starlight links (toc, pagination, title, ...), always denoted as astro-*
+			if (this.config.ignoreStarlightLinks && classes.find(c => c.startsWith('astro-') || IGNORED_LINK_CLASSES.includes(c))) {
 				continue;
 			}
 
 			let link: string | undefined = tag.match(/href="([^"]*)"/)?.[1] ?? '';
-			const text = extractInnerText(tag);
+			const text = extractHTMLInnerText(tag);
 			if (link.length && !link.startsWith("#")) {
 				let resolvedLink = this.resolveLink(linkPath, link, links);
 				if (resolvedLink && text.length) {
@@ -168,10 +166,15 @@ export class SiteMapBuilder {
 		const tags = new Set<string>();
 		let nodeStyle = {} as Partial<NodeStyle>;
 
-		const content = await fs.promises.readFile(filePath, 'utf8');
-		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter };
-		for (const match of content.match(/\[.*?]\((.*?)\)/g) ?? []) {
-			this.resolveLink(linkPath, match.match(/\((.*?)\)/)![1]!, links);
+
+		for (const match of content.match(/\[([^\]]+)\]\(([^)]+)\)/g) ?? []) {
+			const link = this.resolveLink(linkPath, match.match(/\((.*?)\)/)![1]!, links);
+			if (link) {
+				const text = extractMDLinkText(match);
+				if (text) {
+					this.implicitNameAssociations.set(link, [...(this.implicitNameAssociations.get(link) ?? []), text]);
+				}
+			}
 		}
 
 		if (frontmatter.data) {
