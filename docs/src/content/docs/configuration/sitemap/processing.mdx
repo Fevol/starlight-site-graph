@@ -3,13 +3,16 @@ title: Post Processing
 description: Learn how to configure what is added to the sitemap after it has been generated.
 sidebar:
   order: 4
+  badge:
+    text: Updated
+    variant: tip
 sitemap:
   pageTitle: Sitemap Processing Config
 ---
 
 import { renameNodes, restyleNodes, addTags } from '../generationUtil.js';
 import { nameExampleSitemap, frozenConfig, styleRulesExampleSitemap } from '../constants.js';
-import { Tabs, TabItem } from '@astrojs/starlight/components';
+import { Badge, Tabs, TabItem } from '@astrojs/starlight/components';
 import GraphExample from "../../../../components/GraphExample.astro";
 
 This page details configuration options for adding or removing properties from the sitemap after it has been generated,
@@ -35,6 +38,101 @@ If you specify a title for a page in the `pageTitles` object, it will override t
 	<TabItem label='{ "https://astro.build/showcase/": "Astro Showcases"}'>
 		External node to https://astro.build/showcase/ is renamed to "Astro Showcases".
 		<GraphExample id="external-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={renameNodes(nameExampleSitemap, { "https://astro.build/showcase/": "Astro Showcases"})} slug={"node/"}/>
+	</TabItem>
+</Tabs>
+
+
+## <Badge text="New" variant="caution" size="large" /> Page Title Fallback Strategy
+
+When a page does not have a title explicitly specified in the frontmatter or in the `pageTitles` option,
+the plugin will use a fallback strategy to determine the title of the page.
+
+There are currently two fallback strategies available:
+<Tabs>
+	<TabItem label='Link Text' >
+		Use the most common link label associated with the page.
+		<div style="display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap;">
+			<div style="max-width: 340px;">
+
+			```md "[important info]"
+			// src/content/docs/my-page.md
+			[A page](/another-page) link.
+			It has [important info](/another-page).
+			Very [important info](/another-page).
+			```
+
+			```diff lang="js" wrap
+			// astro.config.mjs
+			export default defineConfig({
+				integrations: [
+					starlight({
+						plugins: [
+							starlightSiteGraph({
+								sitemapConfig: {
+			+						pageTitleFallbackStrategy: "linkText",
+								},
+							})
+						],
+					}),
+				],
+			})
+			```
+			</div>
+
+			```json {6}
+			// sitemap.json
+			{
+				"another-page/": {
+					"external": false,
+					"exists": true,
+					"title": "Important Info",
+					...
+				}
+			}
+			```
+		</div>
+	</TabItem>
+	<TabItem label='Slug'>
+		Use the last part of the URL as the title.
+		<div style="display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap;">
+			<div style="max-width: 340px;">
+				```md "(/another-page)"
+				// src/content/docs/my-page.md
+				[A page](/another-page) link.
+				It has [important info](/another-page).
+				Very [important info](/another-page).
+				```
+
+				```diff lang="js" wrap
+				// astro.config.mjs
+				export default defineConfig({
+					integrations: [
+						starlight({
+							plugins: [
+								starlightSiteGraph({
+									sitemapConfig: {
+				+						pageTitleFallbackStrategy: "slug",
+									},
+								})
+							],
+						}),
+					],
+				})
+				```
+			</div>
+
+			```json {6}
+			// sitemap.json
+			{
+				"another-page/": {
+					"external": false,
+					"exists": true,
+					"title": "Another Page",
+					...
+				}
+			}
+			```
+		</div>
 	</TabItem>
 </Tabs>
 

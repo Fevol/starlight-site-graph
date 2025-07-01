@@ -53,6 +53,7 @@ export const globalSitemapConfig = {
 	pageTitles: {},
 	ignoreStarlightLinks: true,
 	pageInclusionRules: ['**/*'],
+	pageTitleFallbackStrategy: 'linkText',
 	linkInclusionRules: ['**/*'],
 	tagRules: {},
 	styleRules: new Map(),
@@ -91,7 +92,13 @@ export const globalSitemapConfigSchema = z.object({
 	 * { "BASEPATH/intro": "Main" }
 	 */
 	pageTitles: z.record(z.string(), z.string()).default(globalSitemapConfig.pageTitles),
-
+	/**
+	 * Determine what the name of a sitemap entry should be when no name was explicitly specified. \
+	 * This can be due to the page not having a title in the frontmatter, or the page being an external link.
+	 * - `linkText`: Use the most commonly used text associated with the link as the name of the page.
+	 * - `slug`: Use the last part of the link slug as the name of the page.
+	 */
+	pageTitleFallbackStrategy: z.enum(['linkText', 'slug']).default(globalSitemapConfig.pageTitleFallbackStrategy),
 
 	/**
 	 * Ignore links produced by Starlight which exist on every page.

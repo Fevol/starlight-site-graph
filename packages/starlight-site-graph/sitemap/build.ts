@@ -34,14 +34,14 @@ export class SiteMapBuilder {
 	private excludedPaths: Set<string> = new Set();
 	private addTrailingSlash: boolean = false;
 	basePath!: string;
-	officialSlugAssociations: Map<string, string> = new Map();
+	explicitSlugAssociations: Map<string, string> = new Map();
 	implicitNameAssociations: Map<string, string[]> = new Map();
-	officialNameAssociations: Map<string, string> = new Map();
+	explicitNameAssociations: Map<string, string> = new Map();
 
 	constructor(private config: RemoveOptional<SitemapConfig>) {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
-		this.officialNameAssociations = new Map(
+		this.explicitNameAssociations = new Map(
 			Object.entries(this.config.pageTitles).map(([k, v]) => [onlyTrailingSlash(k, this.addTrailingSlash), v]),
 		);
 	}
@@ -73,7 +73,7 @@ export class SiteMapBuilder {
 
 	async addHTMLContent(filePath: string, folderPath: string) {
 		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
-		const linkPath = this.officialSlugAssociations.get(filePath) ??
+		const linkPath = this.explicitSlugAssociations.get(filePath) ??
 			path
 				.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, ''))
 				.replace(/\\/g, '/');
@@ -155,7 +155,7 @@ export class SiteMapBuilder {
 				linkPath = path.join(this.basePath, linkPath);
 			}
 			linkPath = linkPath.replace(/\\/g, '/');
-			this.officialSlugAssociations.set(linkPath, frontmatter.data.slug);
+			this.explicitSlugAssociations.set(linkPath, frontmatter.data.slug);
 		}
 		// Otherwise, re-create the Astro slug from the file path
 		else {
@@ -184,9 +184,9 @@ export class SiteMapBuilder {
 			}
 
 			if (frontmatter.data.sitemap?.pageTitle) {
-				this.officialNameAssociations.set(linkPath, frontmatter.data.sitemap.pageTitle);
-			} else if (frontmatter.data.title && !this.officialNameAssociations.has(linkPath)) {
-				this.officialNameAssociations.set(linkPath, frontmatter.data.title);
+				this.explicitNameAssociations.set(linkPath, frontmatter.data.sitemap.pageTitle);
+			} else if (frontmatter.data.title && !this.explicitNameAssociations.has(linkPath)) {
+				this.explicitNameAssociations.set(linkPath, frontmatter.data.title);
 			}
 		}
 
@@ -282,6 +282,26 @@ export class SiteMapBuilder {
 	}
 
 	/**
+	 * Resolve the name for a link path based on the official associations, implicit associations, or fallback to the path basename
+	 * @param linkPath - The link path to get the name for
+	 */
+	private resolveLinkName(linkPath: string) {
+		let name = this.explicitNameAssociations.get(linkPath);
+		if (name === undefined) {
+			if (this.config.pageTitleFallbackStrategy === 'linkText') {
+				name = getMostCommonItem([...this.implicitNameAssociations.get(linkPath) ?? []]);
+			}
+
+			if (name === undefined) {
+				name = path.basename(linkPath);
+			}
+
+		}
+
+		return name;
+	}
+
+	/**
 	 * Convert the intermediate sitemap to the final sitemap
 	 */
 	toSitemap(): RemoveOptional<Sitemap> {
@@ -290,10 +310,7 @@ export class SiteMapBuilder {
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
 				external: entry.external,
 				exists: entry.filePath !== undefined || entry.external,
-				title:
-					this.officialNameAssociations.get(entry.linkPath) ??
-					getMostCommonItem([...this.implicitNameAssociations.get(entry.linkPath) ?? []]) ??
-					path.basename(entry.linkPath),
+				title: this.resolveLinkName(entry.linkPath),
 				tags: [...entry.tags].map(ensureLeadingPound),
 				links: [...entry.links],
 				backlinks: [...entry.backlinks],
