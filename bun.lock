@@ -10,7 +10,7 @@
     },
     "docs": {
       "name": "docs",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "dependencies": {
         "@astrojs/check": "0.9.4",
         "@astrojs/starlight": "0.34.2",
@@ -19,13 +19,13 @@
         "starlight-links-validator": "^0.14.3",
         "starlight-package-managers": "^0.10.0",
         "starlight-site-graph": "workspace:*",
-        "starlight-theme-obsidian": "^0.3.0",
+        "starlight-theme-obsidian": "0.4.0",
         "typescript": "^5.8.2",
       },
     },
     "packages/starlight-site-graph": {
       "name": "starlight-site-graph",
-      "version": "0.3.2",
+      "version": "0.4.0",
       "dependencies": {
         "@types/chroma-js": "^3.1.1",
         "@types/d3": "^7.4.3",
@@ -1094,7 +1094,7 @@
 
     "starlight-site-graph": ["starlight-site-graph@workspace:packages/starlight-site-graph"],
 
-    "starlight-theme-obsidian": ["starlight-theme-obsidian@0.3.0", "", { "peerDependencies": { "@astrojs/starlight": "^0.33.0", "astro": "^5.5.3", "starlight-site-graph": "^0.3.1" } }, "sha512-G/mWInJSn8yRD7yOZ63+p0u5tt75anQBcL/l8Ub3f4JHO4jU2wo3lpVf5u41C3PXLlafr44oDqR1oiZmeH1LJQ=="],
+    "starlight-theme-obsidian": ["starlight-theme-obsidian@0.4.0", "", { "peerDependencies": { "@astrojs/starlight": ">=0.33.0", "astro": ">=5.5.0", "starlight-site-graph": "^0.4.0" } }, "sha512-i5rw+sJNJANQAshiHpf3Z+5utNfLOm669CKBzu2w/+RmKDJDnwGiPd8NtZwNO8W5uw6rR0YZVwy3A2pbF0uvlg=="],
 
     "stream-replace-string": ["stream-replace-string@2.0.0", "", {}, "sha512-TlnjJ1C0QrmxRNrON00JvaFFlNh5TTG00APw23j74ET7gkQpTASi6/L2fuiav8pzK715HXtUeClpBTw2NPSn6w=="],
 
