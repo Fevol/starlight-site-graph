@@ -1,3 +1,18 @@
+## [0.4.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.4.0) (2025/07/02)
+### Changes
+-   ⚠️ **Breaking change:** All classes provided by this package are now prefixed with `slsg-` to avoid conflicts with other packages.
+    -   If you have written custom CSS that targets the classes provided by this package, you will need to update them to use the new prefix.
+
+### Features
+-   Support custom `slug` frontmatter field in the sitemap and graph components, allowing you to define custom URLs for pages.
+-   Added the `pageTitleFallbackStrategy` configuration option, which allows you to define what the name of a page should be when the `title` frontmatter field is not set.
+    -   `linkText` (default): Use the most common text of the links pointing to the page.
+    -   `slug`: Use the final slug of the page, as defined by the `slug` frontmatter field or the URL.
+
+### Fixes
+-   Fix an issue where HTML links in generated content were never getting parsed
+-   Prevent links to sections on a page creating invalid sitemap entries
+
 ## [0.3.3](https://github.com/Fevol/starlight-site-graph/releases/tag/0.3.3) (2025/05/22)
 ### Features
 -   Added the `overridePageSidebar` flag to the plugin configuration, enabling you to completely disable the
