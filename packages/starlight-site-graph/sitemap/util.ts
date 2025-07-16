@@ -3,12 +3,11 @@ import path from 'node:path';
 import micromatch from 'micromatch';
 
 export function slugifyPath(path: string) {
-	return (
+	// Properly encode unicode for URLs
+	return encodeURI(
 		path
 			// Remove leading & trailing whitespace
 			.trim()
-			// Remove special characters
-			.replace(/[^A-Za-z0-9 /-]/g, '')
 			// Replace spaces
 			.replace(/\s+/g, '-')
 			.toLowerCase()
