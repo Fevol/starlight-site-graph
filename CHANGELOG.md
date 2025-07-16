@@ -1,3 +1,8 @@
+## [0.4.1](https://github.com/Fevol/starlight-site-graph/releases/tag/0.4.1) (2025/07/16)
+### Fixes
+-   Fix unicode characters in paths not being correctly encoded in the sitemap, 
+    causing the graph and backlinks not to be visible for a page, despite an entry existing in the sitemap.
+
 ## [0.4.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.4.0) (2025/07/02)
 ### Changes
 -   ⚠️ **Breaking change:** All classes provided by this package are now prefixed with `slsg-` to avoid conflicts with other packages.
