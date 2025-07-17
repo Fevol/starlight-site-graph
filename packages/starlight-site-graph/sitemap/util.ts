@@ -1,18 +1,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import micromatch from 'micromatch';
+import { slug } from "github-slugger"
 
 export function slugifyPath(path: string) {
 	// Properly encode unicode for URLs
-	return encodeURI(
-		path
-			// Remove leading & trailing whitespace
-			.trim()
-			// Replace spaces
-			.replace(/\s+/g, '-')
-			.toLowerCase()
-	);
+	return encodeURI(path
+		.split('/')
+		.map((segment) => slug(segment))
+		.join('/'));
 }
+
 
 export function resolveIndex(path: string) {
 	if (path.endsWith('/')) path = path.slice(0, -1);
