@@ -19,6 +19,11 @@ export const starlightSiteGraphConfig = {
 export const starlightSiteGraphConfigSchema = z
 	.object({
 		/**
+		 * An internal flag to indicate that Starlight is being used.
+		 */
+		starlight: z.boolean().optional(),
+
+		/**
 		 * Whether debug mode is enabled
 		 * - Adds a frametime counter to the graph
 		 *

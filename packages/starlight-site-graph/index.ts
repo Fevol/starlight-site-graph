@@ -48,11 +48,13 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 					logger.info('Ignoring following Starlight links in sitemap: ' + starlightIgnoredLinks.join(', '));
 				}
 
-				addIntegration(integration(parsedConfig));
+				// EXPL: Pass a starlight flag to the integration, if none is given, all starlight-specific features are disabled
+				addIntegration(integration({ ...parsedConfig, starlight: true }));
 				const componentOverrides: typeof config.components = {};
 				const customCss: typeof config.customCss = [
 					'starlight-site-graph/styles/layers.css',
-					'starlight-site-graph/styles/common.css'
+					'starlight-site-graph/styles/common.css',
+					'starlight-site-graph/styles/starlight.css',
 				];
 
 				if (parsedConfig.overridePageSidebar) {

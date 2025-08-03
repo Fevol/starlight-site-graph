@@ -1,0 +1,106 @@
+@layer sitegraph {
+    :root {
+        --slsg-graph-minimized-bg-color: var(--sl-color-bg);
+        --slsg-graph-maximized-bg-color: var(--sl-color-bg-nav);
+        --slsg-graph-outline-color: var(--sl-color-gray-6);
+
+        --slsg-graph-action-color: var(--sl-color-white);
+        --slsg-graph-action-color-hover: inherit;
+        --slsg-graph-action-bg-color-hover: var(--sl-color-gray-5);
+
+        --slsg-context-menu-border-color: var(--sl-color-gray-4);
+        --slsg-context-menu-bg-color: var(--sl-color-gray-6);
+        --slsg-context-menu-bg-color-hover: var(--sl-color-gray-5);
+
+        --slsg-text-color: var(--sl-color-white);
+        --slsg-text-color-accent: var(--sl-color-text-accent);
+        --slsg-text-color-muted: var(--sl-color-white);
+
+        --slsg-color-accent: var(--sl-color-accent-high);
+        --slsg-color-muted: var(--sl-color-gray-5);
+
+        --slsg-node-color: var(--sl-color-white);
+        --slsg-node-color-adjacent: var(--sl-color-gray-2);
+        --slsg-link-color: var(--sl-color-gray-4);
+
+        --slsg-text-lg: var(--sl-text-lg);
+        --slsg-text-md: var(--sl-text-base);
+        --slsg-text-sm: var(--sl-text-sm);
+        --slsg-text-xs: var(--sl-text-xs);
+    }
+
+    :root[data-theme='dark'] {
+        --slsg-color-accent: var(--sl-color-accent-high);
+        --slsg-color-muted: var(--sl-color-gray-5);
+
+        --slsg-node-color: var(--sl-color-white);
+        --slsg-node-color-adjacent: var(--sl-color-gray-2);
+        --slsg-link-color: var(--sl-color-gray-4);
+
+        --slsg-node-color-current: var(--sl-color-green-high);
+        --slsg-node-color-visited: var(--sl-color-orange-high);
+        --slsg-node-color-unresolved: var(--sl-color-red-high);
+        --slsg-node-color-external: var(--sl-color-purple-high);
+
+
+    }
+
+    :root[data-theme='light'] {
+        --slsg-color-accent: var(--sl-color-accent);
+        --slsg-color-muted: var(--sl-color-gray-5);
+
+        --slsg-node-color: var(--sl-color-gray-4);
+        --slsg-node-color-adjacent: var(--sl-color-gray-5);
+        --slsg-link-color: var(--sl-color-gray-5);
+
+        --slsg-node-color-current: var(--sl-color-green);
+        --slsg-node-color-visited: var(--sl-color-orange);
+        --slsg-node-color-unresolved: var(--sl-color-red);
+        --slsg-node-color-external: var(--sl-color-purple);
+    }
+
+
+    /* ========================================= Sidebar Styling ================================================ */
+    .slsg-graph-panel,
+    .slsg-backlinks-panel {
+        padding: 1rem var(--sl-sidebar-pad-x);
+
+        h2 {
+            color: var(--slsg-text-color);
+            font-size: var(--slsg-text-lg);
+            font-weight: 600;
+            line-height: var(--sl-line-height-headings);
+            margin-bottom: 0.5rem;
+        }
+    }
+
+    /* Move graph and other contents in page sidebar into bottom of page */
+    @media (max-width: calc(72em - 1px)) {
+        .main-frame > div:has(.slsg-graph-panel, .slsg-backlinks-panel) {
+            display: flex;
+            flex-direction: column-reverse;
+
+            .right-sidebar {
+                display: flex;
+                flex-wrap: wrap;
+
+                .slsg-graph-panel {
+                    flex-grow: 1;
+                    width: 50%;
+                    min-width: var(--slsg-graph-width);
+
+                    .slsg-graph-component {
+                        width: 100%;
+                    }
+                }
+
+                .slsg-backlinks-panel {
+                    flex-grow: 1;
+                    width: 50%;
+                }
+            }
+        }
+    }
+    /* ========================================================================================================= */
+
+}

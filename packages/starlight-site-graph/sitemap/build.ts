@@ -366,6 +366,6 @@ export class SiteMapBuilder {
 		relative_path = slugifyPath(relative_path);
 
 		// Remove index from the end of the path
-		return ensureTrailingSlash(resolveIndex(relative_path), this.addTrailingSlash);
+		return ensureTrailingSlash(resolveIndex(relative_path), this.addTrailingSlash) || '/';
 	}
 }

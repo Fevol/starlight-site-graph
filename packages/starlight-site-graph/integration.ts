@@ -2,7 +2,7 @@ import fs from 'node:fs';
 
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 
-import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig } from './config';
+import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 import { onlyTrailingSlash } from './sitemap/util';
@@ -17,8 +17,18 @@ import { fileURLToPath } from 'node:url';
 export default defineIntegration({
 	name: 'starlight-sitemap-integration',
 	optionsSchema: starlightSiteGraphConfigSchema,
-	setup({ name, options }) {
-		let settings = options as FullStarlightSiteGraphConfig;
+	setup({ name, options}) {
+		let settings: FullStarlightSiteGraphConfig;
+		if (!options.starlight) {
+			// @ts-expect-error Some type difficulties, but this should be fine
+			options = { starlight: false, ...validateConfig(options) };
+			settings = options as FullStarlightSiteGraphConfig;
+			// EXPL: Default content root for Astro sites
+			settings.sitemapConfig.contentRoot = './src/pages';
+		} else {
+			settings = options as FullStarlightSiteGraphConfig;
+		}
+
 		const builder = new SiteMapBuilder(settings.sitemapConfig);
 		let outputPath: string;
 		const sitemapProvided = !!settings.sitemapConfig.sitemap;
@@ -29,6 +39,12 @@ export default defineIntegration({
 					const { config, logger, command, updateConfig, injectScript } = args;
 					const addTrailingSlash = config.trailingSlash !== 'never';
 					builder.setTrailingSlash(addTrailingSlash);
+
+					// TODO: Figure if it is somehow possible to conditionally import astro:prefetch without triggering vite errors
+					if (!config.prefetch) {
+						logger.warn('`prefetch` is disabled in the Astro config, but this plugin requires it to prevent errors. This option has now been enabled.');
+						config.prefetch = true;
+					}
 
 					// Adapted from @shishkin/astro-pagefind
 					if (config.adapter?.name.startsWith("@astrojs/vercel")) {
@@ -49,7 +65,7 @@ export default defineIntegration({
 								: ''),
 						);
 
-						if (settings.sitemapConfig.ignoreStarlightLinks) {
+						if (settings.starlight && settings.sitemapConfig.ignoreStarlightLinks) {
 							let starlightIgnoredLinks = [`!${config.base}`];
 							settings.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
 							settings.sitemapConfig.linkInclusionRules = settings.sitemapConfig.linkInclusionRules
@@ -64,6 +80,12 @@ export default defineIntegration({
 							builder.setBasePath(config.base);
 							try {
 								await fs.promises.access(settings.sitemapConfig.contentRoot);
+							} catch (e) {
+								logger.error(`Content root "${settings.sitemapConfig.contentRoot}" does not exist, please check your configuration.`);
+								return;
+							}
+
+							try {
 								await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
 								settings.sitemapConfig.sitemap = builder.process().toSitemap();
 								logger.info('Finished retrieving links from Markdown content');

@@ -11,6 +11,7 @@
 		"./components": "./components/index.ts",
 		"./styles/layers.css": "./styles/layers.css",
 		"./styles/common.css": "./styles/common.css",
+		"./styles/starlight.css": "./styles/starlight.css",
 		"./schema": "./schema.ts",
 		"./config": "./config/index.ts",
 		"./integration": "./integration.ts"

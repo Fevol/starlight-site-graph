@@ -22,15 +22,15 @@ interface Props {
 
 let graphData: Partial<PageGraphConfig> = {};
 let { slug, class: className, showGraph, config: graphConfig, trailingSlashes } = Astro.props;
-let { entry } = Astro.locals.starlightRoute;
+let entry = Astro.locals.starlightRoute?.entry;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
-if (entry.id) {
+if (entry && entry.id) {
     graphData = entry.data?.graph as PageGraphConfig;
 }
 
 // Infer slug from URL if not explicitly provided
-const slugWithBase = stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"));
+const slugWithBase = stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")) || "/";
 
 if (showGraph === undefined) {
     if (graphData?.visible !== undefined) {
