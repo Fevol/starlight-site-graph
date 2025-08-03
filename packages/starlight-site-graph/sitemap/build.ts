@@ -8,8 +8,10 @@ import {
 	ensureLeadingPound,
 	ensureTrailingSlash, stripLeadingSlash, onlyTrailingSlash, trimSlashes,
 	firstMatchingPattern,
-	resolveIndex, slugifyPath, walk, extractHTMLInnerText, getMostCommonItem, extractMDLinkText
+	resolveIndex, slugifyPath, walk, getMostCommonItem, extractMDLinkText
 } from './util';
+
+import {DomUtils, parseDocument} from 'htmlparser2'
 
 interface IntermediateSitemapEntry {
 	external: boolean;
@@ -80,27 +82,35 @@ export class SiteMapBuilder {
 		let links = new Set<string>();
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
+		const document = parseDocument(content);
+		const allLinks = DomUtils.findAll(el => { return el.name === 'a' && el.attribs?.['href'] !== undefined }, document.children);
+		const excludedClasses = new Set(["navbar"]);
 
-		// NOTE: This misses links that are not within <a> tags, but is the easiest way to avoid resources being included as links
-		//			e.g. <img src="...">, <link rel="stylesheet" href="...">, etc.
-		for (const tag of content.match(/<a\b[^>]*?>.*?<\/a>?/gm) ?? []) {
-			const classes = (tag.match(/class="([^"]*)"/)?.[1] ?? '').split(' ');
-			// IF ENABLED, ignore common Starlight links (toc, pagination, title, ...), always denoted as astro-*
-			if (this.config.ignoreStarlightLinks && classes.find(c => c.startsWith('astro-') || IGNORED_LINK_CLASSES.includes(c))) {
-				continue;
+		const includedLinks = allLinks.filter(el => {
+			let current = el;
+			while (current && current.type === 'tag') {
+				if (current.attribs?.['class']?.split(' ').some((c: string) => excludedClasses.has(c))) {
+					return false;
+				}
+				current = current.parent;
 			}
+			return true;
+		});
 
-			let link: string | undefined = tag.match(/href="([^"]*)"/)?.[1] ?? '';
-			const text = extractHTMLInnerText(tag);
-			if (link.length && !link.startsWith("#")) {
-				let resolvedLink = this.resolveLink(linkPath, link, links);
-				if (resolvedLink && text.length) {
-					resolvedLink = ensureTrailingSlash(resolvedLink, this.addTrailingSlash);
-					this.implicitNameAssociations.set(resolvedLink, [...(this.implicitNameAssociations.get(resolvedLink) ?? []), text]);
+		for (const link of includedLinks) {
+			let href = link.attribs['href'];
+			if (href && !href.startsWith('#')) {
+				href = this.resolveLink(linkPath, href, links);
+				if (href) {
+					const text = DomUtils.textContent(link).trim() ?? '';
+					if (text.length) {
+						this.implicitNameAssociations.set(href, [...(this.implicitNameAssociations.get(href) ?? []), text]);
+					}
 				}
 			}
 		}
 
+		// TODO: move this above?
 		if (this.excludedPaths.has(linkPath)) {
 			return this;
 		}
@@ -309,6 +319,7 @@ export class SiteMapBuilder {
 		return Object.fromEntries(
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
 				external: entry.external,
+				// FIXME: a file that has no link entries is incorrectly marked as non-existent
 				exists: entry.filePath !== undefined || entry.external,
 				title: this.resolveLinkName(entry.linkPath),
 				tags: [...entry.tags].map(ensureLeadingPound),
@@ -320,7 +331,7 @@ export class SiteMapBuilder {
 	}
 
 	private resolveLink(current: string, link: string, links: Set<string>) {
-		if (!link.startsWith('http')) {
+		if (!(link.startsWith('http') || link.startsWith('mailto:'))) {
 			// Leads to the current page, so it can be safely ignored
 			if (link.startsWith('#')) {
 				return;
