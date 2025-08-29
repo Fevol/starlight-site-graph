@@ -38,6 +38,7 @@
 		"chroma-js": "^3.1.2",
 		"d3": "^7.9.0",
 		"gray-matter": "^4.0.3",
+		"htmlparser2": "^10.0.0",
 		"micromatch": "^4.0.8"
 	},
 	"devDependencies": {

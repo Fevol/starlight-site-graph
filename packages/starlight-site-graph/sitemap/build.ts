@@ -1,9 +1,11 @@
-import type { NodeStyle, RemoveOptional, Sitemap, SitemapConfig } from '../config';
+// prettier-ignore
 import fs from 'node:fs';
 import path from 'node:path';
 import matter from 'gray-matter';
+
 import type { PageSiteGraphFrontmatter } from '../schema';
-// prettier-ignore
+import type { NodeStyle, RemoveOptional, Sitemap, SitemapConfig } from '../config';
+
 import {
 	ensureLeadingPound,
 	ensureTrailingSlash, stripLeadingSlash, onlyTrailingSlash, trimSlashes,
@@ -24,17 +26,13 @@ interface IntermediateSitemapEntry {
 }
 
 
-const IGNORED_LINK_CLASSES = [
-	"site-title",
-	"sl-anchor-link",
-	"slsg-backlink"
-];
-
 export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
 	private contentRoot: string;
 	private excludedPaths: Set<string> = new Set();
 	private addTrailingSlash: boolean = false;
+	private encounteredFiles: Set<string> = new Set();
+
 	basePath!: string;
 	explicitSlugAssociations: Map<string, string> = new Map();
 	implicitNameAssociations: Map<string, string[]> = new Map();
@@ -79,33 +77,40 @@ export class SiteMapBuilder {
 			path
 				.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, ''))
 				.replace(/\\/g, '/');
+		this.encounteredFiles.add(linkPath);
+
 		let links = new Set<string>();
 
 		const content = await fs.promises.readFile(filePath, 'utf8');
 		const document = parseDocument(content);
-		const allLinks = DomUtils.findAll(el => { return el.name === 'a' && el.attribs?.['href'] !== undefined }, document.children);
-		const excludedClasses = new Set(["navbar"]);
+		const allLinks = DomUtils.findAll(el => {
+			return el.name === 'a' &&
+				el.attribs?.['href'] !== undefined &&
+				!el.attribs['href'].startsWith('#');
+		}, document.children);
+		const excludedSelectors = new Set(this.config.ignoreLinksInSelectors);
 
 		const includedLinks = allLinks.filter(el => {
 			let current = el;
 			while (current && current.type === 'tag') {
-				if (current.attribs?.['class']?.split(' ').some((c: string) => excludedClasses.has(c))) {
+				if (
+					excludedSelectors.has(current.tagName) ||
+					excludedSelectors.has("#" + current.attribs?.['id']) ||
+					current.attribs?.['class']?.split(' ').some((c: string) => excludedSelectors.has("." + c))
+				) {
 					return false;
 				}
-				current = current.parent;
+				current = current.parent as typeof el;
 			}
 			return true;
 		});
 
 		for (const link of includedLinks) {
-			let href = link.attribs['href'];
-			if (href && !href.startsWith('#')) {
-				href = this.resolveLink(linkPath, href, links);
-				if (href) {
-					const text = DomUtils.textContent(link).trim() ?? '';
-					if (text.length) {
-						this.implicitNameAssociations.set(href, [...(this.implicitNameAssociations.get(href) ?? []), text]);
-					}
+			let href = this.resolveLink(linkPath, link.attribs['href']!, links);
+			if (href) {
+				const text = DomUtils.textContent(link).trim() ?? '';
+				if (text.length) {
+					this.implicitNameAssociations.set(href, [...(this.implicitNameAssociations.get(href) ?? []), text]);
 				}
 			}
 		}
@@ -153,7 +158,7 @@ export class SiteMapBuilder {
 
 	async addMDContent(filePath: string) {
 		const content = await fs.promises.readFile(filePath, 'utf8');
-		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter };
+		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter & { slug?: string } };
 
 		let linkPath: string;
 
@@ -171,6 +176,8 @@ export class SiteMapBuilder {
 		else {
 			linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
 		}
+
+		this.encounteredFiles.add(linkPath);
 
 		let links = new Set<string>();
 		const tags = new Set<string>();
@@ -314,18 +321,17 @@ export class SiteMapBuilder {
 	/**
 	 * Convert the intermediate sitemap to the final sitemap
 	 */
-	toSitemap(): RemoveOptional<Sitemap> {
-		// @ts-expect-error Object has been forcefully made non-optional
+	toSitemap(): Sitemap {
 		return Object.fromEntries(
 			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
 				external: entry.external,
 				// FIXME: a file that has no link entries is incorrectly marked as non-existent
-				exists: entry.filePath !== undefined || entry.external,
+				exists: this.encounteredFiles.has(entry.linkPath) || entry.external,
 				title: this.resolveLinkName(entry.linkPath),
-				tags: [...entry.tags].map(ensureLeadingPound),
-				links: [...entry.links],
+				tags: entry.tags.size ? [...entry.tags].map(ensureLeadingPound) : undefined,
+				links: entry.links.size ? [...entry.links] : undefined,
 				backlinks: [...entry.backlinks],
-				nodeStyle: entry.nodeStyle,
+				nodeStyle: Object.keys(entry.nodeStyle).length ? entry.nodeStyle : undefined,
 			}]),
 		);
 	}

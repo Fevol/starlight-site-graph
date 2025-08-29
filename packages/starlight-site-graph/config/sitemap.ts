@@ -52,8 +52,9 @@ export const globalSitemapConfig = {
 	sitemap: undefined,
 	pageTitles: {},
 	ignoreStarlightLinks: true,
+	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title'],
 	pageInclusionRules: ['**/*'],
-	pageTitleFallbackStrategy: 'linkText',
+	pageTitleFallbackStrategy: 'linkText' as const,
 	linkInclusionRules: ['**/*'],
 	tagRules: {},
 	styleRules: new Map(),
@@ -112,9 +113,29 @@ export const globalSitemapConfigSchema = z.object({
 	 * All links of the sidebar are _always_ ignored.
 	 * These ignore rules will be added to the `pageInclusionRules` setting (inserted _before_ the last rule).
 	 *
+	 * @deprecated Superseded by `ignoreLinksInSelectors`
 	 * @default true
 	 */
 	ignoreStarlightLinks: z.boolean().default(globalSitemapConfig.ignoreStarlightLinks),
+
+	/**
+	 * Ignore links parsed from HTML content where one of the element's ancestors matches one of the listed (simple) selectors.
+	 * This is useful to ignore links common to every page, such as links in the header, footer or other components.
+	 * The selectors are based on CSS selectors, matching either a tag name, class or id.
+	 *
+	 * @tutorial The following selectors are supported:
+	 * - `TAG`: Exclude links within elements of the specified tag name, e.g. `header`, `nav`, `footer`.
+	 * - `.CLASS`: Exclude links within elements with the specified class, e.g. `.right-sidebar`, `.nav`.
+	 * - `#ID`: Exclude links within elements with the specified id, e.g. `#header`, `#footer`.
+	 * @remarks This is a more generalized alternative to `ignoreStarlightLinks`, which is deprecated.
+	 * @default ["header", "footer", "nav", ".right-sidebar", ".site-title"]
+	 * @example Ignore links found within code blocks
+	 * ["raw"]
+	 * @example Ignore all links with the 'external' class
+	 * [".external"]
+	 */
+	ignoreLinksInSelectors: z.array(z.string()).default(globalSitemapConfig.ignoreLinksInSelectors),
+
 	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
 	 * The page is included/excluded if the file's _path_ matches one of the rules.
