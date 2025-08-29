@@ -46,7 +46,15 @@ function getStyleColorProperty(style: CSSStyleDeclaration, property: string): st
 		// 		the best solution is to just return a default color and prevent the error.
 		return '#000000';
 	}
-	return chroma(color).hex();
+	let hex_color: string;
+	try {
+		hex_color = chroma(color.trim()).hex();
+	} catch (e) {
+		console.error(`[starlight-site-graph] Error parsing color from CSS variable ${property} with value "${color}" - please open an issue on GitHub`);
+		hex_color = '#000000';
+	}
+
+	return hex_color;
 }
 
 export function getGraphColors(node: HTMLElement): GraphColorConfig {
