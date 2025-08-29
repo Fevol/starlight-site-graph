@@ -51,8 +51,57 @@ if (showBacklinks === undefined) {
 ---
 
 {showBacklinks && backlinks.length > 0 &&
-	<div class:list={className ?? ""}>
+	<div class:list={className ?? ""} data-slug={slugWithBase}>
 		<slot name="title"/>
 		<Backlinks backlinks={backlinks} sitemap={sitemap} />
 	</div>
 }
+
+<script>
+	// This code dynamically loads in backlinks when the user loads a page
+	// The sitemap is only 'complete' at build time, but the backlinks above are generated _before_ the full sitemap is known
+	//    resulting in only links from markdown content being included
+	// TODO: Alternative solution: build twice (once to get the full sitemap, then once more to place the backlinks)
+	window.addEventListener('DOMContentLoaded', async () => {
+		if (import.meta.env.PROD) {
+			let base_url = import.meta.env.BASE_URL;
+			if (!base_url.endsWith('/')) {
+				base_url += '/';
+			}
+
+			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+			onIdle(async () => {
+				const sitemap = await (await fetch(base_url + 'sitegraph/sitemap.json')).json();
+				const backlinks_container = document.body.getElementsByClassName('slsg-backlinks');
+				if (backlinks_container.length > 0) {
+					const container = backlinks_container[0]!;
+					const slug = container.parentElement?.getAttribute('data-slug') ?? '';
+					const entry = sitemap[slug];
+					if (entry?.backlinks) {
+						container.innerHTML = '';
+						for (const link of entry.backlinks) {
+							const li = document.createElement('li');
+							li.style.setProperty('--depth', '0');
+
+							const a = document.createElement('a');
+							a.href = '/' + link;
+							a.style.setProperty('--depth', '0');
+							a.target = '_self';
+							a.className = 'slsg-backlink';
+
+							const span = document.createElement('span');
+							span.style.setProperty('--depth', '0');
+							span.textContent = sitemap[link]?.title;
+
+							a.appendChild(span);
+							li.appendChild(a);
+							container.appendChild(li);
+						}
+
+					}
+				}
+
+			});
+		}
+	});
+</script>
