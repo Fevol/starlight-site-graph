@@ -4,6 +4,8 @@
     --sl-color-accent-high: #d9b235;
 
     --sl-hero-color: hsla(42.2, 100%, 53.7%, 0.23);
+
+    --slsg-graph-minimized-bg-color: var(--sl-color-black);
 }
 
 :root[data-theme='dark'] .right-sidebar graph-component {
@@ -25,12 +27,11 @@
 :root[data-theme='light'] {
     --sl-color-accent-low: #fdc65e;
     --sl-color-accent: #d59215;
-    --sl-color-accent-high: #ca8c17 ;
+    --sl-color-accent-high: #ca8c17;
 
     --sl-hero-color: hsla(42.2, 100%, 59.6%, 0.23);
 
-
-    --slsg-graph-bg-color: var(--sl-color-black);
+    --slsg-graph-minimized-bg-color: var(--sl-color-black);
 }
 
 :root[data-theme='light'] .right-sidebar graph-component {
