@@ -12,6 +12,7 @@
 		"./styles/layers.css": "./styles/layers.css",
 		"./styles/common.css": "./styles/common.css",
 		"./styles/starlight.css": "./styles/starlight.css",
+        "./styles/variables.css": "./styles/variables.css",
 		"./schema": "./schema.ts",
 		"./config": "./config/index.ts",
 		"./integration": "./integration.ts"
