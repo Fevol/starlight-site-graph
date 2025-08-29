@@ -15,12 +15,11 @@ import { fileURLToPath } from 'node:url';
  * consumed by graph generating code
  */
 export default defineIntegration({
-	name: 'starlight-sitemap-integration',
+	name: 'starlight-site-graph-integration',
 	optionsSchema: starlightSiteGraphConfigSchema,
 	setup({ name, options}) {
 		let settings: FullStarlightSiteGraphConfig;
 		if (!options.starlight) {
-			// @ts-expect-error Some type difficulties, but this should be fine
 			options = { starlight: false, ...validateConfig(options) };
 			settings = options as FullStarlightSiteGraphConfig;
 			// EXPL: Default content root for Astro sites
@@ -176,7 +175,9 @@ export default defineIntegration({
 					}
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
-					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`, JSON.stringify(settings.sitemapConfig.sitemap, null, 2));
+					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`,
+						JSON.stringify(settings.sitemapConfig.sitemap, null, options.debug ? 2 : 0)
+					);
 					logger.info("`sitemap.json` created at `dist/sitegraph`");
 				}
 			}
