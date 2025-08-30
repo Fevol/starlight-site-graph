@@ -74,7 +74,7 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 				}
 
 				updateConfig({
-					customCss: [...customCss, ...(config.customCss ?? [])],
+					customCss: [...(config.customCss ?? []), ...customCss],
 					components: {
 						...componentOverrides,
 						...config.components,
