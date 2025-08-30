@@ -50,7 +50,7 @@ function getStyleColorProperty(style: CSSStyleDeclaration, property: string): st
 	try {
 		hex_color = chroma(color.trim()).hex();
 	} catch (e) {
-		console.error(`[starlight-site-graph] Error parsing color from CSS variable ${property} with value "${color}" - please open an issue on GitHub`);
+		console.error(`[STARLIGHT-SITE-GRAPH] Error parsing color from CSS variable ${property} with value "${color}" - please open an issue on GitHub`);
 		hex_color = '#000000';
 	}
 

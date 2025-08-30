@@ -1,3 +1,5 @@
+import micromatch from 'micromatch';
+
 import type { LinkData, NodeData } from './types';
 import type { Sitemap } from '../../config';
 import type { GraphComponent } from './graph-component';
@@ -12,6 +14,20 @@ export type GraphData = {
 	links: LinkData[];
 };
 
+function firstMatchingPattern(
+	text: string,
+	patterns: string | string[],
+	defaultMatch?: boolean,
+): boolean | undefined {
+	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
+	for (const pattern of patternList) {
+		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
+			return !pattern.startsWith('!');
+		}
+	}
+	return defaultMatch;
+}
+
 // TODO: Preprocess sitemap at build time and bundle together (client load performance vs. built page size)
 export function processSitemapData(context: GraphComponent, siteData: Sitemap): GraphData {
 	const visitedPages: Set<string> = getVisitedEndpoints();
@@ -19,6 +35,12 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	let slug = context.currentPage;
 
 	let corrected_data = Object.entries(siteData).map(([k, v]) => [simplifySlug(k), v] as const);
+	if (context.config.nodeInclusionRules && context.config.nodeInclusionRules.length > 1 || context.config.nodeInclusionRules[0] !== "**/*") {
+		corrected_data = corrected_data.filter(([k, _]) => {
+			return firstMatchingPattern(k, context.config.nodeInclusionRules, true)
+		});
+	}
+
 	if (!context.config.renderUnresolved) {
 		corrected_data = corrected_data.filter(([_, v]) => v.exists);
 	}

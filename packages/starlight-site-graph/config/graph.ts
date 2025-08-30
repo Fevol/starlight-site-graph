@@ -16,6 +16,7 @@ const graphConfig = {
 	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'] as ('fullscreen' | 'depth' | 'reset-zoom' | 'render-arrows' | 'settings')[],
 	tagStyles: {},
 	tagRenderMode: 'none' as ('none' | 'node' | 'same' | 'both'),
+	nodeInclusionRules: ['**/*'] as const,
 	prefetchPages: true,
 	enableDrag: true,
 	enableZoom: true,
@@ -167,6 +168,22 @@ export const graphConfigSchema = z.object({
 	enableClick: z
 		.union([z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')])
 		.default(graphConfig.enableClick),
+
+
+	/**
+	 * Determine the inclusion of nodes in the graph based on provided ordered list of rules.
+	 * The page is included/excluded if the node's _path_ matches one of the rules.
+	 * When a rule starts with `!`, the file is _excluded_ if matched.
+	 * Rules are evaluated in order, the first matching rule determines the inclusion of the node.
+	 *
+	 * @default All nodes are shown by default
+	 * ["**\/*"]
+	 * @example Only show nodes in the "api" folder:
+	 * ["api/**", "!**\/*"]
+	 * @example Include all files except those in the "secret" folder:
+	 * ["!secret/**", "**\/*"]
+	 */
+	nodeInclusionRules: z.array(z.string()).default(graphConfig.nodeInclusionRules),
 
 	/**
 	 * The depth of the graph, determines how many levels of links are shown. \

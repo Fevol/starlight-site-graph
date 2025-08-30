@@ -12,7 +12,7 @@
 		"./styles/layers.css": "./styles/layers.css",
 		"./styles/common.css": "./styles/common.css",
 		"./styles/starlight.css": "./styles/starlight.css",
-        "./styles/variables.css": "./styles/variables.css",
+		"./styles/variables.css": "./styles/variables.css",
 		"./schema": "./schema.ts",
 		"./config": "./config/index.ts",
 		"./integration": "./integration.ts"
@@ -42,6 +42,9 @@
 		"htmlparser2": "^10.0.0",
 		"micromatch": "^4.0.8"
 	},
+    "overrides": {
+      "picomatch": "^4.0.3"
+    },
 	"devDependencies": {
 		"@types/micromatch": "^4.0.9"
 	},
