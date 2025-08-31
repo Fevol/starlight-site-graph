@@ -118,6 +118,17 @@ export default defineIntegration({
 						});
 					}
 
+					// NOTE: Prevents a possible issue in dev mode where micromatch is not properly bundled
+					if (command === 'dev') {
+						updateConfig({
+							vite: {
+								optimizeDeps: {
+									include: ['micromatch'],
+								}
+							}
+						});
+					}
+
 					addVirtualImports(args, {
 						name,
 						imports: {
