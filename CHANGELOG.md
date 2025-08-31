@@ -1,3 +1,25 @@
+## [0.5.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.5.0) (2025/08/31)
+### Features
+-   Filter out links in HTML elements based on CSS-like selectors with the `ignoreLinksInSelectors` setting
+    - Supports tags (`footer`), classes (`.some-class`) and IDs (`#some-id`)
+    - Replaces the `ignoreStarlightLinks` setting, which is now deprecated
+-   Filter out nodes in the graph based on glob patterns with the `nodeInclusionRules` setting
+    - Supports negation with `!`, e.g. `["**/*", "!**/drafts/**"]` to exclude all pages in the `drafts` folder
+    - By default, all pages are included (`["**/*"]`)
+
+### Changes
+-   Adapt to use same slugging library as Astro
+-   `sitemap.json` is now minified and only adds fields for necessary data, reducing its size
+-   Improve styling of the graph when minimized and full screen
+-   Automatically enable the `prefetch` if not set, which prevents the site from completely failing to build
+
+### Fixes
+-   Improve compatibility with vanilla `Astro`, make sure to read the `Getting Started` guide in the docs
+-   Fix backlinks component not including all links to the page
+-   Prevent a malformed CSS variable or unsupported color space from breaking the graph rendering
+-   Fix a bug where the fullscreen graph would incorrectly take up the entire screen in some themes
+-   Prioritize stylesheets defined by the user over those provided by this package, to avoid possible `@layer` conflicts
+
 ## [0.4.1](https://github.com/Fevol/starlight-site-graph/releases/tag/0.4.1) (2025/07/16)
 ### Fixes
 -   Fix unicode characters in paths not being correctly encoded in the sitemap, 
