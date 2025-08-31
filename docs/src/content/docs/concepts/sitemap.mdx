@@ -2,7 +2,10 @@
 title: Sitemap
 description: Understand how and when the sitemap is generated.
 sidebar:
-  order: 5
+  order: 1
+  badge:
+    text: Updated
+    variant: tip
 sitemap:
   pageTitle: Sitemap Explanation
 ---
@@ -89,8 +92,17 @@ When building your website, the package will go through all `.html` files in the
 For each file, it will first determine whether the file should be included in the sitemap based on some criteria,
 and then extract all `<a>`-type links from the file.
 
+Since _all_ links are included by default, regardless of whether they are part of the main content or not,
+you may want to exclude certain parts of the content from being considered.
+
+For example, if you have a navigation bar or footer that contains links to every other page on the site,
+the sitemap will -by default- link every page to every other page.
+In order to avoid this, you can make use of the [`ignoreLinksInSelectors`](/starlight-site-graph/configuration/sitemap/inclusion/#-ignore-links-in-selectors)
+option to exclude links found within certain elements.
+
 Keep in mind that links generated dynamically (via JavaScript) _cannot_ be included in the sitemap,
-as the package only considers the statically generated HTML files.
+be it from Astro Islands or client-side scripts,
+as the package only considers the content found in the statically generated HTML files.
 
 ##### Importing the sitemap
 

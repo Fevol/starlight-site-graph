@@ -3,11 +3,14 @@ title: Inclusion
 description: Learn how to configure what is included in the sitemap.
 sidebar:
   order: 3
+  badge:
+    text: Updated
+    variant: tip
 sitemap:
   pageTitle: Sitemap Inclusion Config
 ---
 
-import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Badge, FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
 This page details configuration options for changing what is included in the sitemap.
 
@@ -171,7 +174,122 @@ If the inclusion of a page was specified in its frontmatter, it will take preced
 	</TabItem>
 </Tabs>
 
-## Ignore Starlight Links
+## <Badge text="New" variant="caution" size="large" /> Ignore Links in Selectors
+
+The `ignoreLinksInSelectors` option allows you to specify CSS-like selectors to ignore links that are contained
+within HTML elements that match the selector.
+This is useful if you want to ignore links in specific parts of your pages, such as the header, footer, or sidebar.
+
+The possible types of selectors are:
+- Tag selectors (e.g. `header`, `footer`, `nav`, `aside`, etc.)
+- Class selectors (e.g. `.class-name`)
+- ID selectors (e.g. `#id-name`)
+
+A selector may _only_ consist of a single tag, class, or ID - complex selectors (e.g. `header nav`, `.class1.class2`, `#id1 #id2`, etc.) are not supported.
+
+If a link (`<a>` element in the generated HTML) is contained within an element that matches _any_ of the specified selectors,
+it will be ignored and not included in the final sitemap.
+
+By default, this setting is set to `['header', 'footer', 'nav', '.right-sidebar', '.site-title']`,
+which will result in all common Starlight links being ignored (i.e. table of contents, edit link, social links, pagination links, etc.).
+
+<Tabs>
+	<TabItem label='[]'>
+		All links are included.
+
+		```html ins="/link1" ins="/link2" ins="/link3" ins="/link4"
+		<header>
+			<nav>
+				<a href="/link1">Header Link</a>
+			</nav>
+		</header>
+		<main>
+			<raw>
+				Lorem ipsum dolor sit <a href="/link2">amet</a>.
+			</raw>
+			<aside class="right-sidebar">
+				<a href="/link3">Sidebar Link</a>
+			</aside>
+		</main>
+		<div id="footer">
+			<a href="/link4">Footer Link</a>
+		</div>
+		```
+	</TabItem>
+	<TabItem label='["header", "raw"]'>
+		Links in the `<header>` and `<raw>` elements are ignored.
+
+		```html ins="/link3" ins="/link4" del=/<.?header>/ del=/<.?raw>/
+		<header>
+			<nav>
+				<a href="/link1">Header Link</a>
+			</nav>
+		</header>
+		<main>
+			<raw>
+				Lorem ipsum dolor sit <a href="/link2">amet</a>.
+			</raw>
+			<aside class="right-sidebar">
+				<a href="/link3">Sidebar Link</a>
+			</aside>
+		</main>
+		<div id="footer">
+			<a href="/link4">Footer Link</a>
+		</div>
+		```
+	</TabItem>
+	<TabItem label='[".right-sidebar"]'>
+		Links in elements with `<xyz class="right-sidebar">` are ignored.
+
+		```html ins="/link1" ins="/link2" ins="/link4" del=/<.?aside.*>/
+		<header>
+			<nav>
+				<a href="/link1">Header Link</a>
+			</nav>
+		</header>
+		<main>
+			<raw>
+				Lorem ipsum dolor sit <a href="/link2">amet</a>.
+			</raw>
+			<aside class="right-sidebar">
+				<a href="/link3">Sidebar Link</a>
+			</aside>
+		</main>
+		<div id="footer">
+			<a href="/link4">Footer Link</a>
+		</div>
+		```
+	</TabItem>
+	<TabItem label='["#footer"]'>
+		Links in elements with `<xyz id="footer">` are ignored.
+
+		```html ins="/link1" ins="/link2" ins="/link3" del=/<.?div.*>/
+		<header>
+			<nav>
+				<a href="/link1">Header Link</a>
+			</nav>
+		</header>
+		<main>
+			<raw>
+				Lorem ipsum dolor sit <a href="/link2">amet</a>.
+			</raw>
+			<aside class="right-sidebar">
+				<a href="/link3">Sidebar Link</a>
+			</aside>
+		</main>
+		<div id="footer">
+			<a href="/link4">Footer Link</a>
+		</div>
+		```
+	</TabItem>
+</Tabs>
+
+## <Badge text="Deprecated" variant="danger" size="large" /> Ignore Starlight Links
+
+:::danger[Deprecated]
+This option is deprecated and will be removed in a future version.
+Please use the [`ignoreLinksInSelectors`](#-ignore-links-in-selectors) option to achieve the same effect.
+:::
 
 By default, Starlight adds additional links to every page, such as the "Edit this page", "Built with Starlight",
 and icons links. Since this is not necessarily useful (meaningful) for the graph, as it will

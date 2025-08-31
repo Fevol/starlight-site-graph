@@ -83,13 +83,15 @@ how the plugin is implemented. Check out this plugin's [`<PageSidebar>`](/starli
 
 While the plugin is mainly developed with Starlight support in mind, it is also possible to add the
 [`<PageGraph>`](/starlight-site-graph/components/pagegraph) or [`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) components
-to regular Astro projects (without a sidebar), though it will require a little more manual setup.
+to regular Astro projects, though it will require a bit more manual setup.
 
 
 <Steps>
 	1. Starlight Site Graph is a package that contains an integration and several components, which you can install using your favorite package manager:
 		<PackageManagers pkg="starlight-site-graph" pkgManagers={["npm", "pnpm", "yarn", "bun"]} type="add" />
-	2. Add the sitemap generation integration of the plugin in your `astro.config.mjs` file. You _may_ need to enable `prefetch` if you are encountering errors.
+	2. Add the sitemap generation integration of the plugin in your `astro.config.mjs` file.
+		The `prefetch` option is required and will be enabled automatically if it wasn't set already,
+		as the plugin requires it to function properly.
 		```diff lang="js"
 			// astro.config.mjs
 		+ import sitegraphSitemapIntegration from 'starlight-site-graph/integration';
@@ -121,21 +123,100 @@ to regular Astro projects (without a sidebar), though it will require a little m
 		+		})
 		+	};
 		```
-	4. You can now add the plugin's [components](/starlight-site-graph/components) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
+	4. Add the default style variables for this package into your CSS file (e.g. `src/styles/global.css`), or add your own:
+		```diff lang="css"
+			/* src/styles/global.css */
+		/* Inlude the package's default variables */
+		+ @import "starlight-site-graph/styles/variables.css";
+
+		/* ... your other styles ... */
+
+		/* Example of overriding some variables */
+		+ :root {
+		+ 	--slsg-graph-minimized-bg-color: #f0f0f0;
+		+ }
+		```
+
+		You can also import the stylesheet only for the pages where you want to add a graph:
+		```diff lang="astro"
+		---
+		// src/pages/my-page.astro
+		+import "starlight-site-graph/styles/variables.css";
+		import { PageGraph } from 'starlight-site-graph/components';
+		---
+
+		<some-content />
+		```
+	5. You can now add the plugin's [components](/starlight-site-graph/components) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
 		or [`.mdoc`](https://docs.astro.build/en/guides/integrations-guide/markdoc/) pages (for the latter two, the proper integrations need to be added).<br/>
 		An example:
-		```mdx
-		// src/content/docs/my-page.mdx
+		```diff lang="astro"
+		// src/pages/my-page.astro
 		---
-		title: "My Page"
+		+ import { PageGraph } from 'starlight-site-graph/components';
 		---
-		import { PageGraph } from 'starlight-site-graph/components'
 
-		<!-- This will render a graph centered on the current page -->
-		<PageGraph />
+		<!-- Renders a graph focused on a node matching the current page -->
+		+ <PageGraph />
 
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
 		```
 		For more info, check out the [components](/starlight-site-graph/components) guide.
-	5. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the graph in action.
+	6. [Start the development server](https://starlight.astro.build/getting-started/#start-the-development-server) to see the graph in action;
+		only links from markdown content is included while in `dev` mode (see also: [sitemap explanation](/starlight-site-graph/concepts/sitemap/#development-server)).
 </Steps>
+
+## Common Issues
+
+### Disallowed MIME Type error
+If the graph does not show up, and you see the following error in the browser console:
+
+```txt wrap
+Script from "http://localhost:4321/node_modules/starlight-site-graph/assets/svgs/XYZ.svg?import&raw"
+was blocked because of a disallowed MIME type ("inage/svg+xml").
+```
+
+You should delete the `.astro` folder in the root of your project, and if necessary, restart the development server.
+
+
+### `process` is not defined error
+
+If the graph does not show up, and you see the following error in the browser console:
+
+```txt wrap
+Uncaught ReferenceError: process is not defined
+```
+
+This is likely due to an outdated version of the `picomatch` dependency,
+included by Astro via the `anymatch` package (which depends on an old version of `picomatch`).
+
+To fix this issue, define an `overrides` in your `package.json` file to force the use of `picomatch` version `^4.0.3` or higher:
+
+```diff lang="json"
+{
+	"dependencies": {
+		"...": "..."
+		"starlight-site-graph": "^0.5.0",
+		"...": "..."
+	},
++ "overrides": {
++	    "picomatch": "^4.0.3"
++ }
+}
+```
+
+Then, force reinstall your dependencies by running the appropriate command for your package manager, or by manually
+deleting the `node_modules` folder.
+
+After that, the issue should be resolved.
+
+
+### Visual inconsistencies
+
+If elements included by this package look or feel off, it is likely due to an incorrect `@layer` order in your CSS.
+
+For example, if you are using Tailwind CSS, make sure that its layers are defined _before_ the `sitegraph` layer:
+
+```diff lang="css"
+@layer base, components, utilities, sitegraph;
+```

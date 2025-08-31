@@ -70,7 +70,7 @@ export default defineConfig({
 				{
 					label: 'Start Here',
 					items: [
-						{ label: 'Getting Started', link: '/getting-started/' },
+						{ label: 'Getting Started', link: '/getting-started/', badge: { text: "Updated", variant: "tip" } },
 						{ label: 'Contributing', link: '/contributing/' },
 						{ label: 'Attribution', link: '/attribution/' },
 						{ label: 'Changelog', link: '/changelog/' },
@@ -84,7 +84,7 @@ export default defineConfig({
 					label: 'Configuration',
 					items: [
 						{ label: 'Overview', link: '/configuration/' },
-						{ label: 'General', link: '/configuration/general', badge: { text: "Updated", variant: "tip" }},
+						{ label: 'General', link: '/configuration/general'},
 						{ label: 'Frontmatter', autogenerate: { directory: 'configuration/frontmatter' } },
 						{ label: 'Sitemap', autogenerate: { directory: 'configuration/sitemap' } },
 						{ label: 'Graph', autogenerate: { directory: 'configuration/graph' } },
