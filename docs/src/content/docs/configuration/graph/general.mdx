@@ -3,16 +3,20 @@ title: General
 description: Learn how to configure the general settings of the graph component.
 sidebar:
   order: 2
+  badge:
+    text: Updated
+    variant: tip
 sitemap:
   pageTitle: Graph General Config
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
-import { FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Badge, FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
 import {
-	frozenConfig, largeFrozenSitemapConfig, largeRandomNodeSitemap,
-	randomNodeSitemap,
+	directoriesExampleSitemap,
+	nonInteractiveConfig, frozenConfig, largeFrozenSitemapConfig, largeRandomNodeSitemap,
+	randomNodeSitemap
 } from '../constants.js';
 
 This page gives an overview of all the general configuration options for the graph component,
@@ -85,6 +89,22 @@ For more information on what each individual action does, see the [Graph Actions
 	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "render-external", "render-unresolved", "settings"],
 	depth: 4,
 }} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+
+## <Badge text="New" variant="caution" size="large" /> Inclusion Rules
+
+With the `nodeInclusionRules` option, you can specify which nodes should be included in the graph at all.
+This is a list of [glob patterns](/starlight-site-graph/concepts/globs) that determine which pages are included in the graph.
+By default, all nodes are included (`["**/*"]`) in the graph.
+
+<GraphExample id="click-configuration" config={{
+	nodeInclusionRules: "['**/*']"
+}} baseConfig={nonInteractiveConfig} sitemap={directoriesExampleSitemap} slug={"1/"}
+			  buttons={{
+				  "['**/*']": { config: { nodeInclusionRules: ['**/*'] } },
+				  "['!**/x/**']": { config: { nodeInclusionRules: ['!**/x/**'] } },
+				  "['!**/1/']": { config: { nodeInclusionRules: ['!**/1/'] } },
+			  }}
+/>
 
 ## Visibility Rules
 

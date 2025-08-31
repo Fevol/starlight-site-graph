@@ -35,7 +35,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	let slug = context.currentPage;
 
 	let corrected_data = Object.entries(siteData).map(([k, v]) => [simplifySlug(k), v] as const);
-	if (context.config.nodeInclusionRules && context.config.nodeInclusionRules.length > 1 || context.config.nodeInclusionRules[0] !== "**/*") {
+	if (context.config.nodeInclusionRules && (context.config.nodeInclusionRules.length > 1 || context.config.nodeInclusionRules[0] !== "**/*")) {
 		corrected_data = corrected_data.filter(([k, _]) => {
 			return firstMatchingPattern(k, context.config.nodeInclusionRules, true)
 		});
