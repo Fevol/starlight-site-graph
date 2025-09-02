@@ -19,17 +19,17 @@ interface Props {
 
 let backlinksData: Partial<PageGraphConfig> = {};
 let { slug, showBacklinks, class: className, trailingSlashes } = Astro.props;
-let { entry } = Astro.locals.starlightRoute;
+let entry = Astro.locals.starlightRoute?.entry;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
-if (entry.id) {
+if (entry && entry.id) {
 	backlinksData = entry.data?.backlinks;
 }
 
 trailingSlashes = trailingSlashes ?? astroConfig.trailingSlashes !== 'never' ?? true;
 
 // Infer slug from URL if not explicitly provided
-const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")), trailingSlashes);
+const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")), true) || "/";
 
 const sitemap = config.sitemapConfig!.sitemap;
 
@@ -50,8 +50,8 @@ if (showBacklinks === undefined) {
 
 ---
 
-{showBacklinks && backlinks.length > 0 &&
-	<div class:list={className ?? ""} data-slug={slugWithBase}>
+{showBacklinks &&
+	<div class:list={className ?? ""} data-slug={slugWithBase} style={{ display: backlinks.length === 0 ? 'none' : 'block' }}>
 		<slot name="title"/>
 		<Backlinks backlinks={backlinks} sitemap={sitemap} />
 	</div>
@@ -79,6 +79,7 @@ if (showBacklinks === undefined) {
 					const entry = sitemap[slug];
 					if (entry?.backlinks) {
 						container.innerHTML = '';
+						container.parentElement!.style.display = 'block';
 						for (const link of entry.backlinks) {
 							const li = document.createElement('li');
 							li.style.setProperty('--depth', '0');
