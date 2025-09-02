@@ -330,7 +330,7 @@ export class SiteMapBuilder {
 				title: this.resolveLinkName(entry.linkPath),
 				tags: entry.tags.size ? [...entry.tags].map(ensureLeadingPound) : undefined,
 				links: entry.links.size ? [...entry.links] : undefined,
-				backlinks: [...entry.backlinks],
+				backlinks: entry.backlinks.size ? [...entry.backlinks] : undefined,
 				nodeStyle: Object.keys(entry.nodeStyle).length ? entry.nodeStyle : undefined,
 			}]),
 		);
