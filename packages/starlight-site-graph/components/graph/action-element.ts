@@ -33,7 +33,7 @@ export function renderActionContainer(context: GraphComponent) {
 				]);
 			};
 		} else if (action === 'depth') {
-			actionElement.innerHTML = icons[('graph' + context.config.depth) as keyof typeof icons];
+			actionElement.innerHTML = icons[('graph' + context.config.depth) as keyof typeof icons] ?? icons.graph5;
 			actionElement.onclick = e => {
 				context.config.depth = (context.config.depth + 1) % MAX_DEPTH;
 				context.setup();
