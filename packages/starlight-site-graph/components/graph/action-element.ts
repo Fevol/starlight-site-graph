@@ -22,6 +22,8 @@ export function renderActionContainer(context: GraphComponent) {
 
 		if (action === 'fullscreen') {
 			actionElement.innerHTML = context.isFullscreen ? icons.minimize : icons.maximize;
+			actionElement.title = "Toggle Fullscreen";
+			actionElement.ariaLabel = "Toggle Fullscreen";
 			actionElement.onclick = e => {
 				context.isFullscreen ? context.disableFullscreen() : context.enableFullscreen();
 				e.stopPropagation();
@@ -34,6 +36,8 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === 'depth') {
 			actionElement.innerHTML = icons[('graph' + context.config.depth) as keyof typeof icons];
+			actionElement.title = 'Change Depth';
+			actionElement.ariaLabel = 'Change Depth';
 			actionElement.onclick = e => {
 				context.config.depth = (context.config.depth + 1) % MAX_DEPTH;
 				context.setup();
@@ -65,12 +69,16 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === 'reset-zoom') {
 			actionElement.innerHTML = icons.focus;
+			actionElement.title = 'Reset Zoom';
+			actionElement.ariaLabel = 'Reset Zoom';
 			actionElement.onclick = e => {
 				context.simulator.resetZoom();
 				e.stopPropagation();
 			};
 		} else if (action === 'render-arrows') {
 			actionElement.innerHTML = context.config.renderArrows ? icons.arrow : icons.line;
+			actionElement.title = "Toggle Arrows";
+			actionElement.ariaLabel = "Toggle Arrows";
 			actionElement.onclick = e => {
 				context.config.renderArrows = !context.config.renderArrows;
 				context.simulator.requestRender = true;
@@ -85,6 +93,8 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === "settings") {
 			actionElement.innerHTML = icons.settings;
+			actionElement.title = 'Show Settings';
+			actionElement.ariaLabel = 'Show Settings';
 			actionElement.onclick = (_) => {
 				const chargeForceSlider = createValueSlider('Repel Force', context.config.repelForce, CHARGE_FORCE_SLIDER_MIN, CHARGE_FORCE_SLIDER_MAX, CHARGE_FORCE_SLIDER_STEP, (value) => {
 						context.config.repelForce = value;
@@ -121,6 +131,8 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === 'render-external') {
 			actionElement.innerHTML = context.config.renderExternal ? icons.link : icons.unlink;
+			actionElement.title = 'Toggle External Pages';
+			actionElement.ariaLabel = 'Toggle External Pages';
 			actionElement.onclick = e => {
 				context.config.renderExternal = !context.config.renderExternal;
 				context.full_refresh();
@@ -142,6 +154,8 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === 'render-unresolved') {
 			actionElement.innerHTML = context.config.renderUnresolved ? icons.resolved : icons.unresolved;
+			actionElement.title = 'Toggle Resolved Pages';
+			actionElement.ariaLabel = 'Toggle Resolved Pages';
 			actionElement.onclick = e => {
 				context.config.renderUnresolved = !context.config.renderUnresolved;
 				context.full_refresh();
