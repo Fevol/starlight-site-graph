@@ -22,8 +22,8 @@ export function renderActionContainer(context: GraphComponent) {
 
 		if (action === 'fullscreen') {
 			actionElement.innerHTML = context.isFullscreen ? icons.minimize : icons.maximize;
-			actionElement.title = 'Toggle Fullscreen';
-			actionElement.ariaLabel = 'Toggle Fullscreen';
+			actionElement.title = "Toggle Fullscreen";
+			actionElement.ariaLabel = "Toggle Fullscreen";
 			actionElement.onclick = e => {
 				context.isFullscreen ? context.disableFullscreen() : context.enableFullscreen();
 				e.stopPropagation();
@@ -77,8 +77,8 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 		} else if (action === 'render-arrows') {
 			actionElement.innerHTML = context.config.renderArrows ? icons.arrow : icons.line;
-			actionElement.title = 'Toggle Arrows';
-			actionElement.ariaLabel = 'Toggle Arrows';
+			actionElement.title = "Toggle Arrows";
+			actionElement.ariaLabel = "Toggle Arrows";
 			actionElement.onclick = e => {
 				context.config.renderArrows = !context.config.renderArrows;
 				context.simulator.requestRender = true;
@@ -91,77 +91,42 @@ export function renderActionContainer(context: GraphComponent) {
 					{ text: 'Render Lines', icon: icons.line, onClick: () => (context.config.renderArrows = false) },
 				]);
 			};
-		} else if (action === 'settings') {
+		} else if (action === "settings") {
 			actionElement.innerHTML = icons.settings;
 			actionElement.title = 'Show Settings';
 			actionElement.ariaLabel = 'Show Settings';
-			actionElement.onclick = _ => {
-				const chargeForceSlider = createValueSlider(
-					'Repel Force',
-					context.config.repelForce,
-					CHARGE_FORCE_SLIDER_MIN,
-					CHARGE_FORCE_SLIDER_MAX,
-					CHARGE_FORCE_SLIDER_STEP,
-					value => {
+			actionElement.onclick = (_) => {
+				const chargeForceSlider = createValueSlider('Repel Force', context.config.repelForce, CHARGE_FORCE_SLIDER_MIN, CHARGE_FORCE_SLIDER_MAX, CHARGE_FORCE_SLIDER_STEP, (value) => {
 						context.config.repelForce = value;
 						context.simulator.update();
-					},
-				);
+				});
 
-				const centerForceSlider = createValueSlider(
-					'Center Force',
-					context.config.centerForce,
-					CENTER_FORCE_SLIDER_MIN,
-					CENTER_FORCE_SLIDER_MAX,
-					CENTER_FORCE_SLIDER_STEP,
-					value => {
+				const centerForceSlider = createValueSlider('Center Force', context.config.centerForce, CENTER_FORCE_SLIDER_MIN, CENTER_FORCE_SLIDER_MAX, CENTER_FORCE_SLIDER_STEP, (value) => {
 						context.config.centerForce = value;
 						context.simulator.update();
-					},
-				);
+				});
 
-				const colliderPaddingSlider = createValueSlider(
-					'Collider Padding',
-					context.config.colliderPadding,
-					COLLIDER_PADDING_SLIDER_MIN,
-					COLLIDER_PADDING_SLIDER_MAX,
-					COLLIDER_PADDING_SLIDER_STEP,
-					value => {
+				const colliderPaddingSlider = createValueSlider('Collider Padding', context.config.colliderPadding, COLLIDER_PADDING_SLIDER_MIN, COLLIDER_PADDING_SLIDER_MAX, COLLIDER_PADDING_SLIDER_STEP, (value) => {
 						context.config.colliderPadding = value;
 						context.simulator.update();
-					},
-				);
+				});
 
-				const linkDistanceSlider = createValueSlider(
-					'Link Distance',
-					context.config.linkDistance,
-					LINK_DISTANCE_SLIDER_MIN,
-					LINK_DISTANCE_SLIDER_MAX,
-					LINK_DISTANCE_SLIDER_STEP,
-					value => {
+				const linkDistanceSlider = createValueSlider('Link Distance', context.config.linkDistance, LINK_DISTANCE_SLIDER_MIN, LINK_DISTANCE_SLIDER_MAX, LINK_DISTANCE_SLIDER_STEP, (value) => {
 						context.config.linkDistance = value;
 						context.simulator.update();
-					},
-				);
+				});
 
-				const alphaDecaySlider = createValueSlider(
-					'Alpha Decay',
-					context.config.alphaDecay,
-					ALPHA_DECAY_SLIDER_MIN,
-					ALPHA_DECAY_SLIDER_MAX,
-					ALPHA_DECAY_SLIDER_STEP,
-					value => {
-						context.config.alphaDecay = value;
-						context.simulator.update();
-					},
-				);
+				const alphaDecaySlider = createValueSlider('Alpha Decay', context.config.alphaDecay, ALPHA_DECAY_SLIDER_MIN, ALPHA_DECAY_SLIDER_MAX, ALPHA_DECAY_SLIDER_STEP, (value) => {
+					context.config.alphaDecay = value;
+					context.simulator.update();
+				});
 
 				showPopupMenu(context.actionContainer, [
 					chargeForceSlider,
 					centerForceSlider,
 					colliderPaddingSlider,
 					linkDistanceSlider,
-					alphaDecaySlider,
+					alphaDecaySlider
 				]);
 			};
 		} else if (action === 'render-external') {
@@ -175,24 +140,16 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 			actionElement.oncontextmenu = e => {
 				showContextMenu(e, [
-					{
-						text: 'Show External Pages',
-						icon: icons.link,
-						onClick: () => {
-							context.config.renderExternal = true;
-							context.full_refresh();
-							e.stopPropagation();
-						},
-					},
-					{
-						text: 'Hide External Pages',
-						icon: icons.unlink,
-						onClick: () => {
-							context.config.renderExternal = false;
-							context.full_refresh();
-							e.stopPropagation();
-						},
-					},
+					{ text: 'Show External Pages', icon: icons.link, onClick: () => {
+						context.config.renderExternal = true;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
+					{ text: 'Hide External Pages', icon: icons.unlink, onClick: () => {
+						context.config.renderExternal = false;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
 				]);
 			};
 		} else if (action === 'render-unresolved') {
@@ -206,24 +163,16 @@ export function renderActionContainer(context: GraphComponent) {
 			};
 			actionElement.oncontextmenu = e => {
 				showContextMenu(e, [
-					{
-						text: 'Show Unresolved Pages',
-						icon: icons.resolved,
-						onClick: () => {
-							context.config.renderUnresolved = true;
-							context.full_refresh();
-							e.stopPropagation();
-						},
-					},
-					{
-						text: 'Hide Unresolved Pages',
-						icon: icons.unresolved,
-						onClick: () => {
-							context.config.renderUnresolved = false;
-							context.full_refresh();
-							e.stopPropagation();
-						},
-					},
+					{ text: 'Show Unresolved Pages', icon: icons.resolved, onClick: () => {
+						context.config.renderUnresolved = true;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
+					{ text: 'Hide Unresolved Pages', icon: icons.unresolved, onClick: () => {
+						context.config.renderUnresolved = false;
+						context.full_refresh();
+						e.stopPropagation();
+					}},
 				]);
 			};
 		}
