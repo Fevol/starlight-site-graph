@@ -13,7 +13,8 @@ import {
 	REQUIRE_RENDER_UPDATE,
 	REQUIRE_ZOOM_UPDATE,
 	REQUIRE_NOTHING,
-	REQUIRE_LABEL_UPDATE
+	REQUIRE_LABEL_UPDATE,
+	MAX_DEPTH
 } from './constants';
 import { setSlashes } from '../../sitemap/util';
 import { onClickOutside, deepDiff, deepMerge } from '../util';
@@ -139,56 +140,7 @@ export class GraphComponent extends HTMLElement {
 		this.propertyObserver = new MutationObserver(mutations => {
 			mutations.forEach(mutation => {
 				if (!this.ignoreConfigUpdate && mutation.attributeName === 'data-config') {
-					const previousConfig = this.config;
-					this.setConfigListener(this.dataset['config']);
-					const diff = deepDiff(previousConfig, this.config);
-
-					let requireSimulationUpdate = false;
-					let requireRendererUpdate = false;
-					let requireZoomUpdate = false;
-					let requireLabelUpdate = false;
-
-					for (const key in diff) {
-						if (REQUIRE_NOTHING.includes(key)) continue;
-
-						if (REQUIRE_SIMULATION_UPDATE.includes(key)) requireSimulationUpdate = true;
-						else if (REQUIRE_RENDER_UPDATE.includes(key)) requireRendererUpdate = true;
-						else if (REQUIRE_ZOOM_UPDATE.includes(key)) requireZoomUpdate = true;
-						else if (REQUIRE_LABEL_UPDATE.includes(key)) requireLabelUpdate = true;
-						else {
-							this.full_refresh();
-							return;
-						}
-					}
-
-					if (requireSimulationUpdate) {
-						this.simulator.update();
-					}
-					if (requireLabelUpdate) {
-						this.config.labelOpacityScale = diff['labelOpacityScale'].newValue;
-						const labelOpacity = this.simulator.getCurrentLabelOpacity();
-						this.animator.startAnimations({
-							labelOpacity,
-							labelOpacityHover: labelOpacity,
-							labelOpacityAdjacent: labelOpacity,
-						});
-						this.simulator.requestRender = true;
-					}
-					if (requireZoomUpdate) {
-						const scale = diff['scale'].newValue;
-						this.simulator.updateZoom(scale);
-					}
-					if (requireRendererUpdate) {
-						const newAnimatables = animatables(this.config, this.colors);
-						// TODO: This could be made more efficient by only updating the changed properties
-						for (const [key, value] of Object.entries(newAnimatables)) {
-							this.animator.setProperties(key, (value as any).properties);
-							this.animator.setDuration(key, (value as any).duration);
-							this.animator.setEasing(key, (value as any).easing);
-							this.animator.setInterpolator(key, (value as any).interpolator);
-						}
-						this.simulator.requestRender = true;
-					}
+					this.handleConfigChanged();
 				}
 				if (mutation.attributeName === 'data-sitemap') {
 					this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
@@ -198,6 +150,77 @@ export class GraphComponent extends HTMLElement {
 			});
 		});
 		this.propertyObserver.observe(this, { attributes: true });
+	}
+
+	validateConfig(config: any) {
+		// EXPL: Ensure that passed config is in expected bounds
+		config.depth = (config.depth < 0 || config.depth >= MAX_DEPTH) ? MAX_DEPTH - 1 : config.depth;
+
+		return config;
+	}
+
+	handleConfigChanged() {
+		const previousConfig = this.config;
+		this.setConfigListener(this.dataset['config']);
+		const diff = deepDiff(previousConfig, this.config);
+
+		let requireSimulationUpdate = false;
+		let requireRendererUpdate = false;
+		let requireZoomUpdate = false;
+		let requireLabelUpdate = false;
+		let requireFullRefresh = false;
+
+		for (const key in diff) {
+			if (REQUIRE_NOTHING.includes(key)) {
+				continue;
+			}
+
+			if (REQUIRE_SIMULATION_UPDATE.includes(key)) {
+				requireSimulationUpdate = true;
+			} else if (REQUIRE_RENDER_UPDATE.includes(key)) {
+				requireRendererUpdate = true;
+			} else if (REQUIRE_ZOOM_UPDATE.includes(key)) {
+				requireZoomUpdate = true;
+			} else if (REQUIRE_LABEL_UPDATE.includes(key)) {
+				requireLabelUpdate = true;
+			} else {
+				requireFullRefresh = true;
+				break;
+			}
+		}
+
+		if (requireFullRefresh) {
+			this.full_refresh();
+		} else {
+			if (requireSimulationUpdate) {
+				this.simulator.update();
+			}
+			if (requireLabelUpdate) {
+				this.config.labelOpacityScale = diff['labelOpacityScale'].newValue;
+				const labelOpacity = this.simulator.getCurrentLabelOpacity();
+				this.animator.startAnimations({
+					labelOpacity,
+					labelOpacityHover: labelOpacity,
+					labelOpacityAdjacent: labelOpacity,
+				});
+				this.simulator.requestRender = true;
+			}
+			if (requireZoomUpdate) {
+				const scale = diff['scale'].newValue;
+				this.simulator.updateZoom(scale);
+			}
+			if (requireRendererUpdate) {
+				const newAnimatables = animatables(this.config, this.colors);
+				// TODO: This could be made more efficient by only updating the changed properties
+				for (const [key, value] of Object.entries(newAnimatables)) {
+					this.animator.setProperties(key, (value as any).properties);
+					this.animator.setDuration(key, (value as any).duration);
+					this.animator.setEasing(key, (value as any).easing);
+					this.animator.setInterpolator(key, (value as any).interpolator);
+				}
+				this.simulator.requestRender = true;
+			}
+		}
 	}
 
 	override remove() {
@@ -217,7 +240,8 @@ export class GraphComponent extends HTMLElement {
 
 	setConfigListener(config?: string) {
 		const mergedConfig = deepMerge(globalGraphConfig, JSON.parse(config || '{}'));
-		this.config = new Proxy(mergedConfig, {
+		const validatedConfig = this.validateConfig(mergedConfig);
+		this.config = new Proxy(validatedConfig, {
 			set: (target, prop, value) => {
 				target[prop as keyof GraphConfig] = value;
 				this.dataset['config'] = JSON.stringify(this.config);
