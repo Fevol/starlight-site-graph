@@ -167,7 +167,7 @@ using the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
 			  baseConfig={overrideConfig(focusSingleNode, { graphConfig: { nodeCurrentStyle: { shapeColor: "nodeColor1" } }})}
 			  sitemap={singleNodeSitemap} slug={"/node/"}
 			  dropdowns={{
-				  "shapeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "shapeColor", graphColors),
+				  "shapeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "shapeColor", [ "stroke", ...graphColors ]),
 				  "strokeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "strokeColor", [ "inherit", ...graphColors]),
 			  }}
 			  dropdownDefaults={{

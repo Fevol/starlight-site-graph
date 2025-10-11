@@ -1,6 +1,6 @@
 import chroma from 'chroma-js';
 
-export type GraphColorConfig = {
+export type GraphColorConfig = Partial<{
 	backgroundColor: string;
 
 	nodeColor: string;
@@ -31,63 +31,87 @@ export type GraphColorConfig = {
 	labelColor: string;
 	labelColorHover: string;
 	labelColorMuted: string;
-};
+}> & Record<string, string>;
 
 /**
  * Retrieve a HEX color value from a CSS variable
- * @param style - The CSSStyleDeclaration of the element
- * @param property - The CSS variable name (e.g., '--slsg-node-color')
+ * @param color The CSS variable value
  */
-function getStyleColorProperty(style: CSSStyleDeclaration, property: string): string {
-	const color = style.getPropertyValue(property);
-	if (!color) {
-		// FIXME: Rarely, the property of the value is unset, and passing an empty string to chroma
-		//		results in an error. Since the color _is_ eventually found after multiple invocations of this function
-		// 		the best solution is to just return a default color and prevent the error.
-		return '#000000';
-	}
+function getHexColor(color: string): string {
 	let hex_color: string;
 	try {
 		hex_color = chroma(color.trim()).hex();
 	} catch (e) {
-		console.error(`[STARLIGHT-SITE-GRAPH] Error parsing color from CSS variable ${property} with value "${color}" - please open an issue on GitHub`);
 		hex_color = '#000000';
 	}
 
 	return hex_color;
 }
 
-export function getGraphColors(node: HTMLElement): GraphColorConfig {
+export const cssVariablesMap = {
+	'backgroundColor': '--slsg-graph-bg-color',
+
+	'nodeColor': '--slsg-node-color',
+	'nodeColorHover': '--slsg-node-color-hover',
+	'nodeColorAdjacent': '--slsg-node-color-adjacent',
+	'nodeColorMuted': '--slsg-node-color-muted',
+
+	'nodeColorCurrent': '--slsg-node-color-current',
+	'nodeColorVisited': '--slsg-node-color-visited',
+	'nodeColorUnresolved': '--slsg-node-color-unresolved',
+	'nodeColorExternal': '--slsg-node-color-external',
+	'nodeColorTag': '--slsg-node-color-tag',
+	'nodeColor1': '--slsg-node-color-1',
+	'nodeColor2': '--slsg-node-color-2',
+	'nodeColor3': '--slsg-node-color-3',
+	'nodeColor4': '--slsg-node-color-4',
+	'nodeColor5': '--slsg-node-color-5',
+	'nodeColor6': '--slsg-node-color-6',
+	'nodeColor7': '--slsg-node-color-7',
+	'nodeColor8': '--slsg-node-color-8',
+	'nodeColor9': '--slsg-node-color-9',
+
+	'linkColor': '--slsg-link-color',
+	'linkColorHover': '--slsg-link-color-hover',
+	'linkColorMuted': '--slsg-link-color-muted',
+
+	'labelColor': '--slsg-label-color',
+	'labelColorHover': '--slsg-label-color-hover',
+	'labelColorMuted': '--slsg-label-color-muted',
+}
+
+
+
+export function getGraphColors(node: HTMLElement, included_colors: string[], custom_color_map: Record<string, string>): GraphColorConfig {
 	const style = getComputedStyle(node);
-	return {
-		backgroundColor: getStyleColorProperty(style, '--slsg-graph-bg-color'),
+	const colors: GraphColorConfig = {};
 
-		nodeColor: getStyleColorProperty(style, '--slsg-node-color'),
-		nodeColorHover: getStyleColorProperty(style, '--slsg-node-color-hover'),
-		nodeColorAdjacent: getStyleColorProperty(style, '--slsg-node-color-adjacent'),
-		nodeColorMuted: getStyleColorProperty(style, '--slsg-node-color-muted'),
+	const all_colors = [
+		'nodeColorHover', 'nodeColorAdjacent', 'nodeColorMuted',
+		'linkColorHover', 'linkColorMuted',
+		'linkColorHover', 'linkColorMuted',
+		...included_colors
+	];
 
-		nodeColorCurrent: getStyleColorProperty(style, '--slsg-node-color-current'),
-		nodeColorVisited: getStyleColorProperty(style, '--slsg-node-color-visited'),
-		nodeColorUnresolved: getStyleColorProperty(style, '--slsg-node-color-unresolved'),
-		nodeColorExternal: getStyleColorProperty(style, '--slsg-node-color-external'),
-		nodeColorTag: getStyleColorProperty(style, '--slsg-node-color-tag'),
-		nodeColor1: getStyleColorProperty(style, '--slsg-node-color-1'),
-		nodeColor2: getStyleColorProperty(style, '--slsg-node-color-2'),
-		nodeColor3: getStyleColorProperty(style, '--slsg-node-color-3'),
-		nodeColor4: getStyleColorProperty(style, '--slsg-node-color-4'),
-		nodeColor5: getStyleColorProperty(style, '--slsg-node-color-5'),
-		nodeColor6: getStyleColorProperty(style, '--slsg-node-color-6'),
-		nodeColor7: getStyleColorProperty(style, '--slsg-node-color-7'),
-		nodeColor8: getStyleColorProperty(style, '--slsg-node-color-8'),
-		nodeColor9: getStyleColorProperty(style, '--slsg-node-color-9'),
+	for (const identifier of all_colors) {
+		let color = cssVariablesMap[identifier as keyof typeof cssVariablesMap];
+		if (color) {
+			colors[identifier] = getHexColor(style.getPropertyValue(color));
+		} else {
+			color = custom_color_map[identifier]!;
+			if (color.startsWith("--")) {
+				const cssPropertyValue = style.getPropertyValue(color);
+				if (cssPropertyValue) {
+					colors[identifier] = getHexColor(cssPropertyValue);
+				} else {
+					console.warn(`[STARLIGHT-SITE-GRAPH] CSS variable "${identifier}" was not found on the graph element. Falling back to black (#000000).`);
+					colors[identifier] = '#000000';
+				}
+			} else {
+				colors[identifier] = getHexColor(color);
+			}
+		}
+	}
 
-		linkColor: getStyleColorProperty(style, '--slsg-link-color'),
-		linkColorHover: getStyleColorProperty(style, '--slsg-link-color-hover'),
-		linkColorMuted: getStyleColorProperty(style, '--slsg-link-color-muted'),
-
-		labelColor: getStyleColorProperty(style, '--slsg-label-color'),
-		labelColorHover: getStyleColorProperty(style, '--slsg-label-color-hover'),
-		labelColorMuted: getStyleColorProperty(style, '--slsg-label-color-muted'),
-	};
+	return colors;
 }

@@ -27,19 +27,31 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 		this.configs = configs;
 
 		this.animations = {} as Record<keyof T, AnimationState<ConfigValueType<T[keyof T]>>>;
-		for (const [key, config] of Object.entries(configs)) {
-			const initialValue = (config.initialValue ??
-				config.properties?.['default'] ??
-				config.interpolator.defaultValue()) as ConfigValueType<T[keyof T]>;
+		this.setConfigs(configs);
+	}
 
-			// @ts-expect-error Type is generic and can only be indexed for reading
-			this.animations[key] = {
-				duration: config.duration,
-				progress: 0,
-				sourceValue: undefined,
-				targetValue: undefined,
-				interpolatedValue: initialValue,
-			};
+	setConfigs(configs: Partial<T>): void {
+		for (const [key, config] of Object.entries(configs)) {
+			if (this.configs[key]) {
+				this.configs[key] = { ...this.configs[key], ...config } as T[typeof key];
+				this.resetAnimation(key);
+			} else {
+				this.configs[key] = config as T[typeof key];
+				const initialValue = (
+					config.initialValue ??
+					config.properties?.['default'] ??
+					config.interpolator.defaultValue()
+				) as ConfigValueType<T[keyof T]>;
+
+				// @ts-expect-error Type is generic and can only be indexed for reading
+				this.animations[key] = {
+					duration: config.duration,
+					progress: 0,
+					sourceValue: undefined,
+					targetValue: undefined,
+					interpolatedValue: initialValue,
+				};
+			}
 		}
 	}
 

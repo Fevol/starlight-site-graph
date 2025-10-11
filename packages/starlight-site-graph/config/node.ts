@@ -1,6 +1,6 @@
 import { z } from 'astro/zod';
 
-const nodeColorTypes = z.union([
+const validColors = z.union([
 	z.literal('inherit'),
 
 	z.literal('backgroundColor'),
@@ -21,7 +21,10 @@ const nodeColorTypes = z.union([
 	z.literal('nodeColor8'),
 	z.literal('nodeColor9'),
 	z.literal('linkColor'),
-]);
+]).or(
+	z.string().refine(val => val.match(/^#([0-9A-Fa-f]{3}){1,2}$|^--?[_a-zA-Z]+[_a-zA-Z0-9-]*$/), {
+		message: 'Invalid color format, expected a hex color (e.g. #RRGGBB) or a CSS variable (e.g. --my-color)',
+	}));
 
 const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not be negative"), z.string()
 	.refine(val => val.match(/^\d+\.?\d?\d?%?$/), {
@@ -59,7 +62,7 @@ const nodeShapeTypes = z.union([
 	z.literal('star'),
 ]);
 export type NodeShapeType = z.infer<typeof nodeShapeTypes>;
-type NodeColorType = z.infer<typeof nodeColorTypes>;
+type NodeColorType = z.infer<typeof validColors>;
 
 export const nodeStyleSchema = z.object({
 	/**
@@ -85,7 +88,9 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @default "nodeColor"
 	 */
-	shapeColor: nodeColorTypes.or(z.literal('stroke')).default('nodeColor').optional(),
+	shapeColor: validColors
+		.or(z.literal('stroke'))
+		.default('nodeColor').optional(),
 	/**
 	 * Number of points for `polygon` or `star` shapes
 	 *
@@ -131,7 +136,7 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @optional
 	 */
-	strokeColor: nodeColorTypes.or(z.literal('inherit')).optional(),
+	strokeColor: validColors.or(z.literal('inherit')).optional(),
 	/**
 	 * Radius of the stroke corners; does not affect circle shapes \
 	 * A number will be parsed as the radius of the corner in pts (clamped to `shapeWidth`). \

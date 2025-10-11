@@ -1,7 +1,7 @@
 import { type GraphConfig, type RemoveOptional, type Sitemap, globalGraphConfig } from '../../config';
 
 import { Animator } from '../animator';
-import { animatables, animated_colors } from './animatables';
+import { animatables } from './animatables';
 
 import { GraphRenderer } from './renderer';
 import { renderActionContainer } from './action-element';
@@ -37,21 +37,11 @@ export class GraphComponent extends HTMLElement {
 	config!: RemoveOptional<GraphConfig>;
 	sitemap!: Sitemap;
 
-	defaultColorTransitions = Object.fromEntries(
-		animated_colors.flatMap(color => [
-			[`${color}`, 'default'],
-			[`${color}Hover`, 'default'],
-			[`${color}Adjacent`, 'default'],
-		]),
-	);
-	hoverColorTransitions = Object.fromEntries(
-		animated_colors.flatMap(color => [
-			[`${color}`, 'blur'],
-			[`${color}Hover`, 'hover'],
-			[`${color}Adjacent`, 'adjacent'],
-		]),
-	);
+	defaultColorTransitions!: Record<string, string>;
+	hoverColorTransitions!: Record<string, string>;
 	colors!: GraphColorConfig;
+	customColorMap!: Record<string, string>;
+	usedColors!: string[];
 	animator: Animator<ReturnType<typeof animatables>>;
 
 	isFullscreen: boolean = false;
@@ -102,12 +92,10 @@ export class GraphComponent extends HTMLElement {
 		this.blurContainer = document.createElement('div');
 		this.blurContainer.classList.add('slsg-background-blur');
 
-		this.colors = getGraphColors(this.graphContainer);
-
-		this.animator = new Animator<ReturnType<typeof animatables>>(animatables(this.config, this.colors));
+		this.animator = new Animator<ReturnType<typeof animatables>>([]);
 		this.themeObserver = new MutationObserver(() => {
-			this.colors = getGraphColors(this.graphContainer);
-			for (const color of animated_colors) {
+			this.colors = getGraphColors(this.graphContainer, this.usedColors, this.customColorMap);
+			for (const color of this.usedColors) {
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				this.animator.setProperties(`${color}`, {
 					default: this.colors[color],
@@ -264,12 +252,36 @@ export class GraphComponent extends HTMLElement {
 		this.simulator.resetZoom();
 	}
 
+	setupColors(usedColors: string[], customColorMap: Record<string, string>) {
+		this.usedColors = usedColors;
+		this.customColorMap = customColorMap;
+		this.colors = getGraphColors(this.graphContainer, this.usedColors, this.customColorMap);
+		this.defaultColorTransitions = Object.fromEntries(
+			this.usedColors.flatMap(color => [
+				[`${color}`, 'default'],
+				[`${color}Hover`, 'default'],
+				[`${color}Adjacent`, 'default'],
+			]),
+		);
+		this.hoverColorTransitions = Object.fromEntries(
+			this.usedColors.flatMap(color => [
+				[`${color}`, 'blur'],
+				[`${color}Hover`, 'hover'],
+				[`${color}Adjacent`, 'adjacent'],
+			]),
+		);
+
+		this.animator.setConfigs(animatables(this.config, this.colors, this.usedColors));
+		this.animator.startAnimationsTo(this.defaultColorTransitions, { duration: 200 });
+	}
+
 	setup() {
 		this.placeholderContainer.style.display = '';
 		this.style.visibility = 'hidden';
 
 		this.cleanup();
-		const { nodes, links } = processSitemapData(this, this.sitemap);
+		const { nodes, links, usedColors, customColorMap } = processSitemapData(this, this.sitemap);
+		this.setupColors(usedColors, customColorMap);
 
 		const currentNode = nodes.find(node => node.id === this.currentPage);
 		this.enableClick = this.config.enableClick !== 'disable';
@@ -328,7 +340,7 @@ export class GraphComponent extends HTMLElement {
 	toggleFullscreen() {
 		renderActionContainer(this);
 		this.renderer.resize();
-		this.colors = getGraphColors(this.graphContainer);
+		this.colors = getGraphColors(this.graphContainer, this.usedColors, this.customColorMap);
 		this.animator.setValue('backgroundColor', this.colors.backgroundColor);
 		this.animator.setAllProperties('backgroundColor', this.colors.backgroundColor);
 		this.animator.setAllProperties('backgroundColorHover', this.colors.backgroundColor);

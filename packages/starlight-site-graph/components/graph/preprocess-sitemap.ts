@@ -4,6 +4,7 @@ import type { LinkData, NodeData } from './types';
 import type { Sitemap } from '../../config';
 import type { GraphComponent } from './graph-component';
 import type { NodeStyle } from '../../config';
+import { cssVariablesMap } from '../../color';
 
 import { getVisitedEndpoints, simplifySlug } from '../util';
 
@@ -12,6 +13,8 @@ import { DEFAULT_CORNER_RADIUS, DEFAULT_POLYGON_POINTS, DEFAULT_STAR_POINTS, DEF
 export type GraphData = {
 	nodes: NodeData[];
 	links: LinkData[];
+	usedColors: string[];
+	customColorMap: Record<string, string>;
 };
 
 function firstMatchingPattern(
@@ -130,6 +133,14 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 	links = links.filter(l => neighbourhood.has(l.target as unknown as string));
 
 	const nodes: NodeData[] = [];
+	const usedColors: Set<string> = new Set([
+		"backgroundColor",
+		"nodeColor", "nodeColorHover", "nodeColorAdjacent", "nodeColorMuted",
+		"linkColor", "linkColorHover", "linkColorMuted",
+		"labelColor", "labelColorHover", "labelColorMuted",
+	]);
+	const customColorMap: Record<string, string> = {};
+
 	for (const id of neighbourhood) {
 		const node = data.get(id);
 		if (!node) continue;
@@ -164,6 +175,32 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		style = processStyle({ ...style, ...((node.nodeStyle ?? {}) as NodeStyle) });
 
 		const { computedSize, fullRadius, colliderSize } = computeSizes(style, adjacent.size);
+		if (style.shapeColor) {
+			let color = style.shapeColor;
+			if (!(color in cssVariablesMap) && color !== 'stroke') {
+				color = customColorMap[style.shapeColor]!;
+				if (!color) {
+					color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
+					customColorMap[style.shapeColor] = color;
+				}
+				style.shapeColor = color;
+			}
+			usedColors.add(color);
+		}
+		if (style.strokeColor) {
+			let color = style.strokeColor;
+			if (!(color in cssVariablesMap) && color !== 'inherit') {
+				color = customColorMap[style.strokeColor]!;
+				if (!color) {
+					color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
+					customColorMap[style.strokeColor] = color;
+				}
+				style.strokeColor = color;
+			}
+			usedColors.add(color);
+		}
+
+
 		nodes.push({
 			id: id,
 			exists: node.exists,
@@ -221,6 +258,13 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		links: links.filter(
 			l => neighbourhood.has(l.source as unknown as string) && neighbourhood.has(l.target as unknown as string),
 		),
+		usedColors: Array.from( usedColors.difference(new Set([
+			"inherit", "stroke",
+			"nodeColorHover", "nodeColorAdjacent", "nodeColorMuted",
+			"linkColorHover", "linkColorMuted",
+			"labelColorHover", "labelColorMuted",
+		]))),
+		customColorMap: Object.fromEntries(Object.entries(customColorMap).map(([k, v]) => [v, k])),
 	};
 }
 

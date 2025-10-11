@@ -18,28 +18,7 @@ const easing_functions = {
 	linear: new EaseLinear(),
 };
 
-export const animated_colors = [
-	'backgroundColor',
-	'nodeColor',
-	'nodeColorVisited',
-	'nodeColorCurrent',
-	'nodeColorUnresolved',
-	'nodeColorExternal',
-	'nodeColorTag',
-	'nodeColor1',
-	'nodeColor2',
-	'nodeColor3',
-	'nodeColor4',
-	'nodeColor5',
-	'nodeColor6',
-	'nodeColor7',
-	'nodeColor8',
-	'nodeColor9',
-	'linkColor',
-	'labelColor',
-] as const;
-
-export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig) => {
+export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorConfig, usedColors: string[]) => {
 	return {
 		zoom: {
 			properties: { default: graphConfig.scale },
@@ -61,7 +40,7 @@ export const animatables = (graphConfig: GraphConfig, colorConfig: GraphColorCon
 		},
 
 		...Object.fromEntries(
-			animated_colors.flatMap(color => {
+			usedColors.flatMap(color => {
 				const key = color.slice(0, color.indexOf('Color') + 5);
 				return [
 					[
