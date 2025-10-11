@@ -36,6 +36,7 @@ export class SiteMapBuilder {
 	explicitSlugAssociations: Map<string, string> = new Map();
 	implicitNameAssociations: Map<string, string[]> = new Map();
 	explicitNameAssociations: Map<string, string> = new Map();
+	frontmatterData: Map<string, { data?: PageSiteGraphFrontmatter } & { slug?: string }> = new Map();
 
 	constructor(private config: RemoveOptional<SitemapConfig>) {
 		this.map = new Map();
@@ -120,8 +121,13 @@ export class SiteMapBuilder {
 			return this;
 		}
 
-		if (this.config.linkInclusionRules.length) {
-			links = new Set([...links].filter(link => firstMatchingPattern(link, this.config.linkInclusionRules, false)));
+
+		const currentLinkRules = (this.frontmatterData.get(linkPath)?.data?.sitemap?.linkInclusionRules ?? []).concat(
+			this.config.linkInclusionRules,
+		);
+
+		if (currentLinkRules.length) {
+			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
 		}
 
 		if (this.map.has(linkPath)) {
@@ -177,6 +183,7 @@ export class SiteMapBuilder {
 		}
 
 		this.encounteredFiles.add(linkPath);
+		this.frontmatterData.set(linkPath, frontmatter);
 
 		let links = new Set<string>();
 		const tags = new Set<string>();
@@ -206,23 +213,12 @@ export class SiteMapBuilder {
 			}
 		}
 
-		const currentLinkRules = (frontmatter.data?.sitemap?.linkInclusionRules ?? []).concat(
+		// Applying sitemap filtering/post-processing rules
+		const currentLinkRules = (frontmatter.data.sitemap?.linkInclusionRules ?? []).concat(
 			this.config.linkInclusionRules,
 		);
 		if (currentLinkRules.length) {
 			links = new Set([...links].filter(link => firstMatchingPattern(link, currentLinkRules, false)));
-		}
-
-		if (this.config.styleRules.size) {
-			for (const [rules, style] of this.config.styleRules) {
-				const ruleResult = firstMatchingPattern(linkPath, rules);
-				if (ruleResult) {
-					nodeStyle = {
-						...nodeStyle,
-						...(style as NodeStyle),
-					};
-				}
-			}
 		}
 
 		if (frontmatter.data) {
@@ -312,6 +308,8 @@ export class SiteMapBuilder {
 				name = path.basename(linkPath);
 			}
 
+			// EXPL: Cache the implicit association for future use
+			this.explicitNameAssociations.set(linkPath, name);
 		}
 
 		return name;
@@ -322,16 +320,35 @@ export class SiteMapBuilder {
 	 */
 	toSitemap(): Sitemap {
 		return Object.fromEntries(
-			Array.from(this.map.entries()).map(([_, entry]) => [entry.linkPath, {
-				external: entry.external,
-				// FIXME: a file that has no link entries is incorrectly marked as non-existent
-				exists: this.encounteredFiles.has(entry.linkPath) || entry.external,
-				title: this.resolveLinkName(entry.linkPath),
-				tags: entry.tags.size ? [...entry.tags].map(ensureLeadingPound) : undefined,
-				links: entry.links.size ? [...entry.links] : undefined,
-				backlinks: entry.backlinks.size ? [...entry.backlinks] : undefined,
-				nodeStyle: Object.keys(entry.nodeStyle).length ? entry.nodeStyle : undefined,
-			}]),
+			Array.from(this.map.entries()).map(([link, entry]) => {
+				const backlinks = entry.backlinks.size
+					? [...entry.backlinks].sort((x, y) => this.resolveLinkName(x).localeCompare(this.resolveLinkName(y)))
+					: undefined;
+
+				let nodeStyle = entry.nodeStyle;
+				if (this.config.styleRules.length) {
+					for (const [rules, style] of this.config.styleRules) {
+						const ruleResult = firstMatchingPattern(link, rules);
+						if (ruleResult) {
+							nodeStyle = {
+								...(style as NodeStyle),
+								...nodeStyle,
+							};
+						}
+					}
+				}
+
+				return [entry.linkPath, {
+					external: entry.external,
+					// FIXME: a file that has no link entries is incorrectly marked as non-existent
+					exists: this.encounteredFiles.has(entry.linkPath) || entry.external,
+					title: this.resolveLinkName(entry.linkPath),
+					tags: entry.tags.size ? [...entry.tags].map(ensureLeadingPound) : undefined,
+					links: entry.links.size ? [...entry.links] : undefined,
+					backlinks: backlinks,
+					nodeStyle: Object.keys(nodeStyle).length ? nodeStyle : undefined,
+				}];
+			}),
 		);
 	}
 
