@@ -57,7 +57,7 @@ export const globalSitemapConfig = {
 	pageTitleFallbackStrategy: 'linkText' as const,
 	linkInclusionRules: ['**/*'],
 	tagRules: {},
-	styleRules: new Map(),
+	styleRules: [],
 }
 
 export const globalSitemapConfigSchema = z.object({
@@ -138,17 +138,17 @@ export const globalSitemapConfigSchema = z.object({
 
 	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
-	 * The page is included/excluded if the file's _path_ matches one of the rules.
+	 * The page is included/excluded if the file's _path_, relative to the contentRoot, matches one of the rules.
 	 * When a rule starts with `!`, the file is _excluded_ if matched.
 	 * Rules are evaluated in order, the first matching rule determines the inclusion of the file.
 	 * If sitemap inclusion was specified in the page frontmatter, it will take precedence over these rules.
 	 *
 	 * @default Sitemap includes all files by default
 	 * ["**\/*"]
-	 * @example Only include files in the "api" folder:
-	 * ["api/**", "!**\/*"]
-	 * @example Include all files except those in the "secret" folder:
-	 * ["!secret/**", "**\/*"]
+	 * @example Only include Markdown files in the "api" folder:
+	 * ["\/api/**\/*.md", "!**\/*"]
+	 * @example Include all Markdoc files except those in the "secret" folder:
+	 * ["!\/secret/**\/*.mdoc", "**\/*"]
 	 */
 	pageInclusionRules: z.array(z.string()).default(globalSitemapConfig.pageInclusionRules),
 
@@ -193,13 +193,15 @@ export const globalSitemapConfigSchema = z.object({
 	 *
 	 * @remarks `tagStyles` in conjunction with `tagRules` will accomplish the same thing.
 	 *
-	 * @default {}
+	 * @default []
 	 * @example Make all nodes in the "api" folder take the color of `nodeColor5` (lime)
-	 * { ["api/**"]: { shapeColor: "nodeColor5" } }
+	 * [ [["\/api/**"], { shapeColor: "nodeColor5" }] ]
 	 * @example Make the shape of all nodes except those in the "public" folder doubly as large and hollow
-	 * { ["!public/**", "**\/*"]: { nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" } }
+	 * [ [["!\/public/**", "**\/*"], { nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" }] ]
 	 */
-	styleRules: z.map(z.array(z.string()), nodeStyleSchema.partial()).default(globalSitemapConfig.styleRules),
+	styleRules: z.array(
+		z.tuple([z.array(z.string()), nodeStyleSchema.partial()])
+	).default(globalSitemapConfig.styleRules)
 }).partial();
 
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;
