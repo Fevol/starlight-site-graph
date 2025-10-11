@@ -13,7 +13,7 @@ let { backlinks, sitemap } = Astro.props;
 <ul class="slsg-backlinks" style="--depth: 0;">
 	{backlinks.map((link) => (
 		<li style="--depth: 0;">
-			<a href={"/" + link } style="--depth: 0;" target="_self" class="slsg-backlink">
+			<a href={ link } style="--depth: 0;" target="_self" class="slsg-backlink">
 				<span style="--depth: 0;">{sitemap![link]!.title}</span>
 			</a>
 		</li>

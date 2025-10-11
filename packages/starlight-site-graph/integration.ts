@@ -5,7 +5,7 @@ import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
-import { onlyTrailingSlash } from './sitemap/util';
+import { onlyTrailingSlash, trimSlashes } from './sitemap/util';
 
 import { fileURLToPath } from 'node:url';
 

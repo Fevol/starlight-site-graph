@@ -8,16 +8,15 @@ import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
 import Graph from "./Graph.astro";
 
-import { stripSlashes } from '../util';
-import { firstMatchingPattern } from "../../sitemap/util";
+import { firstMatchingPattern, setSlashes } from '../../sitemap/util';
 
 interface Props {
-    slug?: string;
-    class?: string;
-    showGraph?: boolean;
-    config?: GraphConfig;
-    entry?: { data: PageSiteGraphFrontmatter };
-    trailingSlashes?: boolean;
+	slug?: string;
+	class?: string;
+	showGraph?: boolean;
+	config?: GraphConfig;
+	entry?: { data: PageSiteGraphFrontmatter };
+	trailingSlashes?: boolean;
 }
 
 let graphData: Partial<PageGraphConfig> = {};
@@ -26,55 +25,57 @@ let entry = Astro.locals.starlightRoute?.entry;
 
 // If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
 if (entry && entry.id) {
-    graphData = entry.data?.graph as PageGraphConfig;
+	graphData = entry.data?.graph as PageGraphConfig;
 }
 
+trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never' ?? true;
+
 // Infer slug from URL if not explicitly provided
-const slugWithBase = stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")) || "/";
+const slugWithBase = setSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"), true, trailingSlashes);
 
 if (showGraph === undefined) {
-    if (graphData?.visible !== undefined) {
-        showGraph = graphData.visible;
-    } else {
-        showGraph = config.graphConfig!.visibilityRules ? firstMatchingPattern(slugWithBase, config.graphConfig!.visibilityRules, false) : true;
-    }
+	if (graphData?.visible !== undefined) {
+		showGraph = graphData.visible;
+	} else {
+		showGraph = config.graphConfig!.visibilityRules ? firstMatchingPattern(slugWithBase, config.graphConfig!.visibilityRules, false) : true;
+	}
 }
 ---
 {showGraph &&
-    <div class:list={className ?? ""}>
-        <slot name="title"/>
-        <Graph
-            slug={slugWithBase}
-            sitemap={import.meta.env.DEV ? config.sitemapConfig!.sitemap : {}}
-            config={{
-                ...config.graphConfig,
-                ...graphData,
-                ...(graphConfig ?? {})
-            }}
-            debug={config.debug ?? false}
-            trailingSlashes={trailingSlashes ?? astroConfig.trailingSlashes !== 'never' ?? true}
-        />
-    </div>
+	<div class:list={className ?? ""}>
+		<slot name="title"/>
+		<Graph
+			slug={slugWithBase}
+			sitemap={import.meta.env.DEV ? config.sitemapConfig!.sitemap : {}}
+			config={{
+				...config.graphConfig,
+				...graphData,
+				...(graphConfig ?? {})
+			}}
+			debug={config.debug ?? false}
+			trailingSlashes={trailingSlashes}
+		/>
+	</div>
 }
 
 <script>
-    window.addEventListener('DOMContentLoaded', async () => {
-        if (import.meta.env.PROD) {
-            let base_url = import.meta.env.BASE_URL;
-            if (!base_url.endsWith('/')) {
-                base_url += '/';
-            }
+	window.addEventListener('DOMContentLoaded', async () => {
+		if (import.meta.env.PROD) {
+			let base_url = import.meta.env.BASE_URL;
+			if (!base_url.endsWith('/')) {
+				base_url += '/';
+			}
 
-            const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
-            onIdle(async () => {
-                const sitemap = await (await fetch(base_url + 'sitegraph/sitemap.json')).json();
-                const sitemap_string = JSON.stringify(sitemap);
-                document.querySelectorAll('graph-component').forEach((graph) => {
-                    if (graph.getAttribute('data-sitemap') === '{}') {
-                        graph.setAttribute('data-sitemap', sitemap_string);
-                    }
-                });
-            });
-        }
-    });
+			const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1));
+			onIdle(async () => {
+				const sitemap = await (await fetch(base_url + 'sitegraph/sitemap.json')).json();
+				const sitemap_string = JSON.stringify(sitemap);
+				document.querySelectorAll('graph-component').forEach((graph) => {
+					if (graph.getAttribute('data-sitemap') === '{}') {
+						graph.setAttribute('data-sitemap', sitemap_string);
+					}
+				});
+			});
+		}
+	});
 </script>

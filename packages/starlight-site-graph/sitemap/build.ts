@@ -7,10 +7,9 @@ import type { PageSiteGraphFrontmatter } from '../schema';
 import type { NodeStyle, RemoveOptional, Sitemap, SitemapConfig } from '../config';
 
 import {
-	ensureLeadingPound,
-	ensureTrailingSlash, stripLeadingSlash, onlyTrailingSlash, trimSlashes,
+	ensureLeadingPound, trimSlashes, setSlashes,
 	firstMatchingPattern,
-	resolveIndex, slugifyPath, walk, getMostCommonItem, extractMDLinkText
+	resolveIndex, slugifyPath, walk, getMostCommonItem, extractMDLinkText, ensureLeadingSlash
 } from './util';
 
 import {DomUtils, parseDocument} from 'htmlparser2'
@@ -42,7 +41,7 @@ export class SiteMapBuilder {
 		this.map = new Map();
 		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.explicitNameAssociations = new Map(
-			Object.entries(this.config.pageTitles).map(([k, v]) => [onlyTrailingSlash(k, this.addTrailingSlash), v]),
+			Object.entries(this.config.pageTitles).map(([k, v]) => [setSlashes(k, true, this.addTrailingSlash), v]),
 		);
 	}
 
@@ -57,13 +56,14 @@ export class SiteMapBuilder {
 	}
 
 	async addHTMLContentFolder(folder: string, patterns: string[] = []) {
-		for await (const p of walk(folder)) {
+		for await (const filePath of walk(folder)) {
 			// Skip mapping 404 page
-			if (p.endsWith('404.html')) continue;
+			if (filePath.endsWith('404.html')) continue;
 
-			if (path.extname(p) === '.html') {
-				if (firstMatchingPattern(p, patterns, false)) {
-					await this.addHTMLContent(p, folder);
+			if (path.extname(filePath) === '.html') {
+				const relativePath = ensureLeadingSlash(path.relative(folder, filePath).replace(/\\/g, '/'));
+				if (firstMatchingPattern(relativePath, patterns, false)) {
+					await this.addHTMLContent(filePath, folder);
 				}
 			}
 		}
@@ -72,11 +72,7 @@ export class SiteMapBuilder {
 	}
 
 	async addHTMLContent(filePath: string, folderPath: string) {
-		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
-		const linkPath = this.explicitSlugAssociations.get(filePath) ??
-			path
-				.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, ''))
-				.replace(/\\/g, '/');
+		const linkPath = this.getLinkPathFromFilePath(filePath, folderPath);
 		this.encounteredFiles.add(linkPath);
 
 		let links = new Set<string>();
@@ -146,10 +142,11 @@ export class SiteMapBuilder {
 	}
 
 	async addMDContentFolder(folder: string, patterns: string[] = []) {
-		for await (const p of walk(folder)) {
-			if (path.extname(p) === '.md' || path.extname(p) === '.mdx' || path.extname(p) === '.mdoc') {
-				if (firstMatchingPattern(p, patterns, false)) {
-					await this.addMDContent(p);
+		for await (const filePath of walk(folder)) {
+			if (path.extname(filePath) === '.md' || path.extname(filePath) === '.mdx' || path.extname(filePath) === '.mdoc') {
+				const relativePath = ensureLeadingSlash(path.relative(folder, filePath).replace(/\\/g, '/'));
+				if (firstMatchingPattern(relativePath, patterns, false)) {
+					await this.addMDContent(filePath);
 				}
 			}
 		}
@@ -164,17 +161,15 @@ export class SiteMapBuilder {
 
 		// Use the specified slug from the frontmatter if it exists
 		// 	The assumption is made that the `slug` field is always formatted as xx/yy/zz (no relative paths)
-		if (frontmatter.data.slug) {
-			linkPath = ensureTrailingSlash(frontmatter.data.slug, this.addTrailingSlash);
-			if (this.basePath !== '') {
-				linkPath = path.join(this.basePath, linkPath);
-			}
-			linkPath = linkPath.replace(/\\/g, '/');
+		if (frontmatter.data?.slug) {
+			linkPath = path.join(this.basePath,
+				setSlashes(frontmatter.data.slug, true, this.addTrailingSlash)
+			).replace(/\\/g, '/');
 			this.explicitSlugAssociations.set(linkPath, frontmatter.data.slug);
 		}
 		// Otherwise, re-create the Astro slug from the file path
 		else {
-			linkPath = this.getLinkPath(filePath, this.contentRoot, this.basePath);
+			linkPath = setSlashes(this.getLinkPath(filePath, this.contentRoot, this.basePath), true, this.addTrailingSlash);
 		}
 
 		this.encounteredFiles.add(linkPath);
@@ -229,7 +224,7 @@ export class SiteMapBuilder {
 		if (frontmatter.data) {
 			if (frontmatter.data.links) {
 				for (const link of [].concat(frontmatter.data.links as any)) {
-					links.add(onlyTrailingSlash(link, this.addTrailingSlash));
+					links.add(setSlashes(link, true, this.addTrailingSlash));
 				}
 			}
 
@@ -348,13 +343,13 @@ export class SiteMapBuilder {
 			} else if (this.basePath !== '' && !trimSlashes(link).startsWith(this.basePath)) {
 				link = path.join(this.basePath, link);
 			}
-			link = slugifyPath(onlyTrailingSlash(link.split('#')[0]!, this.addTrailingSlash).replace(/\\/g, '/'));
+			link = setSlashes(slugifyPath(link.split('#')[0]!.replace(/\\/g, '/')), true, this.addTrailingSlash);
 			if (link !== current) {
 				links.add(link);
 				return link;
 			}
 		} else if (this.config.includeExternalLinks) {
-			if (!link.includes('#')) link = ensureTrailingSlash(link, this.addTrailingSlash);
+			if (!link.includes('#')) link = setSlashes(link, false, this.addTrailingSlash);
 
 			links.add(link);
 			return link;
@@ -377,12 +372,31 @@ export class SiteMapBuilder {
 			.slice(0, -path.extname(filePath).length || undefined);
 
 		// Ensure that the slashes are correct and honor the base option
-		relative_path = basePath === '' ? stripLeadingSlash(relative_path) : path.join(basePath, relative_path).replace(/\\/g, '/');
+		relative_path = basePath === '' ? relative_path : path.join(basePath, relative_path).replace(/\\/g, '/');
 
 		// Slugify the path, keeping slashes
 		relative_path = slugifyPath(relative_path);
 
 		// Remove index from the end of the path
-		return ensureTrailingSlash(resolveIndex(relative_path), this.addTrailingSlash) || '/';
+		return resolveIndex(relative_path);
+	}
+
+	/**
+	 * Get the link path for a given file path, considering explicit slug associations
+	 * @param filePath - The file path to get the link path for
+	 * @param folderPath - The base path to resolve the relative path
+	 */
+	private getLinkPathFromFilePath(filePath: string, folderPath: string) {
+		// Path of built file is structured as `dist/A/B/index.html` where `A/B` is the slug of the page
+		let linkPath = this.explicitSlugAssociations.get(filePath);
+		if (!linkPath) {
+			linkPath = path.join(this.basePath, this.getLinkPath(filePath.slice(0, -5), folderPath, '')).replace(/\\/g, '/');
+			if (linkPath === '.') {
+				linkPath = '';
+			}
+			linkPath = setSlashes(linkPath, true, this.addTrailingSlash);
+		}
+
+		return linkPath;
 	}
 }

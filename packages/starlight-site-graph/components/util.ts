@@ -1,4 +1,5 @@
 import config from 'virtual:starlight-site-graph/config';
+import { setSlashes } from '../sitemap/util';
 
 export function getVisitedEndpoints(): Set<string> {
 	if (config.trackVisitedPages === 'disable') return new Set();
@@ -12,9 +13,9 @@ export function getVisitedEndpoints(): Set<string> {
 	);
 }
 
-export function simplifySlug(fp: string): string {
-	const res = stripSlashes(trimSuffix(fp, 'index'), true);
-	return res.length === 0 ? '/' : res;
+export function simplifySlug(fp: string, trailingSlash: boolean): string {
+	// TODO: Figure out why 'index' was added
+	return setSlashes(trimSuffix(fp, 'index'), true, trailingSlash);
 }
 
 export function endsWith(s: string, suffix: string): boolean {
@@ -23,12 +24,6 @@ export function endsWith(s: string, suffix: string): boolean {
 
 export function trimSuffix(s: string, suffix: string): string {
 	if (endsWith(s, suffix)) s = s.slice(0, -suffix.length);
-	return s;
-}
-
-export function stripSlashes(s: string, onlyStripPrefix?: boolean): string {
-	if (s.startsWith('/')) s = s.substring(1);
-	if (!onlyStripPrefix && s.endsWith('/')) s = s.slice(0, -1);
 	return s;
 }
 
@@ -41,15 +36,6 @@ export function onClickOutside(target: HTMLElement, callback: () => void) {
 	}
 	document.addEventListener('click', handleClickOutside);
 	return document.removeEventListener.bind(document, 'click', handleClickOutside as EventListener);
-}
-
-export function ensureLeadingSlash(path: string): string {
-	return path.startsWith('/') ? path : `/${path}`;
-}
-
-export function ensureTrailingSlash(path: string, add: boolean): string {
-	if (!add) return path.endsWith('/') ? path.slice(0, -1) : path;
-	return path.endsWith('/') ? path : `${path}/`;
 }
 
 export function getRelativePath(current: string, next: string) {

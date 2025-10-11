@@ -15,7 +15,8 @@ import {
 	REQUIRE_NOTHING,
 	REQUIRE_LABEL_UPDATE
 } from './constants';
-import { onClickOutside, stripSlashes, ensureTrailingSlash, deepDiff, deepMerge } from '../util';
+import { setSlashes } from '../../sitemap/util';
+import { onClickOutside, deepDiff, deepMerge } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -72,7 +73,8 @@ export class GraphComponent extends HTMLElement {
 			this.setConfigListener(this.dataset['config']);
 			this.sitemap = JSON.parse(this.dataset['sitemap'] || '{}');
 			this.trailingSlashes = this.dataset['trailingSlashes'] === 'true';
-			this.currentPage = ensureTrailingSlash(this.dataset['slug'] || stripSlashes(location.pathname), this.trailingSlashes);
+			// NOTE: This ensures that the slug passed will always have the correct slash format (if using regular Graph.astro)
+			this.currentPage = setSlashes(this.dataset['slug'] || location.pathname, true, this.trailingSlashes)
 			this.debug = this.dataset['debug'] === 'true';
 		} catch (e) {
 			console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));

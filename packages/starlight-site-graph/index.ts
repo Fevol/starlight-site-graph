@@ -3,7 +3,6 @@ import { validateConfig, type StarlightSiteGraphConfig } from './config';
 
 import integration from './integration';
 import { translations } from './i18n';
-import { ensureTrailingSlash } from './sitemap/util';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
 	const parsedConfig = validateConfig(userConfig);
@@ -15,8 +14,6 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 			},
 			'config:setup': async ({ addIntegration, config, astroConfig, command, logger, updateConfig }) => {
 				if (command === 'preview') return;
-
-				const addTrailingSlashes = astroConfig.trailingSlash !== "never";
 
 				// TODO: Temporary implementation of graph/backlinks exclusion from plugin
 				if (!parsedConfig.graph) {

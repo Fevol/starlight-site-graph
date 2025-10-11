@@ -5,8 +5,7 @@ import type { PageGraphConfig } from '../../schema';
 import config from 'virtual:starlight-site-graph/config'
 import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
-import { ensureTrailingSlash, stripSlashes } from '../util';
-import {firstMatchingPattern} from "../../sitemap/util";
+import {firstMatchingPattern, setSlashes} from "../../sitemap/util";
 import Backlinks from './Backlinks.astro';
 
 interface Props {
@@ -26,10 +25,10 @@ if (entry && entry.id) {
 	backlinksData = entry.data?.backlinks;
 }
 
-trailingSlashes = trailingSlashes ?? astroConfig.trailingSlashes !== 'never' ?? true;
+trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never' ?? true;
 
 // Infer slug from URL if not explicitly provided
-const slugWithBase = ensureTrailingSlash(stripSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/")), true) || "/";
+const slugWithBase = setSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"), true, trailingSlashes);
 
 const sitemap = config.sitemapConfig!.sitemap;
 
@@ -85,7 +84,7 @@ if (showBacklinks === undefined) {
 							li.style.setProperty('--depth', '0');
 
 							const a = document.createElement('a');
-							a.href = '/' + link;
+							a.href = link;
 							a.style.setProperty('--depth', '0');
 							a.target = '_self';
 							a.className = 'slsg-backlink';

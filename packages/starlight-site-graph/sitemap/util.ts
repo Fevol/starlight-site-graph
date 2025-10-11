@@ -34,6 +34,22 @@ export function stripLeadingSlash(path: string) {
 	return path.replace(/^\//, '');
 }
 
+export function setSlashes(path: string, leading: boolean = true, trailing: boolean = true) {
+	if (leading) {
+		path = path.startsWith('/') ? path : `/${path}`;
+	} else {
+		path = path.startsWith('/') ? path.slice(1) : path;
+	}
+
+	if (trailing) {
+		path = path.endsWith('/') ? path : `${path}/`;
+	} else {
+		path = (path.endsWith('/') && path.length !== 1) ? path.slice(0, -1) : path;
+	}
+
+	return path;
+}
+
 export function trimSlashes(path: string) {
 	while (path.startsWith('/')) path = path.slice(1);
 	while (path.endsWith('/')) path = path.slice(0, -1);

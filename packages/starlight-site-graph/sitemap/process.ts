@@ -22,8 +22,8 @@ export function processSitemap(sitemap: RemoveOptional<Sitemap>, options: FullSt
 			const ruleResult = firstMatchingPattern(linkPath, rules);
 			if (ruleResult) {
 				nodeStyle = {
-					...nodeStyle,
 					...(style as NodeStyle),
+					...nodeStyle,
 				};
 			}
 		}
