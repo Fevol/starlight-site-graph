@@ -190,12 +190,17 @@ export class SiteMapBuilder {
 		let nodeStyle = {} as Partial<NodeStyle>;
 
 
-		for (const match of content.match(/\[([^\]]+)\]\(([^)]+)\)/g) ?? []) {
-			const link = this.resolveLink(linkPath, match.match(/\((.*?)\)/)![1]!, links);
-			if (link) {
-				const text = extractMDLinkText(match);
-				if (text) {
-					this.implicitNameAssociations.set(link, [...(this.implicitNameAssociations.get(link) ?? []), text]);
+		// TODO: Check if ![[alt text](image link.png)](actual link) should be considered, and if so, properly extract alt text from inner content
+		for (const match of content.match(/!?\[([^\]]+)\]\(([^)]+)\)/g) ?? []) {
+			// Based on a quick code search, most code sources exclusively use ![alt](link) for images, so these can be ignored
+			// NOTE: If desired, it is possible to have image links be included, but the correct path would need to be determined
+			if (!match.startsWith("!")) {
+				const link = this.resolveLink(linkPath, match.slice(match.lastIndexOf('](') + 2, -1), links);
+				if (link && !match.startsWith('!')) {
+					const text = extractMDLinkText(match);
+					if (text) {
+						this.implicitNameAssociations.set(link, [...(this.implicitNameAssociations.get(link) ?? []), text]);
+					}
 				}
 			}
 		}
