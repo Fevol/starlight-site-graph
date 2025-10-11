@@ -52,7 +52,7 @@ export const globalSitemapConfig = {
 	sitemap: undefined,
 	pageTitles: {},
 	ignoreStarlightLinks: true,
-	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title'],
+	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title', '.slsg-backlinks'],
 	pageInclusionRules: ['**/*'],
 	pageTitleFallbackStrategy: 'linkText' as const,
 	linkInclusionRules: ['**/*'],
@@ -128,7 +128,7 @@ export const globalSitemapConfigSchema = z.object({
 	 * - `.CLASS`: Exclude links within elements with the specified class, e.g. `.right-sidebar`, `.nav`.
 	 * - `#ID`: Exclude links within elements with the specified id, e.g. `#header`, `#footer`.
 	 * @remarks This is a more generalized alternative to `ignoreStarlightLinks`, which is deprecated.
-	 * @default ["header", "footer", "nav", ".right-sidebar", ".site-title"]
+	 * @default ["header", "footer", "nav", ".right-sidebar", ".site-title", ".slsg-backlinks"]
 	 * @example Ignore links found within code blocks
 	 * ["raw"]
 	 * @example Ignore all links with the 'external' class
