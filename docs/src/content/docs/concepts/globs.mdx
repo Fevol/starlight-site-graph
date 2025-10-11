@@ -75,6 +75,21 @@ See the [Pattern processing](#pattern-processing) section for more information.
 					- **regular.md**
 		</FileTree>
 	</TabItem>
+	<TabItem label="/some/dir/file.md">
+		Matches the _exact_ path towards a file, the `/` prefix indicates that the path starts from the root.
+		<FileTree>
+			- page.md
+			- script.js
+			- some
+				- dir
+					- important.ts
+					- **file.md**
+					- .hidden.md
+				- other-dir
+					- note.mdx
+					- regular.md
+		</FileTree>
+	</TabItem>
 	<TabItem label="**/*.md">
 		Matches all files with the `.md` extension in all directories.
 		<FileTree>
@@ -171,7 +186,7 @@ Some examples:
 		</FileTree>
 	</TabItem>
 	<TabItem label="['**/dir/**.*']">
-		Matches all files in the `dir` directory.
+		Matches all files in the `dir` directory with any extension.
 		<FileTree>
 			- page.md
 			- script.js

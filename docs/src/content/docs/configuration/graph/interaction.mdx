@@ -10,6 +10,7 @@ sitemap:
 import GraphExample from "../../../../components/GraphExample.astro";
 import config from "virtual:starlight-site-graph/config"
 
+import { overrideConfig } from '../generationUtil.js';
 import {
 	nonInteractiveConfig, randomNodeSitemap, starNodeSitemap, threeNodeSitemap
 } from '../constants.js';
@@ -26,34 +27,34 @@ If `enablePan` is disabled, the zoom will be from the center of the graph, and n
 The central zooming feature is currently broken, it is recommended to enable `enablePan` when using `enableZoom`.
 :::
 
-<GraphExample id="zoom-configuration" config={{
+<GraphExample id="zoom-configuration" config={{ graphConfig: {
 	enableZoom: true,
-}} baseConfig={nonInteractiveConfig} sitemap={threeNodeSitemap} slug={"node/"} />
+}}} baseConfig={nonInteractiveConfig} sitemap={threeNodeSitemap} slug={"/node/"} />
 
 ## Panning
 
 When the `enablePan` configuration is enabled, the user can drag the graph around using the mouse.
 
-<GraphExample id="drag-configuration" config={{
+<GraphExample id="drag-configuration" config={{ graphConfig: {
 	enablePan: true
-}} baseConfig={{ ...nonInteractiveConfig, depth: 2 }} sitemap={randomNodeSitemap} slug={"node/"} />
+}}} baseConfig={ overrideConfig(nonInteractiveConfig, { graphConfig: { depth: 2 }}) } sitemap={randomNodeSitemap} slug={"/node/"} />
 
 ## Dragging
 
 When the `enableDrag` configuration is enabled, the user can drag nodes around the graph.
 The dragged nodes will still be subject to the physics simulation, so they will eventually return to a stable position.
 
-<GraphExample id="drag-nodes-configuration" config={{
+<GraphExample id="drag-nodes-configuration" config={{ graphConfig: {
 	enableDrag: true
-}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"node/"} />
+}}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"/node/"} />
 
 ## Hovering
 
 When the `enableHover` configuration is enabled, the user can hover over nodes to apply their hovered styles.
 
-<GraphExample id="hover-configuration" config={{
+<GraphExample id="hover-configuration" config={{ graphConfig: {
 	enableHover: true
-}} baseConfig={nonInteractiveConfig} sitemap={randomNodeSitemap} slug={"node/"} />
+}}} baseConfig={nonInteractiveConfig} sitemap={randomNodeSitemap} slug={"/node/"} />
 
 
 ## Clicking
@@ -61,7 +62,7 @@ When the `enableHover` configuration is enabled, the user can hover over nodes t
 When the `enableClick` configuration is enabled, the user can click on nodes to follow the link to the node's page.
 
 :::note[Note]
-Clicking is disabled for unresolved nodes, tags and the current page node.
+Clicking is _always_ disabled for unresolved nodes, tags and the current page node.
 :::
 
 This settings has four options:
@@ -71,16 +72,16 @@ This settings has four options:
 - `dblclick`: The link is followed on a double click.
 
 
-<GraphExample id="click-configuration" config={{
+<GraphExample id="click-configuration" config={{ graphConfig: {
 	followLink: 'graph',
 	enableClick: "auto",
 	enableHover: true
-}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"node/"}
+}}} baseConfig={nonInteractiveConfig} sitemap={starNodeSitemap} slug={"/node/"}
 	buttons={{
-		"auto": { config: { enableClick: "auto" } },
-		"disable": { config: { enableClick: "disable" } },
-		"click": { config: { enableClick: "click" } },
-		"dblclick": { config: { enableClick: "dblclick" } },
+		"auto": { config: { graphConfig: { enableClick: "auto" } } },
+		"disable": { config: { graphConfig: { enableClick: "disable" } } },
+		"click": { config: { graphConfig: { enableClick: "click" } } },
+		"dblclick": { config: { graphConfig: { enableClick: "dblclick" } } },
 	}}
 />
 
@@ -94,15 +95,15 @@ The `followLink` configuration determines what happens when a node with a valid 
 
 By default, a link is opened in the same tab. External links will always be opened in a new tab (regardless of this setting).
 
-<GraphExample id="link-configuration" config={{
+<GraphExample id="link-configuration" config={{ graphConfig: {
 	followLink: 'graph',
 	enableClick: 'auto',
 	enableHover: true
-}} baseConfig={nonInteractiveConfig} sitemap={config.sitemapConfig.sitemap} slug={"starlight-site-graph/configuration/graph/interaction/"}
+}}} baseConfig={overrideConfig(nonInteractiveConfig, { graphConfig: { depth: 5 } }) } sitemap={config.sitemapConfig.sitemap} slug={"/starlight-site-graph/configuration/graph/interaction/"}
 	buttons={{
-		"Same Tab": { config: { followLink: "same" } },
-		"New Tab": { config: { followLink: "new-tab" } },
-		"Graph": { config: { followLink: "graph" } },
+		"Same Tab": { config: { graphConfig: { followLink: "same" } } },
+		"New Tab": { config: { graphConfig: { followLink: "new-tab" } } },
+		"Graph": { config: { graphConfig: { followLink: "graph" } } },
 	}}
 />
 
@@ -110,3 +111,6 @@ By default, a link is opened in the same tab. External links will always be open
 
 The `prefetchPages` configuration determines whether a page should be prefetched when it is hovered over.
 Behind the scenes, this is calling `Astro:prefetch`'s `prefetch` method.
+
+Use this if you want to speed up navigation to other pages, and expect that users will often navigate via the graph.
+Be aware that this comes at the cost of some extra bandwidth usage.

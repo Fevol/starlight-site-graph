@@ -9,6 +9,7 @@ sitemap:
 
 import GraphExample from "../../../../components/GraphExample.astro";
 
+import { overrideConfig } from '../generationUtil.js';
 import {
 	baseConfig,
 	maxDepthConfig,
@@ -19,17 +20,22 @@ import {
 	threeNodeSitemap, frozenConfig
 } from '../constants.js';
 
-The quick actions are a set of buttons that allow the user to quickly change some of the graph's settings through the UI.
-In most cases, the buttons also have context menu options which show all available options for that action.
+The quick actions are a set of buttons that allow the user to quickly change some of the graph's settings through the UI,
+or perform an action on the graph.
+Almost all buttons also have context menu options which will show the available options for that action when right-clicking the button.
+
+If you are looking for ways to customize the interactions that the user can perform on the graph,
+check out the [User Interactions](/starlight-site-graph/configuration/graph/interaction) page.
 
 ## Fullscreen
 
-The `fullscreen` action button allows the user to toggle the graph between fullscreen and normal view. \
+The `fullscreen` action button allows the user to toggle the graph between fullscreen and the normal (minimized) view.
+
 When the canvas is focused, the user can also press `F` to toggle fullscreen.
 
-<GraphExample id="fullscreen-showcase" config={{
+<GraphExample id="fullscreen-showcase" config={{ graphConfig: {
 	actions: ["fullscreen"],
-}} baseConfig={maxDepthConfig} sitemap={threeNodeSitemap} slug={"node/"} />
+}}} baseConfig={maxDepthConfig} sitemap={threeNodeSitemap} slug={"/node/"} />
 
 ## Depth
 
@@ -37,40 +43,40 @@ The `depth` action button changes the depth of the graph. The depth determines t
 a depth of 2 would mean that the graph only shows nodes that are 2 hops away from the current node.
 
 When the depth is negative _or_ greater than the maximum depth of 5,
-the graph will show _all_ nodes in the graph, even if they are not reachable from the current node.
+the graph will show _all_ nodes in the graph, even when they are not reachable from the current page's node.
 
-<GraphExample id="depth-showcase" config={{
+<GraphExample id="depth-showcase" config={{ graphConfig: {
 	actions: ["depth"],
 	depth: 1,
-}} baseConfig={{ ...frozenConfig, scale: 0.8 }} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+}}} baseConfig={overrideConfig(frozenConfig, { graphConfig: { scale: 0.8 }})} sitemap={randomNodeSitemap} slug={"/node/"} configListener />
 
 ## Reset Zoom
 
 The `reset-zoom` action button resets the zoom level of the graph to the default zoom level,
 and re-centers the graph on the current node.
 
-<GraphExample id="reset-zoom-showcase" config={{
+<GraphExample id="reset-zoom-showcase" config={{ graphConfig: {
 	actions: ["reset-zoom"],
-}} baseConfig={baseConfig} sitemap={singleNodeSitemap} slug={"node/"} />
+}}} baseConfig={overrideConfig(baseConfig, { graphConfig: { enableZoom: true, enablePan: true }})} sitemap={singleNodeSitemap} slug={"/node/"} />
 
 ## Render Arrows
 
 The `render-arrows` action button toggles the rendering of arrows on the edges of the graph. \
 When arrows are rendered, they indicate which way the link is pointing.
 
-<GraphExample id="render-arrows-showcase" config={{
+<GraphExample id="render-arrows-showcase" config={{ graphConfig: {
 	actions: ["render-arrows"],
 	renderArrows: true,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} configListener />
+}}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"/node/"} configListener />
 
 ## Render External
 
 The `render-external` action button toggles the rendering of links going to external pages on the graph.
 
-<GraphExample id="render-external-showcase" config={{
+<GraphExample id="render-external-showcase" config={{ graphConfig: {
 	actions: ["render-external"],
 	renderExternal: true,
-}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+}}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"/node/"} configListener />
 
 
 ## Render Unresolved
@@ -78,10 +84,10 @@ The `render-external` action button toggles the rendering of links going to exte
 The `render-unresolved` action button toggles the rendering of unresolved nodes on the graph. \
 Unresolved nodes are links that do lead to pages that do not exist in the website.
 
-<GraphExample id="render-unresolved-showcase" config={{
-	actions: ["render-unresolved"],
-	renderUnresolved: true,
-}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"node/"} configListener />
+<GraphExample id="render-unresolved-showcase" config={{ graphConfig: {
+		actions: ["render-unresolved"],
+		renderUnresolved: true,
+	}}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"/node/"} configListener />
 
 
 ## Settings
@@ -89,12 +95,12 @@ Unresolved nodes are links that do lead to pages that do not exist in the websit
 The `settings` action button opens a modal that allows the user to configure the simulation forces.
 For more information on how the simulation forces work, see the [Simulation Configuration](/starlight-site-graph/configuration/graph/simulation) page.
 
-<GraphExample id="settings-showcase" config={{
+<GraphExample id="settings-showcase" config={{ graphConfig: {
 	actions: ["settings"],
 	alphaDecay: 0.0228,
 	repelForce: 0.5,
 	centerForce: 0.05,
 	linkDistance: 30,
 	colliderPadding: 20,
-}} baseConfig={{ ...maxDepthConfig, enableClick: "disable" }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener fullWidth />
+}}} baseConfig={overrideConfig(maxDepthConfig, { graphConfig: { enableClick: "disable" }})} sitemap={largeRandomNodeSitemap} slug={"/node/"} configListener fullWidth />
 

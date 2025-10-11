@@ -10,8 +10,9 @@ sitemap:
 import GraphExample from "../../../../components/GraphExample.astro";
 import { Code } from '@astrojs/starlight/components';
 import { exampleSitemap, frozenConfig } from '../constants.js';
+import { overrideConfig } from '../generationUtil.js';
 
-This page discusses how you can manually set the sitemap, and how the sitemap is structured.
+This page discusses how you can set a static sitemap, and how the sitemap is structured.
 
 ## Sitemap
 
@@ -39,7 +40,7 @@ The sitemap should be structured as follows:
 </details>
 
 <GraphExample id="sitemap-showcase"
-			  config={{}} baseConfig={{ ...frozenConfig, tagRenderMode: 'node' }}
+			  config={{}} baseConfig={ overrideConfig(frozenConfig, { graphConfig: { tagRenderMode: 'node' }}) }
 			  sitemap={exampleSitemap}
 			  slug={"node/"}
 />

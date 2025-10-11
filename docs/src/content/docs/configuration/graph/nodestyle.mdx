@@ -8,7 +8,8 @@ sitemap:
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
-import { focusSingleNode, singleNodeSitemap, twoNodeSitemap, fourtyNodeSitemap, starNodeSitemap } from "../constants.js";
+import { overrideConfig } from '../generationUtil.js';
+import { focusSingleNode, singleNodeSitemap, twoNodeSitemap, fourtyNodeSitemap, starNodeSitemap, graphColors, nodeColorsDropdown } from "../constants.js";
 
 Here, you can find all configuration options related to the styling of nodes in the site graph.
 
@@ -17,24 +18,26 @@ Here, you can find all configuration options related to the styling of nodes in 
 This is the styling of a basic node, with no additional styles applied to it.
 Familiarize yourself with its shape, color, and size, before you move on to more advanced styles.
 
-<GraphExample config={{}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"} />
+<GraphExample config={{}} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"/node/"} />
 
 
 ## Shape Config
-You can change the shape of the node by setting the `shape` property.
-When using the `polygon` or `star` shape, you can also set the number of points using the `shapePoints` property;
-this property is ignored for other shapes.
+The shape of the node can be set with the `shape` property.
+When using the `polygon` or `star` shape, it is also possible to set the number of points added to the shape
+using the `shapePoints` property; this property is ignored for other shapes.
 
-<GraphExample id="shapeSelect" config={{ nodeDefaultStyle: { shape: "square", shapePoints: 0 } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+<GraphExample id="shapeSelect"
+  	config={{ graphConfig: { nodeDefaultStyle: { shape: "square", shapePoints: 0 } }}}
+	baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"/node/"}
 	buttons={{
-		"Circle": { config: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } },
-		"Square": { config: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } },
-		"Triangle": { config: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } },
-		"Polygon": { config: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } },
-		"Star": { config: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } },
+		"Circle": { config: { graphConfig: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } } },
+		"Square": { config: { graphConfig: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } } },
+		"Triangle": { config: { graphConfig: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } } },
+		"Polygon": { config: { graphConfig: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } } },
+		"Star": { config: { graphConfig: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } } },
 	}}
 	sliders={{
-		"nodeDefaultStyle.shapePoints": {
+		"graphConfig.nodeDefaultStyle.shapePoints": {
 			"title": "shapePoints",
 			"min": 3,
 			"max": 10,
@@ -45,11 +48,14 @@ this property is ignored for other shapes.
 />
 
 ## Size Config
-You can change the size of the node by setting the `shapeSize` property.
+The (absolute) size of the node can be set with the `shapeSize` property.
+This size is further affected by the [`nodeScale`](#node-scaling) and [`neighborScale`](#neighbor-scaling).
 
-<GraphExample id="sizeSelect" config={{ nodeDefaultStyle: { shapeSize: 10 } }} baseConfig={{ ...focusSingleNode, scale: 1, repelForce: 5 }} sitemap={twoNodeSitemap} slug={"node/"}
+<GraphExample id="sizeSelect"
+  	config={{ graphConfig: { nodeDefaultStyle: { shapeSize: 10 } }}}
+  	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 1, repelForce: 5 }})} sitemap={twoNodeSitemap} slug={"/node/"}
 	sliders={{
-		"nodeDefaultStyle.shapeSize": {
+		"graphConfig.nodeDefaultStyle.shapeSize": {
 			"title": "shapeSize",
 			"min": 1,
 			"max": 50,
@@ -61,45 +67,35 @@ You can change the size of the node by setting the `shapeSize` property.
 
 
 ## Color Config
-You can change the color of the node by setting the `shapeColor` property.
+With the `shapeColor` property, you can set the color of the node.
+This property uses one of the predefined color types, which can be found below.
 
 :::note[Note]
 Changing the actual colors used for each color type can be done
 by [changing the CSS variables](/starlight-site-graph/configuration/css/variables#nodes).
 :::
 
-<GraphExample id="colorSelect" config={{ nodeDefaultStyle: { shapeColor: "nodeColor" } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+<GraphExample id="colorSelect"
+	config={{ graphConfig: { nodeDefaultStyle: { shapeColor: "nodeColor" } }}}
+	baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"/node/"}
 	dropdowns={{
-		"shapeColor": {
-			"nodeColor": { nodeDefaultStyle: { shapeColor: "nodeColor" } },
-			"nodeColorVisited": { nodeDefaultStyle: { shapeColor: "nodeColorVisited" } },
-			"nodeColorCurrent": { nodeDefaultStyle: { shapeColor: "nodeColorCurrent" } },
-			"nodeColorUnresolved": { nodeDefaultStyle: { shapeColor: "nodeColorUnresolved" } },
-			"nodeColorExternal": { nodeDefaultStyle: { shapeColor: "nodeColorExternal" } },
-			"nodeColorTag": { nodeDefaultStyle: { shapeColor: "nodeColorTag" } },
-			"nodeColor1": { nodeDefaultStyle: { shapeColor: "nodeColor1" } },
-			"nodeColor2": { nodeDefaultStyle: { shapeColor: "nodeColor2" } },
-			"nodeColor3": { nodeDefaultStyle: { shapeColor: "nodeColor3" } },
-			"nodeColor4": { nodeDefaultStyle: { shapeColor: "nodeColor4" } },
-			"nodeColor5": { nodeDefaultStyle: { shapeColor: "nodeColor5" } },
-			"nodeColor6": { nodeDefaultStyle: { shapeColor: "nodeColor6" } },
-			"nodeColor7": { nodeDefaultStyle: { shapeColor: "nodeColor7" } },
-			"nodeColor8": { nodeDefaultStyle: { shapeColor: "nodeColor8" } },
-			"nodeColor9": { nodeDefaultStyle: { shapeColor: "nodeColor9" } },
-			"linkColor": { nodeDefaultStyle: { shapeColor: "linkColor" } },
-			"backgroundColor": { nodeDefaultStyle: { shapeColor: "backgroundColor" } },
-		}
+		"shapeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "shapeColor", graphColors),
+	}}
+    dropdownDefaults={{
+		"shapeColor": 0
 	}}
 />
 
 
 ## Shape Rotation
-You can change the rotation of the node by setting the `shapeRotation` property.
-This property can either receive a number input (in degrees), or `random` to randomize the rotation of the node.
+The rotation of a node can be set with the `shapeRotation` property.
+This property accepts either a number input (given as degrees), or `random` to randomize the rotation of the node.
 
-<GraphExample id="rotationSelect" config={{ nodeDefaultStyle: { shapeRotation: 72, shape: "star", shapePoints: 5 } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+<GraphExample id="rotationSelect"
+	config={{ graphConfig: { nodeDefaultStyle: { shapeRotation: 72, shape: "star", shapePoints: 5 } }}}
+    baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"/node/"}
 	sliders={{
-		"nodeDefaultStyle.shapeRotation": {
+		"graphConfig.nodeDefaultStyle.shapeRotation": {
 			"title": "shapeRotation",
 			"min": 0,
 			"max": 360,
@@ -111,32 +107,35 @@ This property can either receive a number input (in degrees), or `random` to ran
 
 
 ## Corner Radius
-You can change the corner radius of the node by setting the `cornerRadius` property,
+With the `cornerRadius` property, you can set the corner radius of the node,
 which works similarly to the CSS `border-radius` property.
-This property is only applicable to polygon or star derived shapes (e.g. `square`, `triangle`, `polygon`, `star`).
-Input can either be a number (in pixels), or a string with a percentage value (e.g. "5.3%").
+This property is only applicable to polygon or star-derived shapes (e.g. `square`, `triangle`, `polygon`, `star`),
+other shapes (e.g. `circle`) are not affected by this property.
+Input can either be a number (in pixels), or a percentage value represented as a string (e.g. "5.3%").
 
 <GraphExample id="shapeCornerRadius"
 			  config={{
-				  nodeDefaultStyle: {
-					  shape: "square",
-					  shapeCornerRadius: "4%",
-					  cornerType: "round"
-				  }
+				graphConfig: {
+					nodeDefaultStyle: {
+						shape: "square",
+						shapeCornerRadius: "4%",
+						cornerType: "round"
+					}
+				}
 			  }}
-			  baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+			  baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"/node/"}
 			  buttons={{
-				  "Circle": { config: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } },
-				  "Square": { config: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } },
-				  "Triangle": { config: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } },
-				  "Polygon": { config: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } },
-				  "Star": { config: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } },
-				  "Regular Corners": { class: "break-line corner-type-button", config: { nodeDefaultStyle: { cornerType: 'normal' } } },
-				  "Rounded Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'round' } } },
-				  "Beveled Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'bevel' } } },
+				  "Circle": { config: { graphConfig: { nodeDefaultStyle: { shape: 'circle', shapePoints: 'undefined' } } } },
+				  "Square": { config: { graphConfig: { nodeDefaultStyle: { shape: 'square', shapePoints: 'undefined' } } } },
+				  "Triangle": { config: { graphConfig: { nodeDefaultStyle: { shape: 'triangle', shapePoints: 'undefined' } } } },
+				  "Polygon": { config: { graphConfig: { nodeDefaultStyle: { shape: 'polygon', shapePoints: 5 } } } },
+				  "Star": { config: { graphConfig: { nodeDefaultStyle: { shape: 'star', shapePoints: 5 } } } },
+				  "Regular Corners": { class: "break-line corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'normal' } } } },
+				  "Rounded Corners": { class: "corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'round' } } } },
+				  "Beveled Corners": { class: "corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'bevel' } } } },
 			  }}
 			  sliders={{
-				  "nodeDefaultStyle.shapeCornerRadius": {
+				  "graphConfig.nodeDefaultStyle.shapeCornerRadius": {
 					  "title": "shapeCornerRadius",
 					  "min": 0,
 					  "max": 100,
@@ -149,51 +148,41 @@ Input can either be a number (in pixels), or a string with a percentage value (e
 
 
 ## Shape Stroke
-You can change the stroke of the node by setting the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
+Similarly to the `shape` properties, you can also set the size, color and corner radius of the stroke
+using the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
 
 <GraphExample id="shapeStroke"
 			  config={{
-				  nodeDefaultStyle: {
-					  shape: "square",
-					  shapeColor: "nodeColor2",
-					  strokeWidth: 2,
-					  strokeColor: "inherit",
-					  strokeCornerRadius: "4%",
-					  cornerType: "round"
-				  }
+				graphConfig: {
+					nodeDefaultStyle: {
+						shape: "square",
+						shapeColor: "nodeColor1",
+						strokeWidth: 2,
+						strokeColor: "inherit",
+						strokeCornerRadius: "4%",
+						cornerType: "round"
+					},
+				}
 			  }}
-			  baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug={"node/"}
+			  baseConfig={overrideConfig(focusSingleNode, { graphConfig: { nodeCurrentStyle: { shapeColor: "nodeColor1" } }})}
+			  sitemap={singleNodeSitemap} slug={"/node/"}
 			  dropdowns={{
-				  "strokeColor": {
-					  "inherit": { nodeDefaultStyle: { strokeColor: "inherit" } },
-					  "nodeColor": { nodeDefaultStyle: { shapeColor: "nodeColor" } },
-					  "nodeColorVisited": { nodeDefaultStyle: { shapeColor: "nodeColorVisited" } },
-					  "nodeColorCurrent": { nodeDefaultStyle: { shapeColor: "nodeColorCurrent" } },
-					  "nodeColorUnresolved": { nodeDefaultStyle: { shapeColor: "nodeColorUnresolved" } },
-					  "nodeColorExternal": { nodeDefaultStyle: { shapeColor: "nodeColorExternal" } },
-					  "nodeColorTag": { nodeDefaultStyle: { shapeColor: "nodeColorTag" } },
-					  "nodeColor1": { nodeDefaultStyle: { shapeColor: "nodeColor1" } },
-					  "nodeColor2": { nodeDefaultStyle: { shapeColor: "nodeColor2" } },
-					  "nodeColor3": { nodeDefaultStyle: { shapeColor: "nodeColor3" } },
-					  "nodeColor4": { nodeDefaultStyle: { shapeColor: "nodeColor4" } },
-					  "nodeColor5": { nodeDefaultStyle: { shapeColor: "nodeColor5" } },
-					  "nodeColor6": { nodeDefaultStyle: { shapeColor: "nodeColor6" } },
-					  "nodeColor7": { nodeDefaultStyle: { shapeColor: "nodeColor7" } },
-					  "nodeColor8": { nodeDefaultStyle: { shapeColor: "nodeColor8" } },
-					  "nodeColor9": { nodeDefaultStyle: { shapeColor: "nodeColor9" } },
-					  "linkColor": { nodeDefaultStyle: { shapeColor: "linkColor" } },
-					  "backgroundColor": { nodeDefaultStyle: { shapeColor: "backgroundColor" } },
-				  }
+				  "shapeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "shapeColor", graphColors),
+				  "strokeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "strokeColor", [ "inherit", ...graphColors]),
+			  }}
+			  dropdownDefaults={{
+				  "shapeColor": 6,
+				  "strokeColor": 0
 			  }}
 			  sliders={{
-				  "nodeDefaultStyle.strokeWidth": {
+				  "graphConfig.nodeDefaultStyle.strokeWidth": {
 					  "title": "strokeWidth",
 					  "min": 0,
 					  "max": 20,
 					  "step": 1,
 					  "val": 2
 				  },
-				  "nodeDefaultStyle.strokeCornerRadius": {
+				  "graphConfig.nodeDefaultStyle.strokeCornerRadius": {
 					  "title": "strokeCornerRadius",
 					  "min": 0,
 					  "max": 100,
@@ -203,27 +192,34 @@ You can change the stroke of the node by setting the `strokeWidth`, `strokeColor
 				  }
 			  }}
 			  buttons={{
-				  "Regular Corners": { class: "break-line corner-type-button", config: { nodeDefaultStyle: { cornerType: 'normal' } } },
-				  "Rounded Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'round' } } },
-				  "Beveled Corners": { class: "corner-type-button", config: { nodeDefaultStyle: { cornerType: 'bevel' } } },
+				  "Regular Corners": { class: "break-line corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'normal' } } } },
+				  "Rounded Corners": { class: "corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'round' } } } },
+				  "Beveled Corners": { class: "corner-type-button", config: { graphConfig: { nodeDefaultStyle: { cornerType: 'bevel' } } } },
 			  }}
 />
 
 
 ## Collider Scaling
 
-You can change how much the size of the node's collider should be scaled by, by setting the `colliderScale` property.
+The collider of a node is an invisible area around the node, which prevents other nodes from overlapping with it.
+By default, the collider is identical to the size of the node itself, and only the simulation forces are responsible
+for preventing nodes from overlapping.
+
+However, if you'd like to have a larger area around the node that prevents other nodes from overlapping with it,
+you can increase the size of the collider using the `colliderScale` property.
 
 <GraphExample id="colliderScale"
 			  config={{
-				  repelForce: 0.1,
-				  nodeDefaultStyle: {
-					  colliderScale: 1
-				  }
+				graphConfig: {
+					repelForce: 0.1,
+					nodeDefaultStyle: {
+						colliderScale: 1
+					}
+				}
 			  }}
-			  baseConfig={{ ...focusSingleNode, scale: 0.7 }} sitemap={fourtyNodeSitemap} slug={"node/"}
+			  baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 0.7, depth: 5 }})} sitemap={fourtyNodeSitemap} slug={"/node/"}
 			  sliders={{
-				  "nodeDefaultStyle.colliderScale": {
+				  "graphConfig.nodeDefaultStyle.colliderScale": {
 					  "title": "colliderScale",
 					  "min": 0,
 					  "max": 15,
@@ -236,20 +232,23 @@ You can change how much the size of the node's collider should be scaled by, by 
 
 ## Node Scaling
 
-You can change how much a node is scaled with respect to the `shapeSize` property,
-by setting the `nodeScale` property.
+Using the `nodeScale` property, you can change how much a node is scaled with respect to the `shapeSize` property.
+This can be useful if you want to make a specific category of nodes larger or smaller in comparison to other nodes
+(e.g. making the _current page's_ node larger than the other nodes with `{ nodeCurrentStyle: { nodeScale: 2 } }`).
 
 <GraphExample id="nodeScale"
 			  config={{
-				  scale: 1,
-				  nodeDefaultStyle: {
-					  shapeSize: 10,
-					  nodeScale: 1
-				  }
+				graphConfig: {
+					scale: 1,
+					nodeDefaultStyle: {
+						shapeSize: 10,
+						nodeScale: 1
+					}
+				}
 			  }}
-			  baseConfig={{ ...focusSingleNode, repelForce: 5 }} sitemap={twoNodeSitemap} slug={"node/"}
+			  baseConfig={overrideConfig(focusSingleNode, { graphConfig: { repelForce: 5, depth: 5 }})} sitemap={twoNodeSitemap} slug={"/node/"}
 			  sliders={{
-				  "nodeDefaultStyle.nodeScale": {
+				  "graphConfig.nodeDefaultStyle.nodeScale": {
 					  "title": "nodeScale",
 					  "min": 0.1,
 					  "max": 5,
@@ -262,19 +261,23 @@ by setting the `nodeScale` property.
 ## Neighbor Scaling
 
 A node can have different amount of links compared to other nodes.
-If you want a node to be larger than its surrounding nodes if it has more links,
+If you want a node to be larger than its surrounding nodes when it has more links,
 you can do so by increasing the `neighborScale` property.
+
+Internally, this property multiplies the `nodeScale` by a smoothed exponential function of the number of links the node has.
 
 <GraphExample id="neighborScale"
 			  config={{
-				  scale: 1,
-				  nodeDefaultStyle: {
-					  neighborScale: 1
-				  }
+				graphConfig: {
+					scale: 1,
+					nodeDefaultStyle: {
+						neighborScale: 1
+					}
+				}
 			  }}
-			  baseConfig={focusSingleNode} sitemap={starNodeSitemap} slug={"node/"}
+			  baseConfig={focusSingleNode} sitemap={starNodeSitemap} slug={"/node/"}
 			  sliders={{
-				  "nodeDefaultStyle.neighborScale": {
+				  "graphConfig.nodeDefaultStyle.neighborScale": {
 					  "title": "neighborScale",
 					  "min": 0,
 					  "max": 50,

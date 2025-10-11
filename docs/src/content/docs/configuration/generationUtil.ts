@@ -26,34 +26,77 @@ export function generateSitemap(nodes: NodeConfig[]) {
 	return convertToSitemap(enforceValidNodes(nodes));
 }
 
-export function enforceValidNodes(nodes: NodeConfig[]) {
-	for (const node of nodes) {
-		node.id = node.id.endsWith('/') ? node.id : `${node.id}/`;
-		node.title ??= node.id.slice(0, -1).split('-').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-		node.exists ??= true;
-		node.links = node.links ? node.links.map((link) => link.endsWith('/') ? link : `${link}/`) : [];
-		node.backlinks = node.backlinks ? node.backlinks.map((link) => link.endsWith('/') ? link : `${link}/`) : [];
+export function overrideConfig(baseConfig: any, overrideConfig: any) {
+	return {
+		graphConfig: {
+			...baseConfig.graphConfig,
+			...overrideConfig.graphConfig,
+		},
+		sitemapConfig: {
+			...baseConfig.sitemapConfig,
+			...overrideConfig.sitemapConfig,
+		},
+		backlinksConfig: {
+			...baseConfig.backlinksConfig,
+			...overrideConfig.backlinksConfig,
+		}
+	}
+}
+
+function setSlashes(path: string, leading: boolean = true, trailing: boolean = true) {
+	if (leading) {
+		path = (path.startsWith('/') || path.startsWith("http")) ? path : `/${path}`;
+	} else {
+		path = path.startsWith('/') ? path.slice(1) : path;
 	}
 
-	// Yes this is inefficient, too bad! (Okay, I'm just trying to get all of this finished by the evening)
+	if (trailing) {
+		path = path.endsWith('/') ? path : `${path}/`;
+	} else {
+		path = (path.endsWith('/') && path.length !== 1) ? path.slice(0, -1) : path;
+	}
+
+	return path;
+}
+
+export function enforceValidNodes(nodes: NodeConfig[]) {
+	for (const node of nodes) {
+		node.id = setSlashes(node.id);
+		node.title ??= node.id
+			.slice(1, -1)
+			.split('-')
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
+		node.exists ??= true;
+		node.links = (node.links ?? []).map((link) => setSlashes(link));
+		node.backlinks = (node.backlinks ?? []).map((link) => setSlashes(link));
+	}
+
 	for (const node of nodes) {
 		for (const link of node.links!) {
-			const linkedNode = nodes.find((n) => n.id === link);
-			linkedNode?.backlinks?.push(node.id);
+			nodes.find((n) => n.id === link)?.backlinks?.push(node.id);
 		}
 	}
 
+	// EXPL: Cannot be moved into the loop above, as backlinks need to be fully populated first
 	for (const node of nodes) {
-		node.links = [...new Set(node.links)];
-		node.backlinks = [...new Set(node.backlinks)];
+		node.links = node.links?.length ? [...new Set(node.links)] : undefined;
+		node.backlinks = node.backlinks?.length ? [...new Set(node.backlinks)] : undefined;
 	}
 
 	return nodes;
 }
 
 
-export function generateRandomSitemap(nodes: RandomConfig[], size: number, connectPct: number = 0.2, unresolvedPct: number = 0.1, externalPct: number = 0.1) {
+export function generateRandomSitemap(nodes: RandomConfig[], size: number, connectPct: number = 0.2, unresolvedPct: number = 0.1, externalPct: number = 0.1, connectToFirstPct: number = 0.0) {
 	const all_nodes = [...nodes, ...generateRandomNodes(size, connectPct, unresolvedPct, externalPct)];
+	if (connectToFirstPct > 0) {
+		for (const node of all_nodes) {
+			if (Math.random() < connectToFirstPct && node.id !== all_nodes[0].id && !node.external) {
+				node.links = [...new Set([...(node.links ?? []), all_nodes[0].id])];
+			}
+		}
+	}
 	return generateSitemap(randomlyLinkNodes(all_nodes, connectPct));
 }
 
@@ -62,7 +105,7 @@ export function generateRandomNodes(size: number, connectPct: number = 0.2, unre
 		const randExists = !(Math.random() < unresolvedPct);
 		const randExternal = Math.random() < externalPct;
 		return {
-			id: `node-${i + 1}/`,
+			id: `/node-${i + 1}/`,
 			exists: randExists,
 			external: randExternal,
 			connectPct: connectPct,

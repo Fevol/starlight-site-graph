@@ -17,7 +17,10 @@ This page details configuration options for changing what is included in the sit
 ## Content Root
 
 The `contentRoot` option specifies from which directory files should be parsed to generate the sitemap.
-By default, this is set to `./src/content/docs`. If you have your pages stored elsewhere, you will likely have to change this option.
+By default, this is set to Astro's `srcDir` + `/content/docs` for Starlight (i.e. `./src/content/docs`),
+and  `srcDir` + `/pages` for vanilla Astro sites (i.e. `./src/pages`).
+
+Normally, you should not have to change this setting, as this will have an effect on how the paths of pages are constructed.
 
 **Example:**
 
@@ -62,14 +65,27 @@ By default, this is set to `./src/content/docs`. If you have your pages stored e
 	</TabItem>
 </Tabs>
 
+:::danger[Warning]
+The choice of `contentRoot` will determine how the path of a page is constructed.
+In the example above, setting the `contentRoot` to `./src/content/docs` will result in pages having paths such as `/private/basic-secretive-page` and `/public/index`.
+Setting the `contentRoot` to `./src/content/docs/public` will result in pages having paths such as `/index` and `/about`.
+:::
 
 ## Page Inclusion Rules
 
-The `pageInclusionRules` option allows you to specify which pages should be included in the sitemap based on their _file path_.
+The `pageInclusionRules` option allows you to specify which pages should be included in the sitemap based on their _file path_ (relative to the `contentRoot`).
 The rules are specified as a list of strings, where each string is a [glob pattern](/starlight-site-graph/concepts/globs).
 The first rule that was matched, determines whether the page is included or not.
 
 If the inclusion of a page was specified in its frontmatter, it will take precedence over the rules specified here.
+
+:::note[Note]
+This setting will apply to both Markdown files which are parsed pre-build, and HTML files generated during the build.
+If you, for example, use `["**/*.md"]` as your inclusion rules, any extra links that can only be found in
+the generated HTML (e.g. statically generated links from Astro components) will not be included in the sitemap.
+
+In contrast, `["**/*.html"]` is equivalent to `["**/*"]`, as the HTML content will always contain all links from the Markdown files.
+:::
 
 <Tabs>
 	<TabItem label='["**/*"]'>
@@ -112,7 +128,7 @@ If the inclusion of a page was specified in its frontmatter, it will take preced
 							- ...
 		</FileTree>
 	</TabItem>
-	<TabItem label='["public/**"]'>
+	<TabItem label='["/public/**"]'>
 		Only files in the `public` directory are included.
 		<FileTree>
 			- src
@@ -219,7 +235,7 @@ which will result in all common Starlight links being ignored (i.e. table of con
 	<TabItem label='["header", "raw"]'>
 		Links in the `<header>` and `<raw>` elements are ignored.
 
-		```html ins="/link3" ins="/link4" del=/<.?header>/ del=/<.?raw>/
+		```html ins="/link3" ins="/link4" del=/<.?header>/ del=/<.?raw>/ mark=//link1/ mark=//link2/
 		<header>
 			<nav>
 				<a href="/link1">Header Link</a>
@@ -241,7 +257,7 @@ which will result in all common Starlight links being ignored (i.e. table of con
 	<TabItem label='[".right-sidebar"]'>
 		Links in elements with `<xyz class="right-sidebar">` are ignored.
 
-		```html ins="/link1" ins="/link2" ins="/link4" del=/<.?aside.*>/
+		```html ins="/link1" ins="/link2" ins="/link4" del=/<.?aside.*>/ mark=//link3/
 		<header>
 			<nav>
 				<a href="/link1">Header Link</a>
@@ -263,7 +279,7 @@ which will result in all common Starlight links being ignored (i.e. table of con
 	<TabItem label='["#footer"]'>
 		Links in elements with `<xyz id="footer">` are ignored.
 
-		```html ins="/link1" ins="/link2" ins="/link3" del=/<.?div.*>/
+		```html ins="/link1" ins="/link2" ins="/link3" del=/<.?div.*>/ mark=//link4/
 		<header>
 			<nav>
 				<a href="/link1">Header Link</a>
@@ -284,7 +300,7 @@ which will result in all common Starlight links being ignored (i.e. table of con
 	</TabItem>
 </Tabs>
 
-## <Badge text="Deprecated" variant="danger" size="large" /> Ignore Starlight Links
+## <Badge text="Deprecated" variant="danger" size="large" /> <strike>Ignore Starlight Links</strike>
 
 :::danger[Deprecated]
 This option is deprecated and will be removed in a future version.
@@ -362,7 +378,9 @@ If a link was specified in the frontmatter of a page, it will always be included
 		```
 	</TabItem>
 	<TabItem label='["!https://**/*", "**/*"]'>
-		Only links that are not external are matched. This is equivalent to [`includeExternalLinks: false`](/starlight-site-graph/configuration/sitemap/inclusion/#include-external-links).
+		Only links that are not external are matched.
+		Though this is technically equivalent to [`includeExternalLinks: false`](/starlight-site-graph/configuration/sitemap/inclusion/#include-external-links),
+		this rule would not be able to override the behaviour specified by `includeExternalLinks`.
 
 		```md ins="[links](/link)" ins="[another link here](/here/another/link)"
 		// a-linked-document.md

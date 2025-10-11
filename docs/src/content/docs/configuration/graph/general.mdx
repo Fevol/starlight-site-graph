@@ -13,6 +13,7 @@ sitemap:
 import GraphExample from "../../../../components/GraphExample.astro";
 import { Badge, FileTree, Tabs, TabItem } from '@astrojs/starlight/components';
 
+import { overrideConfig } from '../generationUtil.js';
 import {
 	directoriesExampleSitemap,
 	nonInteractiveConfig, frozenConfig, largeFrozenSitemapConfig, largeRandomNodeSitemap,
@@ -36,10 +37,10 @@ When the depth is negative, the graph will show _all_ nodes in the graph, even i
 The graph will be traversed in the direction specified by the `depthDirection` option.
 
 <GraphExample id="depth-showcase" config={{
-	depth: 1,
-}} baseConfig={{ ...largeFrozenSitemapConfig, scale: 0.65 }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener
+	graphConfig: { depth: 1 },
+}} baseConfig={overrideConfig(largeFrozenSitemapConfig, { graphConfig: { scale: 0.65 }})} sitemap={largeRandomNodeSitemap} slug={"/node/"} configListener
 	sliders={{
-		"depth": {
+		"graphConfig.depth": {
 			"title": "depth",
 			"min": -1,
 			"max": 5,
@@ -59,11 +60,13 @@ The `depthDirection` option determines the direction in which the links of the g
 This setting is ignored once a depth of 5 or higher is reached.
 
 <GraphExample id="depth-direction-showcase" config={{
-	depth: 1,
-	depthDirection: "both",
-}} baseConfig={{ ...largeFrozenSitemapConfig, scale: 0.65, minZoomArrows: 0.01, arrowSize: 4 }} sitemap={largeRandomNodeSitemap} slug={"node/"} configListener
+	graphConfig: {
+		depth: 1,
+		depthDirection: "both",
+	}
+}} baseConfig={overrideConfig(largeFrozenSitemapConfig, { graphConfig: { scale: 0.65, minZoomArrows: 0.01, arrowSize: 3 }})} sitemap={largeRandomNodeSitemap} slug={"/node/"} configListener
 	sliders={{
-		depth: {
+		"graphConfig.depth": {
 			"title": "depth",
 			"min": -1,
 			"max": 5,
@@ -72,9 +75,9 @@ This setting is ignored once a depth of 5 or higher is reached.
 		}
 	}}
 	buttons={{
-	  "both": { config: { depthDirection: "both" } },
-	  "incoming": { config: { depthDirection: "incoming" } },
-	  "outgoing": { config: { depthDirection: "outgoing" } },
+	  "both": { config: { graphConfig: { depthDirection: "both" } } },
+	  "incoming": { config: { graphConfig: { depthDirection: "incoming" } } },
+	  "outgoing": { config: { graphConfig: { depthDirection: "outgoing" } } },
 	}}
 />
 
@@ -85,10 +88,10 @@ The order of the actions in the array determines the order in which they are dis
 
 For more information on what each individual action does, see the [Graph Actions](/starlight-site-graph/configuration/graph/actions) page.
 
-<GraphExample id="action-configuration" config={{
+<GraphExample id="action-configuration" config={{ graphConfig: {
 	actions: ["fullscreen", "depth", "reset-zoom", "render-arrows", "render-external", "render-unresolved", "settings"],
 	depth: 4,
-}} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"node/"} configListener />
+}}} baseConfig={frozenConfig} sitemap={randomNodeSitemap} slug={"/node/"} configListener />
 
 ## <Badge text="New" variant="caution" size="large" /> Inclusion Rules
 
@@ -96,13 +99,14 @@ With the `nodeInclusionRules` option, you can specify which nodes should be incl
 This is a list of [glob patterns](/starlight-site-graph/concepts/globs) that determine which pages are included in the graph.
 By default, all nodes are included (`["**/*"]`) in the graph.
 
-<GraphExample id="click-configuration" config={{
-	nodeInclusionRules: "['**/*']"
-}} baseConfig={nonInteractiveConfig} sitemap={directoriesExampleSitemap} slug={"1/"}
+<GraphExample id="click-configuration" config={{ graphConfig: {
+	nodeInclusionRules: ['**/*'],
+}}} baseConfig={overrideConfig(nonInteractiveConfig, { graphConfig: { scale: 0.9, depth: 5, labelOpacityScale: 5 } })} sitemap={directoriesExampleSitemap} slug={"/1/"}
 			  buttons={{
-				  "['**/*']": { config: { nodeInclusionRules: ['**/*'] } },
-				  "['!**/x/**']": { config: { nodeInclusionRules: ['!**/x/**'] } },
-				  "['!**/1/']": { config: { nodeInclusionRules: ['!**/1/'] } },
+				  "['**/*']": { config: { graphConfig: { nodeInclusionRules: ['**/*'] } } },
+				  "['!**/x/**']": { config: { graphConfig: { nodeInclusionRules: ['!**/x/**'] } } },
+				  "['!**/1/']": { config: { graphConfig: { nodeInclusionRules: ['!**/1/'] } } },
+				  "['!/1/']": { config: { graphConfig: { nodeInclusionRules: ['!/1/'] } } },
 			  }}
 />
 
@@ -112,70 +116,59 @@ The `visibilityRules` option is a list of [glob patterns](/starlight-site-graph/
 (e.g. the graph in the Starlight sidebar) will be shown.
 When using the plugin it its default configuration (with Starlight), the graph will also only be shown if the sidebar is visible.
 
+:::note[Note]
+These rules apply to the _slug_ of the page, not its file path.
+:::
+
 <Tabs>
 	<TabItem label='["**/*"]'>
 		`<PageGraph />` is shown on all pages.
 		<FileTree>
-			- src
-				- content
-					- docs
-						- **private**
-							- **page.md** // `<PageGraph>` is shown
-						- **public**
-							- **page.md** // `<PageGraph>` is shown
-							- **cool-stuff.md** // `<PageGraph>` is shown
+			- **private**
+				- **page** // `<PageGraph>` is shown
+			- **public**
+				- **page** // `<PageGraph>` is shown
+				- **cool-stuff** // `<PageGraph>` is shown
 		</FileTree>
 	</TabItem>
 	<TabItem label='["!**/*", "**/*"]'>
-		`<PageGraph />` is never shown because the first rule matches all pages.
+		`<PageGraph />` is never shown because the first rule matches and rejects all pages.
 		<FileTree>
-			- src
-				- content
-					- docs
-						- private
-							- page.md // `<PageGraph>` is _not_ shown
-						- public
-							- page.md // `<PageGraph>` is _not_ shown
-							- cool-stuff.md // `<PageGraph>` is _not_ shown
+			- private
+				- page // `<PageGraph>` is _not_ shown
+			- public
+				- page // `<PageGraph>` is _not_ shown
+				- cool-stuff // `<PageGraph>` is _not_ shown
 		</FileTree>
 	</TabItem>
 	<TabItem label='["**/public/*"]'>
-		`<PageGraph />` is only shown on pages in the `public` directory.
+		`<PageGraph />` is only shown on pages containing the `public` directory in their slug.
 		<FileTree>
-			- src
-				- content
-					- docs
-						- private
-							- page.md // `<PageGraph>` is _not_ shown
-						- **public**
-							- **page.md** // `<PageGraph>` is shown
-							- **cool-stuff.md** // `<PageGraph>` is shown
+			- private
+				- page // `<PageGraph>` is _not_ shown
+			- **public**
+				- **page** // `<PageGraph>` is shown
+				- **cool-stuff** // `<PageGraph>` is shown
 		</FileTree>
 	</TabItem>
-	<TabItem label='["**/page.md"]'>
-		`<PageGraph />` is only shown on pages with the name `page.md`.
+	<TabItem label='["**/page"]'>
+		`<PageGraph />` is only shown on pages ending on the `page` slug.
 		<FileTree>
-			- src
-				- content
-					- docs
-						- private
-							- **page.md** // `<PageGraph>` is shown
-						- public
-							- **page.md** // `<PageGraph>` is shown
-							- cool-stuff.md // `<PageGraph>` is _not_ shown
+			- private
+				- **page** // `<PageGraph>` is shown
+			- public
+				- **page** // `<PageGraph>` is shown
+				- cool-stuff // `<PageGraph>` is _not_ shown
 		</FileTree>
 	</TabItem>
-	<TabItem label='["!**/public/**, "**/*"]'>
-		`<PageGraph />` is shown on all pages except for those in the `public` directory.
+	<TabItem label='["/public/page"]'>
+		`<PageGraph />` is shown only on the page with the exact slug `/public/page`.
 		<FileTree>
-			- src
-				- content
-					- docs
-						- **private**
-							- **page.md** // `<PageGraph>` is shown
-						- public
-							- page.md // `<PageGraph>` is _not_ shown
-							- cool-stuff.md // `<PageGraph>` is _not_ shown
+			- private
+				- page // `<PageGraph>` is shown
+			- public
+				- **page** // `<PageGraph>` is shown
+				- cool-stuff // `<PageGraph>` is _not_ shown
 		</FileTree>
 	</TabItem>
 </Tabs>

@@ -20,7 +20,7 @@ when using the [`<PageGraph />`](/starlight-site-graph/components/pagegraph) com
 
 <Tabs>
 	<TabItem label="Shown" icon="approve-check">
-		Graph _will_ be revealed in the page.
+		The `PageGraph` _will_ be shown on the page.
 		```md {4-5}
 		// src/content/docs/my-page.md
 		---
@@ -33,7 +33,7 @@ when using the [`<PageGraph />`](/starlight-site-graph/components/pagegraph) com
 		```
 	</TabItem>
 	<TabItem label="Hidden" icon="close">
-		Graph _will not_ be revealed in the page.
+		The `PageGraph` _will **not**_ be shown on the page.
 		```md {4-5}
 		// src/content/docs/my-page.md
 		---
@@ -48,7 +48,7 @@ when using the [`<PageGraph />`](/starlight-site-graph/components/pagegraph) com
 </Tabs>
 
 ## Node Style
-The `nodeStyle` frontmatter key allows you to specify the style of the node corresponding to this page in the graph.
+The `nodeStyle` frontmatter key allows you to specify the style of the page's corresponding node in the graph.
 Any style defined in [Node Style](/starlight-site-graph/configuration/graph/nodestyle) can be used here.
 This will override any and all other styles applied to the node.
 
@@ -135,7 +135,7 @@ except for the `prefetchPages` and `visiblityRules` options.
 		Some important text.
 		```
 
-		<GraphExample id="base-style-graph-showcase" config={{ actions: ["fullscreen"] }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug="node/" />
+		<GraphExample id="base-style-graph-showcase" config={{ graphConfig: { actions: ["fullscreen"] } }} baseConfig={focusSingleNode} sitemap={singleNodeSitemap} slug="node/" />
 	</TabItem>
 	<TabItem label='{scale: 0.6}' >
 		Graph with an initial scale of 0.6.
@@ -150,6 +150,6 @@ except for the `prefetchPages` and `visiblityRules` options.
 		Some important text.
 		```
 
-		<GraphExample id="base-style-graph-showcase" config={{ scale: 0.6 }} baseConfig={focusSingleNode} sitemap={restyleNodes(singleNodeSitemap, new Map([[["**/node/"], {shape: "square", shapeRotation: 45}]]))} slug={"node/"}/>
+		<GraphExample id="base-style-graph-showcase" config={{ graphConfig: { scale: 0.6 } }} baseConfig={focusSingleNode} sitemap={restyleNodes(singleNodeSitemap, new Map([[["**/node/"], {shape: "square", shapeRotation: 45}]]))} slug={"node/"}/>
 	</TabItem>
 </Tabs>

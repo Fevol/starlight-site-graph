@@ -8,16 +8,16 @@ sitemap:
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
+import { overrideConfig } from '../generationUtil.js';
 import {
 	fourNodeSitemap,
-	frozenConfig, nodeCurrentStyleConfig, nodeCurrentStylePartialConfig,
+	frozenConfig, nodeCurrentStyleConfig,
 	nodeDefaultStyleConfig,
 	nodeExternalStyleConfig,
-	nodeExternalStylePartialConfig, nodeUnresolvedStyleConfig, nodeUnresolvedStylePartialConfig,
+	nodeUnresolvedStyleConfig,
 	nodeVisitedStyleConfig,
-	nodeVisitedStylePartialConfig,
 	specialNodeSitemap,
-	stylesDropdown, tagDefaultStylesConfig, tagDefaultStylesPartialConfig,
+	stylesDropdown, tagDefaultStylesConfig,
 	threeNodeSitemap,
 } from '../constants.js';
 
@@ -31,12 +31,12 @@ If you are looking for how an individual node can be styled, check out the [node
 The `renderUnresolved` option toggles the rendering of unresolved nodes in the graph.
 When a link goes to a page on the same site which does not exist, the node is marked as unresolved.
 
-<GraphExample id="render-unresolved-showcase" config={{
+<GraphExample id="render-unresolved-showcase" config={{ graphConfig: {
 	renderUnresolved: true,
-}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"node/"}
+}}} baseConfig={frozenConfig} sitemap={specialNodeSitemap} slug={"/node/"}
 	buttons={{
-		"Hide Unresolved": { config: { renderUnresolved: false } },
-		"Render Unresolved": { config: { renderUnresolved: true } },
+		"Hide Unresolved": { config: { graphConfig: { renderUnresolved: false } } },
+		"Render Unresolved": { config: { graphConfig: { renderUnresolved: true } } },
 	}}
 />
 
@@ -45,50 +45,49 @@ When a link goes to a page on the same site which does not exist, the node is ma
 The `renderExternal` option toggles the rendering of external nodes in the graph.
 External nodes are links to pages on other sites.
 
-<GraphExample id="render-external-showcase" config={{
+<GraphExample id="render-external-showcase" config={{ graphConfig: {
 	renderExternal: true,
-}} baseConfig={{ ...frozenConfig, renderUnresolved: true }} sitemap={specialNodeSitemap} slug={"node/"}
+}}} baseConfig={overrideConfig(frozenConfig, { graphConfig: { renderUnresolved: true }})} sitemap={specialNodeSitemap} slug={"/node/"}
 	buttons={{
-		"Hide External": { config: { renderExternal: false } },
-		"Render External": { config: { renderExternal: true } },
+		"Hide External": { config: { graphConfig: { renderExternal: false } } },
+		"Render External": { config: { graphConfig: { renderExternal: true } } },
 	}}
 />
 
 ## Node Styles
 
-In the site graph plugin, there are _6 types_ of nodes that can exist in the graph:
-1. Default (base style)
-2. External (nodes refers to pages on other sites)
+In the site graph plugin, there are _6 categories_ of nodes that can exist in the graph:
+1. Default (node does not fall into any category)
+2. External (node refers to pages on other sites)
 3. Visited (user has visited the page)
-4. Tags (node is a tag)
-5. Current (current page)
+4. Tags (node contains a tag)
+5. Current (node corresponds to current page)
 6. Unresolved (node refers to a page that does not exist)
 
-Each node type can be individually styled using their own style.
-Also, each subsequent style inherits from the previous style in the list.
+
+Each category applies a specific style to the node, and will override any styles define by categories that are
+of 'lower priority'.
+The list above also gives the priority order of the different categories (where the `unresolved` style will override
+all other styles).
 
 An example: a node can be both `visited` as well as `current` at the same time, the final style for this node will thus be determined as:
-1. Styles specified by `current` style
-2. Styles specified by `visited` style
+1. Styles specified by `current` style, overrides `visited` and `default`
+2. Styles specified by `visited` style, overrides `default`
 3. Styles specified by `default` style
 
-For information about how these node styles can be configured, see the [node style page](/starlight-site-graph/configuration/graph/nodestyle).
-
-:::note[Note]
-If you actually just want to **change the color** used for a particular type of node,
-you can override the corresponding CSS variable in your site's stylesheet,
-check out the [CSS configuration](/starlight-site-graph/configuration/css/variables) page for more information.
-:::
-
+For information on how these node styles can be configured, see the [node style page](/starlight-site-graph/configuration/graph/nodestyle).
 
 ### Default
 
-`nodeDefaultStyle` is a style applied to all nodes in the graph, each other style applied to a node, overrides this style.
+`nodeDefaultStyle` is a style applied to all nodes in the graph, any other style applied to a node _will_ override this style.
 
-<GraphExample id="node-style-default-showcase" config={{
+<GraphExample id="node-style-default-showcase" config={{ graphConfig: {
 	nodeDefaultStyle: nodeDefaultStyleConfig
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"}
-	dropdowns={stylesDropdown("nodeDefaultStyle")}
+}}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"/node/"}
+	dropdowns={stylesDropdown("nodeDefaultStyle", nodeDefaultStyleConfig, undefined, true)}
+	dropdownDefaults={{
+		nodeDefaultStyle: 0
+	}}
 />
 
 ### External
@@ -96,14 +95,19 @@ check out the [CSS configuration](/starlight-site-graph/configuration/css/variab
 `nodeExternalStyle` is a style applied to nodes that refer to pages on other sites.
 External nodes only appear if the [`renderExternal`](/starlight-site-graph/configuration/graph/nodes/#render-external-nodes) option is enabled in the graph config.
 
-<GraphExample id="node-style-external-showcase" config={{
+<GraphExample id="node-style-external-showcase" config={{ graphConfig: {
+	nodeDefaultStyle: nodeDefaultStyleConfig,
 	nodeExternalStyle: nodeExternalStyleConfig
-}} baseConfig={{ ...frozenConfig, renderExternal: true }} sitemap={specialNodeSitemap} slug={"node/"}
+}}} baseConfig={overrideConfig(frozenConfig, { graphConfig: { renderExternal: true }})} sitemap={specialNodeSitemap} slug={"/node/"}
   dropdowns={{
-	  ...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig),
-	  ...stylesDropdown('nodeExternalStyle', nodeExternalStylePartialConfig, "External Node"),
+	  ...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig, undefined, true),
+	  ...stylesDropdown('nodeExternalStyle', undefined, "External Node"),
   }}
   dropdownMergeOrder={['nodeDefaultStyle', 'nodeExternalStyle']}
+  dropdownDefaults={{
+	  nodeDefaultStyle: 0,
+	  nodeExternalStyle: 3
+  }}
 />
 
 
@@ -112,14 +116,19 @@ External nodes only appear if the [`renderExternal`](/starlight-site-graph/confi
 `nodeVisitedStyle` is a style applied to nodes corresponding to pages that have been visited by the user.
 Visited nodes only appear if the [`trackVisitedPages`](/starlight-site-graph/configuration/general#track-visited-pages) option is enabled in the general config.
 
-<GraphExample id="node-style-visited-showcase" config={{
+<GraphExample id="node-style-visited-showcase" config={{ graphConfig: {
+	nodeDefaultStyle: nodeDefaultStyleConfig,
 	nodeVisitedStyle: nodeVisitedStyleConfig
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...threeNodeSitemap, 'starlight-site-graph/configuration/graph/nodes/': { exists: true, title: "Visited Page", links: ["node/"] }}} slug={"node/"}
+}}} baseConfig={frozenConfig} sitemap={{ ...threeNodeSitemap, 'starlight-site-graph/configuration/graph/nodes/': { exists: true, title: "Visited Page", links: ["/node/"] }}} slug={"/node/"}
 	dropdowns={{
-		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig),
-		...stylesDropdown('nodeVisitedStyle', nodeVisitedStylePartialConfig, "Visited Node"),
+		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig, undefined, true),
+		...stylesDropdown('nodeVisitedStyle', undefined, "Visited Node"),
 	}}
 	dropdownMergeOrder={['nodeDefaultStyle', 'nodeVisitedStyle']}
+	dropdownDefaults={{
+		nodeDefaultStyle: 0,
+		nodeVisitedStyle: 2
+	}}
 />
 
 ### Tags
@@ -127,15 +136,21 @@ Visited nodes only appear if the [`trackVisitedPages`](/starlight-site-graph/con
 `tagDefaultStyle` is the default style for tags in the graph.
 Tags are pseudo-nodes that are created when a page has tags (either via [frontmatter](/starlight-site-graph/configuration/frontmatter) or [`tagRules`](/starlight-site-graph/configuration/sitemap/processing/#tag-rules)).
 
-<GraphExample id="tag-style-default-showcase" config={{
+<GraphExample id="tag-style-default-showcase" config={{ graphConfig: {
+	nodeDefaultStyle: nodeDefaultStyleConfig,
 	tagDefaultStyle: tagDefaultStylesConfig,
 	tagRenderMode: "node"
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...fourNodeSitemap }} slug={"node/"}
-			  dropdowns={{
-				  ...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig),
-				  ...stylesDropdown('tagDefaultStyle', tagDefaultStylesPartialConfig, "Default Tag"),
-			  }}
-			  dropdownMergeOrder={['nodeDefaultStyle', 'tagDefaultStyle']}
+}}}
+	baseConfig={frozenConfig} sitemap={{ ...fourNodeSitemap }} slug={"/node/"}
+	dropdowns={{
+	  ...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig, undefined, true),
+	  ...stylesDropdown('tagDefaultStyle', undefined, "Default Tag"),
+	}}
+	dropdownMergeOrder={['nodeDefaultStyle', 'tagDefaultStyle']}
+	dropdownDefaults={{
+		nodeDefaultStyle: 0,
+		tagDefaultStyle: 5
+	}}
 />
 
 ### Current
@@ -143,14 +158,19 @@ Tags are pseudo-nodes that are created when a page has tags (either via [frontma
 `nodeCurrentStyle` defines the style for the current node in the graph.
 The current node corresponds to the page that the user is currently viewing.
 
-<GraphExample id="node-style-current-showcase" config={{
+<GraphExample id="node-style-current-showcase" config={{ graphConfig: {
+	nodeDefaultStyle: nodeDefaultStyleConfig,
 	nodeCurrentStyle: nodeCurrentStyleConfig
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...threeNodeSitemap }} slug={"node/"}
+}}} baseConfig={frozenConfig} sitemap={{ ...threeNodeSitemap }} slug={"/node/"}
 	dropdowns={{
-		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig),
-		...stylesDropdown('nodeCurrentStyle', nodeCurrentStylePartialConfig, "Current Node"),
+		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig, undefined, true),
+		...stylesDropdown('nodeCurrentStyle', undefined, "Current Node"),
 	}}
 	dropdownMergeOrder={['nodeDefaultStyle', 'nodeCurrentStyle']}
+	dropdownDefaults={{
+		nodeDefaultStyle: 0,
+		nodeCurrentStyle: 1
+	}}
 />
 
 
@@ -160,12 +180,17 @@ The current node corresponds to the page that the user is currently viewing.
 `nodeUnresolvedStyle` is the style applied to nodes that refer to pages that do not exist.
 Unresolved nodes only appear if the [`renderUnresolved`](/starlight-site-graph/configuration/graph/nodes/#render-unresolved-nodes) option is enabled in the graph config.
 
-<GraphExample id="node-style-unresolved-showcase" config={{
+<GraphExample id="node-style-unresolved-showcase" config={{ graphConfig: {
+	nodeDefaultStyle: nodeDefaultStyleConfig,
 	nodeUnresolvedStyle: nodeUnresolvedStyleConfig
-}} baseConfig={{ ...frozenConfig, renderUnresolved: true }} sitemap={specialNodeSitemap} slug={"node/"}
+}}} baseConfig={overrideConfig(frozenConfig, { graphConfig: { renderUnresolved: true }})} sitemap={specialNodeSitemap} slug={"/node/"}
 	dropdowns={{
-		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig),
-		...stylesDropdown('nodeUnresolvedStyle', nodeUnresolvedStylePartialConfig, "Unresolved Node"),
+		...stylesDropdown('nodeDefaultStyle', nodeDefaultStyleConfig, undefined, true),
+		...stylesDropdown('nodeUnresolvedStyle', undefined, "Unresolved Node"),
 	}}
 	dropdownMergeOrder={['nodeDefaultStyle', 'nodeUnresolvedStyle']}
+	dropdownDefaults={{
+		nodeDefaultStyle: 0,
+		nodeUnresolvedStyle: 4
+	}}
 />

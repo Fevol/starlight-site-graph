@@ -9,8 +9,16 @@ sitemap:
 
 In this package, a **node** corresponds to a page of a website, whether it
 is on your website, or someone else's. Each page can only have one single node associated with it,
-and subheadings (i.e. some/endpoint#heading) will be put under (some/endpoint).
+and subheadings (i.e. `/some/endpoint#heading`) will be put under (`/some/endpoint`).
 
 In Astro, a page can correspond to a `.md`, `.mdx`, `.mdoc` or `.astro` file; or it is generated
 dynamically. Depending on some configuration options, the package will only select a subset of these
 files to be included in the [sitemap](/starlight-site-graph/concepts/sitemap).
+
+The name of a node is determined by the following criteria, in order of precedence:
+1. The [`sitemap.pageTitle`](/starlight-site-graph/configuration/frontmatter/sitemap/#page-title) frontmatter key
+2. The [`title`](/starlight-site-graph/configuration/frontmatter/title) frontmatter key
+3. The [`sitemapConfig.pageTitles`](/starlight-site-graph/configuration/sitemap/processing/#page-titles) configuration option
+4. Depending on the [`sitemapConfig.pageTitleFallbackStrategy`](/starlight-site-graph/configuration/sitemap/processing/#page-title-fallback-strategy) setting:
+   - The most common link text (if any) used to link to this page
+   - The last segment of the URL path (e.g. `Some Page` for `/abc/some-page/`)

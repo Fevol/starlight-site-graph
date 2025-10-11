@@ -8,10 +8,10 @@ sitemap:
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
-import { frozenConfig, threeNodeSitemap } from '../constants.js';
+import { zoomedOutConfig, threeNodeSitemap } from '../constants.js';
 
-Each node in the graph (that has links), will also be connected to other nodes via links.
-Here, you can find how you can customize the width of these links, and the arrows that can be rendered on them.
+Each node in the graph can be connected to other nodes via links.
+Here, you can find how you can customize these links, including their width and whether arrows are rendered.
 
 :::note[Note]
 If you are looking for information on how to _color_ these links,
@@ -20,12 +20,13 @@ this can be done by changing its [CSS variables](/starlight-site-graph/configura
 
 ## Link Width
 
-The `linkWidth` determines the width of the links between nodes. The higher the value, the thicker the links.
+The `linkWidth` determines the width of the links between nodes.
+The higher the value, the thicker the links.
 
-<GraphExample id="link-width-showcase" config={{
+<GraphExample id="link-width-showcase" config={{ graphConfig: {
 	linkWidth: 1,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
-	"linkWidth": {
+}}} baseConfig={zoomedOutConfig} sitemap={threeNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.linkWidth": {
 		"title": "linkWidth",
 		"min": 1,
 		"max": 10,
@@ -37,12 +38,13 @@ The `linkWidth` determines the width of the links between nodes. The higher the 
 
 ## Link Hover Width
 
-The `linkHoverWidth` determines the width of the links between nodes when hovered over. The higher the value, the thicker the links.
+The `linkHoverWidth` determines the width of the links between nodes when hovered over.
+The higher the value, the thicker the links.
 
-<GraphExample id="link-hover-width-showcase" config={{
+<GraphExample id="link-hover-width-showcase" config={{ graphConfig: {
 	linkHoverWidth: 1,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
-	"linkHoverWidth": {
+}}} baseConfig={zoomedOutConfig} sitemap={threeNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.linkHoverWidth": {
 		"title": "linkHoverWidth",
 		"min": 1,
 		"max": 10,
@@ -54,28 +56,30 @@ The `linkHoverWidth` determines the width of the links between nodes when hovere
 
 ## Arrow Rendering
 
-The `renderArrows` option toggles the rendering of arrows on the edges of the graph. When arrows are rendered, they indicate which way the link is pointing.
+The `renderArrows` option toggles the rendering of arrows on the edges of the graph.
+When arrows are rendered, they indicate the direction of the link between nodes.
 
-<GraphExample id="render-arrows-showcase" config={{
+<GraphExample id="render-arrows-showcase" config={{ graphConfig: {
 	renderArrows: true,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"}
+}}} baseConfig={zoomedOutConfig} sitemap={threeNodeSitemap} slug={"/node/"}
 	buttons={{
-		"Hide Arrows": { config: { renderArrows: false } },
-		"Render Arrows": { config: { renderArrows: true } },
+		"Hide Arrows": { config: { graphConfig: { renderArrows: false } } },
+		"Render Arrows": { config: { graphConfig: { renderArrows: true } } },
 	}}
 />
 
 
 ## Arrow Size
 
-The `arrowSize` determines the size of the arrows on the links between nodes. The higher the value, the larger the arrows.
+The `arrowSize` determines the size of the arrows on the links between nodes.
+The higher the value, the larger the arrows.
 Arrows between links are only rendered if the `renderArrows` option is enabled.
 
-<GraphExample id="arrow-size-showcase" config={{
+<GraphExample id="arrow-size-showcase" config={{ graphConfig: {
 	renderArrows: true,
 	arrowSize: 5,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
-	"arrowSize": {
+}}} baseConfig={zoomedOutConfig} sitemap={threeNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.arrowSize": {
 		"title": "arrowSize",
 		"min": 1,
 		"max": 20,
@@ -87,7 +91,8 @@ Arrows between links are only rendered if the `renderArrows` option is enabled.
 
 ## Arrow Angle
 
-The `arrowAngle` determines the 'pointiness' of the arrows on the links between nodes. The higher the value, the more pointed the arrows.
+The `arrowAngle` determines the 'pointiness' of the arrows on the links between nodes.
+The higher the value, the pointier the arrows.
 Arrows between links are only rendered if the `renderArrows` option is enabled.
 
 :::note
@@ -95,11 +100,11 @@ For this example, the value is expressed as a fraction of π.
 The default value is π/6.
 :::
 
-<GraphExample id="arrow-angle-showcase" config={{
+<GraphExample id="arrow-angle-showcase" config={{ graphConfig: {
 	renderArrows: true,
 	arrowAngle: Math.PI / 6,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
-	"arrowAngle": {
+}}} baseConfig={zoomedOutConfig} sitemap={threeNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.arrowAngle": {
 		"title": "arrowAngle",
 		"min": 0,
 		"max": Math.PI / 2,

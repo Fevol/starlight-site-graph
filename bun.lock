@@ -10,22 +10,23 @@
     },
     "docs": {
       "name": "docs",
-      "version": "0.4.1",
+      "version": "0.5.0",
       "dependencies": {
         "@astrojs/check": "0.9.4",
         "@astrojs/starlight": "0.34.2",
         "astro": "5.7.10",
         "astro-og-canvas": "^0.7.0",
+        "prettier": "^3.6.2",
         "starlight-links-validator": "^0.14.3",
         "starlight-package-managers": "^0.10.0",
         "starlight-site-graph": "workspace:*",
-        "starlight-theme-obsidian": "^0.4.0",
+        "starlight-theme-obsidian": "^0.4.1",
         "typescript": "^5.8.2",
       },
     },
     "packages/starlight-site-graph": {
       "name": "starlight-site-graph",
-      "version": "0.4.1",
+      "version": "0.5.0",
       "dependencies": {
         "@types/chroma-js": "^3.1.1",
         "@types/d3": "^7.4.3",
@@ -1108,7 +1109,7 @@
 
     "starlight-site-graph": ["starlight-site-graph@workspace:packages/starlight-site-graph"],
 
-    "starlight-theme-obsidian": ["starlight-theme-obsidian@0.4.0", "", { "peerDependencies": { "@astrojs/starlight": ">=0.33.0", "astro": ">=5.5.0", "starlight-site-graph": "^0.4.0" } }, "sha512-i5rw+sJNJANQAshiHpf3Z+5utNfLOm669CKBzu2w/+RmKDJDnwGiPd8NtZwNO8W5uw6rR0YZVwy3A2pbF0uvlg=="],
+    "starlight-theme-obsidian": ["starlight-theme-obsidian@0.4.1", "", { "peerDependencies": { "@astrojs/starlight": ">=0.33.0", "astro": ">=5.5.0", "starlight-site-graph": "^0.5.0" } }, "sha512-O+/+JgozYi4dqijntitELDTUa1dgpnbwiOd4KvLmoEXsZiWsAFQmMKc/v5KJeSjpfjeXLPqbWrC3UQ6zEHkXGQ=="],
 
     "stream-replace-string": ["stream-replace-string@2.0.0", "", {}, "sha512-TlnjJ1C0QrmxRNrON00JvaFFlNh5TTG00APw23j74ET7gkQpTASi6/L2fuiav8pzK715HXtUeClpBTw2NPSn6w=="],
 
@@ -1285,6 +1286,8 @@
     "boxen/string-width": ["string-width@7.2.0", "", { "dependencies": { "emoji-regex": "^10.3.0", "get-east-asian-width": "^1.0.0", "strip-ansi": "^7.1.0" } }, "sha512-tsaTIkKW9b4N+AEj+SVA+WhJzV7/zMhcSu78mLKWSk7cXMOSHsBKFWUs0fWwq8QyK3MgJBQRX6Gbi4kYbdvGkQ=="],
 
     "cliui/wrap-ansi": ["wrap-ansi@7.0.0", "", { "dependencies": { "ansi-styles": "^4.0.0", "string-width": "^4.1.0", "strip-ansi": "^6.0.0" } }, "sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q=="],
+
+    "docs/prettier": ["prettier@3.6.2", "", { "bin": { "prettier": "bin/prettier.cjs" } }, "sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ=="],
 
     "esast-util-from-js/acorn": ["acorn@8.14.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-cl669nCJTZBsL97OF4kUQm5g5hC2uihk0NxY3WENAC0TYdILVkAyHymAntgxGkl7K+t0cXIrH5siy5S4XkFycA=="],
 

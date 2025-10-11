@@ -22,9 +22,9 @@ They can either be rendered as individual nodes, or affect the style of the node
 
 ## Tags
 
-<GraphExample id="tag-style-default-showcase" config={{
+<GraphExample id="tag-style-default-showcase" config={{ graphConfig: {
 	tagRenderMode: "node"
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...fourNodeSitemap }} slug={"node/"}
+}}} baseConfig={ frozenConfig } sitemap={ fourNodeSitemap } slug={"/node/"}
 />
 
 
@@ -40,16 +40,18 @@ The `tagRenderMode` option determines how tags are rendered in the graph:
 		and the nodes themselves assume the style of the associated tag(s) defined in `tagStyles`.
 
 <GraphExample id="tag-render-mode-showcase" config={{
-	tagRenderMode: "node",
-	tagStyles: {
-		"Tag": { shape: "square", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" }
-	}
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...fourNodeSitemap }} slug={"node/"}
+	graphConfig: {
+		tagRenderMode: "node",
+		tagStyles: {
+			"Tag": { shape: "square", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" }
+		}
+	}}}
+	baseConfig={frozenConfig} sitemap={fourNodeSitemap} slug={"/node/"}
 	buttons={{
-		"none": { config: { tagRenderMode: "none" } },
-		"node": { config: { tagRenderMode: "node" } },
-		"same": { config: { tagRenderMode: "same" } },
-		"both": { config: { tagRenderMode: "both" } },
+		"none": { config: { graphConfig: { tagRenderMode: "none" } } },
+		"node": { config: { graphConfig: { tagRenderMode: "node" } } },
+		"same": { config: { graphConfig: { tagRenderMode: "same" } } },
+		"both": { config: { graphConfig: { tagRenderMode: "both" } } },
 	}}
 />
 
@@ -62,21 +64,27 @@ Each key in the object corresponds to a tag name, and the value corresponds to a
 Nodes copy styles from the associated tag(s) based on the order in which they are specified in the node's `tags` list.
 
 <GraphExample id="tag-style-custom-showcase" config={{
-	tagRenderMode: "node",
-	tagStyles: {
-		"Tag 1": { ...tagDefaultStylesConfig, shape: "square", shapeColor: "nodeColor1", strokeWidth: 0 },
-		"Tag 2": { ...tagDefaultStylesConfig, shape: "triangle", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" },
+	graphConfig: {
+		tagRenderMode: "node",
+		tagStyles: {
+			"Tag 1": { ...tagDefaultStylesPartialConfig, shapeColor: "nodeColor1" },
+			"Tag 2": { ...tagDefaultStylesPartialConfig, shape: "triangle" },
+		}
 	}
-}} baseConfig={{ ...frozenConfig }} sitemap={{ ...twoTagSitemap }} slug={"node/"}
+}} baseConfig={frozenConfig} sitemap={twoTagSitemap} slug={"/node/"}
   buttons={{
-	  "none": { config: { tagRenderMode: "none" } },
-	  "node": { config: { tagRenderMode: "node" } },
-	  "same": { config: { tagRenderMode: "same" } },
-	  "both": { config: { tagRenderMode: "both" } },
+	  "none": { config: { graphConfig: { tagRenderMode: "none" } } },
+	  "node": { config: { graphConfig: { tagRenderMode: "node" } } },
+	  "same": { config: { graphConfig: { tagRenderMode: "same" } } },
+	  "both": { config: { graphConfig: { tagRenderMode: "both" } } },
   }}
   dropdowns={{
-	  ...stylesDropdown('tagStyles.Tag 1', { ...tagDefaultStylesPartialConfig, shape: "square", shapeColor: "nodeColor1", strokeWidth: 0 }),
-	  ...stylesDropdown('tagStyles.Tag 2', { ...tagDefaultStylesPartialConfig, shape: "triangle", strokeWidth: 8, cornerType: "round", strokeCornerRadius: "80%" }),
+	  ...stylesDropdown('tagStyles.Tag 1', { ...tagDefaultStylesPartialConfig, shapeColor: "nodeColor1" }),
+	  ...stylesDropdown('tagStyles.Tag 2', { ...tagDefaultStylesPartialConfig, shape: "triangle" }),
+  }}
+  dropdownDefaults={{
+	  "tagStyles.Tag 1": 0,
+	  "tagStyles.Tag 2": 0
   }}
 />
 

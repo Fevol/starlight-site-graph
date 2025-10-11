@@ -8,6 +8,7 @@ sitemap:
 ---
 
 import GraphExample from "../../../../components/GraphExample.astro";
+import { overrideConfig } from '../generationUtil.js';
 import {
 	focusSingleNode, frozenConfig,
 	singleNodeSitemap, threeNodeSitemap, twoNodeSitemap, largeRandomNodeSitemap,
@@ -26,12 +27,17 @@ this can be done by changing its corresponding [CSS variables](/starlight-site-g
 
 The `renderLabels` option toggles the rendering of labels on the nodes of the graph. When labels are rendered, they display the name of the node.
 
-<GraphExample id="render-labels-showcase" config={{
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"}
+<GraphExample id="render-labels-showcase"
+	config={{
+		graphConfig: {
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
 	buttons={{
-		"Hide Labels": { config: { renderLabels: false } },
-		"Render Labels": { config: { renderLabels: true } },
+		"Hide Labels": { config: { graphConfig: { renderLabels: false } } },
+		"Render Labels": { config: { graphConfig: { renderLabels: true } } },
 	}}
 />
 
@@ -39,36 +45,50 @@ The `renderLabels` option toggles the rendering of labels on the nodes of the gr
 
 The `labelFontSize` determines the size of the labels on the nodes of the graph.
 
-<GraphExample id="label-font-size-showcase" config={{
-	labelFontSize: 12,
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"} sliders={{
-	"labelFontSize": {
-		"title": "labelFontSize",
-		"min": 1,
-		"max": 50,
-		"step": 1,
-		"val": 12,
-	}
-}} />
+<GraphExample id="label-font-size-showcase"
+	config={{
+		graphConfig: {
+			labelFontSize: 12,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelFontSize": {
+				"title": "labelFontSize",
+				"min": 1,
+				"max": 50,
+				"step": 1,
+				"val": 12,
+		}
+	}}
+/>
 
 
 ## Label Offset
 
 The `labelOffset` determines the distance between the label and the node.
 
-<GraphExample id="label-offset-showcase" config={{
-	labelOffset: 10,
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"} sliders={{
-	"labelOffset": {
-		"title": "labelOffset",
-		"min": -40,
-		"max": 20,
-		"step": 1,
-		"val": 10,
-	}
-}} />
+<GraphExample id="label-offset-showcase"
+	config={{
+		graphConfig: {
+			labelOffset: 10,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelOffset": {
+			"title": "labelOffset",
+			"min": -40,
+			"max": 20,
+			"step": 1,
+			"val": 10,
+		}
+	}}
+/>
 
 ## Label Scale (Hover)
 
@@ -78,55 +98,75 @@ The `labelHoverScale` determines the scale of the labels on the nodes of the gra
 At larger scale levels, the labels will turn pixelated.
 :::
 
-<GraphExample id="label-hover-scale-showcase" config={{
-	labelHoverScale: 1.3,
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"} sliders={{
-	"labelHoverScale": {
-		"title": "labelHoverScale",
-		"min": 0.1,
-		"max": 3,
-		"step": 0.1,
-		"val": 1.3,
-	}
-}} />
+<GraphExample id="label-hover-scale-showcase"
+	config={{
+		graphConfig: {
+			labelHoverScale: 1.3,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelHoverScale": {
+			"title": "labelHoverScale",
+			"min": 0.1,
+			"max": 3,
+			"step": 0.1,
+			"val": 1.3,
+		}
+	}}
+/>
 
 ## Label Offset (Hover)
 
 The `labelHoverOffset` determines the distance between the label and the node when hovered over.
 So when hovered, the label will be offset to the specified distance (it is _not_ additive to the base `labelOffset`).
 
-<GraphExample id="label-hover-offset-showcase" config={{
-	labelHoverOffset: 14,
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"} sliders={{
-	"labelHoverOffset": {
-		"title": "labelHoverOffset",
-		"min": -40,
-		"max": 20,
-		"step": 1,
-		"val": 14,
-	}
-}} />
+<GraphExample id="label-hover-offset-showcase"
+	config={{
+		graphConfig: {
+			labelHoverOffset: 14,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelHoverOffset": {
+			"title": "labelHoverOffset",
+			"min": -40,
+			"max": 20,
+			"step": 1,
+			"val": 14,
+		}
+	}}
+/>
 
 ## Label Opacity Scale
 
 The `labelOpacityScale` determines how opaque the labels on the nodes of the graph are, based on the zoom level.
 A higher value will make the labels visible at lower zoom levels (when the user has zoomed out).
 
-<GraphExample id="label-opacity-scale-showcase" config={{
-	labelOpacityScale: 1.3,
-	renderLabels: true,
-	enableZoom: true,
-}} baseConfig={{ ...frozenConfig }} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"labelOpacityScale": {
-		"title": "labelOpacityScale",
-		"min": 0,
-		"max": 4,
-		"step": 0.1,
-		"val": 1.3,
-	}
-}} />
+<GraphExample id="label-opacity-scale-showcase"
+	config={{
+		graphConfig: {
+			labelOpacityScale: 1.3,
+			renderLabels: true,
+			enableZoom: true,
+		}
+	}}
+  	baseConfig={frozenConfig} sitemap={largeRandomNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelOpacityScale": {
+			"title": "labelOpacityScale",
+			"min": 0,
+			"max": 4,
+			"step": 0.1,
+			"val": 1.3,
+		}
+	}}
+/>
 
 
 ## Label Opacity (Hover)
@@ -134,18 +174,25 @@ A higher value will make the labels visible at lower zoom levels (when the user 
 The `labelHoverOpacity` determines how opaque the labels on the nodes of the graph are when hovered over.
 A higher value will make the labels more opaque when hovered over.
 
-<GraphExample id="label-opacity-hover-showcase" config={{
-	labelHoverOpacity: 1,
-	renderLabels: true,
-}} baseConfig={{ ...focusSingleNode, scale: 2.3 }} sitemap={singleNodeSitemap} slug={"node/"} sliders={{
-	"labelHoverOpacity": {
-		"title": "labelHoverOpacity",
-		"min": 0,
-		"max": 1,
-		"step": 0.1,
-		"val": 1,
-	}
-}} />
+<GraphExample id="label-opacity-hover-showcase"
+	config={{
+		graphConfig: {
+			labelHoverOpacity: 1,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(focusSingleNode, { graphConfig: { scale: 2.3 }})}
+	sitemap={singleNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelHoverOpacity": {
+			"title": "labelHoverOpacity",
+			"min": 0,
+			"max": 1,
+			"step": 0.1,
+			"val": 1,
+		}
+	}}
+/>
 
 
 ## Label Opacity (Adjacent)
@@ -153,33 +200,46 @@ A higher value will make the labels more opaque when hovered over.
 The `labelAdjacentOpacity` determines how opaque the labels on the nodes of the graph are when adjacent to the hovered node.
 A higher value will make the labels more opaque when adjacent to the hovered node.
 
-<GraphExample id="label-opacity-adjacent-showcase" config={{
-	labelAdjacentOpacity: 1,
-	renderLabels: true,
-}} baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"node/"} sliders={{
-	"labelAdjacentOpacity": {
-		"title": "labelAdjacentOpacity",
-		"min": 0,
-		"max": 1,
-		"step": 0.1,
-		"val": 1,
-	}
-}} />
+<GraphExample id="label-opacity-adjacent-showcase"
+	config={{
+		graphConfig: {
+			labelAdjacentOpacity: 1,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={frozenConfig} sitemap={threeNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelAdjacentOpacity": {
+			"title": "labelAdjacentOpacity",
+			"min": 0,
+			"max": 1,
+			"step": 0.1,
+			"val": 1,
+		}
+	}}
+/>
 
 ## Label Opacity (Muted)
 
 The `labelMutedOpacity` determines how opaque the labels on the nodes of the graph are when the node is not adjacent or hovered over.
 A higher value will make the labels more opaque when the node is not adjacent or hovered over.
 
-<GraphExample id="label-opacity-muted-showcase" config={{
-	labelMutedOpacity: 0.00001,
-	renderLabels: true,
-}} baseConfig={{ ...frozenConfig, repelForce: 0, colliderPadding: 10, scale: 1.5 }} sitemap={twoNodeSitemap} slug={"node/"} sliders={{
-	"labelMutedOpacity": {
-		"title": "labelMutedOpacity",
-		"min": 0,
-		"max": 1,
-		"step": 0.1,
-		"val": 0,
-	}
-}} />
+<GraphExample id="label-opacity-muted-showcase"
+	config={{
+		graphConfig: {
+			labelMutedOpacity: 0.00001,
+			renderLabels: true,
+		}
+	}}
+	baseConfig={overrideConfig(frozenConfig, { graphConfig: { repelForce: 0, colliderPadding: 10, scale: 1.3, depth: 5 }})}
+	sitemap={twoNodeSitemap} slug={"/node/"}
+	sliders={{
+		"graphConfig.labelMutedOpacity": {
+			"title": "labelMutedOpacity",
+			"min": 0,
+			"max": 1,
+			"step": 0.1,
+			"val": 0,
+		}
+	}}
+/>

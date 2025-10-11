@@ -7,6 +7,7 @@ sitemap:
   pageTitle: Graph Simulation Config
 ---
 
+import { overrideConfig } from '../generationUtil.js';
 import { largeRandomNodeSitemap, largeFrozenSitemapConfig } from '../constants.js';
 import GraphExample from "../../../../components/GraphExample.astro";
 
@@ -20,10 +21,10 @@ Negative values (i.e. positive pull forces) are not allowed.
 
 For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcemanybody).
 
-<GraphExample id="repel-force-showcase" config={{
+<GraphExample id="repel-force-showcase" config={{ graphConfig: {
 	repelForce: -100,
-}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"repelForce": {
+}}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.repelForce": {
 		"title": "repelForce",
 		"min": 0,
 		"max": 500,
@@ -38,10 +39,10 @@ The collider padding gives additional padding around the node's collider, making
 
 For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcecollide).
 
-<GraphExample id="collider-padding-showcase" config={{
+<GraphExample id="collider-padding-showcase" config={{ graphConfig: {
 	colliderPadding: 20,
-}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"colliderPadding": {
+}}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.colliderPadding": {
 		"title": "colliderPadding",
 		"min": 0,
 		"max": 100,
@@ -56,10 +57,10 @@ The center force determines how much nodes are pulled towards the center of the 
 
 For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcex-and-forcey).
 
-<GraphExample id="center-force-showcase" config={{
+<GraphExample id="center-force-showcase" config={{ graphConfig: {
 	centerForce: 0.05,
-}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"centerForce": {
+}}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.centerForce": {
 		"title": "centerForce",
 		"min": 0,
 		"max": 1,
@@ -75,10 +76,10 @@ If the link distance is set to 0, the distance between nodes will be determined 
 
 For more information, check out [d3-force documentation](https://www.d3indepth.com/force-layout/#forcelink).
 
-<GraphExample id="link-distance-showcase" config={{
+<GraphExample id="link-distance-showcase" config={{ graphConfig: {
 	linkDistance: 0.001,
-}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"linkDistance": {
+}}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.linkDistance": {
 		"title": "linkDistance",
 		"min": 0,
 		"max": 500,
@@ -92,15 +93,17 @@ For more information, check out [d3-force documentation](https://www.d3indepth.c
 The alpha decay determines how quickly the simulation cools down.
 A higher value means that after having dragged a node in the graph, it will stabilize faster.
 
+:::tip[Tip]
 To see the effect of the alpha decay, drag a node in the graph and see how quickly it stabilizes at different `alphaDecay` values.
+:::
 
 For more information, check out [d3-force documentation](https://d3js.org/d3-force/simulation#simulation_alphaDecay).
 
-<GraphExample id="alpha-decay-showcase" config={{
+<GraphExample id="alpha-decay-showcase" config={{ graphConfig: {
 	alphaDecay: 0.02,
 	enableDrag: true
-}} baseConfig={largeFrozenSitemapConfig} sitemap={largeRandomNodeSitemap} slug={"node/"} sliders={{
-	"alphaDecay": {
+}}} baseConfig={overrideConfig(largeFrozenSitemapConfig, { graphConfig: { enableHover: true } })} sitemap={largeRandomNodeSitemap} slug={"/node/"} sliders={{
+	"graphConfig.alphaDecay": {
 		"title": "alphaDecay",
 		"min": 0,
 		"max": 0.3,

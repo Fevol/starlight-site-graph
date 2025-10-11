@@ -7,7 +7,12 @@ sitemap:
   pageTitle: Sitemap Frontmatter
 ---
 
-import { directoryLinkExampleSitemap, focusSingleNode, frozenConfig, singleNodeSitemap } from '../constants.js';
+import {
+	directoryLinkExampleSitemap,
+	focusSingleNodeWithLabels,
+	frozenConfig,
+	myPageNodeSitemap,
+} from '../constants.js';
 import { renameNodes } from '../generationUtil.js';
 import GraphExample from "../../../../components/GraphExample.astro";
 import { Tabs, TabItem } from '@astrojs/starlight/components';
@@ -19,7 +24,7 @@ The `links` frontmatter key allows you to specify additional links for a page.
 These links can be used to create arbitrary connections between pages in the graph.
 
 <Tabs>
-	<TabItem label='Links in frontmatter'>
+	<TabItem label='Links in frontmatter' icon="list-format">
 		Page title selected from the `pageTitle` frontmatter key.
 		```md {4-6}
 		// src/content/docs/my-page.md
@@ -34,7 +39,7 @@ These links can be used to create arbitrary connections between pages in the gra
 		```
 		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={frozenConfig} sitemap={directoryLinkExampleSitemap} slug={"my-page/"}/>
 	</TabItem>
-	<TabItem label='Links in content' >
+	<TabItem label='Links in content' icon="seti:default">
 		No custom links specified.
 		```md "[another page](/another-page)" "[subdirectory](/subdir/page)"
 		// src/content/docs/my-page.md
@@ -70,7 +75,7 @@ Some content
 The `include` frontmatter key allows you to explicitly include or exclude a page from the sitemap.
 
 <Tabs>
-	<TabItem label="Included">
+	<TabItem label="Included" icon="approve-check">
 		```md {4-5}
 		// src/content/docs/my-page.md
 		---
@@ -82,7 +87,7 @@ The `include` frontmatter key allows you to explicitly include or exclude a page
 		Some important text.
 		```
 	</TabItem>
-	<TabItem label="Excluded">
+	<TabItem label="Excluded" icon="close">
 		```md {4-5}
 		// src/content/docs/my-page.md
 		---
@@ -114,9 +119,9 @@ This setting will override both the `title` frontmatter key, as well as any over
 
 		Some important text.
 		```
-		<GraphExample id="unchanged-name-graph-showcase" config={{}} baseConfig={{ ...focusSingleNode, renderLabels: true, scale: 2 }} sitemap={singleNodeSitemap} slug={"node/"}/>
+		<GraphExample id="unchanged-name-graph-showcase" config={{}} baseConfig={focusSingleNodeWithLabels} sitemap={myPageNodeSitemap} slug={"/my-page/"}/>
 	</TabItem>
-	<TabItem label='{ "node/": "Custom Name"}'>
+	<TabItem label='{ "/my-page/": "Custom Name"}'>
 		Page title selected from the `pageTitle` frontmatter key.
 		```md {4-5}
 		// src/content/docs/my-page.md
@@ -128,7 +133,7 @@ This setting will override both the `title` frontmatter key, as well as any over
 
 		Some important text.
 		```
-		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={{ ...focusSingleNode, renderLabels: true, scale: 2 }} sitemap={renameNodes(singleNodeSitemap, { "node/": "Custom Name"})} slug={"node/"}/>
+		<GraphExample id="custom-name-graph-showcase" config={{}} baseConfig={focusSingleNodeWithLabels} sitemap={renameNodes(myPageNodeSitemap, { "/my-page/": "Custom Name"})} slug={"/my-page/"}/>
 	</TabItem>
 </Tabs>
 
@@ -141,7 +146,7 @@ The first rule that was matched, determines whether the link is included or not.
 <Tabs>
 	<TabItem label='["**/*"]'>
 		All links are included.
-		```md {4-5} ins="[another page](/another-page)" ins="[subdirectory](/subdir/page)"
+		```md {4-5} ins="[another page](/another-page)" ins="[subdirectory](/subdir/page)" ins="[different page](/abc/subdir/different-page)"
 		// src/content/docs/my-page.md
 		---
 		title: A linked page
@@ -151,6 +156,7 @@ The first rule that was matched, determines whether the link is included or not.
 
 		This page links to [another page](/another-page),
 		and also to one in a [subdirectory](/subdir/page).
+		Finally, a link to a [different page](/abc/subdir/different-page).
 		```
 	</TabItem>
 	<TabItem label='["!**/*", "**/*"]'>
@@ -165,11 +171,12 @@ The first rule that was matched, determines whether the link is included or not.
 
 		This page links to [another page](/another-page),
 		and also to one in a [subdirectory](/subdir/page).
+		Finally, a link to a [different page](/abc/subdir/different-page).
 		```
 	</TabItem>
 	<TabItem label='["**/subdir/*"]'>
-		Only links to the `subdir` subdirectory are included.
-		```md {4-5} ins="[subdirectory](/subdir/page)"
+		Only links to pages that have a folder named `subdir` as their parent are included.
+		```md {4-5} ins="[subdirectory](/subdir/page)" ins="[different page](/abc/subdir/different-page)"
 		// src/content/docs/my-page.md
 		---
 		title: A linked page
@@ -179,6 +186,22 @@ The first rule that was matched, determines whether the link is included or not.
 
 		This page links to [another page](/another-page),
 		and also to one in a [subdirectory](/subdir/page).
+		Finally, a link to a [different page](/abc/subdir/different-page).
+		```
+	</TabItem>
+	<TabItem label='["/subdir/**/*"]'>
+		Only links that _start_ with `/subdir/` are included.
+		```md {4-5} ins="[different page](/abc/subdir/different-page)"
+		// src/content/docs/my-page.md
+		---
+		title: A linked page
+		sitemap:
+		  linkInclusionRules: ["/subdir/**/*"]
+		---
+
+		This page links to [another page](/another-page),
+		and also to one in a [subdirectory](/subdir/page).
+		Finally, a link to a [different page](/abc/subdir/different-page).
 		```
 	</TabItem>
 </Tabs>

@@ -4,6 +4,9 @@
 import type { GraphConfig, Sitemap } from 'starlight-site-graph/config';
 import { Graph } from 'starlight-site-graph/components'
 import { Tabs, TabItem, Code } from '@astrojs/starlight/components';
+import prettier from 'prettier/standalone';
+import * as prettierPluginBabel from "prettier/plugins/babel";
+import * as prettierPluginEstree from "prettier/plugins/estree";
 
 interface Props {
 	slug: string;
@@ -25,10 +28,11 @@ interface Props {
 	}>;
 	dropdowns?: Record<string, Record<string, object>>;
 	dropdownMergeOrder?: string[];
+	dropdownDefaults?: Record<string, number>;
 	configListener?: boolean;
 	fullWidth: boolean;
 }
-const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, dropdownMergeOrder, configListener, fullWidth } = Astro.props;
+const { baseConfig, config, sitemap, slug, id, buttons, sliders, dropdowns, dropdownMergeOrder, dropdownDefaults, configListener, fullWidth } = Astro.props;
 
 
 export function isObject(item: unknown) {
@@ -56,51 +60,76 @@ export function getNestedValue(obj: any, key: string) {
 	return key.split('.').reduce((acc, key) => acc[key], obj);
 }
 
+export async function prettyPrintJSON(obj: any) {
+	return await prettier.format(
+		JSON.stringify(obj, null, 2),
+		{
+			parser: "json",
+			// @ts-expect-error Type is wrong
+			plugins: [prettierPluginBabel, prettierPluginEstree as string],
+			printWidth: 36,
+			objectWrap: "collapse",
+		}
+	);
+}
+
+
 const fullConfig = mergeDeep(baseConfig, config);
+fullConfig.sitemapConfig.contentRoot = undefined;
+fullConfig.sitemapConfig.sitemap = undefined;
+
+const prettyConfig = await prettyPrintJSON(config);
+const prettySitemap = await prettyPrintJSON(sitemap);
+const prettyFullConfig = await prettyPrintJSON(fullConfig);
+
 
 ---
 
 <div id={id} class="graph-example" >
 	<div class={(fullWidth ? "items-full-width " : "") + "place-aside" }>
 		<Graph
-			config={fullConfig}
+			config={fullConfig.graphConfig ?? {}}
 			sitemap={sitemap}
 			slug={slug}
 		/>
 
 		<Tabs>
 			<TabItem label="Config" icon="setting">
-				<Code code={JSON.stringify(config, null, 2)} lang="json"/>
+				<Code code={prettyConfig} lang="json"/>
 			</TabItem>
 			<TabItem label="Sitemap" icon="seti:graphql">
-				<Code code={JSON.stringify(sitemap, null, 2)} lang="json"/>
+				<Code code={prettySitemap} lang="json"/>
 			</TabItem>
 			<TabItem label="Full Config" icon="seti:json">
-				<Code code={JSON.stringify(fullConfig, null, 2)} lang="json"/>
+				<Code code={prettyFullConfig} lang="json"/>
 			</TabItem>
 		</Tabs>
 
 		<div class="user-config">
 			{Object.keys(buttons ?? {}).length !== 0 &&
 				<div class="flex-row unselectable">
-					{Object.entries(buttons!).map(([key, { class: className }]) => (
-						<div class={className}>
-							<button>{key}</button>
-						</div>
-					))}
+					{
+						Object.entries(buttons!).map(([key, { class: className }]) => (
+							<div class={className}>
+								<button>{key}</button>
+							</div>
+						))
+					}
 				</div>
 			}
 
 			{Object.keys(sliders ?? {}).length !== 0 &&
 				<div class="flex-column unselectable">
-					{Object.entries(sliders!).map(([key, value]) => (
-						// Slight trick: slider is hidden if the initial value is nullish (to only show shapePoints slider if the shape is polygon/star)
-				<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
-							<span class="slider-title"> { value.title } </span>
-							<input data-key={key} type="range" min={value.min} max={value.max} step={value.step} value={value.val} />
-							<span class="slider-value"> { value.val + (value.type === "percentage" ? "%" : "") } </span>
-						</div>
-					))}
+					{
+						Object.entries(sliders!).map(([key, value]) => (
+							// EXPL: slider is hidden if the initial value is nullish (to only show shapePoints slider if the shape is polygon/star)
+							<div style=`display: ${ getNestedValue(config, key) ? 'unset' : 'none' }`>
+								<span class="slider-title"> { value.title } </span>
+								<input data-key={key} type="range" min={value.min} max={value.max} step={value.step} value={value.val} />
+								<span class="slider-value"> { value.val + (value.type === "percentage" ? "%" : "") } </span>
+							</div>
+						))
+					}
 				</div>
 			}
 
@@ -112,9 +141,12 @@ const fullConfig = mergeDeep(baseConfig, config);
 							<select data-key={key}>
 								{Object.entries(value).map(([k, v], idx) => (
 									(
-										// @ts-expect-error Prevent bloatage from excessive typeage
-										config[key] ? <option selected={JSON.stringify(v[key]) === JSON.stringify(config[key]) || v[key].selected} value={JSON.stringify(v)}>{k}</option>
-													: <option selected={idx === 0} value={JSON.stringify(v)}>{k}</option>
+										<option
+											data-selected={dropdownDefaults?.[key] === idx ? 'true' : 'false'}
+											value={JSON.stringify(v)}
+										>
+											{k}
+										</option>
 									)
 								))}
 							</select>
@@ -141,35 +173,35 @@ const fullConfig = mergeDeep(baseConfig, config);
 	// Bodgy way to update the config (without importing remark code generation here)
 	const updateTabText = (tab, partialConfig) => {
 		const code = document.querySelectorAll(`#${id} starlight-tabs code`)[tab];
-		const lines = code.querySelectorAll('.ec-line');
+		const spans = Array.from(code.getElementsByTagName('span'));
+
 		for (const [key, value] of getPrimitives(partialConfig)) {
 			const keys = key.split('.');
-			let currentKey = keys.shift();
-			let previousIndent = 0;
-			for (const line of lines) {
-				const indentEl = line.querySelector('.indent');
-				if (indentEl) {
-					const indent = indentEl.innerText.length;
-					const span = indentEl.nextElementSibling;
-					if (`"${currentKey}"` === span.innerText && indent > previousIndent) {
-						if (keys.length === 0) {
-							if (value === 'undefined') {
-								span.parentElement.style.display = 'none';
-								return;
-							} else {
-								span.parentElement.style.display = 'inline';
-							}
 
-							let i = span.parentElement.childNodes.length - 1;
-							if (span.parentElement.childNodes[i].textContent === ',') i -= 1;
-							if (typeof value === 'string') i -= 1;
-							span.parentElement.childNodes[i].textContent = value;
-							break;
-						}
-						else {
-							currentKey = keys.shift();
-							previousIndent = indent;
-						}
+			let current_idx = 0;
+			let current_key = keys.shift();
+			for (const span of spans) {
+				if (span.nextSibling?.innerText.startsWith(":") && span.innerText.replace(/['"]/g, '') === current_key) {
+					current_idx = spans.indexOf(span);
+					current_key = keys.shift();
+					if (!current_key) break;
+				}
+			}
+
+			let array_pos = current_key?.match(/^\d+$/) ? parseInt(current_key) : -1;
+
+			if (!current_key || array_pos !== -1) {
+				current_idx += 2; // Skips current key and ":" spans
+				if (spans[current_idx]?.classList.contains('indent')) current_idx += 1;
+				if (value !== "undefined" && typeof value === 'string') current_idx += 1;
+
+				const valueSpan = spans[current_idx];
+				if (valueSpan) {
+					if (value === "undefined") {
+						valueSpan.parentElement.parentElement.style.display = "none";
+					} else {
+						valueSpan.parentElement.parentElement.style.display = "unset";
+						valueSpan.textContent = value;
 					}
 				}
 			}
@@ -182,9 +214,14 @@ const fullConfig = mergeDeep(baseConfig, config);
 		const sliderEls = document.querySelectorAll(`#${id} input`);
 		const dropdownEls = document.querySelectorAll(`#${id} select`);
 
+		// If some value in config is 'undefined' initially, execute updateTabText
+		const initialConfig = { graphConfig: JSON.parse(graph.getAttribute('data-config')) };
+		updateTabText(0, initialConfig);
+		updateTabText(2, initialConfig);
+
 		if (configListener) {
 			const observer = new MutationObserver(() => {
-				const config = JSON.parse(graph.getAttribute('data-config'));
+				const config = { graphConfig: JSON.parse(graph.getAttribute('data-config')) };
 				updateTabText(0, config);
 				updateTabText(2, config);
 			});
@@ -193,12 +230,14 @@ const fullConfig = mergeDeep(baseConfig, config);
 
 		buttonEls.forEach(button => {
 			button.addEventListener('click', () => {
-				const config = JSON.parse(graph.getAttribute('data-config'));
+				const config = { graphConfig: JSON.parse(graph.getAttribute('data-config')) };
 				const newConfig = buttons[button.textContent].config;
 
-				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-				updateTabText(0, newConfig);
-				updateTabText(2, newConfig);
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig).graphConfig));
+				if (!configListener) {
+					updateTabText(0, newConfig);
+					updateTabText(2, newConfig);
+				}
 				sliderEls.forEach(slider => {
 					const key = slider.getAttribute('data-key');
 					const value = getNestedKey(newConfig, key);
@@ -214,37 +253,49 @@ const fullConfig = mergeDeep(baseConfig, config);
 		});
 
 		sliderEls.forEach(slider => {
+			slider.value = sliders[slider.getAttribute('data-key')].val;
+
 			slider.addEventListener('input', () => {
-				const config = JSON.parse(graph.getAttribute('data-config'));
-				const configKey = slider.getAttribute('data-key');
+				const config = { graphConfig: JSON.parse(graph.getAttribute('data-config')) };
+				const configKey = slider.getAttribute('data-key')
 				const newConfig = configKey.split('.').reverse().reduce((acc, key) => ({ [key]: acc }),
 					sliders[configKey].type === "percentage" ? slider.value + "%" : Number(slider.value)
 				);
-				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-				updateTabText(0, newConfig);
-				updateTabText(2, newConfig);
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig).graphConfig));
+				if (!configListener) {
+					updateTabText(0, newConfig);
+					updateTabText(2, newConfig);
+				}
 				slider.nextElementSibling.textContent = sliders[configKey].type === "percentage" ? slider.value + "%" : slider.value;
 			});
 		});
 
 		dropdownEls.forEach(dropdown => {
+			for (const options of dropdown.options) {
+				options.selected = options.getAttribute('data-selected') === 'true';
+			}
+
 			dropdown.addEventListener('change', () => {
-				const config = JSON.parse(graph.getAttribute('data-config'));
-				let newConfig = transformNestedKeys(JSON.parse(dropdown.value));
+				const config = { graphConfig: JSON.parse(graph.getAttribute('data-config')) };
+				let newConfig = {};
+				debugger
 				if (dropdownMergeOrder) {
-					const curr_key = dropdown.getAttribute('data-key');
-					const currentIndex = dropdownMergeOrder.indexOf(curr_key);
 					const dropdownElements = Array.from(dropdownEls);
-					let previousConfig = currentIndex ? config[dropdownMergeOrder[currentIndex - 1]] : {};
-					for (const key of dropdownMergeOrder.slice(currentIndex)) {
-						const dropdownValue = JSON.parse(dropdownElements.find(el => el.getAttribute('data-key') === key).value)[key];
-						newConfig[key] = mergeDeep(previousConfig, dropdownValue);
-						previousConfig = newConfig[key];
+					let previousConfig = {};
+					for (const key of dropdownMergeOrder) {
+						const dropdownValue = transformNestedKeys(JSON.parse(dropdownElements.find(el => el.getAttribute('data-key') === key).value))["graphConfig"][key];
+						previousConfig = mergeDeep(previousConfig, dropdownValue);
+						newConfig[key] = previousConfig;
 					}
+				} else {
+					newConfig = transformNestedKeys(JSON.parse(dropdown.value).graphConfig);
 				}
-				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config, newConfig)));
-				updateTabText(0, newConfig);
-				updateTabText(2, newConfig);
+				debugger;
+				graph.setAttribute('data-config', JSON.stringify(mergeDeep(config.graphConfig, newConfig)));
+				if (!configListener) {
+					updateTabText(0, newConfig);
+					updateTabText(2, newConfig);
+				}
 			});
 		});
 	}
