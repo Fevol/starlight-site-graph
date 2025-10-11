@@ -17,26 +17,31 @@ import { fileURLToPath } from 'node:url';
 export default defineIntegration({
 	name: 'starlight-site-graph-integration',
 	optionsSchema: starlightSiteGraphConfigSchema,
-	setup({ name, options}) {
-		let settings: FullStarlightSiteGraphConfig;
+	setup({ name, options }) {
 		if (!options.starlight) {
 			options = { starlight: false, ...validateConfig(options) };
-			settings = options as FullStarlightSiteGraphConfig;
-			// EXPL: Default content root for Astro sites
-			settings.sitemapConfig.contentRoot = './src/pages';
-		} else {
-			settings = options as FullStarlightSiteGraphConfig;
 		}
+		let settings = options as FullStarlightSiteGraphConfig;
 
 		const builder = new SiteMapBuilder(settings.sitemapConfig);
-		let outputPath: string;
 		const sitemapProvided = !!settings.sitemapConfig.sitemap;
+		let outputPath: string;
 
 		return {
 			hooks: {
 				'astro:config:setup': async (args) => {
 					const { config, logger, command, updateConfig, injectScript } = args;
+					if (!settings.sitemapConfig.contentRoot) {
+						settings.sitemapConfig.contentRoot = trimSlashes(config.srcDir.pathname);
+						if (settings.starlight) {
+							settings.sitemapConfig.contentRoot += "/content/docs";
+						} else {
+							settings.sitemapConfig.contentRoot += "/pages";
+						}
+					}
+
 					const addTrailingSlash = config.trailingSlash !== 'never';
+					builder.setContentRoot(settings.sitemapConfig.contentRoot);
 					builder.setTrailingSlash(addTrailingSlash);
 
 					// TODO: Figure if it is somehow possible to conditionally import astro:prefetch without triggering vite errors
@@ -64,7 +69,9 @@ export default defineIntegration({
 								: ''),
 						);
 
+						// TODO: This should be fully deprecated.
 						if (settings.starlight && settings.sitemapConfig.ignoreStarlightLinks) {
+							// TODO: Is this actually relevant?
 							let starlightIgnoredLinks = [`!${config.base}`];
 							settings.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
 							settings.sitemapConfig.linkInclusionRules = settings.sitemapConfig.linkInclusionRules
@@ -100,7 +107,7 @@ export default defineIntegration({
 						settings.sitemapConfig.sitemap = processSitemap(settings.sitemapConfig.sitemap, settings);
 					}
 
-					if (command === 'dev' && options.debug) {
+					if (command === 'dev' && settings.debug) {
 						let pixiStatsPlugin = null;
 						try {
 							pixiStatsPlugin = require('pixi-stats').default();
@@ -132,7 +139,7 @@ export default defineIntegration({
 					addVirtualImports(args, {
 						name,
 						imports: {
-							'virtual:starlight-site-graph/config': `export default ${JSON.stringify(options)}`,
+							'virtual:starlight-site-graph/config': `export default ${JSON.stringify(settings)}`,
 							'virtual:starlight-site-graph/astro-config': `export default ${JSON.stringify(config)}`,
 						},
 					});
@@ -153,7 +160,7 @@ export default defineIntegration({
 					injectTypes({
 						filename: "types.d.ts",
 						content: `declare module 'virtual:starlight-site-graph/config' {
-							export default ${JSON.stringify(options)};
+							export default ${JSON.stringify(settings)};
 						}
 						
 						declare module 'virtual:starlight-site-graph/astro-config' {
@@ -187,7 +194,7 @@ export default defineIntegration({
 
 					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
 					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`,
-						JSON.stringify(settings.sitemapConfig.sitemap, null, options.debug ? 2 : 0)
+						JSON.stringify(settings.sitemapConfig.sitemap, null, settings.debug ? 2 : 0)
 					);
 					logger.info("`sitemap.json` created at `dist/sitegraph`");
 				}

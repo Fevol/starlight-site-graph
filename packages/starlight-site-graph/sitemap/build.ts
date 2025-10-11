@@ -27,7 +27,7 @@ interface IntermediateSitemapEntry {
 
 export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
-	private contentRoot: string;
+	private contentRoot: string | undefined;
 	private excludedPaths: Set<string> = new Set();
 	private addTrailingSlash: boolean = false;
 	private encounteredFiles: Set<string> = new Set();
@@ -39,10 +39,14 @@ export class SiteMapBuilder {
 
 	constructor(private config: RemoveOptional<SitemapConfig>) {
 		this.map = new Map();
-		this.contentRoot = trimSlashes(this.config.contentRoot);
 		this.explicitNameAssociations = new Map(
 			Object.entries(this.config.pageTitles).map(([k, v]) => [setSlashes(k, true, this.addTrailingSlash), v]),
 		);
+	}
+
+	setContentRoot(contentRoot: string) {
+		this.contentRoot = trimSlashes(contentRoot);
+		return this;
 	}
 
 	setBasePath(basePath: string) {

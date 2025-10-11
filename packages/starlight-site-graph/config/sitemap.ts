@@ -47,7 +47,7 @@ export type Sitemap = z.infer<typeof sitemapSchema>;
 
 
 export const globalSitemapConfig = {
-	contentRoot: './src/content/docs',
+	contentRoot: undefined,
 	includeExternalLinks: false,
 	sitemap: undefined,
 	pageTitles: {},
@@ -64,9 +64,9 @@ export const globalSitemapConfigSchema = z.object({
 	/**
 	 * The root directory of the content used to generate links from for the sitemap
 	 *
-	 * @default "./src/content/docs"
+	 * @default undefined (uses the `srcDir` path defined by Astro)
 	 */
-	contentRoot: z.string().default(globalSitemapConfig.contentRoot),
+	contentRoot: z.string().optional(),
 
 	/**
 	 * Include links going to external websites in the sitemap
