@@ -69,18 +69,6 @@ export default defineIntegration({
 								: ''),
 						);
 
-						// TODO: This should be fully deprecated.
-						if (settings.starlight && settings.sitemapConfig.ignoreStarlightLinks) {
-							// TODO: Is this actually relevant?
-							let starlightIgnoredLinks = [`!${config.base}`];
-							settings.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
-							settings.sitemapConfig.linkInclusionRules = settings.sitemapConfig.linkInclusionRules
-								.map(x => onlyTrailingSlash(x, addTrailingSlash));
-
-							logger.info('Ignoring following Starlight links in sitemap: ' +
-										settings.sitemapConfig.linkInclusionRules.join(', '));
-						}
-
 						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
 						if (command === 'dev' || command === 'build') {
 							builder.setBasePath(config.base);

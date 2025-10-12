@@ -27,27 +27,6 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 					parsedConfig.sitemapConfig.pageInclusionRules = [];
 				}
 
-				// DEPRECATED: Removed in 0.5.0 in favor of `sitemapConfig.ignoreLinksInSelectors`
-				//             May be relevant if somehow credit/edit link is moved outside of <footer>, and
-				//             social links outside of <nav>
-				// if (parsedConfig.sitemapConfig.ignoreStarlightLinks) {
-				// 	let starlightIgnoredLinks = [];
-				// 	if (config.credits) {
-				// 		starlightIgnoredLinks.push('!https://starlight.astro.build/');
-				// 	}
-				//
-				// 	if (config.editLink?.baseUrl) {
-				// 		starlightIgnoredLinks.push(`!${ensureTrailingSlash(config.editLink.baseUrl, addTrailingSlashes)}**`);
-				// 	}
-				//
-				// 	for (const link of Object.values(config.social ?? {})) {
-				// 		starlightIgnoredLinks.push(`!${ensureTrailingSlash(link.href, addTrailingSlashes)}`);
-				// 	}
-				//
-				// 	parsedConfig.sitemapConfig.linkInclusionRules.splice(-1, 0, ...starlightIgnoredLinks);
-				// 	logger.info('Ignoring following Starlight links in sitemap: ' + starlightIgnoredLinks.join(', '));
-				// }
-
 				// EXPL: Pass a starlight flag to the integration, if none is given, all starlight-specific features are disabled
 				addIntegration(integration({ ...parsedConfig, starlight: true }));
 				const componentOverrides: typeof config.components = {};

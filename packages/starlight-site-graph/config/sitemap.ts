@@ -51,7 +51,6 @@ export const globalSitemapConfig = {
 	includeExternalLinks: false,
 	sitemap: undefined,
 	pageTitles: {},
-	ignoreStarlightLinks: true,
 	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title', '.slsg-backlinks'],
 	pageInclusionRules: ['**/*'],
 	pageTitleFallbackStrategy: 'linkText' as const,
@@ -102,23 +101,6 @@ export const globalSitemapConfigSchema = z.object({
 	pageTitleFallbackStrategy: z.enum(['linkText', 'slug']).default(globalSitemapConfig.pageTitleFallbackStrategy),
 
 	/**
-	 * Ignore links produced by Starlight which exist on every page.
-	 * Specifically, these are:
-	 *   - `/`: The root link, which exists within the title
-	 *   - `social`: Any social link
-	 *   - `edit`: The link for editing the current page
-	 *   - `credits`: The "Starlight Attribution" link
-	 *   - Pagination links
-	 *
-	 * All links of the sidebar are _always_ ignored.
-	 * These ignore rules will be added to the `pageInclusionRules` setting (inserted _before_ the last rule).
-	 *
-	 * @deprecated Superseded by `ignoreLinksInSelectors`
-	 * @default true
-	 */
-	ignoreStarlightLinks: z.boolean().default(globalSitemapConfig.ignoreStarlightLinks),
-
-	/**
 	 * Ignore links parsed from HTML content where one of the element's ancestors matches one of the listed (simple) selectors.
 	 * This is useful to ignore links common to every page, such as links in the header, footer or other components.
 	 * The selectors are based on CSS selectors, matching either a tag name, class or id.
@@ -127,7 +109,6 @@ export const globalSitemapConfigSchema = z.object({
 	 * - `TAG`: Exclude links within elements of the specified tag name, e.g. `header`, `nav`, `footer`.
 	 * - `.CLASS`: Exclude links within elements with the specified class, e.g. `.right-sidebar`, `.nav`.
 	 * - `#ID`: Exclude links within elements with the specified id, e.g. `#header`, `#footer`.
-	 * @remarks This is a more generalized alternative to `ignoreStarlightLinks`, which is deprecated.
 	 * @default ["header", "footer", "nav", ".right-sidebar", ".site-title", ".slsg-backlinks"]
 	 * @example Ignore links found within code blocks
 	 * ["raw"]
