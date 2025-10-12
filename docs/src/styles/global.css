@@ -6,6 +6,8 @@
     --sl-hero-color: hsla(42.2, 100%, 53.7%, 0.23);
 
     --slsg-graph-minimized-bg-color: var(--sl-color-black);
+
+    --my-custom-color: #499c4c;
 }
 
 :root[data-theme='dark'] .right-sidebar graph-component {
@@ -32,6 +34,8 @@
     --sl-hero-color: hsla(42.2, 100%, 59.6%, 0.23);
 
     --slsg-graph-minimized-bg-color: var(--sl-color-black);
+
+    --my-custom-color: #681b93;
 }
 
 :root[data-theme='light'] .right-sidebar graph-component {

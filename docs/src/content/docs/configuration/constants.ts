@@ -205,9 +205,13 @@ export const stylesDropdown = (styleType: string, style: object, selected?: stri
 	return style_obj;
 }
 
-export const graphColors = ["nodeColor", "nodeColorVisited", "nodeColorCurrent", "nodeColorUnresolved", "nodeColorExternal", "nodeColorTag",
+export const graphColors = [
+	"nodeColor",
+	"--my-custom-color", "#2bf4b6",
+	"nodeColorVisited", "nodeColorCurrent", "nodeColorUnresolved", "nodeColorExternal", "nodeColorTag",
 	"nodeColor1", "nodeColor2", "nodeColor3", "nodeColor4", "nodeColor5", "nodeColor6", "nodeColor7", "nodeColor8", "nodeColor9",
-	"linkColor", "backgroundColor"];
+	"linkColor", "backgroundColor",
+];
 
 export const nodeColorsDropdown = (nodeCategories: string[], type: string, values: string[]) => {
 	const output: any = {};

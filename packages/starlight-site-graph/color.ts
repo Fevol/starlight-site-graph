@@ -104,7 +104,7 @@ export function getGraphColors(node: HTMLElement, included_colors: string[], cus
 				if (cssPropertyValue) {
 					colors[identifier] = getHexColor(cssPropertyValue);
 				} else {
-					console.warn(`[STARLIGHT-SITE-GRAPH] CSS variable "${identifier}" was not found on the graph element. Falling back to black (#000000).`);
+					console.warn(`[STARLIGHT-SITE-GRAPH] CSS variable "${cssPropertyValue}" was not found on the graph element. Falling back to black (#000000).`);
 					colors[identifier] = '#000000';
 				}
 			} else {

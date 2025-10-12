@@ -7,6 +7,7 @@ sitemap:
   pageTitle: Graph Node Style
 ---
 
+import { Badge } from '@astrojs/starlight/components';
 import GraphExample from "../../../../components/GraphExample.astro";
 import { overrideConfig } from '../generationUtil.js';
 import { focusSingleNode, singleNodeSitemap, twoNodeSitemap, fourtyNodeSitemap, starNodeSitemap, graphColors, nodeColorsDropdown } from "../constants.js";
@@ -66,14 +67,28 @@ This size is further affected by the [`nodeScale`](#node-scaling) and [`neighbor
 />
 
 
-## Color Config
+## <Badge text="New" variant="caution" size="large" /> Color Config
 With the `shapeColor` property, you can set the color of the node.
-This property uses one of the predefined color types, which can be found below.
+This property can be set to:
+- a default color types defined by the package (e.g. `nodeColor`, `nodeColorVisited`, `nodeColor1`, etc.),
+- to `stroke` (uses the same color as the stroke of the node, if defined),
+- to your own CSS-defined variable (e.g. `--color-variable`),
+- to a hex color (e.g. `#ff00ff`).
+
+:::danger[Warning]
+When using a CSS variable as a custom color, make sure to define it in your site's CSS (ideally in the `:root`),
+otherwise this color cannot be applied.
+To support light/dark themes, make sure to define the variable inside `:root[data-theme='dark']`
+and `:root[data-theme='light']`.
+
+Hex colors, on the other hand, do not need to be defined in your CSS, but they also _do not follow_ your site's light/dark mode.
+:::
 
 :::note[Note]
-Changing the actual colors used for each color type can be done
-by [changing the CSS variables](/starlight-site-graph/configuration/css/variables#nodes).
+It is possible to change the colors used by the predefined color types
+by [changing the package's CSS variables](/starlight-site-graph/configuration/css/variables#nodes).
 :::
+
 
 <GraphExample id="colorSelect"
 	config={{ graphConfig: { nodeDefaultStyle: { shapeColor: "nodeColor" } }}}
@@ -151,6 +166,9 @@ Input can either be a number (in pixels), or a percentage value represented as a
 Similarly to the `shape` properties, you can also set the size, color and corner radius of the stroke
 using the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
 
+For `strokeColor`, you can use the same values as for `shapeColor`, plus the special value `inherit`,
+which uses the same color as the node's `shapeColor` (if defined).
+
 <GraphExample id="shapeStroke"
 			  config={{
 				graphConfig: {
@@ -171,7 +189,7 @@ using the `strokeWidth`, `strokeColor`, and `strokeRadius` properties.
 				  "strokeColor": nodeColorsDropdown(["nodeDefaultStyle", "nodeCurrentStyle"], "strokeColor", [ "inherit", ...graphColors]),
 			  }}
 			  dropdownDefaults={{
-				  "shapeColor": 6,
+				  "shapeColor": 9,
 				  "strokeColor": 0
 			  }}
 			  sliders={{
