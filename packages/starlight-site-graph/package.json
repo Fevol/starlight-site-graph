@@ -43,8 +43,8 @@
 		"micromatch": "^4.0.8"
 	},
 	"overrides": {
-		"picomatch": "^4.0.3"
-	},
+        "picomatch": "^4.0.3"
+    },
 	"devDependencies": {
 		"@types/micromatch": "^4.0.9"
 	},
