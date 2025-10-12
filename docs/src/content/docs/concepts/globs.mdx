@@ -12,12 +12,14 @@ import { Tabs, TabItem, FileTree } from '@astrojs/starlight/components';
 Glob patterns are used all throughout the package's configuration
 to determine whether a path/file should have some specific behavior applied to it.
 For the most part, the package makes use of the [fast-glob](https://github.com/mrmlnc/fast-glob#basic-syntax)
-syntax, with one notable exception. If you want to test out some glob patterns, there is a [playground](https://globster.xyz/) available.
+syntax, with one notable exception.
+
+If you want to test out how glob patterns work, there is a [playground](https://globster.xyz/) available.
 
 :::danger[Important]
 Compared to other globbing libraries, this package has a different way of processing patterns.
-Most notably, the package will search for **the first** pattern that matches the file path,
-and apply some behaviour based on whether the pattern is negated or not.
+Most notably, the package will search for the **first pattern** that matches the path,
+and apply some behaviour based on whether the ***pattern is negated*** or not.
 See the [Pattern processing](#pattern-processing) section for more information.
 :::
 

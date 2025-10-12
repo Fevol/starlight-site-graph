@@ -9,11 +9,12 @@ import { PackageManagers } from 'starlight-package-managers'
 Starlight Site Graph is a [Starlight](https://starlight.astro.build) plugin that seamlessly adds a customizable graph to your site,
 visualizing links between your pages for easy navigation.
 
-Check out the [configuration](/starlight-site-graph/configuration) guide to learn more about the plugin's features.
+Check out the [configuration](/starlight-site-graph/configuration) guide to learn more about the plugin's features, or move
+on to the installation instructions below to integrate it into your own (Starlight) site.
 
 :::note[Note]
-The styling on this website is provided by [Starlight Theme Obsidian](https://fevol.github.io/starlight-theme-obsidian),
-which includes this plugin out of the box.
+The theme of this website is provided by [Starlight Theme Obsidian](https://fevol.github.io/starlight-theme-obsidian),
+which is designed to integrate well with this plugin.
 :::
 
 ## Prerequisites
@@ -34,7 +35,7 @@ Refer to the [CHANGELOG](/starlight-site-graph/changelog) for more information a
 <Steps>
     1. Starlight Site Graph is a Starlight [plugin](https://starlight.astro.build/reference/plugins/) that you can install using your favorite package manager:
         <PackageManagers pkg="starlight-site-graph" pkgManagers={["npm", "pnpm", "yarn", "bun"]} type="add" />
-    2. Configure the plugin in your Starlight [configuration](https://starlight.astro.build/reference/configuration/#plugins) in the `astro.config.mjs` file.
+    2. Include the plugin in your Starlight [configuration](https://starlight.astro.build/reference/configuration/#plugins) in the `astro.config.mjs` file.
         ```diff lang="js"
             // astro.config.mjs
             import starlight from '@astrojs/starlight'
@@ -51,8 +52,8 @@ Refer to the [CHANGELOG](/starlight-site-graph/changelog) for more information a
             })
         ```
 	3. Add the Site Graph [content schema](https://docs.astro.build/en/guides/content-collections/#defining-a-collection-schema)
-		to your pages to enable type checking on the page's frontmatter, you will need to
-		define the `src/content/config.ts` file if it doesn't exist yet.
+		to your pages to enable type checking on the frontmatter of your pages,
+		you will need to define the `src/content/config.ts` file if it doesn't exist yet.
 		```diff lang="ts"
 			// content/docs/config.ts
 		+	import { docsSchema } from '@astrojs/starlight/schema';
@@ -75,22 +76,25 @@ That's it! You should now see the Starlight Site Graph is now added to your Star
 If you want to configure the graph component, sitemap generation or backlinks, check out the [configuration](/starlight-site-graph/configuration) guide.
 
 :::caution[Warning]
-If you have a plugin which overrides the default `<PageSidebar>` component, it will likely not work, depending on
-how the plugin is implemented. Check out this plugin's [`<PageSidebar>`](/starlight-site-graph/components/pagesidebar) component for reference.
+If another plugin on your site overrides the default `<PageSidebar>` component
+(that is, it adds a custom component to the right sidebar of the site),
+it will likely not work, depending on how the plugin is implemented.
+Check out this plugin's [`<PageSidebar>`](/starlight-site-graph/components/pagesidebar) component
+to see how the [`<PageGraph>`](/starlight-site-graph/components/pagegraph) or
+[`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) components can be added manually.
 :::
 
 ## <span style="display: flex; gap: 8px"><Icon name="astro" /> Installation (Astro)</span>
 
-While the plugin is mainly developed with Starlight support in mind, it is also possible to add the
-[`<PageGraph>`](/starlight-site-graph/components/pagegraph) or [`<PageBacklinks>`](/starlight-site-graph/components/pagebacklinks) components
-to regular Astro projects, though it will require a bit more manual setup.
-
+While the plugin is mainly developed with Starlight support in mind,
+regular Astro projects can also use this package's features,
+though some additional setup is required.
 
 <Steps>
 	1. Starlight Site Graph is a package that contains an integration and several components, which you can install using your favorite package manager:
 		<PackageManagers pkg="starlight-site-graph" pkgManagers={["npm", "pnpm", "yarn", "bun"]} type="add" />
 	2. Add the sitemap generation integration of the plugin in your `astro.config.mjs` file.
-		The `prefetch` option is required and will be enabled automatically if it wasn't set already,
+		The `prefetch` option _is_ required and will be enabled automatically if it wasn't set already,
 		as the plugin requires it to function properly.
 		```diff lang="js"
 			// astro.config.mjs
@@ -109,8 +113,8 @@ to regular Astro projects, though it will require a bit more manual setup.
 		Where the official sitemap integration maps page _contents_, this package's integration maps page _connections_.
 		:::
 	3. Add the Site Graph [content schema](https://docs.astro.build/en/guides/content-collections/#defining-a-collection-schema)
-		to your pages to enable type checking on the page's frontmatter,
-		you will need to define the `src/content/config.ts` file if it doesn't exist yet.<br/>
+		to your pages to enable type checking on the frontmatter of your pages,
+		you will need to define the `src/content/config.ts` file if it doesn't exist yet. <br/>
 		If you already have a collection defined, you can extend the existing schema with the `siteGraphSchema`:
 		```diff lang="ts"
 			// content/docs/config.ts
@@ -157,8 +161,8 @@ to regular Astro projects, though it will require a bit more manual setup.
 		+import { PageGraph } from 'starlight-site-graph/components';
 		---
 
-		+ <!-- Renders a graph focused on a node matching the current page -->
-		+ <PageGraph />
+		+<!-- Renders a graph focused on a node matching the current page -->
+		+<PageGraph />
 
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
 		```
@@ -216,9 +220,9 @@ To fix this issue, define an `overrides` in your `package.json` file to force th
 		"starlight-site-graph": "^0.5.0",
 		"...": "..."
 	},
-+ "overrides": {
-+	    "picomatch": "^4.0.3"
-+ }
++  "overrides": {
++	  "picomatch": "^4.0.3"
++  }
 }
 ```
 

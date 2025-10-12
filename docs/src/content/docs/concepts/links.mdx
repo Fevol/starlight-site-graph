@@ -16,3 +16,9 @@ happens, see the [Sitemap Explanation](/starlight-site-graph/concepts/sitemap) p
 
 Eventually in the graph, every link will connect two [nodes](/starlight-site-graph/concepts/nodes) together.
 
+Links do not include the domain name, and are always relative to the root of your website.
+This means that _all_ internal links will start with a `/`.
+
+Depending on whether Astro's [`trailingSlash`](https://docs.astro.build/en/reference/configuration-reference/#trailingslash) option is set to `always`, `never` or `ignore`,
+links may or may not end with a `/`.
+This package will automatically fix links to match your trailing slash setting.
