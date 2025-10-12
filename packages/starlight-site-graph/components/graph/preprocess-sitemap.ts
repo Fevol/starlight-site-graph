@@ -31,6 +31,34 @@ function firstMatchingPattern(
 	return defaultMatch;
 }
 
+function getUsedColors(style: Partial<NodeStyle>, usedColors: Set<string>, customColorMap: Record<string, string>) {
+	if (style.shapeColor) {
+		let color = style.shapeColor;
+		if (!(color in cssVariablesMap) && color !== 'stroke') {
+			color = customColorMap[style.shapeColor]!;
+			if (!color) {
+				color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
+				customColorMap[style.shapeColor] = color;
+			}
+			style.shapeColor = color;
+		}
+		usedColors.add(color);
+	}
+	if (style.strokeColor) {
+		let color = style.strokeColor;
+		if (!(color in cssVariablesMap) && color !== 'inherit') {
+			color = customColorMap[style.strokeColor]!;
+			if (!color) {
+				color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
+				customColorMap[style.strokeColor] = color;
+			}
+			style.strokeColor = color;
+		}
+		usedColors.add(color);
+	}
+}
+
+
 // TODO: Preprocess sitemap at build time and bundle together (client load performance vs. built page size)
 export function processSitemapData(context: GraphComponent, siteData: Sitemap): GraphData {
 	const visitedPages: Set<string> = getVisitedEndpoints();
@@ -175,31 +203,7 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 		style = processStyle({ ...style, ...((node.nodeStyle ?? {}) as NodeStyle) });
 
 		const { computedSize, fullRadius, colliderSize } = computeSizes(style, adjacent.size);
-		if (style.shapeColor) {
-			let color = style.shapeColor;
-			if (!(color in cssVariablesMap) && color !== 'stroke') {
-				color = customColorMap[style.shapeColor]!;
-				if (!color) {
-					color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
-					customColorMap[style.shapeColor] = color;
-				}
-				style.shapeColor = color;
-			}
-			usedColors.add(color);
-		}
-		if (style.strokeColor) {
-			let color = style.strokeColor;
-			if (!(color in cssVariablesMap) && color !== 'inherit') {
-				color = customColorMap[style.strokeColor]!;
-				if (!color) {
-					color = `nodeColorCustom${Object.keys(customColorMap).length + 1}`;
-					customColorMap[style.strokeColor] = color;
-				}
-				style.strokeColor = color;
-			}
-			usedColors.add(color);
-		}
-
+		getUsedColors(style, usedColors, customColorMap);
 
 		nodes.push({
 			id: id,
@@ -236,6 +240,8 @@ export function processSitemapData(context: GraphComponent, siteData: Sitemap): 
 
 		const adjacent = new Set([...links.filter(l => l.source === tag).map(l => l.target as string)]);
 		const { computedSize, fullRadius, colliderSize } = computeSizes(tagStyle, adjacent.size);
+		getUsedColors(tagStyle, usedColors, customColorMap);
+
 		nodes.push({
 			id: tag,
 			exists: true,
