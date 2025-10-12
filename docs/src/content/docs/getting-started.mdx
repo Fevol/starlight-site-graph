@@ -106,7 +106,7 @@ to regular Astro projects, though it will require a bit more manual setup.
 		```
 		:::note[Note]
 		The Sitemap integration provided by this package is _not_ the same as the official [`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/) integration.
-		The difference lies in the fact the official integration maps _contents_ while the package's integration maps _connections_.
+		Where the official sitemap integration maps page _contents_, this package's integration maps page _connections_.
 		:::
 	3. Add the Site Graph [content schema](https://docs.astro.build/en/guides/content-collections/#defining-a-collection-schema)
 		to your pages to enable type checking on the page's frontmatter,
@@ -145,7 +145,7 @@ to regular Astro projects, though it will require a bit more manual setup.
 		import { PageGraph } from 'starlight-site-graph/components';
 		---
 
-		<some-content />
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
 		```
 	5. You can now add the plugin's [components](/starlight-site-graph/components) directly to your `.astro`, [`.mdx`](https://docs.astro.build/en/guides/integrations-guide/mdx/)
 		or [`.mdoc`](https://docs.astro.build/en/guides/integrations-guide/markdoc/) pages (for the latter two, the proper integrations need to be added).<br/>
@@ -153,10 +153,11 @@ to regular Astro projects, though it will require a bit more manual setup.
 		```diff lang="astro"
 		// src/pages/my-page.astro
 		---
-		+ import { PageGraph } from 'starlight-site-graph/components';
+		import "starlight-site-graph/styles/variables.css";
+		+import { PageGraph } from 'starlight-site-graph/components';
 		---
 
-		<!-- Renders a graph focused on a node matching the current page -->
+		+ <!-- Renders a graph focused on a node matching the current page -->
 		+ <PageGraph />
 
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec dui...
@@ -167,6 +168,22 @@ to regular Astro projects, though it will require a bit more manual setup.
 </Steps>
 
 ## Common Issues
+
+### Unexpected graph structure
+
+When enabling this integration for the first time, it is useful to set the depth to the maximum (i.e. `depth: 5`),
+so you can see all connections in the graph.
+
+In some cases, it is possible that you have too many or too few connections in the graph:
+- Every node is connected to every other node
+- There are long chain-like structures in the graph
+- All nodes are isolated
+
+The integration's [sitemap generation](/starlight-site-graph/concepts/sitemap/) parses links in both frontmatter,
+Markdown content and the rendered HTML of your pages.
+It is possible that you will have to change the [`sitemapConfig`](/starlight-site-graph/configuration/sitemap/)
+to include/exclude certain links or pages.
+
 
 ### Disallowed MIME Type error
 If the graph does not show up, and you see the following error in the browser console:
