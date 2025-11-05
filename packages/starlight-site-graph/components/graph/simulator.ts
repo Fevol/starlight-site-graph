@@ -86,7 +86,7 @@ export class GraphSimulator {
 	}
 
 	update() {
-		const linkForce = d3.forceLink(this.links).id((d: any) => d.id);
+		const linkForce = d3.forceLink<NodeData, LinkData>(this.links).id((d) => d.id);
 		if (this.context.config.linkDistance) {
 			linkForce.distance(this.context.config.linkDistance);
 		}
@@ -95,13 +95,13 @@ export class GraphSimulator {
 			.stop()
 			.force('link', linkForce)
 			.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.context.config.repelForce))
-			.force('forceX', d3.forceX().strength(this.context.config.centerForce))
-			.force('forceY', d3.forceY().strength(this.context.config.centerForce))
+			.force('forceX', d3.forceX<NodeData>().strength(this.context.config.centerForce))
+			.force('forceY', d3.forceY<NodeData>().strength(this.context.config.centerForce))
 			.force(
 				'collision',
 				d3
-					.forceCollide()
-					.radius(node => (node as NodeData).colliderSize! + this.context.config.colliderPadding),
+					.forceCollide<NodeData>()
+					.radius(node => node.colliderSize! + this.context.config.colliderPadding),
 			)
 			.alphaDecay(this.context.config.alphaDecay)
 			.alpha(1)

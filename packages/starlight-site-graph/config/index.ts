@@ -1,14 +1,14 @@
 import { AstroError } from 'astro/errors';
 import { type StarlightSiteGraphConfig, starlightSiteGraphConfig, starlightSiteGraphConfigSchema } from './base';
 
-function isObject(item: any): boolean {
-	return (item && typeof item === 'object' && !Array.isArray(item));
+function isObject(item: unknown): item is Record<string, unknown> {
+	return (item !== null && typeof item === 'object' && !Array.isArray(item));
 }
 
 /**
  * NOTE: Adapted from https://stackoverflow.com/a/37164538/23278914
  */
-function deepMerge(target: any, source: any): any {
+function deepMerge(target: unknown, source: unknown): unknown {
 	let output = Object.assign({}, target);
 	if (isObject(target) && isObject(source)) {
 		for (const [key, value] of Object.entries(source)) {

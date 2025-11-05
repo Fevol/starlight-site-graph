@@ -252,11 +252,13 @@ export default defineIntegration({
 					injectTypes({
 						filename: "types.d.ts",
 						content: `declare module 'virtual:starlight-site-graph/config' {
-							export default ${JSON.stringify(settings)};
+							const Config: import('./packages/starlight-site-graph/config').FullStarlightSiteGraphConfig;
+							export default Config;
 						}
-						
+
 						declare module 'virtual:starlight-site-graph/astro-config' {
-							export default ${JSON.stringify(args.config)};
+							const Config: import('astro').AstroConfig;
+							export default Config;
 						}`
 					});
 				},

@@ -184,7 +184,10 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.update();
 			}
 			if (requireLabelUpdate) {
-				this.config.labelOpacityScale = diff['labelOpacityScale'].newValue;
+				const labelOpacityScaleDiff = diff['labelOpacityScale'] as { oldValue: unknown; newValue: unknown } | undefined;
+				if (labelOpacityScaleDiff && typeof labelOpacityScaleDiff.newValue === 'number') {
+					this.config.labelOpacityScale = labelOpacityScaleDiff.newValue;
+				}
 				const labelOpacity = this.simulator.getCurrentLabelOpacity();
 				this.animator.startAnimations({
 					labelOpacity,
@@ -194,8 +197,10 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.requestRender = true;
 			}
 			if (requireZoomUpdate) {
-				const scale = diff['scale'].newValue;
-				this.simulator.updateZoom(scale);
+				const scaleDiff = diff['scale'] as { oldValue: unknown; newValue: unknown } | undefined;
+				if (scaleDiff && typeof scaleDiff.newValue === 'number') {
+					this.simulator.updateZoom(scaleDiff.newValue);
+				}
 			}
 			if (requireRendererUpdate) {
 				const newAnimatables = animatables(this.config, this.colors);

@@ -112,11 +112,14 @@ export function hasTouch() {
 	return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints! > 0;
 }
 
-export function deepDiff(obj1: any, obj2: any): any {
-	const changes: any = {};
+type DiffValue = { oldValue: unknown; newValue: unknown };
+type DiffResult = Record<string, DiffValue | DiffResult>;
 
-	function compareValues(key: string, value1: any, value2: any) {
-		if (typeof value1 === 'object' && typeof value2 === 'object') {
+export function deepDiff(obj1: unknown, obj2: unknown): DiffResult {
+	const changes: DiffResult = {};
+
+	function compareValues(key: string, value1: unknown, value2: unknown) {
+		if (isObject(value1) && isObject(value2)) {
 			const nestedDiff = deepDiff(value1, value2);
 			if (Object.keys(nestedDiff).length > 0) {
 				changes[key] = nestedDiff;
@@ -124,6 +127,10 @@ export function deepDiff(obj1: any, obj2: any): any {
 		} else if (value1 !== value2) {
 			changes[key] = { oldValue: value1, newValue: value2 };
 		}
+	}
+
+	if (!isObject(obj1) || !isObject(obj2)) {
+		return changes;
 	}
 
 	const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
@@ -145,14 +152,14 @@ export function deepDiff(obj1: any, obj2: any): any {
 	return changes;
 }
 
-function isObject(item: any): boolean {
-	return (item && typeof item === 'object' && !Array.isArray(item));
+function isObject(item: unknown): item is Record<string, unknown> {
+	return (item !== null && typeof item === 'object' && !Array.isArray(item));
 }
 
 /**
  * NOTE: Adapted from https://stackoverflow.com/a/37164538/23278914
  */
-export function deepMerge(target: any, source: any): any {
+export function deepMerge(target: unknown, source: unknown): any {
 	let output = Object.assign({}, target);
 	if (isObject(target) && isObject(source)) {
 		for (const [key, value] of Object.entries(source)) {
