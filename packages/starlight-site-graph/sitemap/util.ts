@@ -114,3 +114,21 @@ export function getMostCommonItem<T>(arr: T[]): T | undefined {
 	}
 	return [...counts.entries()].reduce((a, b) => (b[1] > a[1] ? b : a))[0];
 }
+
+/**
+ * Browser-safe URL path joining.
+ * Unlike Node's path.join, this always uses forward slashes and is safe to use
+ * in client-side code without triggering Vite's "module externalized" warnings.
+ *
+ * @example joinUrlPath('/base', 'page') => '/base/page'
+ * @example joinUrlPath('/base/', '/page/') => '/base/page'
+ * @example joinUrlPath('', 'page') => '/page'
+ */
+export function joinUrlPath(...segments: string[]): string {
+	const joined = segments
+		.filter(Boolean)
+		.map(segment => segment.replace(/^\/+|\/+$/g, ''))
+		.filter(Boolean)
+		.join('/');
+	return joined ? `/${joined}` : '/';
+}
