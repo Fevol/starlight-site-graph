@@ -1,5 +1,5 @@
 import config from 'virtual:starlight-site-graph/config';
-import { setSlashes } from '../sitemap/util';
+import { setSlashes } from '../sitemap/browser-utils';
 
 export function getVisitedEndpoints(): Set<string> {
 	if (config.trackVisitedPages === 'disable') return new Set();

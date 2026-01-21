@@ -1,5 +1,4 @@
 ---
-import path from 'node:path';
 import type { PageGraphConfig, PageSiteGraphFrontmatter } from "../../schema";
 import type { GraphConfig } from '../../config';
 
@@ -8,7 +7,8 @@ import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
 import Graph from "./Graph.astro";
 
-import { firstMatchingPattern, setSlashes } from '../../sitemap/util';
+import { firstMatchingPattern } from '../../sitemap/util';
+import { setSlashes, joinUrlPath } from '../../sitemap/browser-utils';
 
 interface Props {
 	slug?: string;
@@ -31,7 +31,7 @@ if (entry && entry.id) {
 trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never' ?? true;
 
 // Infer slug from URL if not explicitly provided
-const slugWithBase = setSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"), true, trailingSlashes);
+const slugWithBase = setSlashes(slug ? joinUrlPath(astroConfig.base, slug) : Astro.url.pathname, true, trailingSlashes);
 
 if (showGraph === undefined) {
 	if (graphData?.visible !== undefined) {

@@ -1,5 +1,3 @@
-import micromatch from 'micromatch';
-
 import type { LinkData, NodeData } from './types';
 import type { Sitemap } from '../../config';
 import type { GraphComponent } from './graph-component';
@@ -7,6 +5,7 @@ import type { NodeStyle } from '../../config';
 import { cssVariablesMap } from '../../color';
 
 import { getVisitedEndpoints, simplifySlug } from '../util';
+import { firstMatchingPatternBrowser } from '../../sitemap/browser-utils';
 
 import { DEFAULT_CORNER_RADIUS, DEFAULT_POLYGON_POINTS, DEFAULT_STAR_POINTS, DEFAULT_STROKE_WIDTH } from './constants';
 
@@ -17,19 +16,8 @@ export type GraphData = {
 	customColorMap: Record<string, string>;
 };
 
-function firstMatchingPattern(
-	text: string,
-	patterns: string | string[],
-	defaultMatch?: boolean,
-): boolean | undefined {
-	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
-	for (const pattern of patternList) {
-		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
-			return !pattern.startsWith('!');
-		}
-	}
-	return defaultMatch;
-}
+// Use browser-safe glob matching (no micromatch/picomatch Node dependencies)
+const firstMatchingPattern = firstMatchingPatternBrowser;
 
 function getUsedColors(style: Partial<NodeStyle>, usedColors: Set<string>, customColorMap: Record<string, string>) {
 	if (style.shapeColor) {
