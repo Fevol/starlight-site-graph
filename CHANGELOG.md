@@ -1,3 +1,18 @@
+## [0.5.1](https://github.com/Fevol/starlight-site-graph/releases/tag/0.5.1) (2026/02/05)
+### Fixes
+-   Fix pnpm compatibility issue where `micromatch` ESM import would fail with "does not provide an export named 'default'" ([#24](https://github.com/Fevol/starlight-site-graph/issues/24))
+-   Fix Dark Reader extension compatibility - graph no longer crashes when Dark Reader modifies CSS variables ([#12](https://github.com/Fevol/starlight-site-graph/issues/12))
+-   Fix browser compatibility by eliminating Node.js `path` module dependencies in client-side code
+-   Fix `DiffResult` type circular reference causing TypeScript compilation issues
+
+### Security
+-   Address potential XSS vulnerability in link rendering with input sanitization
+-   Add prototype pollution prevention with `Object.hasOwn` checks
+
+### Improvements
+-   Improved error handling with better recovery and clearer user messaging
+-   Enhanced type safety in virtual modules and utility functions
+
 ## [0.5.0](https://github.com/Fevol/starlight-site-graph/releases/tag/0.5.0) (2025/08/31)
 ### Features
 -   Filter out links in HTML elements based on CSS-like selectors with the `ignoreLinksInSelectors` setting
