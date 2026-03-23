@@ -77,27 +77,21 @@ if (showBacklinks === undefined) {
 					const slug = container.parentElement?.getAttribute('data-slug') ?? '';
 					const entry = sitemap[slug];
 					if (entry?.backlinks) {
-						// Security: Clear container using DOM removal instead of innerHTML = ''
-						while (container.firstChild) {
-							container.removeChild(container.firstChild);
-						}
+						container.replaceChildren();
 						container.parentElement!.style.display = 'block';
 						for (const link of entry.backlinks) {
 							const li = document.createElement('li');
 							li.style.setProperty('--depth', '0');
 
 							const a = document.createElement('a');
-							// Security: Validate and sanitize URL to prevent javascript: protocol
 							try {
 								const url = new URL(link, window.location.origin);
 								if (url.protocol === 'http:' || url.protocol === 'https:') {
 									a.href = link;
 								} else {
-									// Reject dangerous protocols like javascript:, data:, etc.
 									a.href = '#';
 								}
 							} catch {
-								// Invalid URL, default to safe value
 								a.href = '#';
 							}
 							a.style.setProperty('--depth', '0');
@@ -106,8 +100,7 @@ if (showBacklinks === undefined) {
 
 							const span = document.createElement('span');
 							span.style.setProperty('--depth', '0');
-							// Security: Use textContent to prevent XSS
-							span.textContent = sitemap[link]?.title || 'Untitled';
+							span.textContent = sitemap[link]?.title ?? link;
 
 							a.appendChild(span);
 							li.appendChild(a);
