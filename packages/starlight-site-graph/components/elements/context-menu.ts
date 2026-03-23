@@ -48,6 +48,7 @@ export function showContextMenu(e: MouseEvent, items: MenuItem[]) {
 			if (item.icon) {
 				const menuIcon = document.createElement('div');
 				menuIcon.className = 'slsg-menu-item-icon';
+				// TODO: Use setHTML once it is baseline; XSS is currently not possible as menus are statically defined.
 				menuIcon.innerHTML = item.icon;
 				menuItem.appendChild(menuIcon);
 			}
