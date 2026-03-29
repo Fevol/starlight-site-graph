@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 
+import { type AstroIntegrationLogger } from 'astro';
 import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 
 import { fileURLToPath } from 'node:url';
@@ -8,6 +9,30 @@ import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig, vali
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 import { trimSlashes } from './sitemap/util';
+
+// FIXME: Add direct dependency, as it might get removed by Astro later
+import chalk from "chalk";
+
+function log(logger: AstroIntegrationLogger, type: "info" | "warn" | "error", title: string, details: { cause?: string, impact?: string, fix?: string, trace?: string | undefined } = {}) {
+	let msg = `${title}\n`;
+	if (details.cause) {
+		msg += `  ${chalk.bold("Cause")}:\n    ${details.cause}\n`;
+	}
+	if (details.impact) {
+		msg += `  ${chalk.bold("Impact")}:\n    ${details.impact}\n`;
+	}
+	if (details.fix) {
+		msg += `  ${chalk.bold("Fix")}:\n    ${details.fix}\n`;
+	}
+	if (details.trace) {
+		msg += `  ${chalk.bold("Stack Trace")}:\n    ${chalk.gray(details.trace)}\n`;
+	}
+
+	msg = msg.replace(/`([^`]+)`/g, (_, code) => chalk.dim(code));
+	msg = msg.slice(0, -1);
+
+	logger[type](msg);
+}
 
 /**
  * Generates a static sitemap for all md files in the docs directory inside public/sitemap.json,
@@ -31,6 +56,9 @@ export default defineIntegration({
 				'astro:config:setup': async (args) => {
 					const { config, logger, command, updateConfig, injectScript } = args;
 
+					// Track if sitemap generation was successful
+					let sitemapGenerationFailed = false;
+
 					try {
 						// EXPL: This prevents an error where an older version of `picomatch` (2.3.1),
 						//     included via `anymatch` < `unstorage` < `astro`, is used instead of the
@@ -49,7 +77,9 @@ export default defineIntegration({
 										transform(code, id) {
 											if (id.includes('picomatch') || id.includes('micromatch') || id.includes('anymatch')) {
 												if (code.includes("process.platform")) {
-													logger.warn(`Incompatible \`picomatch\` version detected, automatic patch applied\nTo get rid of this error, add the following to your package.json and reinstall:\n"overrides": {\n\t"picomatch": "^4.0.3"\n}`);
+													log(logger, "warn", 'Incompatible `picomatch` version detected; applying compatibility patch', {
+														fix: 'Add `"overrides": { "picomatch": "^4.0.3" }` to your `package.json` and reinstall dependencies to suppress this warning',
+													});
 													return code.replace(/process\.platform/g, '"undefined"');
 												}
 											}
@@ -62,7 +92,11 @@ export default defineIntegration({
 							}
 						});
 					} catch (e) {
-						logger.error('Failed to resolve `picomatch` package, which is required by `micromatch`. Please ensure that `picomatch` is installed as a dependency.' + e);
+						log(logger, "error",'Failed to apply `picomatch` compatibility patch', {
+							cause: e instanceof Error ? e.message : String(e),
+							impact: 'This may cause runtime errors in the browser',
+							fix: 'Add `"overrides": { "picomatch": "^4.0.3" }` to your `package.json` and reinstall dependencies'
+						});
 					}
 
 					if (!settings.sitemapConfig.contentRoot) {
@@ -80,7 +114,10 @@ export default defineIntegration({
 
 					// TODO: Figure if it is somehow possible to conditionally import astro:prefetch without triggering vite errors
 					if (!config.prefetch) {
-						logger.warn('`prefetch` is disabled in the Astro config, but this plugin requires it to prevent errors. This option has now been enabled.');
+						log(logger, "warn", 'Astro `prefetch` is disabled', {
+							impact: 'The site graph requires prefetching to function correctly; it has been auto-enabled',
+							fix: 'Set `prefetch: true` in your `astro.config.mjs` to suppress this warning'
+						});
 						config.prefetch = true;
 					}
 
@@ -96,36 +133,53 @@ export default defineIntegration({
 					}
 
 					if (!sitemapProvided) {
-						logger.info(
+						log(logger, "info",
 							'Retrieving links from Markdown content' +
 							(settings.sitemapConfig.pageInclusionRules.length
-								? ` (with patterns ${settings.sitemapConfig.pageInclusionRules.join(', ')})`
+								? ` (with patterns \`${settings.sitemapConfig.pageInclusionRules.join('`, `')}\`)`
 								: ''),
 						);
 
-						// Generate sitemap (links, backlinks, tags, nodeStyle) from markdown content
+						// Generate sitemap (links, backlinks, tags, nodeStyle) from Markdown content
 						if (command === 'dev' || command === 'build') {
 							builder.setBasePath(config.base);
 							try {
 								await fs.promises.access(settings.sitemapConfig.contentRoot);
 							} catch (e) {
-								logger.error(`Content root "${settings.sitemapConfig.contentRoot}" does not exist, please check your configuration.`);
-								return;
+								sitemapGenerationFailed = true;
+								log(logger, "error",'Sitemap generation from Markdown failed', {
+									cause: `Content directory not found: "\`${settings.sitemapConfig.contentRoot}\`"`,
+									impact: 'The graph visualization will be empty',
+									fix: `Ensure "\`${settings.sitemapConfig.contentRoot}\`" exists`
+								});
+
+								// Initialize with empty sitemap to allow integration to continue
+								settings.sitemapConfig.sitemap = builder.process().toSitemap();
 							}
 
-							try {
-								await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
-								settings.sitemapConfig.sitemap = builder.process().toSitemap();
-								logger.info('Finished retrieving links from Markdown content');
-							} catch (e) {
-								logger.error('Failed to retrieve links from Markdown content, reason: ' + e);
-								// TODO: Should virtual config always be added regardless of correct MD content generation?
-								//		Failsafe?
-								return;
+							// Only attempt to add content if directory exists
+							if (!sitemapGenerationFailed) {
+								try {
+									await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
+									settings.sitemapConfig.sitemap = builder.process().toSitemap();
+									log(logger, "info", 'Successfully generated sitemap from Markdown content');
+								} catch (e) {
+									sitemapGenerationFailed = true;
+
+									log(logger, "error", 'Sitemap generation from Markdown failed', {
+										cause: 'Failed to process Markdown content: ' + (e instanceof Error ? e.message : String(e)),
+										impact: 'The graph visualization will be empty',
+										trace: e instanceof Error ? e.stack : undefined,
+									});
+
+
+									// Initialize with empty sitemap to allow integration to continue
+									settings.sitemapConfig.sitemap = builder.process().toSitemap();
+								}
 							}
 						}
 					} else {
-						logger.info('Using applied sitemap');
+						log(logger, "info", 'Using applied sitemap');
 						settings.sitemapConfig.sitemap = processSitemap(settings.sitemapConfig.sitemap, settings);
 					}
 
@@ -134,7 +188,10 @@ export default defineIntegration({
 						try {
 							pixiStatsPlugin = require('pixi-stats').default();
 						} catch (err) {
-							logger.warn('Failed to load `pixi-stats`, to enable the FPS counter for the graph view, make sure `pixi-stats` is installed as aa peer dependency.');
+							log(logger, "error",
+								`Failed to load \`pixi-stats\`, to enable performance monitoring for the graph view, ` +
+								`make sure \`pixi-stats\` is installed as a peer dependency`
+							);
 						}
 
 						updateConfig({
@@ -158,6 +215,8 @@ export default defineIntegration({
 						});
 					}
 
+					// NOTE: Always add virtual imports, even if sitemap generation failed
+					// 		 This ensures the integration continues to work with an empty graph
 					addVirtualImports(args, {
 						name,
 						imports: {
@@ -165,6 +224,17 @@ export default defineIntegration({
 							'virtual:starlight-site-graph/astro-config': `export default ${JSON.stringify(config)}`,
 						},
 					});
+
+					if (sitemapGenerationFailed) {
+						log(logger, "warn",`Empty sitemap was generated, the graph visualization will be empty`);
+					} else if (command === "dev") {
+						const nodeCount = Object.keys(settings.sitemapConfig.sitemap ?? {}).length;
+						const linkCount = Object.values(settings.sitemapConfig.sitemap ?? {}).reduce(
+							(sum, node) => {
+								return sum + (node.links?.length ?? 0)
+							}, 0);
+						log(logger, "info", `Sitemap with ${nodeCount} nodes and ${linkCount} links generated and injected into virtual module`);
+					}
 
 					injectScript("page", `
 						import config from 'virtual:starlight-site-graph/config';
@@ -194,31 +264,50 @@ export default defineIntegration({
 					const { logger } = args;
 
 					if (!outputPath) {
-						logger.warn(
-							"Output directory couldn't be determined, graph sitemap will not make use of HTML content.",
-						);
+						log(logger, "warn", 'Could not determine output directory', {
+							impact: 'Metadata and links extracted from HTML will be missing from the graph',
+							fix: 'Check if your SSR adapter is supported or provide a manual output path'
+						});
 					}
 
 					if (!sitemapProvided) {
-						logger.info('Retrieving links from generated HTML content');
+						log(logger, "info", 'Retrieving links from generated HTML content');
 						try {
 							await fs.promises.access(outputPath);
 							settings.sitemapConfig.sitemap = (await builder
 								.addHTMLContentFolder(outputPath, settings.sitemapConfig.pageInclusionRules))
 								.process()
 								.toSitemap();
-							logger.info('Finished generating sitemap from generated HTML content');
+							log(logger, "info", 'Finished generating sitemap from generated HTML content');
 						} catch (e) {
 							settings.sitemapConfig.sitemap = builder.process().toSitemap();
-							logger.error('Failed to retrieve links from generated HTML content, reason: ' + e);
+
+							log(logger, "warn", 'HTML link extraction failed. Falling back to Markdown-only data', {
+								cause: e instanceof Error ? e.message : String(e)
+							});
 						}
 					}
 
-					await fs.promises.mkdir(`${outputPath}/sitegraph`, { recursive: true });
-					await fs.promises.writeFile(`${outputPath}/sitegraph/sitemap.json`,
-						JSON.stringify(settings.sitemapConfig.sitemap, null, settings.debug ? 2 : 0)
-					);
-					logger.info("`sitemap.json` created at `dist/sitegraph`");
+					try {
+						const dir = `${outputPath}/sitegraph`
+						await fs.promises.mkdir(dir, { recursive: true });
+						await fs.promises.writeFile(`${dir}/sitemap.json`,
+							JSON.stringify(settings.sitemapConfig.sitemap, null, settings.debug ? 2 : 0)
+						);
+
+						const nodeCount = Object.keys(settings.sitemapConfig.sitemap ?? {}).length;
+						const linkCount = Object.values(settings.sitemapConfig.sitemap ?? {}).reduce((sum, node) => sum + (node.links?.length ?? 0), 0);
+
+						log(logger, "info",
+							`Sitemap created at "\`${dir}/sitemap.json\`" with ${nodeCount} nodes and ${linkCount} links`
+						);
+					} catch (e) {
+						log(logger, "error", 'Failed to write sitemap file to disk', {
+							cause: e instanceof Error ? e.message : String(e),
+							impact: 'The graph will not be available on the deployed site',
+							fix: 'Check disk permissions for the build output directory'
+						});
+					}
 				}
 			}
 		};
