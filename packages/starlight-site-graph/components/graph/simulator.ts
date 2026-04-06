@@ -94,7 +94,7 @@ export class GraphSimulator {
 		this.simulation
 			.stop()
 			.force('link', linkForce)
-			.force('charge', d3.forceManyBody().distanceMax(500).strength(-this.context.config.repelForce))
+			.force('charge', d3.forceManyBody<NodeData>().distanceMax(500).strength(-this.context.config.repelForce))
 			.force('forceX', d3.forceX<NodeData>().strength(this.context.config.centerForce))
 			.force('forceY', d3.forceY<NodeData>().strength(this.context.config.centerForce))
 			.force(
