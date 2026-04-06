@@ -5,7 +5,7 @@ import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 
 import { fileURLToPath } from 'node:url';
 
-import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig, validateConfig } from './config';
+import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 import { trimSlashes } from './sitemap/util';
@@ -85,6 +85,7 @@ export default defineIntegration({
 													return code.replace(/process\.platform/g, '"undefined"');
 												}
 											}
+											return null;
 										}
 									}
 								],
@@ -134,7 +135,7 @@ export default defineIntegration({
 						outputPath = fileURLToPath(config.outDir);
 					}
 
-					if (!sitemapProvided) {
+					if (settings.sitemapConfig.sitemap === undefined) {
 						log(logger, "info",
 							'Retrieving links from Markdown content' +
 							(settings.sitemapConfig.pageInclusionRules.length

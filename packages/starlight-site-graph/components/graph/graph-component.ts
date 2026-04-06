@@ -184,8 +184,8 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.update();
 			}
 			if (requireLabelUpdate) {
-				const labelOpacityScaleDiff = diff['labelOpacityScale'] as { oldValue: unknown; newValue: unknown } | undefined;
-				if (labelOpacityScaleDiff && typeof labelOpacityScaleDiff.newValue === 'number') {
+				const labelOpacityScaleDiff = diff['labelOpacityScale'];
+				if (labelOpacityScaleDiff) {
 					this.config.labelOpacityScale = labelOpacityScaleDiff.newValue;
 				}
 				const labelOpacity = this.simulator.getCurrentLabelOpacity();
@@ -197,13 +197,13 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.requestRender = true;
 			}
 			if (requireZoomUpdate) {
-				const scaleDiff = diff['scale'] as { oldValue: unknown; newValue: unknown } | undefined;
-				if (scaleDiff && typeof scaleDiff.newValue === 'number') {
+				const scaleDiff = diff['scale'];
+				if (scaleDiff) {
 					this.simulator.updateZoom(scaleDiff.newValue);
 				}
 			}
 			if (requireRendererUpdate) {
-				const newAnimatables = animatables(this.config, this.colors);
+				const newAnimatables = animatables(this.config, this.colors, []);
 				// TODO: This could be made more efficient by only updating the changed properties
 				for (const [key, value] of Object.entries(newAnimatables)) {
 					this.animator.setProperties(key, (value as any).properties);
