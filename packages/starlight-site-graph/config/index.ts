@@ -50,15 +50,6 @@ export function validateConfig(baseConfig: typeof starlightSiteGraphConfig, user
 	return mergeDefaults(baseConfig, config.data);
 }
 
-
-export type RemoveOptional<T> =
-	T extends (...args: any[]) => any ? T
-		: T extends object
-			? { [K in keyof T]-?: RemoveOptional<NonNullable<T[K]>> }
-			: T;
-
-
-export type FullStarlightSiteGraphConfig = RemoveOptional<StarlightSiteGraphConfig>;
 export { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, type StarlightSiteGraphConfig } from './base';
 export { globalGraphConfig, graphConfigSchema, globalGraphConfigSchema, type GraphConfig } from './graph';
 export { type SitemapEntry, type Sitemap, globalSitemapConfig, globalSitemapConfigSchema, type SitemapConfig } from './sitemap';

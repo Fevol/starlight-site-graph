@@ -4,7 +4,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 
 import type { PageSiteGraphFrontmatter } from '../schema';
-import type { NodeStyle, RemoveOptional, Sitemap, SitemapConfig } from '../config';
+import type { NodeStyle, Sitemap, SitemapConfig } from '../config';
 
 import {
 	ensureLeadingPound, trimSlashes, setSlashes,
@@ -38,7 +38,7 @@ export class SiteMapBuilder {
 	explicitNameAssociations: Map<string, string> = new Map();
 	frontmatterData: Map<string, { data?: PageSiteGraphFrontmatter } & { slug?: string }> = new Map();
 
-	constructor(private config: RemoveOptional<SitemapConfig>) {
+	constructor(private config: SitemapConfig) {
 		this.map = new Map();
 		this.explicitNameAssociations = new Map(
 			Object.entries(this.config.pageTitles).map(([k, v]) => [setSlashes(k, true, this.addTrailingSlash), v]),

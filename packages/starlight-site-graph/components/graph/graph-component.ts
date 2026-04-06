@@ -1,4 +1,4 @@
-import { type GraphConfig, type RemoveOptional, type Sitemap, globalGraphConfig } from '../../config';
+import { type GraphConfig, type Sitemap, globalGraphConfig } from '../../config';
 
 import { Animator } from '../animator';
 import { animatables } from './animatables';
@@ -34,7 +34,7 @@ export class GraphComponent extends HTMLElement {
 	renderer!: GraphRenderer;
 	simulator!: GraphSimulator;
 
-	config!: RemoveOptional<GraphConfig>;
+	config!: GraphConfig;
 	sitemap!: Sitemap;
 
 	defaultColorTransitions!: Record<string, string>;

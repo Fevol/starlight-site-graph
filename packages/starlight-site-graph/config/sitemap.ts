@@ -188,6 +188,6 @@ export const globalSitemapConfigSchema = z.object({
 	styleRules: z.array(
 		z.tuple([z.array(z.string()), partialNodeStyleSchema])
 	).default([...DEFAULT_SITEMAP_CONFIG.styleRules])
-}).partial();
+});
 
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;

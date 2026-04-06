@@ -490,7 +490,7 @@ export const graphConfigSchema = z.object({
 	 * @default 0.228
 	 */
 	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(DEFAULT_GRAPH_CONFIG.alphaDecay),
-}).partial();
+});
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
 
 export const globalGraphConfigSchema = graphConfigSchema.extend({
