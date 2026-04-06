@@ -27,7 +27,6 @@ interface IntermediateSitemapEntry {
 
 export class SiteMapBuilder {
 	private map: Map<string, IntermediateSitemapEntry>;
-	private contentRoot: string | undefined;
 	private excludedPaths: Set<string> = new Set();
 	private addTrailingSlash: boolean = false;
 	private encounteredFiles: Set<string> = new Set();
@@ -43,11 +42,6 @@ export class SiteMapBuilder {
 		this.explicitNameAssociations = new Map(
 			Object.entries(this.config.pageTitles).map(([k, v]) => [setSlashes(k, true, this.addTrailingSlash), v]),
 		);
-	}
-
-	setContentRoot(contentRoot: string) {
-		this.contentRoot = trimSlashes(contentRoot);
-		return this;
 	}
 
 	setBasePath(basePath: string) {
@@ -156,14 +150,14 @@ export class SiteMapBuilder {
 			if (path.extname(filePath) === '.md' || path.extname(filePath) === '.mdx' || path.extname(filePath) === '.mdoc') {
 				const relativePath = ensureLeadingSlash(path.relative(folder, filePath).replace(/\\/g, '/'));
 				if (firstMatchingPattern(relativePath, patterns, false)) {
-					await this.addMDContent(filePath);
+					await this.addMDContent(filePath, folder);
 				}
 			}
 		}
 		return this;
 	}
 
-	async addMDContent(filePath: string) {
+	async addMDContent(filePath: string, folderPath: string) {
 		const content = await fs.promises.readFile(filePath, 'utf8');
 		const frontmatter = matter(content) as unknown as { data: PageSiteGraphFrontmatter & { slug?: string } };
 
@@ -179,7 +173,7 @@ export class SiteMapBuilder {
 		}
 		// Otherwise, re-create the Astro slug from the file path
 		else {
-			linkPath = setSlashes(this.getLinkPath(filePath, this.contentRoot, this.basePath), true, this.addTrailingSlash);
+			linkPath = setSlashes(this.getLinkPath(filePath, folderPath, this.basePath), true, this.addTrailingSlash);
 		}
 
 		this.encounteredFiles.add(linkPath);

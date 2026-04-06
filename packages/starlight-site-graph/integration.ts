@@ -112,7 +112,6 @@ export default defineIntegration({
 					}
 
 					const addTrailingSlash = config.trailingSlash !== 'never';
-					builder.setContentRoot(settings.sitemapConfig.contentRoot);
 					builder.setTrailingSlash(addTrailingSlash);
 
 					// TODO: Figure if it is somehow possible to conditionally import astro:prefetch without triggering vite errors
@@ -163,7 +162,7 @@ export default defineIntegration({
 							// Only attempt to add content if directory exists
 							if (!sitemapGenerationFailed) {
 								try {
-									await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
+									await builder.addMDContentFolder(trimSlashes(settings.sitemapConfig.contentRoot), settings.sitemapConfig.pageInclusionRules)
 									settings.sitemapConfig.sitemap = builder.process().toSitemap();
 									log(logger, "info", 'Successfully generated sitemap from Markdown content');
 								} catch (e) {
