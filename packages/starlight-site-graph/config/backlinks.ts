@@ -1,8 +1,12 @@
 import { z } from 'astro/zod';
 
-export const globalBacklinksConfig = {
+const DEFAULT_BACKLINKS_CONFIG = {
 	visibilityRules: ['**/*'],
-}
+};
+
+export const globalBacklinksConfig = {
+	...DEFAULT_BACKLINKS_CONFIG,
+} satisfies BacklinksConfig;
 
 export const globalBacklinksConfigSchema = z.object({
 	/**
@@ -20,7 +24,7 @@ export const globalBacklinksConfigSchema = z.object({
 	 * ["!secret/**", "**\/*"]
 	 * @see https://github.com/mrmlnc/fast-glob#basic-syntax
 	 */
-	visibilityRules: z.array(z.string()).default(globalBacklinksConfig.visibilityRules),
-}).partial();
+	visibilityRules: z.array(z.string()).default([...DEFAULT_BACKLINKS_CONFIG.visibilityRules]),
+});
 
 export type BacklinksConfig = z.infer<typeof globalBacklinksConfigSchema>;

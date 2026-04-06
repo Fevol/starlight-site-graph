@@ -1,7 +1,7 @@
 import { z } from 'astro/zod';
 import { nodeStyleSchema } from './node';
 
-
+const partialNodeStyleSchema = nodeStyleSchema.partial();
 const sitemapEntrySchema = z.object({
 	/**
 	 * Whether the page is external (i.e. not part of the website)
@@ -38,26 +38,31 @@ const sitemapEntrySchema = z.object({
 	/**
 	 * The style of the node in the graph
 	 */
-	nodeStyle: nodeStyleSchema.partial().optional(),
+	nodeStyle: partialNodeStyleSchema.optional(),
 });
 
 export type SitemapEntry = z.infer<typeof sitemapEntrySchema>;
 const sitemapSchema = z.record(z.string(), sitemapEntrySchema);
 export type Sitemap = z.infer<typeof sitemapSchema>;
 
+const KWD_PAGE_TITLE_FALLBACK_STRATEGIES = ['linkText', 'slug'] as const;
+
+const DEFAULT_SITEMAP_CONFIG  = {
+	contentRoot: undefined as string | undefined,
+	includeExternalLinks: false,
+	sitemap: undefined as Sitemap | undefined,
+	pageTitles: {} as Record<string, string>,
+	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title', '.slsg-backlinks'] as string[],
+	pageInclusionRules: ['**/*'] as string[],
+	pageTitleFallbackStrategy: 'linkText' as typeof KWD_PAGE_TITLE_FALLBACK_STRATEGIES[number],
+	linkInclusionRules: ['**/*'] as string[],
+	tagRules: {},
+	styleRules: [] as [string[], z.infer<typeof partialNodeStyleSchema>][]
+};
 
 export const globalSitemapConfig = {
-	contentRoot: undefined,
-	includeExternalLinks: false,
-	sitemap: undefined,
-	pageTitles: {},
-	ignoreLinksInSelectors: ['header', 'footer', 'nav', '.right-sidebar', '.site-title', '.slsg-backlinks'],
-	pageInclusionRules: ['**/*'],
-	pageTitleFallbackStrategy: 'linkText' as const,
-	linkInclusionRules: ['**/*'],
-	tagRules: {},
-	styleRules: [],
-}
+	...DEFAULT_SITEMAP_CONFIG,
+} satisfies SitemapConfig;
 
 export const globalSitemapConfigSchema = z.object({
 	/**
@@ -72,7 +77,7 @@ export const globalSitemapConfigSchema = z.object({
 	 *
 	 * @default false
 	 */
-	includeExternalLinks: z.boolean().default(globalSitemapConfig.includeExternalLinks),
+	includeExternalLinks: z.boolean().default(DEFAULT_SITEMAP_CONFIG.includeExternalLinks),
 
 	/**
 	 * Specify a custom sitemap to be used for the PageSidebar graph component.
@@ -91,14 +96,14 @@ export const globalSitemapConfigSchema = z.object({
 	 * @example The node with endpoint "BASEPATH/intro" should be called "Main" (instead of its frontmatter title "Introduction")
 	 * { "BASEPATH/intro": "Main" }
 	 */
-	pageTitles: z.record(z.string(), z.string()).default(globalSitemapConfig.pageTitles),
+	pageTitles: z.record(z.string(), z.string()).default(DEFAULT_SITEMAP_CONFIG.pageTitles),
 	/**
 	 * Determine what the name of a sitemap entry should be when no name was explicitly specified. \
 	 * This can be due to the page not having a title in the frontmatter, or the page being an external link.
 	 * - `linkText`: Use the most commonly used text associated with the link as the name of the page.
 	 * - `slug`: Use the last part of the link slug as the name of the page.
 	 */
-	pageTitleFallbackStrategy: z.enum(['linkText', 'slug']).default(globalSitemapConfig.pageTitleFallbackStrategy),
+	pageTitleFallbackStrategy: z.enum(KWD_PAGE_TITLE_FALLBACK_STRATEGIES).default(DEFAULT_SITEMAP_CONFIG.pageTitleFallbackStrategy),
 
 	/**
 	 * Ignore links parsed from HTML content where one of the element's ancestors matches one of the listed (simple) selectors.
@@ -115,7 +120,7 @@ export const globalSitemapConfigSchema = z.object({
 	 * @example Ignore all links with the 'external' class
 	 * [".external"]
 	 */
-	ignoreLinksInSelectors: z.array(z.string()).default(globalSitemapConfig.ignoreLinksInSelectors),
+	ignoreLinksInSelectors: z.array(z.string()).default([...DEFAULT_SITEMAP_CONFIG.ignoreLinksInSelectors]),
 
 	/**
 	 * Determine the inclusion of files in the sitemap based on provided ordered list of rules.
@@ -131,7 +136,7 @@ export const globalSitemapConfigSchema = z.object({
 	 * @example Include all Markdoc files except those in the "secret" folder:
 	 * ["!\/secret/**\/*.mdoc", "**\/*"]
 	 */
-	pageInclusionRules: z.array(z.string()).default(globalSitemapConfig.pageInclusionRules),
+	pageInclusionRules: z.array(z.string()).default([...DEFAULT_SITEMAP_CONFIG.pageInclusionRules]),
 
 	/**
 	 * Determine which links are included in the sitemap for every page.
@@ -149,7 +154,7 @@ export const globalSitemapConfigSchema = z.object({
 	 * @example Remove external links to GitHub for "Edit page":
 	 * ["!https://**\/edit/**", "**\/*"]
 	 */
-	linkInclusionRules: z.array(z.string()).default(globalSitemapConfig.linkInclusionRules),
+	linkInclusionRules: z.array(z.string()).default([...DEFAULT_SITEMAP_CONFIG.linkInclusionRules]),
 
 	/**
 	 * Determine which pages should be associated with specific tags based on provided ordered list of rules. \
@@ -164,7 +169,7 @@ export const globalSitemapConfigSchema = z.object({
 	 * @example Add the "secret" tag to all pages except those in the "public" folder, will remove existing "secret" tags in the "public" folder:
 	 * { "secret": ["!public/**", "**\/*"] }
 	 */
-	tagRules: z.record(z.string(), z.array(z.string())).default(globalSitemapConfig.tagRules),
+	tagRules: z.record(z.string(), z.array(z.string())).default({ ...DEFAULT_SITEMAP_CONFIG.tagRules }),
 
 	/**
 	 * Specify styles to be applied to pages based on provided ordered list of rules. \
@@ -181,8 +186,8 @@ export const globalSitemapConfigSchema = z.object({
 	 * [ [["!\/public/**", "**\/*"], { nodeScale: 2, strokeWidth: "2", shapeColor: "backgroundColor" }] ]
 	 */
 	styleRules: z.array(
-		z.tuple([z.array(z.string()), nodeStyleSchema.partial()])
-	).default(globalSitemapConfig.styleRules)
+		z.tuple([z.array(z.string()), partialNodeStyleSchema])
+	).default([...DEFAULT_SITEMAP_CONFIG.styleRules])
 }).partial();
 
 export type SitemapConfig = z.infer<typeof globalSitemapConfigSchema>;

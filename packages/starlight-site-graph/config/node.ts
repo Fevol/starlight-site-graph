@@ -1,30 +1,20 @@
 import { z } from 'astro/zod';
 
+const KWD_COLOR = [
+	'inherit',
+	'backgroundColor', 'nodeColor', 'nodeColorVisited', 'nodeColorCurrent', 'nodeColorUnresolved', 'nodeColorExternal', 'nodeColorTag',
+	'nodeColor1', 'nodeColor2', 'nodeColor3', 'nodeColor4', 'nodeColor5', 'nodeColor6', 'nodeColor7', 'nodeColor8', 'nodeColor9',
+	'linkColor',
+] as const;
+const KWD_NODE_SHAPE = ['circle', 'square', 'triangle', 'polygon', 'star'] as const;
+const KWD_NODE_CORNER_TYPE = ['normal', 'round', 'bevel'] as const;
+
 const validColors = z.union([
-	z.literal('inherit'),
-
-	z.literal('backgroundColor'),
-	z.literal('nodeColor'),
-	z.literal('nodeColorVisited'),
-	z.literal('nodeColorCurrent'),
-	z.literal('nodeColorUnresolved'),
-	z.literal('nodeColorExternal'),
-	z.literal('nodeColorTag'),
-
-	z.literal('nodeColor1'),
-	z.literal('nodeColor2'),
-	z.literal('nodeColor3'),
-	z.literal('nodeColor4'),
-	z.literal('nodeColor5'),
-	z.literal('nodeColor6'),
-	z.literal('nodeColor7'),
-	z.literal('nodeColor8'),
-	z.literal('nodeColor9'),
-	z.literal('linkColor'),
-]).or(
+	z.enum(KWD_COLOR),
 	z.string().refine(val => val.match(/^#([0-9A-Fa-f]{3}){1,2}$|^--?[_a-zA-Z]+[_a-zA-Z0-9-]*$/), {
 		message: 'Invalid color format, expected a hex color (e.g. #RRGGBB) or a CSS variable (e.g. --my-color)',
-	}));
+	})
+]);
 
 const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not be negative"), z.string()
 	.refine(val => val.match(/^\d+\.?\d?\d?%?$/), {
@@ -35,32 +25,7 @@ const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not
 	})]
 )
 
-const nodeShapeTypes = z.union([
-	/**
-	 * Circular shape
-	 */
-	z.literal('circle'),
-	/**
-	 * Square shape \
-	 * Defined as `polygon` with `shapePoints` set to 4
-	 */
-	z.literal('square'),
-	/**
-	 * Triangle shape \
-	 * Defined as `polygon` with `shapePoints` set to 3
-	 */
-	z.literal('triangle'),
-	/**
-	 * Regular polygon shape \
-	 * Defined by `shapePoints`
-	 */
-	z.literal('polygon'),
-	/**
-	 * Regular star 2n-polygon shape \
-	 * Defined by `shapePoints`
-	 */
-	z.literal('star'),
-]);
+const nodeShapeTypes = z.enum(KWD_NODE_SHAPE);
 export type NodeShapeType = z.infer<typeof nodeShapeTypes>;
 type NodeColorType = z.infer<typeof validColors>;
 
@@ -68,14 +33,14 @@ export const nodeStyleSchema = z.object({
 	/**
 	 * Shape of the node in the graph
 	 * - `circle`: Circular shape
-	 * - `square`: Square shape
-	 * - `triangle`: Triangle shape
-	 * - `polygon`: Polygon shape (with `shapePoints` vertices)
-	 * - `star`: Star shape (with `shapePoints` spikes)
+	 * - `square`: Square shape (`polygon` with `shapePoints` set to 4)
+	 * - `triangle`: Triangle shape (`polygon` with `shapePoints` set to 3)
+	 * - `polygon`: Regular polygon shape (with `shapePoints` vertices)
+	 * - `star`: Regular star 2n-polygon shape (with `shapePoints` spikes)
 	 *
 	 * @default "circle"
 	 */
-	shape: nodeShapeTypes.default('circle'),
+	shape: nodeShapeTypes.default('circle').optional(),
 	/**
 	 * Size of the node in the graph, further scaled by `linkScale`
 	 *
@@ -122,7 +87,7 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @optional
 	 */
-	cornerType: z.union([z.literal('normal'), z.literal('round'), z.literal('bevel')]).optional(),
+	cornerType: z.enum(KWD_NODE_CORNER_TYPE).optional(),
 
 	/**
 	 * Stroke width of the node in the graph

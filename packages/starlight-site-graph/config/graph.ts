@@ -5,27 +5,29 @@ import {
 	nodeUnresolvedStyle, nodeVisitedStyle, tagDefaultStyle
 } from './node';
 
-const easingTypes = z.union([
-	z.literal('in_quad'),
-	z.literal('out_quad'),
-	z.literal('in_out_quad'),
-	z.literal('linear'),
-]);
+const KWD_GRAPH_ACTIONS = ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'render-external', 'render-unresolved', 'settings'] as const;
+const KWD_TAG_RENDER_MODES = ['none', 'node', 'same', 'both'] as const;
+const KWD_CLICK_MODES = ['auto', 'disable', 'click', 'dblclick'] as const;
+const KWD_DEPTH_DIRECTIONS = ['both', 'incoming', 'outgoing'] as const;
+const KWD_FOLLOW_LINK_MODES = ['same', 'new-tab', 'graph'] as const;
+const KWD_EASING_TYPES = ['in_quad', 'out_quad', 'in_out_quad', 'linear'] as const;
 
-const graphConfig = {
-	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'] as ('fullscreen' | 'depth' | 'reset-zoom' | 'render-arrows' | 'settings')[],
+const easingTypes = z.enum(KWD_EASING_TYPES);
+
+const DEFAULT_GRAPH_CONFIG = {
+	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'] as (typeof KWD_GRAPH_ACTIONS[number])[],
 	tagStyles: {},
-	tagRenderMode: 'none' as ('none' | 'node' | 'same' | 'both'),
-	nodeInclusionRules: ['**/*'] as const,
+	tagRenderMode: 'none' as typeof KWD_TAG_RENDER_MODES[number],
+	nodeInclusionRules: ['**/*'],
 	prefetchPages: true,
 	enableDrag: true,
 	enableZoom: true,
 	enablePan: true,
 	enableHover: true,
-	enableClick: 'auto' as ('auto' | 'disable' | 'click' | 'dblclick'),
+	enableClick: 'auto' as typeof KWD_CLICK_MODES[number],
 	depth: 1,
-	depthDirection: 'both' as ('both' | 'incoming' | 'outgoing'),
-	followLink: 'same' as ('same' | 'new-tab' | 'graph'),
+	depthDirection: 'both' as typeof KWD_DEPTH_DIRECTIONS[number],
+	followLink: 'same' as typeof KWD_FOLLOW_LINK_MODES[number],
 	scale: 1.1,
 	minZoom: 0.05,
 	maxZoom: 4,
@@ -45,9 +47,9 @@ const graphConfig = {
 	labelOffset: 10,
 	labelHoverOffset: 14,
 	zoomDuration: 75,
-	zoomEase: 'out_quad' as 'in_quad' | 'out_quad' | 'in_out_quad' | 'linear',
+	zoomEase: 'out_quad' as typeof KWD_EASING_TYPES[number],
 	hoverDuration: 200,
-	hoverEase: 'out_quad' as 'in_quad' | 'out_quad' | 'in_out_quad' | 'linear',
+	hoverEase: 'out_quad' as typeof KWD_EASING_TYPES[number],
 	nodeDefaultStyle: nodeDefaultStyle,
 	nodeVisitedStyle: nodeVisitedStyle,
 	nodeCurrentStyle: nodeCurrentStyle,
@@ -64,10 +66,15 @@ const graphConfig = {
 	linkDistance: 0,
 	alphaDecay: 0.0228,
 };
-export const globalGraphConfig = {
-	...graphConfig,
+
+const DEFAULT_GLOBAL_GRAPH_CONFIG = {
+	...DEFAULT_GRAPH_CONFIG,
 	visibilityRules: ['**/*'],
-}
+};
+
+export const globalGraphConfig = {
+	...DEFAULT_GLOBAL_GRAPH_CONFIG
+} satisfies GraphConfig;
 
 export const graphConfigSchema = z.object({
 	/**
@@ -84,18 +91,8 @@ export const graphConfigSchema = z.object({
 	 * @default ["fullscreen", "depth", "reset-zoom", "render-arrows", "settings"]
 	 */
 	actions: z
-		.array(
-			z.union([
-				z.literal('fullscreen'),
-				z.literal('depth'),
-				z.literal('reset-zoom'),
-				z.literal('render-arrows'),
-				z.literal('render-external'),
-				z.literal('render-unresolved'),
-				z.literal('settings')
-			]),
-		)
-		.default(graphConfig.actions),
+		.array(z.enum(KWD_GRAPH_ACTIONS))
+		.default(DEFAULT_GRAPH_CONFIG.actions),
 
 	/**
 	 * Define shape, color and size, and stroke of specified tags
@@ -109,7 +106,7 @@ export const graphConfigSchema = z.object({
 			z.string().transform(val => (!val.startsWith('#') ? '#' + val : val)),
 			nodeStyleSchema.partial(),
 		)
-		.default(graphConfig.tagStyles),
+		.default(DEFAULT_GRAPH_CONFIG.tagStyles),
 	/**
 	 * How tags should be rendered in the graph
 	 * - `none`: Tags are not rendered at all
@@ -122,39 +119,39 @@ export const graphConfigSchema = z.object({
 	 * @default "none"
 	 */
 	tagRenderMode: z
-		.union([z.literal('none'), z.literal('node'), z.literal('same'), z.literal('both')])
-		.default(graphConfig.tagRenderMode),
+		.enum(KWD_TAG_RENDER_MODES)
+		.default(DEFAULT_GRAPH_CONFIG.tagRenderMode),
 
 	/**
 	 * Whether to prefetch pages on hover in the graph component.
 	 *
 	 * @default true
 	 */
-	prefetchPages: z.boolean().default(globalGraphConfig.prefetchPages),
+	prefetchPages: z.boolean().default(DEFAULT_GRAPH_CONFIG.prefetchPages),
 
 	/**
 	 * Whether to enable user dragging of nodes in the graph
 	 *
 	 * @default true
 	 */
-	enableDrag: z.boolean().default(graphConfig.enableDrag),
+	enableDrag: z.boolean().default(DEFAULT_GRAPH_CONFIG.enableDrag),
 	/**
 	 * Whether to enable user zooming of the graph
 	 *
 	 * @default true
 	 */
-	enableZoom: z.boolean().default(graphConfig.enableZoom),
+	enableZoom: z.boolean().default(DEFAULT_GRAPH_CONFIG.enableZoom),
 	/**
 	 * Whether to enable user panning of the graph (i.e. moving left/right/up/down)
 	 */
-	enablePan: z.boolean().default(graphConfig.enablePan),
+	enablePan: z.boolean().default(DEFAULT_GRAPH_CONFIG.enablePan),
 	/**
 	 * Whether to enable hover interactions on the graph
 	 * This includes highlighting nodes and links on hover, and showing labels
 	 *
 	 * @default true
 	 */
-	enableHover: z.boolean().default(graphConfig.enableHover),
+	enableHover: z.boolean().default(DEFAULT_GRAPH_CONFIG.enableHover),
 	/**
 	 * The mode of interaction to trigger the page navigation
 	 *
@@ -166,8 +163,8 @@ export const graphConfigSchema = z.object({
 	 * @default "auto"
 	 */
 	enableClick: z
-		.union([z.literal('auto'), z.literal('disable'), z.literal('click'), z.literal('dblclick')])
-		.default(graphConfig.enableClick),
+		.enum(KWD_CLICK_MODES)
+		.default(DEFAULT_GRAPH_CONFIG.enableClick),
 
 
 	/**
@@ -183,7 +180,7 @@ export const graphConfigSchema = z.object({
 	 * @example Include all files except those in the "secret" folder:
 	 * ["!secret/**", "**\/*"]
 	 */
-	nodeInclusionRules: z.array(z.string()).default(graphConfig.nodeInclusionRules),
+	nodeInclusionRules: z.array(z.string()).default([...DEFAULT_GRAPH_CONFIG.nodeInclusionRules]),
 
 	/**
 	 * The depth of the graph, determines how many levels of links are shown. \
@@ -197,7 +194,7 @@ export const graphConfigSchema = z.object({
 	 * @remarks For performance reasons, the depth is capped at `6`.
 	 * @default 1
 	 */
-	depth: z.number().default(graphConfig.depth),
+	depth: z.number().default(DEFAULT_GRAPH_CONFIG.depth),
 	/**
 	 * In which direction the depth of the graph should be expanded
 	 * - `both`: Expand in both incoming and outgoing directions
@@ -207,8 +204,8 @@ export const graphConfigSchema = z.object({
 	 * @default "both"
 	 */
 	depthDirection: z
-		.union([z.literal('both'), z.literal('incoming'), z.literal('outgoing')])
-		.default(graphConfig.depthDirection),
+		.enum(KWD_DEPTH_DIRECTIONS)
+		.default(DEFAULT_GRAPH_CONFIG.depthDirection),
 
 	/**
 	 * Determine what should happen when a link is followed
@@ -220,8 +217,8 @@ export const graphConfigSchema = z.object({
 	 * @default "tab"
 	 */
 	followLink: z
-		.union([z.literal('same'), z.literal('new-tab'), z.literal('graph')])
-		.default(graphConfig.followLink),
+		.enum(KWD_FOLLOW_LINK_MODES)
+		.default(DEFAULT_GRAPH_CONFIG.followLink),
 
 
 	/**
@@ -229,65 +226,65 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 1.1
 	 */
-	scale: z.number().gt(0, "Graph scale may not be zero or negative").default(graphConfig.scale),
+	scale: z.number().gt(0, "Graph scale may not be zero or negative").default(DEFAULT_GRAPH_CONFIG.scale),
 	/**
 	 * The minimum zoom level of the graph
 	 *
 	 * @default 0.05
 	 */
-	minZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(graphConfig.minZoom),
+	minZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(DEFAULT_GRAPH_CONFIG.minZoom),
 	/**
 	 * The maximum zoom level of the graph
 	 *
 	 * @default 4
 	 */
-	maxZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(graphConfig.maxZoom),
+	maxZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(DEFAULT_GRAPH_CONFIG.maxZoom),
 
 	/**
 	 * Whether to render page title labels on the nodes
 	 *
 	 * @default true
 	 */
-	renderLabels: z.boolean().default(graphConfig.renderLabels),
+	renderLabels: z.boolean().default(DEFAULT_GRAPH_CONFIG.renderLabels),
 	/**
 	 * Whether to render arrows on the links
 	 *
 	 * @default true
 	 */
-	renderArrows: z.boolean().default(graphConfig.renderArrows),
+	renderArrows: z.boolean().default(DEFAULT_GRAPH_CONFIG.renderArrows),
 	/**
 	 * Whether to render unresolved pages in the graph
 	 *
 	 * @default false
 	 */
-	renderUnresolved: z.boolean().default(graphConfig.renderUnresolved),
+	renderUnresolved: z.boolean().default(DEFAULT_GRAPH_CONFIG.renderUnresolved),
 	/**
 	 * Whether to render external pages in the graph
 	 *
 	 * @remarks External nodes only exist in the sitemap if `includeExternalLinks` of `sitemapConfig` is set to `true`.
 	 * @default true
 	 */
-	renderExternal: z.boolean().default(graphConfig.renderExternal),
+	renderExternal: z.boolean().default(DEFAULT_GRAPH_CONFIG.renderExternal),
 
 	/**
 	 * Whether to scale the links based on the zoom level
 	 *
 	 * @default true
 	 */
-	scaleLinks: z.boolean().default(graphConfig.scaleLinks),
+	scaleLinks: z.boolean().default(DEFAULT_GRAPH_CONFIG.scaleLinks),
 	/**
 	 * Whether to scale the arrows based on the zoom level
 	 *
 	 * @default false
 	 */
-	scaleArrows: z.boolean().default(graphConfig.scaleArrows),
+	scaleArrows: z.boolean().default(DEFAULT_GRAPH_CONFIG.scaleArrows),
 	/**
 	 * Minimum zoom level at which the arrows are rendered \
 	 * When 0, arrows will always be rendered
 	 *
 	 * @default 0.8
 	 */
-	minZoomArrows: z.number().min(0, "Minimum zoom for arrow rendering may not be negative").default(graphConfig.minZoomArrows),
+	minZoomArrows: z.number().min(0, "Minimum zoom for arrow rendering may not be negative").default(DEFAULT_GRAPH_CONFIG.minZoomArrows),
 
 	/**
 	 * The scale factor for the opacity of the labels, based on the zoom level
@@ -295,49 +292,49 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 1.3
 	 */
-	labelOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").default(graphConfig.labelOpacityScale),
+	labelOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelOpacityScale),
 	/**
 	 * The opacity of unhovered labels (when hovering over a node)
 	 *
 	 * @default 0
 	 */
-	labelMutedOpacity: z.number().min(0, "Opacity scale for muted labels may not be negative").default(graphConfig.labelMutedOpacity),
+	labelMutedOpacity: z.number().min(0, "Opacity scale for muted labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelMutedOpacity),
 	/**
 	 * The opacity of the label when hovering over a node
 	 *
 	 * @default 1
 	 */
-	labelHoverOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").default(graphConfig.labelHoverOpacity),
+	labelHoverOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelHoverOpacity),
 	/**
 	 * The opacity of the label when adjacent to the hovered node. \
 	 * If explicitly set to undefined, the `labelMutedOpacity` will be used.
 	 */
-	labelAdjacentOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").optional().default(graphConfig.labelAdjacentOpacity),
+	labelAdjacentOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").optional().default(DEFAULT_GRAPH_CONFIG.labelAdjacentOpacity),
 	/**
 	 * The font size of the labels
 	 *
 	 * @remarks Labels should be disabled using the `renderLabels` option
 	 * @default 12
 	 */
-	labelFontSize: z.number().min(0, "Label font size may not be negative").default(graphConfig.labelFontSize),
+	labelFontSize: z.number().min(0, "Label font size may not be negative").default(DEFAULT_GRAPH_CONFIG.labelFontSize),
 	/**
 	 * The scale of the label when hovering over a node
 	 *
 	 * @default 1
 	 */
-	labelHoverScale: z.number().min(0, "Label hover scale may not be negative").default(graphConfig.labelHoverScale),
+	labelHoverScale: z.number().min(0, "Label hover scale may not be negative").default(DEFAULT_GRAPH_CONFIG.labelHoverScale),
 	/**
 	 * The offset of the labels from the nodes
 	 *
 	 * @default 10
 	 */
-	labelOffset: z.number().min(0, "Label offset may not be negative").default(graphConfig.labelOffset),
+	labelOffset: z.number().min(0, "Label offset may not be negative").default(DEFAULT_GRAPH_CONFIG.labelOffset),
 	/**
 	 * The offset of the label from the node when hovering over said node
 	 *
 	 * @default 14
 	 */
-	labelHoverOffset: z.number().min(0, "Label hover offset may not be negative").default(graphConfig.labelHoverOffset),
+	labelHoverOffset: z.number().min(0, "Label hover offset may not be negative").default(DEFAULT_GRAPH_CONFIG.labelHoverOffset),
 
 	/**
 	 * The duration of the zoom animation in milliseconds \
@@ -345,28 +342,28 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 75
 	 */
-	zoomDuration: z.number().min(0, "Zoom duration may not be negative").default(graphConfig.zoomDuration),
+	zoomDuration: z.number().min(0, "Zoom duration may not be negative").default(DEFAULT_GRAPH_CONFIG.zoomDuration),
 	/**
 	 * The easing function for the zoom animation
 	 * This controls the acceleration of zooming and panning
 	 *
 	 * @default "out_quad"
 	 */
-	zoomEase: easingTypes.default(graphConfig.zoomEase),
+	zoomEase: easingTypes.default(DEFAULT_GRAPH_CONFIG.zoomEase),
 	/**
 	 * The duration of the hover animation in milliseconds
 	 * This controls the speed of the node/link/label highlighting transitions
 	 *
 	 * @default 200
 	 */
-	hoverDuration: z.number().min(0, "Hover duration may not be negative").default(graphConfig.hoverDuration),
+	hoverDuration: z.number().min(0, "Hover duration may not be negative").default(DEFAULT_GRAPH_CONFIG.hoverDuration),
 	/**
 	 * The easing function for the hover animation
 	 * This controls the acceleration of the node/link/label highlighting transitions
 	 *
 	 * @default "out_quad"
 	 */
-	hoverEase: easingTypes.default(graphConfig.hoverEase),
+	hoverEase: easingTypes.default(DEFAULT_GRAPH_CONFIG.hoverEase),
 
 	/**
 	 * The default style of a node in the graph. \
@@ -436,26 +433,26 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 1
 	 */
-	linkWidth: z.number().min(0, "Link width may not be negative").default(1),
+	linkWidth: z.number().min(0, "Link width may not be negative").default(DEFAULT_GRAPH_CONFIG.linkWidth),
 	/**
 	 * The width of the hovered links in the graph
 	 *
 	 * @default 1
 	 */
-	linkHoverWidth: z.number().min(0, "Hover link width may not be negative").default(1),
+	linkHoverWidth: z.number().min(0, "Hover link width may not be negative").default(DEFAULT_GRAPH_CONFIG.linkHoverWidth),
 
 	/**
 	 * The size of the arrows on the links
 	 *
 	 * @default 5
 	 */
-	arrowSize: z.number().min(0, "Arrow size may not be negative").default(5),
+	arrowSize: z.number().min(0, "Arrow size may not be negative").default(DEFAULT_GRAPH_CONFIG.arrowSize),
 	/**
 	 * The angle of the arrowhead of the links, a smaller angle will make the arrowhead pointier
 	 *
 	 * @default Math.PI / 6
 	 */
-	arrowAngle: z.number().min(0, "Arrow angle may not be negative").default(Math.PI / 6),
+	arrowAngle: z.number().min(0, "Arrow angle may not be negative").default(DEFAULT_GRAPH_CONFIG.arrowAngle),
 
 	/**
 	 * The strength of the force that pulls nodes towards the center of the graph. \
@@ -463,28 +460,28 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.05
 	 */
-	centerForce: z.number().min(0, "Center force may not be negative").default(0.05),
+	centerForce: z.number().min(0, "Center force may not be negative").default(DEFAULT_GRAPH_CONFIG.centerForce),
 	/**
 	 * The collision force between nodes in the graph. \
 	 * A higher value will make nodes repel each other more strongly, creating an even, grid-like layout
 	 *
 	 * @default 20
 	 */
-	colliderPadding: z.number().min(0, "Collider padding may not be negative").default(20),
+	colliderPadding: z.number().min(0, "Collider padding may not be negative").default(DEFAULT_GRAPH_CONFIG.colliderPadding),
 	/**
 	 * The attraction/repulsion force between nodes in the graph. \
 	 * A higher value will increase the distance between nodes
 	 *
 	 * @default 200
 	 */
-	repelForce: z.number().min(0, "Repel force may not be negative").default(200),
+	repelForce: z.number().min(0, "Repel force may not be negative").default(DEFAULT_GRAPH_CONFIG.repelForce),
 	/**
 	 * The distance between linked nodes in the graph. \
 	 * If set to 0, link distance are determined by the force simulation
 	 *
 	 * @default 0
 	 */
-	linkDistance: z.number().min(0, "Link distance may not be negative").default(0),
+	linkDistance: z.number().min(0, "Link distance may not be negative").default(DEFAULT_GRAPH_CONFIG.linkDistance),
 	/**
 	 * The speed at which the graph stabilizes after a simulation update. \
 	 * A higher value will make the graph stabilize faster, but may result in a less accurate layout. \
@@ -492,8 +489,8 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 0.228
 	 */
-	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(0.0228),
-}).partial()
+	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(DEFAULT_GRAPH_CONFIG.alphaDecay),
+}).partial();
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
 
 export const globalGraphConfigSchema = graphConfigSchema.extend({
