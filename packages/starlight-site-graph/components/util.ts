@@ -112,70 +112,59 @@ export function hasTouch() {
 	return 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints! > 0;
 }
 
-type DiffValue = { oldValue: unknown; newValue: unknown };
-type DiffResult = Record<string, DiffValue | DiffResult>;
-
-export function deepDiff(obj1: unknown, obj2: unknown): DiffResult {
-	const changes: DiffResult = {};
-
-	function compareValues(key: string, value1: unknown, value2: unknown) {
-		if (isObject(value1) && isObject(value2)) {
-			const nestedDiff = deepDiff(value1, value2);
-			if (Object.keys(nestedDiff).length > 0) {
-				changes[key] = nestedDiff;
-			}
-		} else if (value1 !== value2) {
-			changes[key] = { oldValue: value1, newValue: value2 };
-		}
-	}
-
-	if (!isObject(obj1) || !isObject(obj2)) {
-		return changes;
-	}
-
-	const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
-
-	for (const key of allKeys) {
-		const value1 = obj1[key];
-		const value2 = obj2[key];
-
-		// Check if key exists in both objects
-		if (key in obj1 && !(key in obj2)) {
-			changes[key] = { oldValue: value1, newValue: undefined };
-		} else if (!(key in obj1) && key in obj2) {
-			changes[key] = { oldValue: undefined, newValue: value2 };
-		} else {
-			compareValues(key, value1, value2);
-		}
-	}
-
-	return changes;
-}
-
 function isObject(item: unknown): item is Record<string, unknown> {
 	return (item !== null && typeof item === 'object' && !Array.isArray(item));
 }
 
-/**
- * NOTE: Adapted from https://stackoverflow.com/a/37164538/23278914
- */
-export function deepMerge(target: unknown, source: unknown): any {
-	let output = Object.assign({}, target);
-	if (isObject(target) && isObject(source)) {
-		for (const [key, value] of Object.entries(source)) {
-			if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-				continue;
-			}
+type DiffValue<V> = { oldValue: V; newValue: V };
+type DeepDiffResult<T> = {
+	[K in keyof T]?: T[K] extends Record<string, unknown>
+		? DeepDiffResult<T[K]> | DiffValue<T[K]>
+		: DiffValue<T[K]>;
+};
 
-			if (isObject(value)) {
-				if (!(key in target))
-					Object.assign(output, { [key]: value });
-				else
-					output[key] = deepMerge(target[key], value);
-			} else {
-				Object.assign(output, { [key]: value });
+export function deepDiff<T extends Record<string, unknown>>(obj1: T, obj2: T): DeepDiffResult<T> {
+	const changes: Partial<Record<keyof T, unknown>> = {};
+	const allKeys = Object.keys({ ...obj1, ...obj2 }) as (keyof T)[];
+
+	for (const key of allKeys) {
+		const val1 = obj1[key];
+		const val2 = obj2[key];
+
+		if (isObject(val1) && isObject(val2)) {
+			const nested = deepDiff(val1 as Record<string, unknown>, val2 as Record<string, unknown>);
+			if (Object.keys(nested).length > 0) {
+				changes[key] = nested;
 			}
+		} else if (val1 !== val2) {
+			changes[key] = { oldValue: val1, newValue: val2 };
 		}
 	}
-	return output;
+	return changes as DeepDiffResult<T>;
+}
+
+type DeepPartial<T> = {
+	[P in keyof T]?: T[P] extends Record<string, unknown>
+		? DeepPartial<T[P]> | undefined
+		: T[P] | undefined;
+};
+
+export function mergeDefaults<T extends Record<string, unknown>>(base: T, patch: DeepPartial<T>): T {
+	const result: Record<string, unknown> = { ...base };
+	for (const key of Object.keys(base)) {
+		if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+			continue;
+		}
+
+		const baseValue = result[key];
+		const patchValue = patch[key];
+
+		if (isObject(patchValue) && isObject(baseValue)) {
+			result[key] = mergeDefaults(baseValue, patchValue);
+		} else if (patchValue !== undefined) {
+			result[key] = patchValue;
+		}
+	}
+
+	return result as T;
 }

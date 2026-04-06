@@ -43,9 +43,11 @@ export default defineIntegration({
 	optionsSchema: starlightSiteGraphConfigSchema,
 	setup({ name, options }) {
 		if (!options.starlight) {
-			options = { starlight: false, ...validateConfig(options) };
+			// EXPL: This codepath is hit if the integration was called directly, without going through the Starlight plugin.
+			// 		 The flag is currently only used to identify what default contentRoot to use
+			options = { ...validateConfig(starlightSiteGraphConfig, options), starlight: false };
 		}
-		let settings = options as FullStarlightSiteGraphConfig;
+		let settings = options as typeof starlightSiteGraphConfig;
 
 		const builder = new SiteMapBuilder(settings.sitemapConfig);
 		const sitemapProvided = !!settings.sitemapConfig.sitemap;

@@ -17,7 +17,7 @@ import {
 	MAX_DEPTH
 } from './constants';
 import { setSlashes } from '../../sitemap/util';
-import { onClickOutside, deepDiff, deepMerge } from '../util';
+import { onClickOutside, deepDiff, mergeDefaults } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -232,7 +232,7 @@ export class GraphComponent extends HTMLElement {
 	}
 
 	setConfigListener(config?: string) {
-		const mergedConfig = deepMerge(globalGraphConfig, JSON.parse(config || '{}'));
+		const mergedConfig = mergeDefaults(globalGraphConfig, JSON.parse(config || '{}'));
 		const validatedConfig = this.validateConfig(mergedConfig);
 		this.config = new Proxy(validatedConfig, {
 			set: (target, prop, value) => {

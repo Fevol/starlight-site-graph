@@ -1,11 +1,11 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
-import { validateConfig, type StarlightSiteGraphConfig } from './config';
+import { validateConfig, type StarlightSiteGraphConfig, starlightSiteGraphConfig } from './config';
 
 import integration from './integration';
 import { translations } from './i18n';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
-	const parsedConfig = validateConfig(userConfig);
+	const parsedConfig = validateConfig(starlightSiteGraphConfig, userConfig);
 	return {
 		name: 'starlight-site-graph-plugin',
 		hooks: {
