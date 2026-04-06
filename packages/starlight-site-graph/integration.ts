@@ -5,7 +5,7 @@ import { addVirtualImports, defineIntegration } from 'astro-integration-kit';
 
 import { fileURLToPath } from 'node:url';
 
-import { starlightSiteGraphConfigSchema, type FullStarlightSiteGraphConfig, validateConfig } from './config';
+import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
 import { trimSlashes } from './sitemap/util';
@@ -43,9 +43,11 @@ export default defineIntegration({
 	optionsSchema: starlightSiteGraphConfigSchema,
 	setup({ name, options }) {
 		if (!options.starlight) {
-			options = { starlight: false, ...validateConfig(options) };
+			// EXPL: This codepath is hit if the integration was called directly, without going through the Starlight plugin.
+			// 		 The flag is currently only used to identify what default contentRoot to use
+			options = { ...validateConfig(starlightSiteGraphConfig, options), starlight: false };
 		}
-		let settings = options as FullStarlightSiteGraphConfig;
+		let settings = options as typeof starlightSiteGraphConfig;
 
 		const builder = new SiteMapBuilder(settings.sitemapConfig);
 		const sitemapProvided = !!settings.sitemapConfig.sitemap;
@@ -83,6 +85,7 @@ export default defineIntegration({
 													return code.replace(/process\.platform/g, '"undefined"');
 												}
 											}
+											return null;
 										}
 									}
 								],
@@ -109,7 +112,6 @@ export default defineIntegration({
 					}
 
 					const addTrailingSlash = config.trailingSlash !== 'never';
-					builder.setContentRoot(settings.sitemapConfig.contentRoot);
 					builder.setTrailingSlash(addTrailingSlash);
 
 					// TODO: Figure if it is somehow possible to conditionally import astro:prefetch without triggering vite errors
@@ -132,7 +134,7 @@ export default defineIntegration({
 						outputPath = fileURLToPath(config.outDir);
 					}
 
-					if (!sitemapProvided) {
+					if (settings.sitemapConfig.sitemap === undefined) {
 						log(logger, "info",
 							'Retrieving links from Markdown content' +
 							(settings.sitemapConfig.pageInclusionRules.length
@@ -160,7 +162,7 @@ export default defineIntegration({
 							// Only attempt to add content if directory exists
 							if (!sitemapGenerationFailed) {
 								try {
-									await builder.addMDContentFolder(settings.sitemapConfig.contentRoot, settings.sitemapConfig.pageInclusionRules)
+									await builder.addMDContentFolder(trimSlashes(settings.sitemapConfig.contentRoot), settings.sitemapConfig.pageInclusionRules)
 									settings.sitemapConfig.sitemap = builder.process().toSitemap();
 									log(logger, "info", 'Successfully generated sitemap from Markdown content');
 								} catch (e) {
@@ -252,11 +254,13 @@ export default defineIntegration({
 					injectTypes({
 						filename: "types.d.ts",
 						content: `declare module 'virtual:starlight-site-graph/config' {
-							export default ${JSON.stringify(settings)};
+							const Config: import('./packages/starlight-site-graph/config').FullStarlightSiteGraphConfig;
+							export default Config;
 						}
-						
+
 						declare module 'virtual:starlight-site-graph/astro-config' {
-							export default ${JSON.stringify(args.config)};
+							const Config: import('astro').AstroConfig;
+							export default Config;
 						}`
 					});
 				},

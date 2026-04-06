@@ -1,4 +1,4 @@
-import { type GraphConfig, type RemoveOptional, type Sitemap, globalGraphConfig } from '../../config';
+import { type GraphConfig, type Sitemap, globalGraphConfig } from '../../config';
 
 import { Animator } from '../animator';
 import { animatables } from './animatables';
@@ -17,7 +17,7 @@ import {
 	MAX_DEPTH
 } from './constants';
 import { setSlashes } from '../../sitemap/util';
-import { onClickOutside, deepDiff, deepMerge } from '../util';
+import { onClickOutside, deepDiff, mergeDefaults } from '../util';
 import { GraphSimulator } from './simulator';
 
 export class GraphComponent extends HTMLElement {
@@ -34,7 +34,7 @@ export class GraphComponent extends HTMLElement {
 	renderer!: GraphRenderer;
 	simulator!: GraphSimulator;
 
-	config!: RemoveOptional<GraphConfig>;
+	config!: GraphConfig;
 	sitemap!: Sitemap;
 
 	defaultColorTransitions!: Record<string, string>;
@@ -184,7 +184,10 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.update();
 			}
 			if (requireLabelUpdate) {
-				this.config.labelOpacityScale = diff['labelOpacityScale'].newValue;
+				const labelOpacityScaleDiff = diff['labelOpacityScale'];
+				if (labelOpacityScaleDiff) {
+					this.config.labelOpacityScale = labelOpacityScaleDiff.newValue;
+				}
 				const labelOpacity = this.simulator.getCurrentLabelOpacity();
 				this.animator.startAnimations({
 					labelOpacity,
@@ -194,11 +197,13 @@ export class GraphComponent extends HTMLElement {
 				this.simulator.requestRender = true;
 			}
 			if (requireZoomUpdate) {
-				const scale = diff['scale'].newValue;
-				this.simulator.updateZoom(scale);
+				const scaleDiff = diff['scale'];
+				if (scaleDiff) {
+					this.simulator.updateZoom(scaleDiff.newValue);
+				}
 			}
 			if (requireRendererUpdate) {
-				const newAnimatables = animatables(this.config, this.colors);
+				const newAnimatables = animatables(this.config, this.colors, []);
 				// TODO: This could be made more efficient by only updating the changed properties
 				for (const [key, value] of Object.entries(newAnimatables)) {
 					this.animator.setProperties(key, (value as any).properties);
@@ -227,7 +232,7 @@ export class GraphComponent extends HTMLElement {
 	}
 
 	setConfigListener(config?: string) {
-		const mergedConfig = deepMerge(globalGraphConfig, JSON.parse(config || '{}'));
+		const mergedConfig = mergeDefaults(globalGraphConfig, JSON.parse(config || '{}'));
 		const validatedConfig = this.validateConfig(mergedConfig);
 		this.config = new Proxy(validatedConfig, {
 			set: (target, prop, value) => {

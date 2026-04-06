@@ -1,18 +1,18 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types';
-import { validateConfig, type StarlightSiteGraphConfig } from './config';
+import { validateConfig, type StarlightSiteGraphConfig, starlightSiteGraphConfig } from './config';
 
 import integration from './integration';
 import { translations } from './i18n';
 
 export default function plugin(userConfig?: StarlightSiteGraphConfig): StarlightPlugin {
-	const parsedConfig = validateConfig(userConfig);
+	const parsedConfig = validateConfig(starlightSiteGraphConfig, userConfig);
 	return {
 		name: 'starlight-site-graph-plugin',
 		hooks: {
 			'i18n:setup'({ injectTranslations }) {
 				injectTranslations(translations);
 			},
-			'config:setup': async ({ addIntegration, config, astroConfig, command, logger, updateConfig }) => {
+			'config:setup': async ({ addIntegration, config, command, logger, updateConfig }) => {
 				if (command === 'preview') return;
 
 				// TODO: Temporary implementation of graph/backlinks exclusion from plugin

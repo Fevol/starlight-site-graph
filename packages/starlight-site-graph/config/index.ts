@@ -1,35 +1,37 @@
 import { AstroError } from 'astro/errors';
-import { type StarlightSiteGraphConfig, starlightSiteGraphConfig, starlightSiteGraphConfigSchema } from './base';
+import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema } from './base';
 
-function isObject(item: any): boolean {
-	return (item && typeof item === 'object' && !Array.isArray(item));
+function isObject(item: unknown): item is Record<string, unknown> {
+	return (item !== null && typeof item === 'object' && !Array.isArray(item));
 }
 
-/**
- * NOTE: Adapted from https://stackoverflow.com/a/37164538/23278914
- */
-function deepMerge(target: any, source: any): any {
-	let output = Object.assign({}, target);
-	if (isObject(target) && isObject(source)) {
-		for (const [key, value] of Object.entries(source)) {
-			if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-				continue;
-			}
+type DeepPartial<T> = {
+	[P in keyof T]?: T[P] extends Record<string, unknown>
+		? DeepPartial<T[P]> | undefined
+		: T[P] | undefined;
+};
 
-			if (isObject(value)) {
-				if (!(key in target))
-					Object.assign(output, { [key]: value });
-				else
-					output[key] = deepMerge(target[key], value);
-			} else {
-				Object.assign(output, { [key]: value });
-			}
+export function mergeDefaults<T extends Record<string, unknown>>(base: T, patch: DeepPartial<T>): T {
+	const result: Record<string, unknown> = { ...base };
+	for (const key of Object.keys(base)) {
+		if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+			continue;
+		}
+
+		const baseValue = result[key];
+		const patchValue = patch[key];
+
+		if (isObject(patchValue) && isObject(baseValue)) {
+			result[key] = mergeDefaults(baseValue, patchValue);
+		} else if (patchValue !== undefined) {
+			result[key] = patchValue;
 		}
 	}
-	return output;
+
+	return result as T;
 }
 
-export function validateConfig(userConfig: unknown) {
+export function validateConfig(baseConfig: typeof starlightSiteGraphConfig, userConfig: unknown) {
 	const config = starlightSiteGraphConfigSchema.safeParse(userConfig);
 
 	if (!config.success) {
@@ -45,20 +47,9 @@ export function validateConfig(userConfig: unknown) {
 		);
 	}
 
-	// TODO: Investigate how to apply Required<> to inferred type of schema, so comments still stay
-	// Merge with default settings
-	return deepMerge(starlightSiteGraphConfig, config.data) as typeof starlightSiteGraphConfig;
+	return mergeDefaults(baseConfig, config.data);
 }
 
-
-export type RemoveOptional<T> =
-	T extends (...args: any[]) => any ? T
-		: T extends object
-			? { [K in keyof T]-?: RemoveOptional<NonNullable<T[K]>> }
-			: T;
-
-
-export type FullStarlightSiteGraphConfig = RemoveOptional<StarlightSiteGraphConfig>;
 export { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, type StarlightSiteGraphConfig } from './base';
 export { globalGraphConfig, graphConfigSchema, globalGraphConfigSchema, type GraphConfig } from './graph';
 export { type SitemapEntry, type Sitemap, globalSitemapConfig, globalSitemapConfigSchema, type SitemapConfig } from './sitemap';

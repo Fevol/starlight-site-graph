@@ -4,17 +4,23 @@ import { globalGraphConfigSchema, globalGraphConfig } from './graph';
 import { globalSitemapConfigSchema, globalSitemapConfig } from './sitemap';
 import { globalBacklinksConfigSchema, globalBacklinksConfig } from './backlinks';
 
+const KWD_TRACK_VISITED_PAGES = ['disable', 'session', 'local'] as const;
 
-export const starlightSiteGraphConfig = {
+const DEFAULT_GLOBAL_STARLIGHT_CONFIG = {
 	debug: false,
 	overridePageSidebar: true,
-	trackVisitedPages: 'session' as 'disable' | 'session' | 'local',
+	trackVisitedPages: 'session' as typeof KWD_TRACK_VISITED_PAGES[number],
 	graph: true,
 	graphConfig: globalGraphConfig,
 	sitemapConfig: globalSitemapConfig,
 	backlinks: true,
 	backlinksConfig: globalBacklinksConfig,
-}
+};
+
+export const starlightSiteGraphConfig = {
+	starlight: false,
+	...DEFAULT_GLOBAL_STARLIGHT_CONFIG,
+};
 
 export const starlightSiteGraphConfigSchema = z
 	.object({
@@ -29,12 +35,12 @@ export const starlightSiteGraphConfigSchema = z
 		 *
 		 * @default false
 		 */
-		debug: z.boolean().default(starlightSiteGraphConfig.debug),
+		debug: z.boolean().default(DEFAULT_GLOBAL_STARLIGHT_CONFIG.debug),
 
 		/**
 		 * Override the sidebar component for the graph, disabling this will completely remove both the graph and backlinks from the sidebar.
 		 */
-		overridePageSidebar: z.boolean().default(starlightSiteGraphConfig.overridePageSidebar),
+		overridePageSidebar: z.boolean().default(DEFAULT_GLOBAL_STARLIGHT_CONFIG.overridePageSidebar),
 
 		/**
 		 * Whether to track pages of the website that were visited by the user.
@@ -47,8 +53,8 @@ export const starlightSiteGraphConfigSchema = z
 		 * @default "session"
 		 */
 		trackVisitedPages: z
-			.union([z.literal('disable'), z.literal('session'), z.literal('local')])
-			.default(starlightSiteGraphConfig.trackVisitedPages as 'disable' | 'session' | 'local'),
+			.enum(KWD_TRACK_VISITED_PAGES)
+			.default(DEFAULT_GLOBAL_STARLIGHT_CONFIG.trackVisitedPages),
 
 		/**
 		 * Whether to add a graph component to the sidebar, acts as a global toggle for the graph.
@@ -56,7 +62,7 @@ export const starlightSiteGraphConfigSchema = z
 		 * @remarks If false, it is equivalent to setting `graphConfig.visibilityRules` an empty array
 		 * @default true
 		 */
-		graph: z.boolean().default(starlightSiteGraphConfig.graph),
+		graph: z.boolean().default(DEFAULT_GLOBAL_STARLIGHT_CONFIG.graph),
 
 		/**
 		 * Configuration for the PageSidebar graph component.
@@ -129,7 +135,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     alphaDecay: 0.0228
 		 * }```
 		 */
-		graphConfig: globalGraphConfigSchema.default(starlightSiteGraphConfig.graphConfig),
+		graphConfig: globalGraphConfigSchema.partial().default({ ...DEFAULT_GLOBAL_STARLIGHT_CONFIG.graphConfig }),
 
 		/**
 		 * Configuration for the sitemap generation.
@@ -141,7 +147,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *    linkInclusionRules: ["**\/*"],
 		 * }```
 		 */
-		sitemapConfig: globalSitemapConfigSchema.default(starlightSiteGraphConfig.sitemapConfig),
+		sitemapConfig: globalSitemapConfigSchema.partial().default({ ...DEFAULT_GLOBAL_STARLIGHT_CONFIG.sitemapConfig }),
 
 		/**
 		 * Whether to add a backlinks panel to the sidebar, acts as a global toggle for the backlinks.
@@ -149,7 +155,7 @@ export const starlightSiteGraphConfigSchema = z
 		 * @remarks If false, it is equivalent to setting `backlinksConfig.visibilityRules` an empty array
 		 * @default true
 		 */
-		backlinks: z.boolean().default(starlightSiteGraphConfig.backlinks),
+		backlinks: z.boolean().default(DEFAULT_GLOBAL_STARLIGHT_CONFIG.backlinks),
 
 		/**
 		 * Configuration for the PageSidebar backlinks component.
@@ -158,7 +164,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *   visibilityRules: ["**\/*"],
 		 * }```
 		 */
-		backlinksConfig: globalBacklinksConfigSchema.default(starlightSiteGraphConfig.backlinksConfig),
+		backlinksConfig: globalBacklinksConfigSchema.partial().default({ ...DEFAULT_GLOBAL_STARLIGHT_CONFIG.backlinksConfig }),
 	})
 	.partial()
 	.default({});
