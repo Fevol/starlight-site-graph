@@ -6,7 +6,7 @@
 	"author": "Fevol",
 	"type": "module",
 	"engines": {
-		"node": ">=18"
+		"node": ">=22.12.0"
 	},
 	"private": true,
 	"sideEffects": false,
@@ -36,7 +36,7 @@
 		"release-major": "bun run scripts/bump-version.ts major"
 	},
 	"devDependencies": {
-		"@types/node": "^22.4.0",
+		"@types/node": "^22.12.0",
 		"prettier": "^3.3.3"
 	},
 	"overrides": {
