@@ -1,4 +1,4 @@
-import micromatch from 'micromatch';
+import picomatch from 'picomatch';
 
 interface Node {
 	exists?: boolean;
@@ -147,7 +147,7 @@ export function firstMatchingPattern(
 ): boolean | undefined {
 	const patternList = typeof patterns === 'string' ? [patterns] : patterns;
 	for (const pattern of patternList) {
-		if (micromatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
+		if (picomatch.isMatch(text, pattern.startsWith('!') ? pattern.slice(1) : pattern)) {
 			return !pattern.startsWith('!');
 		}
 	}

@@ -61,47 +61,6 @@ export default defineIntegration({
 					// Track if sitemap generation was successful
 					let sitemapGenerationFailed = false;
 
-					try {
-						// EXPL: This prevents an error where an older version of `picomatch` (2.3.1),
-						//     included via `anymatch` < `unstorage` < `astro`, is used instead of the
-						//	   newer version (4.0.3), which does not use the Node `process` on the client side.
-						//     This caused issues in the browser, as `process` is not defined there.
-						//     If you do still encounter an error despite this bodge, please open an issue.
-						updateConfig({
-							vite: {
-								plugins: [
-									{
-										name: 'picomatch-process-polyfill',
-										// EXPL: We define a fake `process.platform` polyfill to prevent errors.
-										//       Inside `picomatch`, the `process.platform` variable is used to check whether
-										//        a) the platform is Windows (but this is also inferable from other variables)
-										//        b) regex support for lookbehinds is available (not used in the plugin)
-										transform(code, id) {
-											if (id.includes('picomatch') || id.includes('micromatch') || id.includes('anymatch')) {
-												if (code.includes("process.platform")) {
-													log(logger, "warn", 'Incompatible `picomatch` version detected; applying compatibility patch', {
-														fix: 'Add `"overrides": { "picomatch": "^4.0.3" }` to your `package.json` and reinstall dependencies to suppress this warning',
-													});
-													return code.replace(/process\.platform/g, '"undefined"');
-												}
-											}
-											return null;
-										}
-									}
-								],
-								optimizeDeps: {
-									include: ['picomatch', 'micromatch', 'anymatch'],
-								}
-							}
-						});
-					} catch (e) {
-						log(logger, "error",'Failed to apply `picomatch` compatibility patch', {
-							cause: e instanceof Error ? e.message : String(e),
-							impact: 'This may cause runtime errors in the browser',
-							fix: 'Add `"overrides": { "picomatch": "^4.0.3" }` to your `package.json` and reinstall dependencies'
-						});
-					}
-
 					if (!settings.sitemapConfig.contentRoot) {
 						settings.sitemapConfig.contentRoot = trimSlashes(config.srcDir.pathname);
 						if (settings.starlight) {
@@ -203,17 +162,6 @@ export default defineIntegration({
 									noExternal: ['pixi-stats'],
 								},
 							},
-						});
-					}
-
-					// NOTE: Prevents a possible issue in dev mode where micromatch is not properly bundled
-					if (command === 'dev') {
-						updateConfig({
-							vite: {
-								optimizeDeps: {
-									include: ['micromatch'],
-								}
-							}
 						});
 					}
 
