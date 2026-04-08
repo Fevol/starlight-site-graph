@@ -40,22 +40,20 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @default "circle"
 	 */
-	shape: nodeShapeTypes.default('circle').optional(),
+	shape: nodeShapeTypes.optional(),
 	/**
 	 * Size of the node in the graph, further scaled by `linkScale`
 	 *
 	 * @default 10
 	 */
-	shapeSize: z.number().gt(0, "Shape size may not be zero or negative").default(10),
+	shapeSize: z.number().gt(0, "Shape size may not be zero or negative").optional(),
 	/**
 	 * Color of the node shape in the graph, overridden if the node is visited, current, or unresolved
 	 * If set to `'stroke'`, the color will be taken from the stroke color, if it exists, otherwise defaults to `nodeColor`
 	 *
 	 * @default "nodeColor"
 	 */
-	shapeColor: validColors
-		.or(z.literal('stroke'))
-		.default('nodeColor').optional(),
+	shapeColor: validColors.or(z.literal('stroke')).optional(),
 	/**
 	 * Number of points for `polygon` or `star` shapes
 	 *
@@ -94,7 +92,7 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @default 0
 	 */
-	strokeWidth: z.number().min(0).default(0),
+	strokeWidth: z.number().min(0).optional(),
 	/**
 	 * Stroke color of the node in the graph
 	 * If none is specified, the stroke color will be the same as the shape color
@@ -118,20 +116,20 @@ export const nodeStyleSchema = z.object({
 	 *
 	 * @default 1
 	 */
-	colliderScale: z.number().min(0).default(1),
+	colliderScale: z.number().min(0).optional(),
 	/**
 	 * Scale factor for the node size.
 	 *
 	 * @default 1
 	 */
-	nodeScale: z.number().min(0).default(1),
+	nodeScale: z.number().min(0).optional(),
 	/**
 	 * Scale strength of the node based on the number of neighbors (incoming and outgoing links). \
 	 * When set to 0, the node size will not be affected by the number of neighbors.
 	 *
 	 * @default 0.5
 	 */
-	neighborScale: z.number().min(0).default(0.5),
+	neighborScale: z.number().min(0).optional(),
 });
 
 export type NodeStyle = z.infer<typeof nodeStyleSchema>;
