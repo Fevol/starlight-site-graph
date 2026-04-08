@@ -4,7 +4,7 @@ import * as d3 from 'd3';
 import { prefetch } from 'astro:prefetch';
 import { type GraphRenderer } from './renderer';
 import { type GraphComponent } from './graph-component';
-import { ensureLeadingSlash } from '../../sitemap/util';
+import { ensureLeadingSlash } from '../../sitemap/browser-utils';
 
 export class GraphSimulator {
 	container!: HTMLCanvasElement;

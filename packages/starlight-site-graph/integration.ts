@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
-import { trimSlashes } from './sitemap/util';
+import { trimSlashes } from './sitemap/browser-utils';
 
 // FIXME: Add direct dependency, as it might get removed by Astro later
 import chalk from "chalk";

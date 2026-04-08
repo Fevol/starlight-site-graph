@@ -5,7 +5,7 @@ import type { PageGraphConfig } from '../../schema';
 import config from 'virtual:starlight-site-graph/config'
 import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
-import {firstMatchingPattern, setSlashes} from "../../sitemap/util";
+import {firstMatchingPattern, setSlashes} from "../../sitemap/browser-utils";
 import Backlinks from './Backlinks.astro';
 
 interface Props {

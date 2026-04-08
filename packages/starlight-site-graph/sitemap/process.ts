@@ -1,4 +1,4 @@
-import { ensureLeadingPound, firstMatchingPattern } from './util';
+import { ensureLeadingPound, firstMatchingPattern } from './browser-utils';
 import type { StarlightSiteGraphConfig, NodeStyle, Sitemap } from '../config';
 
 /**

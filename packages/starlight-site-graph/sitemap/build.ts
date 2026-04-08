@@ -6,11 +6,12 @@ import matter from 'gray-matter';
 import type { PageSiteGraphFrontmatter } from '../schema';
 import type { NodeStyle, Sitemap, SitemapConfig } from '../config';
 
+import { walk } from './util';
 import {
 	ensureLeadingPound, trimSlashes, setSlashes,
 	firstMatchingPattern,
-	resolveIndex, slugifyPath, walk, getMostCommonItem, extractMDLinkText, ensureLeadingSlash
-} from './util';
+	resolveIndex, slugifyPath, getMostCommonItem, extractMDLinkText, ensureLeadingSlash
+} from './browser-utils';
 
 import {DomUtils, parseDocument} from 'htmlparser2'
 

@@ -16,7 +16,7 @@ import {
 	REQUIRE_LABEL_UPDATE,
 	MAX_DEPTH
 } from './constants';
-import { setSlashes } from '../../sitemap/util';
+import { setSlashes } from '../../sitemap/browser-utils';
 import { onClickOutside, deepDiff, mergeDefaults } from '../util';
 import { GraphSimulator } from './simulator';
 
