@@ -151,16 +151,17 @@ type DeepPartial<T> = {
 
 export function mergeDefaults<T extends Record<string, unknown>>(base: T, patch: DeepPartial<T>): T {
 	const result: Record<string, unknown> = { ...base };
-	for (const key of Object.keys(base)) {
+	const allKeys = new Set([...Object.keys(base), ...Object.keys(patch as object)]);
+	for (const key of allKeys) {
 		if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
 			continue;
 		}
 
 		const baseValue = result[key];
-		const patchValue = patch[key];
+		const patchValue = patch[key as keyof typeof patch];
 
 		if (isObject(patchValue) && isObject(baseValue)) {
-			result[key] = mergeDefaults(baseValue, patchValue);
+			result[key] = mergeDefaults(baseValue, patchValue as Record<string, unknown>);
 		} else if (patchValue !== undefined) {
 			result[key] = patchValue;
 		}

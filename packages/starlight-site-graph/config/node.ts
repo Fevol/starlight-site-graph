@@ -138,7 +138,13 @@ export const nodeDefaultStyle = {
 	shape: "circle" as NodeShapeType,
 	shapeColor: "nodeColor" as NodeColorType,
 	shapeSize: 6,
+	shapePoints: undefined as number | undefined,
+	shapeRotation: undefined as number | "random" | undefined,
+	shapeCornerRadius: undefined as number | string | undefined,
 	strokeWidth: 0,
+	strokeColor: undefined as NodeColorType | "inherit" | undefined,
+	strokeCornerRadius: undefined as number | string | undefined,
+	cornerType: undefined as "normal" | "round" | "bevel" | undefined,
 	colliderScale: 1,
 	nodeScale: 1,
 	neighborScale: 0.5
