@@ -384,8 +384,8 @@ export class GraphRenderer {
 
 	drawArrowHead(nodeX: number, nodeY: number, linkWidth: number, nodeAngle: number, hovered: boolean) {
 		const arrowZoomLevel = this.context.config.scaleArrows ? this.context.animator.getValue('zoom') : 2;
-		const x = nodeX - (linkWidth / arrowZoomLevel / 2) * Math.cos(this.context.config.arrowAngle);
-		const y = nodeY - (linkWidth / arrowZoomLevel / 2) * Math.sin(this.context.config.arrowAngle);
+		const x = nodeX;
+		const y = nodeY;
 		const arrowSize = (DEFAULT_ARROW_SCALE * (this.context.config.arrowSize + linkWidth)) / arrowZoomLevel;
 		const xLeft = x - arrowSize * Math.cos(nodeAngle - this.context.config.arrowAngle),
 			  yLeft = y - arrowSize * Math.sin(nodeAngle - this.context.config.arrowAngle);
