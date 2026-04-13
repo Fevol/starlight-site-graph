@@ -229,8 +229,9 @@ export class GraphSimulator {
 					this.userZoomed = true;
 					if (!this.context.config.enablePan) {
 						// D3 zoom to origin (instead of to mouse position)
-						const offset = Math.min(this.container.clientWidth, this.container.clientHeight) / 2 * (1 - this.zoomTransform.k);
-						this.zoomTransform = new d3.ZoomTransform(transform.k, offset, offset);
+						const cx = this.container.clientWidth / 2;
+						const cy = this.container.clientHeight / 2;
+						this.zoomTransform = new d3.ZoomTransform(transform.k, cx * (1 - transform.k / this.scale), cy * (1 - transform.k / this.scale));
 					} else {
 						this.zoomTransform = transform;
 					}

@@ -23,10 +23,6 @@ Each individual action can be turned off, and some of the behaviour can also be 
 When the `enableZoom` configuration is enabled, the user can zoom in and out of the graph using the mouse wheel.
 If `enablePan` is disabled, the zoom will be from the center of the graph, and not from the mouse cursor.
 
-:::caution[Warning]
-The central zooming feature is currently broken, it is recommended to enable `enablePan` when using `enableZoom`.
-:::
-
 <GraphExample id="zoom-configuration" config={{ graphConfig: {
 	enableZoom: true,
 }}} baseConfig={nonInteractiveConfig} sitemap={threeNodeSitemap} slug={"/node/"} />
