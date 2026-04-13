@@ -278,11 +278,11 @@ function computeSizes(style: NodeStyle, neighborCount: number): { computedSize: 
 	// Magick radius calculations
 	const scaleFactor = Math.max(
 		0.00000001,
-		(-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale * style.nodeScale,
+		(-9.67101 * 0.99868 ** neighborCount + 10.6354) ** style.neighborScale! * style.nodeScale!,
 	);
-	const computedSize = style.shapeSize * scaleFactor,
-		fullRadius = computedSize + style.strokeWidth / 2,
-		colliderSize = fullRadius * style.colliderScale;
+	const computedSize = style.shapeSize! * scaleFactor,
+		fullRadius = computedSize + style.strokeWidth! / 2,
+		colliderSize = fullRadius * style.colliderScale!;
 	return { computedSize, fullRadius, colliderSize };
 }
 

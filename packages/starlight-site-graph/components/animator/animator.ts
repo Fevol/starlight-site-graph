@@ -33,10 +33,10 @@ export class Animator<const T extends Record<string, AnimationConfig<unknown>>> 
 	setConfigs(configs: Partial<T>): void {
 		for (const [key, config] of Object.entries(configs)) {
 			if (this.configs[key]) {
-				this.configs[key] = { ...this.configs[key], ...config } as T[typeof key];
+				Object.assign(this.configs, { [key]: { ...this.configs[key], ...config } });
 				this.resetAnimation(key);
 			} else {
-				this.configs[key] = config as T[typeof key];
+				Object.assign(this.configs, { [key]: config });
 				const initialValue = (
 					config.initialValue ??
 					config.properties?.['default'] ??
