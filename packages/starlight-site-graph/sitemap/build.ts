@@ -11,7 +11,7 @@ import {
 	ensureLeadingPound, trimSlashes, setSlashes,
 	firstMatchingPattern,
 	resolveIndex, slugifyPath, getMostCommonItem, extractMDLinkText, ensureLeadingSlash
-} from './browser-utils';
+} from '../shared/path';
 
 import {DomUtils, parseDocument} from 'htmlparser2'
 
@@ -58,7 +58,9 @@ export class SiteMapBuilder {
 	async addHTMLContentFolder(folder: string, patterns: string[] = []) {
 		for await (const filePath of walk(folder)) {
 			// Skip mapping 404 page
-			if (filePath.endsWith('404.html')) continue;
+			if (filePath.endsWith('404.html')) {
+				continue;
+			}
 
 			if (path.extname(filePath) === '.html') {
 				const relativePath = ensureLeadingSlash(path.relative(folder, filePath).replace(/\\/g, '/'));

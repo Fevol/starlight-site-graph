@@ -82,9 +82,11 @@ export const starlightSiteGraphConfigSchema = z
 		 *     enableClick: 'auto',
 		 *     depth: 1,
 		 *     depthDirection: 'both',
-		 *     scale: 1.1,
+		 *     nodeSizeBy: 'neighbors',
+		 *     scale: 1,
 		 *     minZoom: 0.05,
 		 *     maxZoom: 4,
+		 *     zoomStep: 0.002,
 		 *
 		 *     renderLabels: true,
 		 *     renderArrows: true,
@@ -94,7 +96,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     scaleArrows: false,
 		 *     minZoomArrows: 0.5,
 		 *
-		 *     labelOpacityScale: 1.3,
+		 *     labelOpacityScale: 1,
 		 *     labelMutedOpacity: 0,
 		 *     labelHoverOpacity: 1,
 		 *     labelFontSize: 12,
@@ -103,6 +105,7 @@ export const starlightSiteGraphConfigSchema = z
 		 *     labelScaleHover: 1,
 		 *
 		 *     zoomDuration: 75,
+		 *     panDuration: 75,
 		 *     zoomEase: "out_quad",
 		 *     hoverDuration: 200,
 		 *     hoverEase: "out_quad",
@@ -114,13 +117,13 @@ export const starlightSiteGraphConfigSchema = z
 		 *	  	 strokeWidth: 0,
 		 *	  	 colliderScale: 1,
 		 *	  	 nodeScale: 1,
-		 *	  	 neighborScale: 0.5
+		 *	  	 sizingStrength: 0.5
 		 *	   },
 		 *	   nodeVisitedStyle: { shapeColor: "nodeColorVisited" },
 		 *	   nodeCurrentStyle: { shapeColor: "nodeColorCurrent" },
 		 *	   nodeUnresolvedStyle: { shapeColor: "nodeColorUnresolved" },
 		 *	   nodeExternalStyle: { shape: "square", shapeColor: "nodeColorExternal", strokeColor: "inherit", nodeScale: 0.8 },
-		 *	   tagDefaultStyle: { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 },
+		 *	   tagDefaultStyle: { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, sizingStrength: 0.7 },
 		 *
 		 *     linkWidth: 1,
 		 *     linkHoverWidth: 1,

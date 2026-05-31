@@ -1,41 +1,17 @@
 import { AstroError } from 'astro/errors';
+import { z } from 'astro/zod';
 import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema } from './base';
-
-function isObject(item: unknown): item is Record<string, unknown> {
-	return (item !== null && typeof item === 'object' && !Array.isArray(item));
-}
-
-type DeepPartial<T> = {
-	[P in keyof T]?: T[P] extends Record<string, unknown>
-		? DeepPartial<T[P]> | undefined
-		: T[P] | undefined;
-};
-
-export function mergeDefaults<T extends Record<string, unknown>>(base: T, patch: DeepPartial<T>): T {
-	const result: Record<string, unknown> = { ...base };
-	for (const key of Object.keys(base)) {
-		if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-			continue;
-		}
-
-		const baseValue = result[key];
-		const patchValue = patch[key];
-
-		if (isObject(patchValue) && isObject(baseValue)) {
-			result[key] = mergeDefaults(baseValue, patchValue);
-		} else if (patchValue !== undefined) {
-			result[key] = patchValue;
-		}
-	}
-
-	return result as T;
-}
+import { mergeDefaults } from '../components/graph/shared/object';
+import { normalizeLegacyLabelConfig } from './migrations';
 
 export function validateConfig(baseConfig: typeof starlightSiteGraphConfig, userConfig: unknown) {
+	if (userConfig && typeof userConfig === 'object' && 'graphConfig' in userConfig && userConfig.graphConfig) {
+		normalizeLegacyLabelConfig(userConfig.graphConfig);
+	}
 	const config = starlightSiteGraphConfigSchema.safeParse(userConfig);
 
 	if (!config.success) {
-		const errors = config.error.flatten();
+		const errors = z.flattenError(config.error);
 		throw new AstroError(
 			`Invalid starlight-site-graph configuration:
 
@@ -54,7 +30,9 @@ export { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, type Starligh
 export { globalGraphConfig, graphConfigSchema, globalGraphConfigSchema, type GraphConfig } from './graph';
 export { type SitemapEntry, type Sitemap, globalSitemapConfig, globalSitemapConfigSchema, type SitemapConfig } from './sitemap';
 export {
-	nodeStyleSchema, type NodeStyle, type NodeShapeType,
+	nodeStyleSchema, nodeStateStyleSchema, type NodeStyle, type NodeShapeType, type NodeStateStyle, type NodeStateStyles, type NodeVisualStateType,
 	nodeDefaultStyle, nodeVisitedStyle, nodeCurrentStyle, nodeUnresolvedStyle, nodeExternalStyle, tagDefaultStyle
 } from './node';
 export { globalBacklinksConfig, globalBacklinksConfigSchema, type BacklinksConfig } from './backlinks';
+
+export { mergeDefaults, type DeepPartial } from '../components/graph/shared/object';

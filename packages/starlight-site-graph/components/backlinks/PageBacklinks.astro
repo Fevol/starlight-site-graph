@@ -5,7 +5,7 @@ import type { PageGraphConfig } from '../../schema';
 import config from 'virtual:starlight-site-graph/config'
 import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
-import {firstMatchingPattern, setSlashes} from "../../sitemap/browser-utils";
+import { firstMatchingPattern, setSlashes } from "../../shared/path";
 import Backlinks from './Backlinks.astro';
 
 interface Props {
@@ -25,7 +25,7 @@ if (entry && entry.id) {
 	backlinksData = entry.data?.backlinks;
 }
 
-trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never' ?? true;
+trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never';
 
 // Infer slug from URL if not explicitly provided
 const slugWithBase = setSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"), true, trailingSlashes);

@@ -8,7 +8,7 @@ import astroConfig from 'virtual:starlight-site-graph/astro-config';
 
 import Graph from "./Graph.astro";
 
-import { firstMatchingPattern, setSlashes } from '../../sitemap/browser-utils';
+import { firstMatchingPattern, setSlashes } from '../../shared/path';
 
 interface Props {
 	slug?: string;
@@ -23,14 +23,14 @@ let graphData: Partial<PageGraphConfig> = {};
 let { slug, class: className, showGraph, config: graphConfig, trailingSlashes } = Astro.props;
 let entry = Astro.locals.starlightRoute?.entry;
 
-// If frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
+// EXPL: Check if frontmatter is explicitly passed as 'entry' (happens in a Starlight context)
 if (entry && entry.id) {
 	graphData = entry.data?.graph as PageGraphConfig;
 }
 
-trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never' ?? true;
+trailingSlashes = trailingSlashes ?? astroConfig.trailingSlash !== 'never';
 
-// Infer slug from URL if not explicitly provided
+// NOTE: infers slug from URL if not explicitly provided
 const slugWithBase = setSlashes((slug ? path.join(astroConfig.base, slug) : Astro.url.pathname).replaceAll("\\", "/"), true, trailingSlashes);
 
 if (showGraph === undefined) {
@@ -51,7 +51,7 @@ if (showGraph === undefined) {
 				...config.graphConfig,
 				...graphData,
 				...(graphConfig ?? {})
-			}}
+			} as GraphConfig}
 			debug={config.debug ?? false}
 			trailingSlashes={trailingSlashes}
 		/>

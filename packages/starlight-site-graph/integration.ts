@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { starlightSiteGraphConfig, starlightSiteGraphConfigSchema, validateConfig } from './config';
 import { SiteMapBuilder } from './sitemap/build';
 import { processSitemap } from './sitemap/process';
-import { trimSlashes } from './sitemap/browser-utils';
+import { trimSlashes } from './shared/path';
 
 // FIXME: Add direct dependency, as it might get removed by Astro later
 import chalk from "chalk";
@@ -145,19 +145,8 @@ export default defineIntegration({
 					}
 
 					if (command === 'dev' && settings.debug) {
-						let pixiStatsPlugin = null;
-						try {
-							pixiStatsPlugin = require('pixi-stats').default();
-						} catch (err) {
-							log(logger, "error",
-								`Failed to load \`pixi-stats\`, to enable performance monitoring for the graph view, ` +
-								`make sure \`pixi-stats\` is installed as a peer dependency`
-							);
-						}
-
 						updateConfig({
 							vite: {
-								plugins: pixiStatsPlugin ? [pixiStatsPlugin] : [],
 								ssr: {
 									noExternal: ['pixi-stats'],
 								},

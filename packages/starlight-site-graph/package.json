@@ -17,7 +17,9 @@
 		"./config": "./config/index.ts",
 		"./integration": "./integration.ts"
 	},
-	"scripts": {},
+	"scripts": {
+		"build:wasm": "clang --target=wasm32-unknown-unknown -O2 -nostdlib -mbulk-memory -Wl,--no-entry -Wl,--export-all -Wl,--import-memory -o components/graph/simulation/worker/simulation.wasm components/graph/simulation/worker/simulation.c"
+	},
 	"keywords": [
 		"starlight",
 		"plugin",
@@ -35,14 +37,13 @@
 	"dependencies": {
 		"astro-integration-kit": "^0.20.0",
 		"chroma-js": "^3.2.0",
-		"d3": "^7.9.0",
 		"gray-matter": "^4.0.3",
 		"htmlparser2": "^10.1.0",
-		"picomatch": "^4.0.3"
+		"picomatch": "^4.0.3",
+		"pixi.js": "^8.18.1"
 	},
 	"devDependencies": {
-		"@types/chroma-js": "^3.1.2",
-		"@types/d3": "^7.4.3"
+		"@types/chroma-js": "^3.1.2"
 	},
 	"peerDependencies": {
 		"@astrojs/starlight": "^0.38.0",

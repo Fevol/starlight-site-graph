@@ -1,0 +1,17 @@
+export const CAMERA_FOLLOW_SMOOTHING_MS = 120;
+export const CAMERA_FOLLOW_MIN_SCREEN_DELTA = 0.5;
+
+export const FRAME_DURATION_MS = 1000 / 60;
+
+export const CLICK_SUPPRESSION_MS = 250;
+export const DOUBLE_CLICK_MS = 500;
+
+export const DRAG_RESTART_ALPHA = 0.3;
+
+export const DEFAULT_SIMULATION_RESTART_ALPHA = 0.3;
+export const DEFAULT_COLLISION_STRENGTH = 0.3;
+
+export const INITIAL_NODE_SPACING = 60;
+
+export const SPATIAL_HASH_OFFSET = 0x100000;
+export const SPATIAL_HASH_MULTIPLIER = 0x200001;

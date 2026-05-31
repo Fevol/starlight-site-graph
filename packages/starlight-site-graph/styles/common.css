@@ -1,39 +1,48 @@
 @layer sitegraph {
     :root {
-        --slsg-graph-bg-color: var(--slsg-graph-minimized-bg-color);
+        --slsg-node-color-hover: initial;
+        --slsg-node-color-muted: initial;
+        --slsg-link-color-hover: initial;
+        --slsg-link-color-muted: initial;
+        --slsg-label-color: initial;
+        --slsg-label-color-hover: initial;
+        --slsg-label-color-muted: initial;
+
+        --sg-graph-bg-color: var(--sg-graph-minimized-bg-color);
     }
 
     /* Ensures that override on specific element will still inherit proper accent/muted colors */
 	.slsg-graph-component {
-		--slsg-node-color-hover: var(--slsg-color-accent);
-		--slsg-node-color-muted: var(--slsg-color-muted);
+		--sg-node-color-hover: var(--slsg-node-color-hover, var(--sg-color-accent));
+		--sg-node-color-muted: var(--slsg-node-color-muted, var(--sg-color-muted));
 
-		--slsg-link-color-hover: var(--slsg-color-accent);
-		--slsg-link-color-muted: var(--slsg-color-muted);
+		--sg-link-color-hover: var(--slsg-link-color-hover, var(--sg-color-accent));
+		--sg-link-color-muted: var(--slsg-link-color-muted, var(--sg-color-muted));
 
-		--slsg-label-color: var(--slsg-text-color);
-		--slsg-label-color-hover: var(--slsg-text-color-accent);
-		--slsg-label-color-muted: var(--slsg-text-color-muted);
+		--sg-label-color: var(--slsg-label-color, var(--sg-text-color));
+		--sg-label-color-hover: var(--slsg-label-color-hover, var(--sg-text-color-accent));
+		--sg-label-color-muted: var(--slsg-label-color-muted, var(--sg-text-color-muted));
 	}
 
 	/* =================================== Graph Container Styling ============================================== */
 	.slsg-graph-component {
-		width: var(--slsg-graph-width);
-		height: var(--slsg-graph-height);
+		width: var(--sg-graph-width);
+		height: var(--sg-graph-height);
 	}
 
 	.slsg-graph-container {
 		position: relative;
-		width: var(--slsg-graph-width);
+		width: var(--sg-graph-width);
 		height: inherit;
 
 		box-sizing: border-box;
 
 		border-radius: 5px;
-		background-color: var(--slsg-graph-bg-color);
-		outline: 1px solid var(--slsg-graph-outline-color);
+		background-color: var(--sg-graph-bg-color);
+		outline: 1px solid var(--sg-graph-outline-color);
 
 		canvas {
+			display: block;
 			width: inherit;
 			height: inherit;
 			border-radius: inherit;
@@ -56,42 +65,37 @@
 
 	/* ========================================================================================================= */
 	/* ====================================== Fullscreen Styling =============================================== */
-	body[data-graph-blur='true'] {
-		#starlight__sidebar {
-			z-index: 0;
-		}
-
-		.header {
-			z-index: 0;
-		}
-
-		.right-sidebar:not(:has(.slsg-is-fullscreen)) {
-			z-index: 0;
-		}
+	.slsg-fullscreen-dialog[open] {
+		position: fixed;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100vw;
+		height: 100vh;
+		max-width: none;
+		max-height: none;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		overflow: hidden;
 	}
 
-	.slsg-background-blur {
-		position: fixed;
-		top: 0;
-		left: 0;
-
+	.slsg-fullscreen-dialog::backdrop {
 		backdrop-filter: blur(4px);
         background-color: rgba(0, 0, 0, 0.1);
+	}
 
-		width: 100%;
-		height: 100%;
-
-		z-index: 10;
+	.slsg-graph-component.slsg-fullscreen-active {
+		--sg-graph-bg-color: var(--sg-graph-maximized-bg-color);
 	}
 
 	.slsg-is-fullscreen {
-		--slsg-graph-bg-color: var(--slsg-graph-maximized-bg-color);
+		--sg-graph-bg-color: var(--sg-graph-maximized-bg-color);
 
-		position: fixed;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		z-index: 1000;
+		position: relative;
+		z-index: 0;
 
 		.slsg-graph-action-container svg {
 			width: 24px;
@@ -110,7 +114,7 @@
 		gap: 0.2rem;
 		padding: 0.2rem 0.2rem 0.4rem 0.5rem;
 
-		background-color: color-mix(in srgb, var(--slsg-graph-bg-color) 80%, transparent);
+		background-color: color-mix(in srgb, var(--sg-graph-bg-color) 80%, transparent);
 		border-radius: 0 4px 0 16px;
 		backdrop-filter: blur(4px);
 	}
@@ -118,7 +122,7 @@
 	.slsg-graph-action-button.slsg-graph-action-button {
 		display: flex;
 
-		color: var(--slsg-graph-action-color);
+		color: var(--sg-graph-action-color);
 		background-color: transparent;
 		transition: background-color 0.3s ease, color 0.3s ease;
 
@@ -133,8 +137,8 @@
 		cursor: pointer;
 
 		&:hover {
-			color: var(--slsg-graph-action-color-hover);
-			background-color: var(--slsg-graph-action-bg-color-hover);
+			color: var(--sg-graph-action-color-hover);
+			background-color: var(--sg-graph-action-bg-color-hover);
 		}
 
 		svg {
@@ -151,13 +155,13 @@
 
 		a.slsg-backlink {
 			display: block;
-			font-size: var(--slsg-text-xs);
+			font-size: var(--sg-text-xs);
 			text-decoration: none;
-			color: var(--slsg-text-color-accent);
+			color: var(--sg-text-color-accent);
 			overflow-wrap: anywhere;
 
 			&:hover {
-				color: var(--slsg-text-color);
+				color: var(--sg-text-color);
 				text-decoration: underline;
 			}
 
@@ -178,8 +182,8 @@
 
 	.slsg-menu {
 		display: inline-flex;
-		background-color: var(--slsg-context-menu-bg-color);
-		border: 1px var(--slsg-context-menu-border-color) solid;
+		background-color: var(--sg-context-menu-bg-color);
+		border: 1px var(--sg-context-menu-border-color) solid;
 		border-radius: 10px;
 		overflow: hidden;
 		flex-direction: column;
@@ -197,7 +201,7 @@
 	}
 
 	.slsg-menu-item:hover {
-		background-color: var(--slsg-context-menu-bg-color-hover);
+		background-color: var(--sg-context-menu-bg-color-hover);
 	}
 
 	.slsg-menu-item-icon {
@@ -211,7 +215,7 @@
 
 	.slsg-menu-item-title {
 		font-weight: 600;
-		font-size: var(--slsg-text-xs);
+		font-size: var(--sg-text-xs);
 	}
 
 	/* ========================================================================================================== */
@@ -222,8 +226,8 @@
 		right: 8px;
 		top: 8px;
 
-		background-color: color-mix(in srgb, var(--slsg-graph-bg-color) 90%, transparent);
-		border: 1px solid var(--slsg-context-menu-border-color);
+		background-color: color-mix(in srgb, var(--sg-graph-bg-color) 90%, transparent);
+		border: 1px solid var(--sg-context-menu-border-color);
 		border-radius: 8px;
 		padding: 8px;
 
@@ -233,7 +237,7 @@
 
 		.slsg-value-slider {
 			display: flex;
-			font-size: var(--slsg-text-xs);
+			font-size: var(--sg-text-xs);
 			flex-wrap: wrap;
 
 			.slsg-value-slider-text {

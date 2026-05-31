@@ -21,6 +21,11 @@
 		"noUnusedParameters": true,
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@astrojs/starlight/types": ["./stubs/starlight-types.d.ts"],
+			"@astrojs/starlight/components/PageSidebar.astro": ["./stubs/starlight-page-sidebar.d.ts"]
+		},
 		"types": ["vite/client"],
 		"strict": true,
 		"target": "ESNext",

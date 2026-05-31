@@ -2,12 +2,14 @@ import { z } from 'astro/zod';
 
 const KWD_COLOR = [
 	'inherit',
-	'backgroundColor', 'nodeColor', 'nodeColorVisited', 'nodeColorCurrent', 'nodeColorUnresolved', 'nodeColorExternal', 'nodeColorTag',
+	'backgroundColor', 'nodeColor', 'nodeColorHover', 'nodeColorAdjacent', 'nodeColorMuted', 'nodeColorVisited', 'nodeColorCurrent', 'nodeColorUnresolved', 'nodeColorExternal', 'nodeColorTag',
 	'nodeColor1', 'nodeColor2', 'nodeColor3', 'nodeColor4', 'nodeColor5', 'nodeColor6', 'nodeColor7', 'nodeColor8', 'nodeColor9',
-	'linkColor',
+	'linkColor', 'linkColorHover', 'linkColorMuted',
+	'labelColor', 'labelColorHover', 'labelColorMuted',
 ] as const;
 const KWD_NODE_SHAPE = ['circle', 'square', 'triangle', 'polygon', 'star'] as const;
 const KWD_NODE_CORNER_TYPE = ['normal', 'round', 'bevel'] as const;
+const KWD_NODE_VISUAL_STATES = ['hovered', 'adjacent', 'muted'] as const;
 
 const validColors = z.union([
 	z.enum(KWD_COLOR),
@@ -27,7 +29,37 @@ const percentageSchema = z.union([z.number().min(0, "Shape corner radius may not
 
 const nodeShapeTypes = z.enum(KWD_NODE_SHAPE);
 export type NodeShapeType = z.infer<typeof nodeShapeTypes>;
-type NodeColorType = z.infer<typeof validColors>;
+const nodeVisualStateTypes = z.enum(KWD_NODE_VISUAL_STATES);
+export type NodeVisualStateType = z.infer<typeof nodeVisualStateTypes>;
+
+const nodeRuntimeStyleSchema = z.object({
+	shape: nodeShapeTypes.optional(),
+	shapeSize: z.number().gt(0, "Shape size may not be zero or negative").optional(),
+	shapeColor: validColors.or(z.literal('stroke')).optional(),
+	shapePoints: z.number().min(2, "The number of points for the shape may not be smaller than 2").optional(),
+	shapeRotation: z.union([z.number(), z.literal('random')]).optional(),
+	shapeCornerRadius: percentageSchema.optional(),
+	cornerType: z.enum(KWD_NODE_CORNER_TYPE).optional(),
+	strokeWidth: z.number().min(0).optional(),
+	strokeColor: validColors.or(z.literal('inherit')).optional(),
+	strokeCornerRadius: percentageSchema.optional(),
+	labelOffset: z.number().min(0).optional(),
+	labelOpacity: z.number().min(0).optional(),
+	labelColor: validColors.optional(),
+	labelScale: z.number().min(0).optional(),
+	nodeScale: z.number().min(0).optional(),
+	sizingStrength: z.number().min(0).optional(),
+	neighborScale: z.number().min(0).optional(),
+});
+
+export const nodeStateStyleSchema = nodeRuntimeStyleSchema;
+export type NodeStateStyle = z.infer<typeof nodeStateStyleSchema>;
+export const nodeStateStylesSchema = z.object({
+	hovered: nodeStateStyleSchema.partial().optional(),
+	adjacent: nodeStateStyleSchema.partial().optional(),
+	muted: nodeStateStyleSchema.partial().optional(),
+});
+export type NodeStateStyles = z.infer<typeof nodeStateStylesSchema>;
 
 export const nodeStyleSchema = z.object({
 	/**
@@ -109,6 +141,30 @@ export const nodeStyleSchema = z.object({
 	 * @optional
 	 */
 	strokeCornerRadius: percentageSchema.optional(),
+	/**
+	 * Base offset of the label from the node.
+	 *
+	 * @optional
+	 */
+	labelOffset: z.number().min(0).optional(),
+	/**
+	 * Base opacity multiplier of the label for this node.
+	 *
+	 * @optional
+	 */
+	labelOpacity: z.number().min(0).optional(),
+	/**
+	 * Base color of the label for this node.
+	 *
+	 * @optional
+	 */
+	labelColor: validColors.optional(),
+	/**
+	 * Base scale multiplier of the label for this node.
+	 *
+	 * @optional
+	 */
+	labelScale: z.number().min(0).optional(),
 
 	/**
 	 * Scale of the shape collider user for collision forces
@@ -124,52 +180,27 @@ export const nodeStyleSchema = z.object({
 	 */
 	nodeScale: z.number().min(0).optional(),
 	/**
-	 * Scale strength of the node based on the number of neighbors (incoming and outgoing links). \
-	 * When set to 0, the node size will not be affected by the number of neighbors.
+	 * Scale strength for the configured node size metric defined by `nodeSizeBy`.
+	 * When set to 0, the size multiplier does not affect node size for this style.
 	 *
 	 * @default 0.5
 	 */
+	sizingStrength: z.number().min(0).optional(),
+	/**
+	 * @deprecated Use `sizingStrength` instead.
+	 */
 	neighborScale: z.number().min(0).optional(),
+	/**
+	 * Visual overrides applied while the node is in an interaction state.
+	 *
+	 * @optional
+	 */
+	states: nodeStateStylesSchema.optional(),
 });
 
 export type NodeStyle = z.infer<typeof nodeStyleSchema>;
 
-export const nodeDefaultStyle = {
-	shape: "circle" as NodeShapeType,
-	shapeColor: "nodeColor" as NodeColorType,
-	shapeSize: 6,
-	shapePoints: undefined as number | undefined,
-	shapeRotation: undefined as number | "random" | undefined,
-	shapeCornerRadius: undefined as number | string | undefined,
-	strokeWidth: 0,
-	strokeColor: undefined as NodeColorType | "inherit" | undefined,
-	strokeCornerRadius: undefined as number | string | undefined,
-	cornerType: undefined as "normal" | "round" | "bevel" | undefined,
-	colliderScale: 1,
-	nodeScale: 1,
-	neighborScale: 0.5
-}
-
-export const nodeVisitedStyle = { shapeColor: "nodeColorVisited" as NodeColorType };
-
-export const nodeCurrentStyle = { shapeColor: "nodeColorCurrent" as NodeColorType };
-
-export const nodeUnresolvedStyle = { shapeColor: "nodeColorUnresolved" as NodeColorType };
-
-export const nodeExternalStyle = {
-	shape: "square" as NodeShapeType,
-	shapeColor: "nodeColorExternal" as NodeColorType,
-	strokeColor: "inherit" as NodeColorType,
-	nodeScale: 0.8
-};
-
-export const tagDefaultStyle = {
-	shape: 'circle' as NodeShapeType,
-	shapeSize: 6,
-	shapeColor: 'backgroundColor' as NodeColorType,
-	strokeColor: "nodeColorTag"	as NodeColorType,
-	strokeWidth: 1,
-	colliderScale: 1,
-	nodeScale: 1,
-	neighborScale: 0.7
-}
+export {
+	nodeDefaultStyle, nodeVisitedStyle, nodeCurrentStyle,
+	nodeUnresolvedStyle, nodeExternalStyle, tagDefaultStyle,
+} from '../components/graph/config/defaults';

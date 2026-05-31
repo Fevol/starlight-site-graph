@@ -36,6 +36,12 @@ const sitemapEntrySchema = z.object({
 	 */
 	tags: z.array(z.string()).optional(),
 	/**
+	 * Whether the page should be treated as visited
+	 *
+	 * @optional
+	 */
+	visited: z.boolean().optional(),
+	/**
 	 * The style of the node in the graph
 	 */
 	nodeStyle: partialNodeStyleSchema.optional(),

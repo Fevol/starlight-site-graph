@@ -1,9 +1,7 @@
 import { z } from 'astro/zod';
 
-import {
-	nodeStyleSchema, nodeDefaultStyle, nodeExternalStyle, nodeCurrentStyle,
-	nodeUnresolvedStyle, nodeVisitedStyle, tagDefaultStyle
-} from './node';
+import { nodeStyleSchema } from './node';
+import { defaultGraphConfig as DEFAULT_GRAPH_CONFIG } from '../components/graph/config/defaults';
 
 const KWD_GRAPH_ACTIONS = ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'render-external', 'render-unresolved', 'settings'] as const;
 const KWD_TAG_RENDER_MODES = ['none', 'node', 'same', 'both'] as const;
@@ -11,61 +9,9 @@ const KWD_CLICK_MODES = ['auto', 'disable', 'click', 'dblclick'] as const;
 const KWD_DEPTH_DIRECTIONS = ['both', 'incoming', 'outgoing'] as const;
 const KWD_FOLLOW_LINK_MODES = ['same', 'new-tab', 'graph'] as const;
 const KWD_EASING_TYPES = ['in_quad', 'out_quad', 'in_out_quad', 'linear'] as const;
+const KWD_NODE_SIZE_BY = ['neighbors'] as const;
 
 const easingTypes = z.enum(KWD_EASING_TYPES);
-
-const DEFAULT_GRAPH_CONFIG = {
-	actions: ['fullscreen', 'depth', 'reset-zoom', 'render-arrows', 'settings'] as (typeof KWD_GRAPH_ACTIONS[number])[],
-	tagStyles: {},
-	tagRenderMode: 'none' as typeof KWD_TAG_RENDER_MODES[number],
-	nodeInclusionRules: ['**/*'],
-	prefetchPages: true,
-	enableDrag: true,
-	enableZoom: true,
-	enablePan: true,
-	enableHover: true,
-	enableClick: 'auto' as typeof KWD_CLICK_MODES[number],
-	depth: 1,
-	depthDirection: 'both' as typeof KWD_DEPTH_DIRECTIONS[number],
-	followLink: 'same' as typeof KWD_FOLLOW_LINK_MODES[number],
-	scale: 1.1,
-	minZoom: 0.05,
-	maxZoom: 4,
-	renderLabels: true,
-	renderArrows: false,
-	renderUnresolved: false,
-	renderExternal: true,
-	scaleLinks: true,
-	scaleArrows: true,
-	minZoomArrows: 0.8,
-	labelOpacityScale: 1.3,
-	labelMutedOpacity: 0,
-	labelHoverOpacity: 1,
-	labelAdjacentOpacity: 1,
-	labelFontSize: 12,
-	labelHoverScale: 1,
-	labelOffset: 10,
-	labelHoverOffset: 14,
-	zoomDuration: 75,
-	zoomEase: 'out_quad' as typeof KWD_EASING_TYPES[number],
-	hoverDuration: 200,
-	hoverEase: 'out_quad' as typeof KWD_EASING_TYPES[number],
-	nodeDefaultStyle: nodeDefaultStyle,
-	nodeVisitedStyle: nodeVisitedStyle,
-	nodeCurrentStyle: nodeCurrentStyle,
-	nodeUnresolvedStyle: nodeUnresolvedStyle,
-	nodeExternalStyle: nodeExternalStyle,
-	tagDefaultStyle: tagDefaultStyle,
-	linkWidth: 1,
-	linkHoverWidth: 1,
-	arrowSize: 5,
-	arrowAngle: Math.PI / 6,
-	centerForce: 0.05,
-	colliderPadding: 20,
-	repelForce: 200,
-	linkDistance: 0,
-	alphaDecay: 0.0228,
-};
 
 const DEFAULT_GLOBAL_GRAPH_CONFIG = {
 	...DEFAULT_GRAPH_CONFIG,
@@ -220,6 +166,15 @@ export const graphConfigSchema = z.object({
 		.enum(KWD_FOLLOW_LINK_MODES)
 		.default(DEFAULT_GRAPH_CONFIG.followLink),
 
+	/**
+	 * Metrics by which to scale the node size by.
+	 * - `neighbors`: Scale by the number of pages leading to/from this page.
+	 *
+	 * @default "neighbors"
+	 */
+	nodeSizeBy: z
+		.enum(KWD_NODE_SIZE_BY)
+		.default(DEFAULT_GRAPH_CONFIG.nodeSizeBy),
 
 	/**
 	 * The scale of the graph, determines the zoom level
@@ -239,6 +194,13 @@ export const graphConfigSchema = z.object({
 	 * @default 4
 	 */
 	maxZoom: z.number().gt(0, "Graph zoom may not be zero or negative").default(DEFAULT_GRAPH_CONFIG.maxZoom),
+	/**
+	 * How much each wheel scroll step changes the graph zoom.
+	 * A higher value makes zooming more sensitive.
+	 *
+	 * @default 0.002
+	 */
+	zoomStep: z.number().min(0, "Zoom step may not be negative").default(DEFAULT_GRAPH_CONFIG.zoomStep),
 
 	/**
 	 * Whether to render page title labels on the nodes
@@ -267,6 +229,14 @@ export const graphConfigSchema = z.object({
 	renderExternal: z.boolean().default(DEFAULT_GRAPH_CONFIG.renderExternal),
 
 	/**
+	 * Factor controlling how much nodes counter-scale when zooming. \
+	 * `0` = nodes stay the same screen size, `1` = default inverse-sqrt scaling, values above `1` amplify the effect.
+	 *
+	 * @default 1
+	 */
+	scaleNodes: z.number().min(0).default(DEFAULT_GRAPH_CONFIG.scaleNodes),
+
+	/**
 	 * Whether to scale the links based on the zoom level
 	 *
 	 * @default true
@@ -287,27 +257,50 @@ export const graphConfigSchema = z.object({
 	minZoomArrows: z.number().min(0, "Minimum zoom for arrow rendering may not be negative").default(DEFAULT_GRAPH_CONFIG.minZoomArrows),
 
 	/**
-	 * The scale factor for the opacity of the labels, based on the zoom level
-	 * A higher value will make the labels more opaque at lower zoom levels
+	 * The zoom baseline for label opacity.
+	 * At `1`, labels are fully opaque at zoom `1`; increasing it keeps labels visible longer when zooming out.
 	 *
 	 * @default 1.3
 	 */
-	labelOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelOpacityScale),
+	labelZoomOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelZoomOpacityScale),
 	/**
-	 * The opacity of unhovered labels (when hovering over a node)
+	 * The default color of labels in the graph.
+	 *
+	 * @optional
+	 */
+	labelColor: z.string().optional(),
+	/**
+	 * The color of labels when hovering a node.
+	 *
+	 * @optional
+	 */
+	labelHoverColor: z.string().optional(),
+	/**
+	 * The color of labels for nodes adjacent to the hovered node.
+	 *
+	 * @optional
+	 */
+	labelAdjacentColor: z.string().optional(),
+	/**
+	 * The color of labels for muted nodes while another node is hovered.
+	 *
+	 * @optional
+	 */
+	labelMutedColor: z.string().optional(),
+	/**
+	 * @deprecated Use `nodeDefaultStyle.states.muted.labelOpacity` instead.
 	 *
 	 * @default 0
 	 */
 	labelMutedOpacity: z.number().min(0, "Opacity scale for muted labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelMutedOpacity),
 	/**
-	 * The opacity of the label when hovering over a node
+	 * @deprecated Use `nodeDefaultStyle.states.hovered.labelOpacity` instead.
 	 *
 	 * @default 1
 	 */
 	labelHoverOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").default(DEFAULT_GRAPH_CONFIG.labelHoverOpacity),
 	/**
-	 * The opacity of the label when adjacent to the hovered node. \
-	 * If explicitly set to undefined, the `labelMutedOpacity` will be used.
+	 * @deprecated Use `nodeDefaultStyle.states.adjacent.labelOpacity` instead.
 	 */
 	labelAdjacentOpacity: z.number().min(0, "Opacity scale for hovered labels may not be negative").optional().default(DEFAULT_GRAPH_CONFIG.labelAdjacentOpacity),
 	/**
@@ -318,6 +311,8 @@ export const graphConfigSchema = z.object({
 	 */
 	labelFontSize: z.number().min(0, "Label font size may not be negative").default(DEFAULT_GRAPH_CONFIG.labelFontSize),
 	/**
+	 * @deprecated Use `nodeDefaultStyle.states.hovered.labelScale` instead.
+	 *
 	 * The scale of the label when hovering over a node
 	 *
 	 * @default 1
@@ -328,24 +323,38 @@ export const graphConfigSchema = z.object({
 	 *
 	 * @default 10
 	 */
+	/**
+	 * @deprecated Use `nodeDefaultStyle.labelOffset` instead.
+	 */
 	labelOffset: z.number().min(0, "Label offset may not be negative").default(DEFAULT_GRAPH_CONFIG.labelOffset),
 	/**
-	 * The offset of the label from the node when hovering over said node
+	 * @deprecated Use `nodeDefaultStyle.states.hovered.labelOffset` instead.
 	 *
 	 * @default 14
 	 */
 	labelHoverOffset: z.number().min(0, "Label hover offset may not be negative").default(DEFAULT_GRAPH_CONFIG.labelHoverOffset),
+	/**
+	 * @deprecated Use `labelZoomOpacityScale` instead.
+	 */
+	labelOpacityScale: z.number().min(0, "Opacity scale for labels may not be negative").optional(),
 
 	/**
-	 * The duration of the zoom animation in milliseconds \
-	 * This controls the speed of zooming and panning
+	 * The duration of the zoom animation in milliseconds
+	 * This controls scale changes.
 	 *
-	 * @default 75
+	 * @default 200
 	 */
 	zoomDuration: z.number().min(0, "Zoom duration may not be negative").default(DEFAULT_GRAPH_CONFIG.zoomDuration),
 	/**
+	 * The duration of pan animations in milliseconds.
+	 * This controls x/y camera movement, including cursor-centered zoom translation and reset movement.
+	 *
+	 * @default 75
+	 */
+	panDuration: z.number().min(0, "Pan duration may not be negative").default(DEFAULT_GRAPH_CONFIG.panDuration),
+	/**
 	 * The easing function for the zoom animation
-	 * This controls the acceleration of zooming and panning
+	 * This controls the acceleration of zooming and panning.
 	 *
 	 * @default "out_quad"
 	 */
@@ -364,6 +373,13 @@ export const graphConfigSchema = z.object({
 	 * @default "out_quad"
 	 */
 	hoverEase: easingTypes.default(DEFAULT_GRAPH_CONFIG.hoverEase),
+	/**
+	 * Whether graph config changes should animate smoothly at runtime.
+	 * When disabled, config changes are still applied in place, but transition durations are reduced to 0.
+	 *
+	 * @default true
+	 */
+	smoothTransitions: z.boolean().default(DEFAULT_GRAPH_CONFIG.smoothTransitions),
 
 	/**
 	 * The default style of a node in the graph. \
@@ -376,7 +392,7 @@ export const graphConfigSchema = z.object({
 	 * 	   strokeWidth: 0,
 	 * 	   colliderScale: 1,
 	 * 	   nodeScale: 1,
-	 * 	   neighborScale: 0.5
+	 * 	   sizingStrength: 0.5
 	 * 	}```
 	 */
 	nodeDefaultStyle: nodeStyleSchema
@@ -422,7 +438,7 @@ export const graphConfigSchema = z.object({
 	/**
 	 * Default style of tag nodes in the graph
 	 *
-	 * @default { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, neighborScale: 0.7 }
+	 * @default { shape: 'circle', shapeSize: 6, shapeColor: 'backgroundColor', strokeColor: "nodeColorTag", strokeWidth: 1, colliderScale: 1, nodeScale: 1, sizingStrength: 0.7 }
 	 */
 	tagDefaultStyle: nodeStyleSchema
 		.partial()
@@ -492,6 +508,7 @@ export const graphConfigSchema = z.object({
 	alphaDecay: z.number().min(0, "Alpha decay may not be negative").max(1, "Alpha decay may not be greater than 1").default(DEFAULT_GRAPH_CONFIG.alphaDecay),
 });
 export type GraphConfig = z.infer<typeof graphConfigSchema>;
+
 
 export const globalGraphConfigSchema = graphConfigSchema.extend({
 	/**

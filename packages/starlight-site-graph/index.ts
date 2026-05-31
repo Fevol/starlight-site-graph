@@ -13,7 +13,9 @@ export default function plugin(userConfig?: StarlightSiteGraphConfig): Starlight
 				injectTranslations(translations);
 			},
 			'config:setup': async ({ addIntegration, config, command, logger, updateConfig }) => {
-				if (command === 'preview') return;
+				if (command === 'preview') {
+					return;
+				}
 
 				// TODO: Temporary implementation of graph/backlinks exclusion from plugin
 				if (!parsedConfig.graph) {

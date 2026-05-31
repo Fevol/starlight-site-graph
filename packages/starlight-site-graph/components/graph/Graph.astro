@@ -10,7 +10,6 @@ interface Props {
 	trailingSlashes?: boolean;
 }
 
-
 const { config, sitemap, slug, debug = false, trailingSlashes = true } = Astro.props;
 ---
 
@@ -20,8 +19,46 @@ const { config, sitemap, slug, debug = false, trailingSlashes = true } = Astro.p
 <graph-component data-config={JSON.stringify(config)} data-sitemap={JSON.stringify(sitemap)} data-slug={slug} data-debug={debug} data-trailing-slashes={trailingSlashes}></graph-component>
 
 <script>
+	import { prefetch } from 'astro:prefetch';
+
 	import { GraphComponent } from './graph-component';
 
-	customElements.define('graph-component', GraphComponent);
+	import { getVisitedEndpoints } from '../util';
+	import { simplifySlug, ensureLeadingSlash } from '../../shared/path';
+
+
+	const visited = getVisitedEndpoints();
+	if (visited.size) {
+		for (const element of document.querySelectorAll('graph-component')) {
+			try {
+				const trailingSlashes = element.getAttribute('data-trailing-slashes') === 'true';
+				const sitemap = JSON.parse(element.getAttribute('data-sitemap') || '{}');
+				for (const key of Object.keys(sitemap)) {
+					const id = key.startsWith('http') || key.startsWith('mailto:') ? key : simplifySlug(key, trailingSlashes);
+					if (visited.has(id)) {
+						sitemap[key].visited = true;
+					}
+				}
+				element.setAttribute('data-sitemap', JSON.stringify(sitemap));
+			} catch (e) {
+				console.error('[STARLIGHT-SITE-GRAPH] ' + (e instanceof Error ? e.message : e));
+			}
+		}
+	}
+
+	if (!customElements.get('graph-component')) {
+		customElements.define('graph-component', GraphComponent);
+	}
+
+	for (const element of document.querySelectorAll('graph-component')) {
+		const graph = element as GraphComponent;
+		graph.setHooks({
+			onNodeHover: node => {
+				if (graph.config.prefetchPages && !node.external && node.id !== graph.currentPage) {
+					prefetch(ensureLeadingSlash(node.id));
+				}
+			},
+		});
+	}
 </script>
 
