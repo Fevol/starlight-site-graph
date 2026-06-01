@@ -1,4 +1,4 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 import type { GraphData, LinkData, NodeData } from '../types';
 
 import { computeLinkKey, getNodeId, keySet, indexBy, getNodeIds } from '../utils';
@@ -13,7 +13,7 @@ export class TopologyController {
 	private topologyCache = new Map<string, GraphData>();
 	private topologyCacheVersion = 0;
 
-	constructor(private context: GraphComponent) {}
+	constructor(private context: Graph) {}
 
 	destroy() {
 		this.invalidateCache();
@@ -40,11 +40,8 @@ export class TopologyController {
 			this.context.renderer.syncTopology(previousNodes, previousLinks, nodes, links, previousGeometrySignatures);
 			this.context.simulator.updateTopology(nodes, links, nodes.find(node => node.id === this.context.currentPage));
 
-			this.context.enableClick = this.context.config.enableClick !== 'disable';
 			this.context.lifecycleController.requestGraphDraw();
-			this.context.simulator.update({
-				alpha: this.getTopologyRestartAlpha(previousNodes, previousLinks, nodes, links),
-			});
+			this.context.simulator.syncForces(this.getTopologyRestartAlpha(previousNodes, previousLinks, nodes, links));
 		}
 
 		return true;
@@ -243,10 +240,9 @@ export class TopologyController {
 		}
 
 		this.context.simulator.currentNode = previousNodesById.get(this.context.currentPage);
-		this.context.enableClick = this.context.config.enableClick !== 'disable';
 		this.context.lifecycleController.requestGraphDraw();
 		if (geometryChanged) {
-			this.context.simulator.updateColliders({ alpha: TOPOLOGY_GEOMETRY_RESTART_ALPHA });
+			this.context.simulator.syncColliders(TOPOLOGY_GEOMETRY_RESTART_ALPHA);
 		}
 
 		return true;

@@ -64,8 +64,8 @@ function applyNodeDisplay(renderer: GraphRenderer, node: NodeData, scale: number
 }
 
 export function drawNodes(renderer: GraphRenderer, nodes: NodeData[], extraNodes: Iterable<NodeData> = []) {
-	const zoom = renderer.context.animationState.zoom.value;
-	const scale = getNodeZoomScale(zoom, renderer.context.config.scaleNodes);
+	const zoom = renderer.animation.zoom.value;
+	const scale = getNodeZoomScale(zoom, renderer.config.scaleNodes);
 	const zoomClamped = Math.max(zoom, MIN_RENDER_ZOOM);
 	const viewport = getViewportBounds(
 		renderer.renderedTransform,
@@ -73,7 +73,7 @@ export function drawNodes(renderer: GraphRenderer, nodes: NodeData[], extraNodes
 		renderer.viewportHeight,
 		NODE_VIEWPORT_PADDING / zoomClamped,
 	);
-	const labelViewport = renderer.context.config.renderLabels
+	const labelViewport = renderer.config.renderLabels
 		? getViewportBounds(
 			renderer.renderedTransform,
 			renderer.viewportWidth,
@@ -99,7 +99,7 @@ export function drawNodes(renderer: GraphRenderer, nodes: NodeData[], extraNodes
 			const adjacent = role === 'adjacent';
 
 			applyNodeDisplay(renderer, node, scale, hovered, adjacent);
-			if (display.label || renderer.context.config.renderLabels) {
+			if (display.label || renderer.config.renderLabels) {
 				updateLabel(renderer, node, hovered, adjacent, labelViewport);
 			}
 		}

@@ -3,15 +3,14 @@ import type { GraphSimulator } from '../simulation';
 
 import { getWorldPoint } from '../../transform';
 import { addListener } from './utils';
-import { ensureLeadingSlash } from '../../shared/path';
 
 import { DOUBLE_CLICK_MS } from '../constants';
 
 
 export function clickRequiresDoubleClick(simulator: GraphSimulator) {
-	if (simulator.context.config.enableClick === 'dblclick') {
+	if (simulator.config.enableClick === 'dblclick') {
 		return true;
-	} else if (simulator.context.config.enableClick !== 'auto') {
+	} else if (simulator.config.enableClick !== 'auto') {
 		return false;
 	} else {
 		return matchMedia('(pointer: coarse)').matches;
@@ -28,7 +27,7 @@ export function enableClick(simulator: GraphSimulator) {
 			return;
 		}
 
-		const [x, y] = getWorldPoint(simulator.context.animationState.renderedTransform, simulator.container, event);
+		const [x, y] = getWorldPoint(simulator.animation.renderedTransform, simulator.container, event);
 		const closestNode = simulator.findOverlappingNode(x, y);
 		if (!closestNode || !isClickable(simulator, closestNode)) {
 			return;
@@ -39,18 +38,7 @@ export function enableClick(simulator: GraphSimulator) {
 			!simulator.requireDblClick ||
 			(clickTime - simulator.lastClick < DOUBLE_CLICK_MS && closestNode === simulator.lastClickedNode)
 		) {
-			if (closestNode.external) {
-				window.open(closestNode.id, '_blank');
-			} else if (simulator.context.config.followLink === 'graph') {
-				simulator.context.lifecycleController.setCurrentPage(closestNode.id);
-			} else {
-				window.open(
-					ensureLeadingSlash(closestNode.id),
-					simulator.context.config.followLink === 'new-tab' ? '_blank' : '_self',
-				);
-			}
-
-			simulator.context.hooks.onNodeClick?.(closestNode, event);
+			simulator.host.onNodeActivate(closestNode, event);
 		}
 
 		simulator.lastClick = clickTime;

@@ -10,10 +10,10 @@ export function enableZoom(simulator: GraphSimulator) {
 		simulator.container,
 		'wheel',
 		(event: WheelEvent) => {
-			if (simulator.context.config.enableZoom) {
+			if (simulator.config.enableZoom) {
 				event.preventDefault();
 				simulator.camera.applyZoomScale(
-					simulator.camera.zoomTransform.k * Math.exp(-event.deltaY * simulator.context.config.zoomStep),
+					simulator.camera.zoomTransform.k * Math.exp(-event.deltaY * simulator.config.zoomStep),
 					event.clientX,
 					event.clientY,
 				);
@@ -25,7 +25,7 @@ export function enableZoom(simulator: GraphSimulator) {
 	addListener(simulator, simulator.container, 'pointerdown', (event: PointerEvent) => {
 		if (event.pointerType === 'touch') {
 			simulator.touchPoints.set(event.pointerId, { clientX: event.clientX, clientY: event.clientY });
-			if (simulator.touchPoints.size === 2 && simulator.context.config.enableZoom) {
+			if (simulator.touchPoints.size === 2 && simulator.config.enableZoom) {
 				simulator.activePinch = {
 					distance: getTouchDistance(simulator.touchPoints),
 					transform: simulator.camera.zoomTransform,
@@ -33,7 +33,7 @@ export function enableZoom(simulator: GraphSimulator) {
 			}
 		}
 
-		else if (simulator.context.config.enablePan && event.button === 0 && !simulator.activeDrag) {
+		else if (simulator.config.enablePan && event.button === 0 && !simulator.activeDrag) {
 			simulator.camera.userZoomed = true;
 			simulator.activePan = {
 				pointerId: event.pointerId,

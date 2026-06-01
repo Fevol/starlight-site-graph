@@ -1,5 +1,5 @@
 import type { GraphData, LinkData, NodeData } from '../types';
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 import type { Sitemap } from '../config/types';
 import type { NodeStyle } from '../config/types';
 
@@ -48,7 +48,7 @@ export function parseSitemap(serialized?: string): Sitemap {
 
 
 function computeNodeDistances(
-	context: GraphComponent,
+	context: Graph,
 	data: Map<string, Sitemap[string]>,
 	slug: string,
 	validLinks: Set<string>,
@@ -95,7 +95,7 @@ function computeNodeDistances(
 	return nodeDistance;
 }
 
-function buildNodeComputedData(context: GraphComponent, style: NodeStyle, colors: GraphColorConfig, adjacentSize: number, distance?: number) {
+function buildNodeComputedData(context: Graph, style: NodeStyle, colors: GraphColorConfig, adjacentSize: number, distance?: number) {
 	const sizeMultiplier = context.config.nodeSizeBy === 'neighbors'
 		? computeNeighborSizeMultiplier(context, style, adjacentSize, distance)
 		: 1;
@@ -110,7 +110,7 @@ function buildNodeComputedData(context: GraphComponent, style: NodeStyle, colors
 }
 
 // TODO: Preprocess sitemap at build time and bundle together (client load performance vs. built page size)
-export function processSitemapData(context: GraphComponent, siteData: Sitemap, depthOverride?: number): GraphData {
+export function processSitemapData(context: Graph, siteData: Sitemap, depthOverride?: number): GraphData {
 	const slug = context.currentPage;
 	let correctedData = Object.entries(siteData).map(([k, v]) =>
 		[

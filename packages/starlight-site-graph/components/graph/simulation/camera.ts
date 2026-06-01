@@ -66,11 +66,11 @@ export class GraphCamera {
 	}
 
 	getCurrentLabelOpacity(k = this.transform.k): number {
-		return getCurrentLabelOpacity(k, this.simulator.context.config.labelZoomOpacityScale);
+		return getCurrentLabelOpacity(k, this.simulator.config.labelZoomOpacityScale);
 	}
 
 	refreshZoomConstraints(immediate = false) {
-		const { minZoom, maxZoom } = this.simulator.context.config;
+		const { minZoom, maxZoom } = this.simulator.config;
 		const clampedScale = Math.min(maxZoom, Math.max(minZoom, this.zoomTransform.k));
 
 		if (clampedScale !== this.zoomTransform.k) {
@@ -81,7 +81,7 @@ export class GraphCamera {
 	}
 
 	resetZoom(immediate = false) {
-		const { minZoom, maxZoom } = this.simulator.context.config;
+		const { minZoom, maxZoom } = this.simulator.config;
 		this.userZoomed = false;
 		this.zoomTransform = GraphTransform.identity.scale(Math.min(maxZoom, Math.max(minZoom, this.scale)));
 		this.syncCanvasZoom();
@@ -90,7 +90,8 @@ export class GraphCamera {
 	}
 
 	updateZoom(scale?: number, x?: number, y?: number, immediate = false, panKind: PanTransitionKind = 'pan') {
-		const { animationState, config } = this.simulator.context;
+		const config = this.simulator.config;
+		const animationState = this.simulator.animation;
 
 		const previousZoomTarget = animationState.zoom.target;
 		const previousTransformXTarget = animationState.transformX.target;
@@ -128,7 +129,7 @@ export class GraphCamera {
 	}
 
 	updateCenterTransform(options: CenterTransformOptions = {}): boolean {
-		const { minZoom, maxZoom } = this.simulator.context.config;
+		const { minZoom, maxZoom } = this.simulator.config;
 		const effectiveScale = Math.min(maxZoom, Math.max(minZoom, this.scale));
 		const nextCenterTransform = createCenterTransform(
 			this.viewportWidth,
@@ -167,7 +168,7 @@ export class GraphCamera {
 			return;
 		}
 
-		const { cameraAnimating } = this.simulator.context.animationState;
+		const { cameraAnimating } = this.simulator.animation;
 
 		if (this.pendingCenterAnimation) {
 			if (!cameraAnimating) {
@@ -194,7 +195,7 @@ export class GraphCamera {
 			return;
 		}
 
-		if (this.simulator.context.animationState.cameraAnimating) {
+		if (this.simulator.animation.cameraAnimating) {
 			return;
 		}
 		if (this.updateCenterTransform({ smooth: true, deltaMS: FRAME_DURATION_MS })) {
@@ -210,8 +211,8 @@ export class GraphCamera {
 	}
 
 	applyZoomScale(nextScale: number, clientX?: number, clientY?: number, immediate = false) {
-		const { config } = this.simulator.context;
-		const currentTransform = this.simulator.context.animationState.renderedTransform;
+		const config = this.simulator.config;
+		const currentTransform = this.simulator.animation.renderedTransform;
 		const clampedScale = Math.min(config.maxZoom, Math.max(config.minZoom, nextScale));
 		if (Math.abs(clampedScale - currentTransform.k) < GRAPH_EPSILON) {
 			return;

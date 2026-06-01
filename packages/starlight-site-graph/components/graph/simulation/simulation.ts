@@ -1,6 +1,6 @@
 import type { LinkData, NodeData } from '../types';
+import type { GraphEngineHost } from '../types';
 import type { GraphRenderer } from '../render/engine';
-import type { GraphComponent } from '../graph-component';
 
 import type { WorkerMessage } from './worker/types';
 
@@ -35,6 +35,9 @@ import { GRAPH_EPSILON } from '../constants';
 export class GraphSimulator {
 	container!: HTMLCanvasElement;
 	renderer!: GraphRenderer;
+	host!: GraphEngineHost;
+
+	clickEnabled = true;
 
 	worker: Worker | undefined;
 
@@ -93,12 +96,25 @@ export class GraphSimulator {
 	suppressClickUntil = 0;
 
 
-	constructor(public context: GraphComponent) {
+	constructor() {
 		this.camera = new GraphCamera(this);
 	}
 
-	initialize(renderer: GraphRenderer) {
+	attach(host: GraphEngineHost, renderer: GraphRenderer) {
+		this.host = host;
 		this.renderer = renderer;
+	}
+
+	get config() {
+		return this.host.config;
+	}
+
+	get animation() {
+		return this.host.animation;
+	}
+
+	get transformScale() {
+		return this.camera.transform.k;
 	}
 
 	get mounted() {
@@ -138,7 +154,7 @@ export class GraphSimulator {
 				this.camera.syncToCenterOnTick();
 				if (!this.ready) {
 					this.ready = true;
-					this.context.lifecycleController.onSimulationReady();
+					this.host.onSimulationReady();
 				}
 				this.requestGraphDraw();
 			}
@@ -181,7 +197,7 @@ export class GraphSimulator {
 
 	private initializeWorker(alpha: number = 1.0): void {
 		const positions = new Float32Array(this.nodes.length * 2);
-		const colliderRadii = createColliderRadii(this.nodes, this.context.config.colliderPadding);
+		const colliderRadii = createColliderRadii(this.nodes, this.config.colliderPadding);
 		for (let i = 0; i < this.nodes.length; i++) {
 			positions[2 * i] = this.nodes[i]!.x ?? 0;
 			positions[2 * i + 1] = this.nodes[i]!.y ?? 0;
@@ -201,11 +217,11 @@ export class GraphSimulator {
 		);
 	}
 
-	updateColliders(options: { alpha?: number } = {}) {
+	syncColliders(reheat?: number) {
 		if (this.worker) {
-			const colliderRadii = createColliderRadii(this.nodes, this.context.config.colliderPadding);
+			const colliderRadii = createColliderRadii(this.nodes, this.config.colliderPadding);
 			this.sendToWorker({ type: 'colliders', colliderRadii }, [colliderRadii.buffer]);
-			this.update({ alpha: options.alpha ?? DEFAULT_SIMULATION_RESTART_ALPHA });
+			this.syncForces(reheat ?? DEFAULT_SIMULATION_RESTART_ALPHA);
 		}
 	}
 
@@ -237,21 +253,21 @@ export class GraphSimulator {
 	destroy() {
 		this.cleanup();
 		this.renderer = undefined!;
-		this.context = undefined!;
+		this.host = undefined!;
 	}
 
-	update(options: { alpha?: number } = {}) {
+	syncForces(reheat?: number) {
 		if (this.worker) {
 			this.sendToWorker({
 				type: 'forces',
-				centerStrength: this.context.config.centerForce,
+				centerStrength: this.config.centerForce,
 				linkStrength: 1.0,
-				linkDistance: this.context.config.linkDistance,
-				repelStrength: -this.context.config.repelForce,
-				alphaDecay: this.context.config.alphaDecay,
+				linkDistance: this.config.linkDistance,
+				repelStrength: -this.config.repelForce,
+				alphaDecay: this.config.alphaDecay,
 				alphaTarget: 0,
 				collisionStrength: DEFAULT_COLLISION_STRENGTH,
-				restartAlpha: options.alpha ?? 1,
+				restartAlpha: reheat ?? 1,
 			});
 		}
 	}
@@ -301,7 +317,7 @@ export class GraphSimulator {
 
 	findOverlappingNode(x: number, y: number): NodeData | undefined {
 		const cs = this.spatialGridCellSize;
-		const zoom = this.renderer.context.animationState.zoom.value;
+		const zoom = this.renderer.animation.zoom.value;
 		const searchRadius = this.spatialMaxRadius * Math.sqrt(1 / Math.max(zoom, GRAPH_EPSILON));
 
 		const minCX = Math.floor((x - searchRadius) / cs);
@@ -344,25 +360,56 @@ export class GraphSimulator {
 		document.body.style.cursor = 'default';
 	}
 
-	refreshInteractions() {
+	syncInteractions() {
 		if (this.container) {
+			this.clickEnabled = this.config.enableClick !== 'disable';
 			this.requireDblClick = clickRequiresDoubleClick(this);
 			this.unbindInteractions();
-			if (!this.context.config.enableHover && this.currentlyHovered) {
+			if (!this.config.enableHover && this.currentlyHovered) {
 				removeNodeHover(this);
 			}
-			if (this.context.config.enableDrag) {
+			if (this.config.enableDrag) {
 				enableDrag(this);
 			}
-			if (this.context.config.enableHover) {
+			if (this.config.enableHover) {
 				enableHover(this);
 			}
-			if (this.context.enableClick) {
+			if (this.clickEnabled) {
 				enableClick(this);
 			}
-			if (this.context.config.enableZoom || this.context.config.enablePan) {
+			if (this.config.enableZoom || this.config.enablePan) {
 				enableZoom(this);
 			}
+		}
+	}
+
+	syncScale(immediate = false) {
+		this.camera.scale = this.config.scale;
+		if (!this.camera.userZoomed) {
+			this.camera.resetZoom(immediate);
+		} else {
+			this.camera.updateZoom(this.config.scale, undefined, undefined, immediate);
+		}
+	}
+
+	syncZoomLimits(immediate = false) {
+		if (!this.camera.userZoomed) {
+			this.camera.resetZoom(immediate);
+		} else {
+			this.camera.refreshZoomConstraints(immediate);
+		}
+	}
+
+	resetView(immediate = false) {
+		this.camera.resetZoom(immediate);
+	}
+
+	syncViewport(width: number, height: number, recenter = false) {
+		this.camera.syncViewportSize(width, height);
+		if (recenter) {
+			this.camera.updateCenterTransform();
+			this.camera.updateTransform(true);
+			this.requestGraphDraw();
 		}
 	}
 }

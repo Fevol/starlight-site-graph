@@ -1,6 +1,6 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
+import type { Sitemap } from '../config/types';
 
-import { parseSitemap } from '../topology/topology';
 import { renderActionContainer } from '../ui';
 
 export class LifecycleController {
@@ -8,7 +8,7 @@ export class LifecycleController {
 	private graphReady = false;
 	private initialized = false;
 
-	constructor(private context: GraphComponent) {}
+	constructor(private context: Graph) {}
 
 	initialize() {
 		if (this.initialized) {
@@ -16,32 +16,20 @@ export class LifecycleController {
 		}
 		this.initialized = true;
 
-		this.placeholderContainer = this.context.previousElementSibling instanceof HTMLElement
-			? this.context.previousElementSibling
+		this.placeholderContainer = this.context.element.previousElementSibling instanceof HTMLElement
+			? this.context.element.previousElementSibling
 			: document.createElement('div');
 
 		this.context.styleController.initialize();
 		this.context.fullscreenController.initialize();
 		this.renderActions();
 
-		this.context.renderer.initialize(this.context.simulator, this.context.graphContainer).then(() => {
+		this.context.renderer.attach(this.context, this.context.simulator, this.context.graphContainer).then(() => {
 			if (this.initialized) {
 				this.loadGraph();
 			}
 		});
-		this.context.simulator.initialize(this.context.renderer);
-
-		this.context.propertyObserver = new MutationObserver(mutations => {
-			for (const mutation of mutations) {
-				if (mutation.attributeName === 'data-config') {
-					this.context.configController.onAttributeChange();
-				}
-				if (mutation.attributeName === 'data-sitemap') {
-					this.onSitemapAttributeChange();
-				}
-			}
-		});
-		this.context.propertyObserver.observe(this.context, { attributes: true });
+		this.context.simulator.attach(this.context, this.context.renderer);
 	}
 
 	destroy() {
@@ -50,7 +38,6 @@ export class LifecycleController {
 		}
 		this.initialized = false;
 
-		this.context.propertyObserver?.disconnect();
 		this.context.fullscreenController.destroy();
 		this.unloadGraph();
 
@@ -68,13 +55,12 @@ export class LifecycleController {
 
 	loadGraph() {
 		this.placeholderContainer.style.display = '';
-		this.context.style.visibility = 'hidden';
+		this.context.element.style.visibility = 'hidden';
 		this.graphReady = false;
 		this.unloadGraph();
 
 		const { nodes, links, colors } = this.context.topologyController.getProcessedGraphData();
 		this.context.styleController.syncColorPalette(colors);
-		this.context.enableClick = this.context.config.enableClick !== 'disable';
 
 		this.context.simulator.initializeTopology(
 			nodes,
@@ -83,16 +69,11 @@ export class LifecycleController {
 			this.context.config.scale,
 		);
 		this.context.renderer.initializeTopology();
-		this.context.simulator.update();
+		this.context.simulator.syncForces();
 
-		this.context.animationState.setLabelsEnabled(this.context.config.renderLabels, this.context.config, true);
-		this.context.animationState.setLabelOpacityBase(
-			this.context.simulator.camera.getCurrentLabelOpacity(),
-			this.context.config,
-			true,
-		);
-		this.context.animationState.syncColors(this.context.styleController.colors, this.context.config, true);
-		this.context.simulator.refreshInteractions();
+		this.context.renderer.syncLabels(true);
+		this.context.renderer.syncColors(this.context.styleController.colors, true);
+		this.context.simulator.syncInteractions();
 	}
 
 	unloadGraph() {
@@ -108,7 +89,7 @@ export class LifecycleController {
 	rebuildGraph() {
 		this.loadGraph();
 		this.renderActions();
-		this.context.viewportController.resetZoom();
+		this.context.simulator.resetView();
 	}
 
 	setCurrentPage(currentPage: string) {
@@ -122,7 +103,7 @@ export class LifecycleController {
 			return;
 		}
 
-		this.context.styleController.setStyleDefault();
+		this.context.renderer.setHoverState(false);
 	}
 
 	onSimulationReady() {
@@ -132,13 +113,13 @@ export class LifecycleController {
 		this.graphReady = true;
 
 		this.placeholderContainer.style.display = 'none';
-		this.context.style.visibility = 'visible';
+		this.context.element.style.visibility = 'visible';
 
 		this.syncLayout({ refreshColors: false, renderActions: false });
 	}
 
-	onSitemapAttributeChange() {
-		this.context.sitemap = parseSitemap(this.context.dataset['sitemap']);
+	setSitemap(sitemap: Sitemap) {
+		this.context.sitemap = sitemap;
 		this.context.topologyController.invalidateCache();
 		if (!this.context.topologyController.refreshTopology()) {
 			this.loadGraph();
@@ -157,17 +138,34 @@ export class LifecycleController {
 			this.renderActions();
 		}
 
-		this.context.renderer.resize();
+		if (this.context.renderer.resize()) {
+			const { viewportWidth, viewportHeight } = this.context.renderer;
+			if (viewportWidth > 0 && viewportHeight > 0) {
+				this.context.simulator.syncViewport(viewportWidth, viewportHeight, false);
+			}
+		}
 
 		if (refreshColors) {
 			this.context.styleController.refreshColors(immediate);
 		}
 
 		if (resetZoom) {
-			this.context.viewportController.resetZoom(immediate);
+			this.context.simulator.resetView(immediate);
 		}
 
 		this.requestGraphDraw();
+	}
+
+	resize() {
+		if (!this.context.renderer.container) {
+			return;
+		}
+
+		const sizeChanged = this.context.renderer.resize();
+		const { viewportWidth, viewportHeight } = this.context.renderer;
+		if (sizeChanged && viewportWidth > 0 && viewportHeight > 0) {
+			this.context.simulator.syncViewport(viewportWidth, viewportHeight, true);
+		}
 	}
 
 	renderActions() {

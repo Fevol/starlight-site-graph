@@ -18,7 +18,7 @@ export function createLabel(renderer: GraphRenderer, node: NodeData, display: No
 	display.label = new PIXI.Text({
 		text: node.text || node.id,
 		resolution: renderer.labelResolution,
-		style: { fill: 0xffffff, fontSize: renderer.context.config.labelFontSize },
+		style: { fill: 0xffffff, fontSize: renderer.config.labelFontSize },
 		zIndex: LABEL_DEFAULT_Z_INDEX,
 	});
 	display.label.anchor.set(0.5, 0.5);
@@ -40,7 +40,7 @@ export function computeNodeLabelState(renderer: GraphRenderer, node: NodeData, h
 	const visual = renderer.getNodeVisual(node);
 	const role: NodeVisualRole = hovered ? 'hovered' : adjacent ? 'adjacent' : visual.role;
 	const style = getNodeStyle(node, role);
-	const zoom = renderer.context.animationState.zoom.value;
+	const zoom = renderer.animation.zoom.value;
 	const nodeZoomScale = Math.sqrt(1 / Math.max(zoom, GRAPH_EPSILON));
 	const labelViewport = precomputedLabelViewport ?? getViewportBounds(
 		renderer.renderedTransform,
@@ -49,7 +49,7 @@ export function computeNodeLabelState(renderer: GraphRenderer, node: NodeData, h
 		NODE_LABEL_VIEWPORT_PADDING / Math.max(zoom, MIN_RENDER_ZOOM),
 	);
 
-	const zoomOpacity = (hovered || adjacent) ? 1 : getCurrentLabelOpacity(zoom, renderer.context.config.labelZoomOpacityScale);
+	const zoomOpacity = (hovered || adjacent) ? 1 : getCurrentLabelOpacity(zoom, renderer.config.labelZoomOpacityScale);
 	let labelAlpha = zoomOpacity * (style.labelOpacity ?? 1);
 	if (!hovered && !adjacent && renderer.simulator.nodes.length > LABEL_CULL_NODE_COUNT && zoom < LABEL_CULL_ZOOM) {
 		labelAlpha = 0;
@@ -69,15 +69,15 @@ export function computeNodeLabelState(renderer: GraphRenderer, node: NodeData, h
 		labelAlpha = 0;
 	}
 
-	labelAlpha *= visual.alpha.value * renderer.context.animationState.labelsEnabled.value;
+	labelAlpha *= visual.alpha.value * renderer.animation.labelsEnabled.value;
 	return {
 		x,
 		y,
 		scale: Math.max(1 + visual.labelScale.value, nodeZoomScale) * nodeZoomScale,
 		alpha: labelAlpha,
 		tint: computeNodeLabelTint(
-			renderer.context.styleController.colors,
-			renderer.context.animationState,
+			renderer.palette,
+			renderer.animation,
 			node,
 			role,
 			Boolean(hovered),

@@ -1,4 +1,4 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 import type { GraphColorConfig } from '../color';
 
 import { getGraphColors } from '../color';
@@ -9,7 +9,7 @@ export class StyleController {
 	private colorSources: GraphColorConfig = {};
 	private colorSetupKey: string | undefined;
 
-	constructor(private context: GraphComponent) {}
+	constructor(private context: Graph) {}
 
 	initialize() {
 		this.themeObserver = new MutationObserver(() => this.onThemeChange());
@@ -34,15 +34,14 @@ export class StyleController {
 	}
 
 	refreshColors(immediate = false) {
-		this.resolvedColors = getGraphColors(this.context, this.colorSources);
-		this.context.animationState.syncColors(this.resolvedColors, this.context.config, immediate);
-		this.context.lifecycleController.requestGraphDraw();
+		this.resolvedColors = getGraphColors(this.context.element,this.colorSources);
+		this.context.renderer.syncColors(this.resolvedColors, immediate);
 	}
 
 	syncColorPalette(colors: GraphColorConfig) {
 		const colorSetupKey = JSON.stringify(colors);
 		this.colorSources = colors;
-		const nextColors = getGraphColors(this.context, colors);
+		const nextColors = getGraphColors(this.context.element,colors);
 		if (
 			this.colorSetupKey === colorSetupKey &&
 			!Object.keys(colors).some(color => this.resolvedColors[color] !== nextColors[color])
@@ -53,19 +52,7 @@ export class StyleController {
 		this.colorSetupKey = colorSetupKey;
 		this.resolvedColors = nextColors;
 
-		this.context.animationState.syncColors(nextColors, this.context.config);
-		this.context.lifecycleController.requestGraphDraw();
+		this.context.renderer.syncColors(nextColors);
 	}
 
-	setStyleDefault() {
-		this.context.animationState.setHoverActive(false, this.context.config);
-		this.context.animationState.setLabelOpacityBase(
-			this.context.simulator.camera.getCurrentLabelOpacity(),
-			this.context.config,
-		);
-	}
-
-	setStyleHovered() {
-		this.context.animationState.setHoverActive(true, this.context.config);
-	}
 }

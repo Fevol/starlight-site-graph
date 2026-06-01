@@ -1,10 +1,11 @@
 import * as PIXI from 'pixi.js';
 
-import type { GraphComponent } from '../graph-component';
+import type { GraphEngineHost } from '../types';
 import type { GraphSimulator } from '../simulation/simulation';
 
 import type { LinkData, NodeData } from '../types';
 import type { LinkDisplay, NodeDisplay } from './types';
+import type { GraphColorConfig } from '../color';
 
 import {
 	cleanupLifecycle,
@@ -28,6 +29,7 @@ import { updateExitingNodes, updateNodeVisuals } from './node/transitions';
 import { queueNodeDisplays, refreshNodeDisplays } from './node/lifecycle';
 
 import { computeLinkKey } from '../utils';
+import { getCurrentLabelOpacity } from '../transform';
 
 import {
 	DEBUG_STATS_LOAD_DELAY_MS,
@@ -44,6 +46,8 @@ export class GraphRenderer {
 	app: PIXI.Application;
 	container!: HTMLElement;
 	simulator!: GraphSimulator;
+	host!: GraphEngineHost;
+	palette: GraphColorConfig = {};
 
 	viewportWidth = 0;
 	viewportHeight = 0;
@@ -82,7 +86,7 @@ export class GraphRenderer {
 		linkCursor: 0,
 	};
 
-	constructor(public context: GraphComponent) {
+	constructor() {
 		this.app = new PIXI.Application();
 		this.tickHandler = (ticker: PIXI.Ticker) => this.tick(ticker);
 		this.onPageVisibilityChange = () => {
@@ -101,12 +105,20 @@ export class GraphRenderer {
 		return this.app.canvas;
 	}
 
+	get config() {
+		return this.host.config;
+	}
+
+	get animation() {
+		return this.host.animation;
+	}
+
 	get mounted() {
-		return this.context !== undefined;
+		return this.host !== undefined;
 	}
 
 	get renderedTransform() {
-		return this.context.animationState.renderedTransform;
+		return this.animation.renderedTransform;
 	}
 
 	get labelResolution() {
@@ -148,7 +160,8 @@ export class GraphRenderer {
 		return (display.visual ??= createLinkVisualState());
 	}
 
-	async initialize(simulator: GraphSimulator, container: HTMLElement) {
+	async attach(host: GraphEngineHost, simulator: GraphSimulator, container: HTMLElement) {
+		this.host = host;
 		this.simulator = simulator;
 		this.container = container;
 		this.baseResolution = this.resolveBaseResolution();
@@ -176,12 +189,12 @@ export class GraphRenderer {
 
 		this.visibilityObserver = new IntersectionObserver(entries => {
 			if (entries[0]?.isIntersecting) {
-				this.context.viewportController.onContainerResize();
+				this.host.onContainerResize();
 			}
 		});
 		this.visibilityObserver.observe(this.container);
 
-		this.resizeObserver = new ResizeObserver(() => this.context.viewportController.onContainerResize());
+		this.resizeObserver = new ResizeObserver(() => this.host.onContainerResize());
 		this.resizeObserver.observe(this.container);
 
 		this.app.stage.sortableChildren = true;
@@ -189,7 +202,7 @@ export class GraphRenderer {
 		document.addEventListener('visibilitychange', this.onPageVisibilityChange);
 		this.ensureTickerActive();
 
-		if (import.meta.env.DEV && this.context.debug) {
+		if (import.meta.env.DEV && this.host.debug) {
 			this.debugStatsLoadTimeout = setTimeout(async () => {
 				try {
 					const { Stats } = await import('pixi-stats');
@@ -211,12 +224,15 @@ export class GraphRenderer {
 		}
 	}
 
-	resize() {
-		this.viewportWidth = this.container.clientWidth;
-		this.viewportHeight = this.container.clientHeight;
+	resize(): boolean {
+		const width = this.container.clientWidth;
+		const height = this.container.clientHeight;
+		const changed = width !== this.viewportWidth || height !== this.viewportHeight;
+		this.viewportWidth = width;
+		this.viewportHeight = height;
 		this.syncRendererResolution();
 		this.app.renderer.resize(this.viewportWidth, this.viewportHeight);
-		this.simulator?.camera.syncViewportSize(this.viewportWidth, this.viewportHeight);
+		return changed;
 	}
 
 	initializeTopology() {
@@ -254,7 +270,7 @@ export class GraphRenderer {
 				this.destroyPixiApp();
 			}
 			this.simulator = undefined!;
-			this.context = undefined!;
+			this.host = undefined!;
 			this.visibilityObserver?.disconnect();
 			this.resizeObserver?.disconnect();
 		}
@@ -267,7 +283,7 @@ export class GraphRenderer {
 	}
 
 	private resolveBaseResolution() {
-		return Object.keys(this.context.sitemap).length > RENDERER_LARGE_GRAPH_NODE_THRESHOLD
+		return Object.keys(this.host.sitemap).length > RENDERER_LARGE_GRAPH_NODE_THRESHOLD
 			? RENDERER_LARGE_GRAPH_RESOLUTION
 			: RENDERER_DEFAULT_RESOLUTION;
 	}
@@ -309,16 +325,16 @@ export class GraphRenderer {
 	}
 
 	tick(ticker: PIXI.Ticker) {
-		this.context.animationState.tick(ticker.deltaMS, this.context.config);
+		this.animation.tick(ticker.deltaMS, this.config);
 
 		this.simulator.camera.syncToCenter();
 
-		if (this.simulator.camera.animateZoomOverride || this.context.animationState.cameraAnimating) {
+		if (this.simulator.camera.animateZoomOverride || this.animation.cameraAnimating) {
 			this.app.stage.updateTransform({
-				scaleX: this.context.animationState.zoom.value,
-				scaleY: this.context.animationState.zoom.value,
-				x: this.context.animationState.transformX.value,
-				y: this.context.animationState.transformY.value,
+				scaleX: this.animation.zoom.value,
+				scaleY: this.animation.zoom.value,
+				x: this.animation.transformX.value,
+				y: this.animation.transformY.value,
 			});
 			this.simulator.camera.animateZoomOverride = false;
 		}
@@ -334,7 +350,7 @@ export class GraphRenderer {
 
 		const shouldDraw =
 			graphDrawRequested ||
-			this.context.animationState.drawAnimating ||
+			this.animation.drawAnimating ||
 			hasPendingInitializations(this) ||
 			this.exitingNodeDisplays.size > 0 ||
 			this.exitingLinkDisplays.size > 0;
@@ -344,7 +360,7 @@ export class GraphRenderer {
 			drawLinks(this, this.simulator.links);
 		} else if (
 			!cameraRenderRequested &&
-			!this.context.animationState.cameraAnimating &&
+			!this.animation.cameraAnimating &&
 			!hasPendingDisposals(this) &&
 			!(this.debugStatsKeepTickerAlive && !document.hidden)
 		) {
@@ -357,12 +373,46 @@ export class GraphRenderer {
 		this.app.canvas.__zoom = zoomTransform;
 	}
 
-	syncLabelVisibility(nodes: NodeData[]) {
-		refreshNodeDisplays(this, nodes);
+	syncColors(palette: GraphColorConfig, immediate = false) {
+		this.palette = palette;
+		this.animation.syncColors(palette, this.config, immediate);
+		this.simulator.requestGraphDraw();
 	}
 
-	syncArrowGeometry(links: LinkData[]) {
-		syncArrowGeometry(this, links);
+	syncLabels(immediate = false) {
+		refreshNodeDisplays(this, this.simulator.nodes);
+		this.animation.setLabelsEnabled(this.config.renderLabels, this.config, immediate);
+		this.animation.setLabelOpacityBase(
+			getCurrentLabelOpacity(this.simulator.transformScale, this.config.labelZoomOpacityScale),
+			this.config,
+			immediate,
+		);
+		for (const node of this.simulator.nodes) {
+			const visual = this.getNodeDisplay(node).visual;
+			if (visual) {
+				visual.animating = true;
+			}
+		}
+		this.simulator.requestGraphDraw();
+	}
+
+	syncTransitions(options: { syncArrowGeometry?: boolean; immediate?: boolean } = {}) {
+		if (options.syncArrowGeometry) {
+			syncArrowGeometry(this, this.simulator.links);
+		}
+		this.animation.syncConfig(this.config, options.immediate ?? !this.config.smoothTransitions);
+		this.simulator.requestGraphDraw();
+	}
+
+	setHoverState(hovered: boolean) {
+		this.animation.setHoverActive(hovered, this.config);
+		if (!hovered) {
+			this.animation.setLabelOpacityBase(
+				getCurrentLabelOpacity(this.simulator.transformScale, this.config.labelZoomOpacityScale),
+				this.config,
+			);
+		}
+		this.simulator.requestGraphDraw();
 	}
 
 	getRenderedNodeRadius(node: NodeData) {

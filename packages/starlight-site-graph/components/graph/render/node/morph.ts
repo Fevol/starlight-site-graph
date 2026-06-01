@@ -87,7 +87,7 @@ export function createShapeMorphOutline(style: NodeStyle) {
 export function syncNodeMorphTargets(renderer: GraphRenderer, node: NodeData, role: NodeVisualRole) {
 	const visual = renderer.getNodeVisual(node);
 	const style = getNodeStyle(node, role);
-	const smooth = renderer.context.config.smoothTransitions;
+	const smooth = renderer.config.smoothTransitions;
 	const requestGraphDraw = () => renderer.simulator.requestGraphDraw();
 	const outline = createShapeMorphOutline(style);
 

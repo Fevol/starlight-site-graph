@@ -30,7 +30,7 @@ function createLinkLine(zIndex: number) {
 
 // TODO: Potential for more arrow options here.
 function redrawArrowGraphic(renderer: GraphRenderer, graphic: PIXI.Graphics) {
-	const spread = Math.tan(renderer.context.config.arrowAngle);
+	const spread = Math.tan(renderer.config.arrowAngle);
 	graphic.clear();
 	graphic.moveTo(0, 0)
 		.lineTo(-1, -spread).lineTo(-1, spread).lineTo(0, 0).closePath()
@@ -83,10 +83,10 @@ export function syncArrowGeometry(renderer: GraphRenderer, links: LinkData[]) {
 }
 
 function getArrowSize(renderer: GraphRenderer, hovered: boolean) {
-	const zoom = renderer.context.config.scaleArrows ? renderer.context.animationState.zoom.value : UNSCALED_ARROW_ZOOM;
-	const width = hovered ? renderer.context.animationState.linkWidthHover.value : renderer.context.config.linkWidth;
+	const zoom = renderer.config.scaleArrows ? renderer.animation.zoom.value : UNSCALED_ARROW_ZOOM;
+	const width = hovered ? renderer.animation.linkWidthHover.value : renderer.config.linkWidth;
 
-	return (DEFAULT_ARROW_SCALE * (renderer.context.config.arrowSize + width)) / zoom;
+	return (DEFAULT_ARROW_SCALE * (renderer.config.arrowSize + width)) / zoom;
 }
 
 function setLineProps(
@@ -131,20 +131,20 @@ function computeLinkDisplayGeometry(renderer: GraphRenderer, link: LinkData, sou
 }
 
 export function drawLinks(renderer: GraphRenderer, links: LinkData[], extraLinks: Iterable<LinkData> = []) {
-	const zoomLevel = renderer.context.config.scaleLinks ? renderer.context.animationState.zoom.value : 1;
+	const zoomLevel = renderer.config.scaleLinks ? renderer.animation.zoom.value : 1;
 
-	const width = renderer.context.config.linkWidth;
-	const hoverWidth = renderer.context.animationState.linkWidthHover.value;
+	const width = renderer.config.linkWidth;
+	const hoverWidth = renderer.animation.linkWidthHover.value;
 
-	const color = renderer.context.animationState.linkColor.value;
-	const hoverColor = renderer.context.animationState.linkColorHover.value;
-	const mutedColor = renderer.context.animationState.linkColorMuted.value;
+	const color = renderer.animation.linkColor.value;
+	const hoverColor = renderer.animation.linkColorHover.value;
+	const mutedColor = renderer.animation.linkColorMuted.value;
 
-	const renderArrows = renderer.context.config.renderArrows && renderer.simulator.camera.zoomTransform.k > renderer.context.config.minZoomArrows;
+	const renderArrows = renderer.config.renderArrows && renderer.simulator.camera.zoomTransform.k > renderer.config.minZoomArrows;
 
 	const viewport = getViewportBounds(
 		renderer.renderedTransform, renderer.viewportWidth, renderer.viewportHeight,
-		LINK_VIEWPORT_PADDING / Math.max(renderer.context.animationState.zoom.value, MIN_RENDER_ZOOM),
+		LINK_VIEWPORT_PADDING / Math.max(renderer.animation.zoom.value, MIN_RENDER_ZOOM),
 	);
 
 	const processLink = (link: LinkData) => {
@@ -206,7 +206,7 @@ function applyLinkDisplay(
 
 	const endpointAlpha = Math.min(sourceVisual.alpha.value, targetVisual.alpha.value);
 	const showHoverOverlay = hovered || (!hasHover && display.visual!.overlayAlpha > MIN_VISIBLE_ALPHA);
-	const overlayAlpha = (showHoverOverlay ? renderer.context.animationState.linkOpacityHover.value : 0) * endpointAlpha;
+	const overlayAlpha = (showHoverOverlay ? renderer.animation.linkOpacityHover.value : 0) * endpointAlpha;
 	const lineDistance = Math.hypot(geometry.xEnd - geometry.xStart, geometry.yEnd - geometry.yStart);
 	const lineAlpha = display.visual!.lineAlpha * endpointAlpha * (
 		hovered && linkWidthHover < linkWidth ? 1 - overlayAlpha / Math.max(endpointAlpha, GRAPH_EPSILON) : 1

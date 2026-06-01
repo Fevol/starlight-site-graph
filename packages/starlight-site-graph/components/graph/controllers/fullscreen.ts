@@ -1,4 +1,4 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 
 export class FullscreenController {
 	fullscreenExitHandler?: (options?: boolean | EventListenerOptions) => void;
@@ -6,7 +6,7 @@ export class FullscreenController {
 	private dialog!: HTMLDialogElement;
 	private fullscreen = false;
 
-	constructor(private context: GraphComponent) {}
+	constructor(private context: Graph) {}
 
 	initialize() {
 		this.mockGraphContainer = document.createElement('div');
@@ -14,7 +14,7 @@ export class FullscreenController {
 
 		this.dialog = document.createElement('dialog');
 		this.dialog.classList.add('slsg-fullscreen-dialog', 'slsg-graph-component');
-		this.context.appendChild(this.dialog);
+		this.context.element.appendChild(this.dialog);
 
 		this.context.graphContainer.onkeyup = event => {
 			if (event.key === 'f') {
@@ -26,13 +26,13 @@ export class FullscreenController {
 	destroy() {
 		this.fullscreen = false;
 
-		this.context.classList.toggle('slsg-fullscreen-active', false);
+		this.context.element.classList.toggle('slsg-fullscreen-active', false);
 		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', false);
 		this.fullscreenExitHandler?.();
 		this.context.graphContainer.onkeyup = null;
 
 		if (this.context.graphContainer.parentElement === this.dialog) {
-			this.context.appendChild(this.context.graphContainer);
+			this.context.element.appendChild(this.context.graphContainer);
 		}
 		if (this.dialog?.open) {
 			this.dialog.close();
@@ -51,9 +51,9 @@ export class FullscreenController {
 		}
 
 		this.fullscreen = true;
-		this.context.classList.toggle('slsg-fullscreen-active', true);
+		this.context.element.classList.toggle('slsg-fullscreen-active', true);
 		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', true);
-		this.context.append(this.mockGraphContainer);
+		this.context.element.append(this.mockGraphContainer);
 		this.dialog.appendChild(this.context.graphContainer);
 
 		const onClickOutside = (event: MouseEvent) => {
@@ -93,9 +93,9 @@ export class FullscreenController {
 		}
 
 		this.fullscreen = false;
-		this.context.classList.toggle('slsg-fullscreen-active', false);
+		this.context.element.classList.toggle('slsg-fullscreen-active', false);
 		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', false);
-		this.context.appendChild(this.context.graphContainer);
+		this.context.element.appendChild(this.context.graphContainer);
 		this.mockGraphContainer.remove();
 		if (this.dialog.open) {
 			this.dialog.close();

@@ -127,7 +127,7 @@ export function createNodeDisplay(renderer: GraphRenderer, node: NodeData) {
 	visual.geometryDirty = true;
 	visual.styleDirty = true;
 
-	const colors = renderer.context.styleController.colors;
+	const colors = renderer.palette;
 	const shapeTint = computeNodeShapeTint(colors, node, 'default');
 	visual.shapeTint = createTrack(shapeTint);
 
@@ -151,7 +151,7 @@ export function createNodeDisplay(renderer: GraphRenderer, node: NodeData) {
 	drawNodeShape(renderer, node, 'default');
 	renderer.app.stage.addChild(display.node);
 
-	if (renderer.context.config.renderLabels) {
+	if (renderer.config.renderLabels) {
 		createLabel(renderer, node, display);
 		renderer.app.stage.addChild(display.label!);
 	}
@@ -183,20 +183,20 @@ export function ensureNodeDisplayObjects(renderer: GraphRenderer, node: NodeData
 		visual.geometryDirty = true;
 	}
 
-	if (renderer.context.config.renderLabels) {
+	if (renderer.config.renderLabels) {
 		if (!display.label) {
 			createLabel(renderer, node, display);
 			renderer.app.stage.addChild(display.label!);
 		}
 	}
 
-	if (display.label && display.label.style.fontSize !== renderer.context.config.labelFontSize) {
-		display.label.style.fontSize = renderer.context.config.labelFontSize;
+	if (display.label && display.label.style.fontSize !== renderer.config.labelFontSize) {
+		display.label.style.fontSize = renderer.config.labelFontSize;
 	}
 }
 
 export function refreshNodeDisplays(renderer: GraphRenderer, nodes: NodeData[]) {
-	if (renderer.context.config.renderLabels) {
+	if (renderer.config.renderLabels) {
 		for (const node of nodes) {
 			ensureNodeDisplayObjects(renderer, node);
 		}

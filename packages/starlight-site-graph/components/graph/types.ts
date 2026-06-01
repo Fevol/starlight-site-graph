@@ -1,5 +1,6 @@
-import type { GraphConfig, NodeStyle } from './config/types';
+import type { GraphConfig, NodeStyle, Sitemap } from './config/types';
 import type { GraphColorConfig } from './color';
+import type { AnimationState } from './render/transitions';
 
 export type NodeVisualRole = 'default' | 'hovered' | 'adjacent' | 'muted';
 export type NodeVisualStyles = Record<NodeVisualRole, NodeStyle>;
@@ -9,6 +10,18 @@ export interface GraphHostHooks {
 	onNodeHover?(node: NodeData): void;
 	onNodeUnhover?(): void;
 	onNodeClick?(node: NodeData, event: MouseEvent): void;
+}
+
+export interface GraphEngineHost {
+	readonly config: GraphConfig;
+	readonly sitemap: Sitemap;
+	readonly debug: boolean;
+	readonly animation: AnimationState;
+
+	onSimulationReady(): void;
+	onContainerResize(): void;
+	onNodeActivate(node: NodeData, event: MouseEvent): void;
+	onNodeHoverChange(node: NodeData | null): void;
 }
 
 type GraphNodeSimulationData = {

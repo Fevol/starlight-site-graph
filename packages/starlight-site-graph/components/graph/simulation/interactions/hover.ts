@@ -18,20 +18,17 @@ export function clearHoverIntent(simulator: GraphSimulator) {
 function applyNodeHover(simulator: GraphSimulator, node: NodeData) {
 	simulator.currentlyHovered = node.id;
 	simulator.isHovering = true;
-	simulator.context.hooks.onNodeHover?.(node);
-
-	simulator.context.styleController.setStyleHovered();
+	simulator.host.onNodeHoverChange(node);
 	simulator.requestGraphDraw();
 	simulator.container.style.cursor =
-		simulator.context.enableClick && isClickable(simulator, node) ? 'pointer' : 'default';
+		simulator.clickEnabled && isClickable(simulator, node) ? 'pointer' : 'default';
 }
 
 export function removeNodeHover(simulator: GraphSimulator) {
 	clearHoverIntent(simulator);
 	simulator.isHovering = false;
 	simulator.currentlyHovered = '';
-	simulator.context.hooks.onNodeUnhover?.();
-	simulator.context.styleController.setStyleDefault();
+	simulator.host.onNodeHoverChange(null);
 	simulator.requestGraphDraw();
 	simulator.container.style.cursor = 'default';
 }
@@ -42,7 +39,7 @@ export function enableHover(simulator: GraphSimulator) {
 			return;
 		}
 
-		const [x, y] = getWorldPoint(simulator.context.animationState.renderedTransform, simulator.container, event);
+		const [x, y] = getWorldPoint(simulator.animation.renderedTransform, simulator.container, event);
 		const closestNode = simulator.findOverlappingNode(x, y);
 		if (closestNode) {
 			if (simulator.currentlyHovered === closestNode.id) {
@@ -70,7 +67,7 @@ export function enableHover(simulator: GraphSimulator) {
 			}, HOVER_INTENT_DELAY_MS);
 
 			simulator.container.style.cursor =
-				simulator.context.enableClick && isClickable(simulator, closestNode) ? 'pointer' : 'default';
+				simulator.clickEnabled && isClickable(simulator, closestNode) ? 'pointer' : 'default';
 		} else {
 			clearHoverIntent(simulator);
 			if (simulator.currentlyHovered) {

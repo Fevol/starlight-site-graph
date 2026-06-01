@@ -1,4 +1,4 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 import type { GraphConfig } from '../config/types';
 import type { BooleanConfigKey, GraphAction } from '../types';
 import type { ActionButtonOption } from './types';
@@ -8,7 +8,7 @@ import { MAX_DEPTH } from '../constants';
 
 import { icons, attachContextMenu, showPopupMenu, createValueSlider, el } from '../ui';
 
-function createActionButtonElement(context: GraphComponent, icon: string, text: string) {
+function createActionButtonElement(context: Graph, icon: string, text: string) {
 	const button = el('button', 'slsg-graph-action-button', { parent: context.actionContainer, html: icon });
 	button.title = text;
 	button.ariaLabel = text;
@@ -16,7 +16,7 @@ function createActionButtonElement(context: GraphComponent, icon: string, text: 
 }
 
 function createActionButton(
-	context: GraphComponent,
+	context: Graph,
 	options: ActionButtonOption[],
 	activeIndex: number,
 	onClick = options[activeIndex]!.onClick,
@@ -32,14 +32,14 @@ function createActionButton(
 	return button;
 }
 
-function updateConfigValue<K extends keyof GraphConfig>(context: GraphComponent, key: K, value: GraphConfig[K]) {
+function updateConfigValue<K extends keyof GraphConfig>(context: Graph, key: K, value: GraphConfig[K]) {
 	if (context.config[key] !== value) {
 		context.config[key] = value;
 		context.lifecycleController.renderActions();
 	}
 }
 
-function renderFullscreenAction(context: GraphComponent) {
+function renderFullscreenAction(context: Graph) {
 	createActionButton(context, [
 		{
 			text: ACTION_LABELS.fullscreen.exit,
@@ -54,7 +54,7 @@ function renderFullscreenAction(context: GraphComponent) {
 	], context.fullscreenController.isFullscreen ? 0 : 1);
 }
 
-function renderDepthAction(context: GraphComponent) {
+function renderDepthAction(context: Graph) {
 	createActionButton(
 		context,
 		Array.from({ length: MAX_DEPTH }, (_, depth) => ({
@@ -68,18 +68,18 @@ function renderDepthAction(context: GraphComponent) {
 	);
 }
 
-function renderResetZoomAction(context: GraphComponent) {
+function renderResetZoomAction(context: Graph) {
 	createActionButton(context, [
 		{
 			text: ACTION_LABELS.resetZoom,
 			icon: icons['focus'],
-			onClick: () => context.viewportController.resetZoom(),
+			onClick: () => context.simulator.resetView(),
 		},
 	], 0);
 }
 
 function renderBooleanToggle(
-	context: GraphComponent,
+	context: Graph,
 	key: BooleanConfigKey,
 	enabled: { icon: keyof typeof icons; text: string },
 	disabled: { icon: keyof typeof icons; text: string },
@@ -97,7 +97,7 @@ function renderBooleanToggle(
 	);
 }
 
-function renderSettingsAction(context: GraphComponent) {
+function renderSettingsAction(context: Graph) {
 	let closeSettingsMenu: (() => void) | undefined;
 	const button = createActionButtonElement(context, icons['settings'], ACTION_LABELS.settings);
 	button.onclick = () => {
@@ -145,9 +145,9 @@ const ACTION_RENDERERS = {
 			{ icon: 'unresolved', text: ACTION_LABELS.unresolved.show },
 			{ icon: 'resolved', text: ACTION_LABELS.unresolved.hide },
 		),
-} satisfies Record<GraphAction, (context: GraphComponent) => void>;
+} satisfies Record<GraphAction, (context: Graph) => void>;
 
-export function renderActionContainer(context: GraphComponent) {
+export function renderActionContainer(context: Graph) {
 	if (context.actionContainer == null) {
 		context.actionContainer = document.createElement('div');
 		context.actionContainer.classList.add('slsg-graph-action-container');

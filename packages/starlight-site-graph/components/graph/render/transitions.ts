@@ -72,7 +72,7 @@ export function fadeOutExiting<D extends { visual?: object | undefined }>(
 	objectsOf: (display: D) => Array<{ visible: boolean } | undefined>,
 	defer: (renderer: GraphRenderer, display: D) => void,
 ) {
-	const duration = getTransitionDuration('lifecycle', renderer.context.config);
+	const duration = getTransitionDuration('lifecycle', renderer.config);
 	const maxDelta = duration > 0 ? deltaMS / duration : Infinity;
 
 	let stillAnimating = false;

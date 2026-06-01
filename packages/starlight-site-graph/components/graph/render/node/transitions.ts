@@ -22,7 +22,7 @@ function animateScalar(
 	configKind: TransitionKind,
 	deltaMS: number,
 ): boolean {
-	const config = renderer.context.config;
+	const config = renderer.config;
 	const kind: TransitionKind = hoverDriven ? 'interaction' : configKind;
 	retargetTrack(track, target, getTransitionDuration(kind, config), numberChanged, kind);
 	const activeKind = (track.kind as TransitionKind) ?? kind;
@@ -35,7 +35,7 @@ function animateScalar(
 }
 
 function animateColor(track: Track<number>, target: number, renderer: GraphRenderer, hoverDriven: boolean, deltaMS: number): boolean {
-	const config = renderer.context.config;
+	const config = renderer.config;
 	const kind: TransitionKind = hoverDriven ? 'interaction' : 'palette';
 	retargetTrack(track, target, getTransitionDuration(kind, config), numberChanged, kind);
 	const activeKind = (track.kind as TransitionKind) ?? kind;
@@ -70,7 +70,7 @@ function animateNodeStyle(
 	deltaMS: number,
 ): boolean {
 	const effectiveStyle = getNodeStyle(node, colorRole);
-	const colors = renderer.context.styleController.colors;
+	const colors = renderer.palette;
 	const shapeTintTarget = computeNodeShapeTint(colors, node, colorRole);
 	const strokeTintTarget = computeNodeStrokeTint(colors, node, colorRole, shapeTintTarget);
 	const alphaTarget = 1;
@@ -144,7 +144,7 @@ function animateNodeGeometry(
 		stillAnimating = true;
 	}
 
-	const config = renderer.context.config;
+	const config = renderer.config;
 	const shapeMorphKind = (visual.shapeMorph.kind as TransitionKind) ?? 'interaction';
 	const strokeMorphKind = (visual.strokeMorph.kind as TransitionKind) ?? 'interaction';
 	const shapeMorphing = visual.shapeMorph.tick(deltaMS, getTransitionDuration(shapeMorphKind, config));

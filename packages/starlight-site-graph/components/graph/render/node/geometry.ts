@@ -15,7 +15,7 @@ export function getRenderedFullRadius(renderer: GraphRenderer, node: NodeData) {
 }
 
 export function getRenderedNodeRadius(renderer: GraphRenderer, node: NodeData) {
-	return getRenderedFullRadius(renderer, node) * getNodeZoomScale(renderer.context.animationState.zoom.value, renderer.context.config.scaleNodes);
+	return getRenderedFullRadius(renderer, node) * getNodeZoomScale(renderer.animation.zoom.value, renderer.config.scaleNodes);
 }
 
 export function getNodeLinkBoundaryGeometry(

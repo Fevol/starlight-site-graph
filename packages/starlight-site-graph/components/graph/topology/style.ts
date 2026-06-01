@@ -1,4 +1,4 @@
-import type { GraphComponent } from '../graph-component';
+import type { Graph } from '../graph';
 import type { NodeStateStyle, NodeStateStyles, NodeStyle } from '../config/types';
 import type { LinkData, NodeData, NodeVisualStyles } from '../types';
 import type { GraphColorConfig } from '../color';
@@ -25,7 +25,7 @@ export function syncLinkTopologyData(target: LinkData, source: LinkData) {
 }
 
 export function resolveNodeStyle(
-	context: GraphComponent,
+	context: Graph,
 	id: string,
 	node: { exists: boolean; external: boolean; tags?: string[]; visited?: boolean; nodeStyle?: unknown },
 ) {
@@ -63,7 +63,7 @@ export function resolveNodeStyle(
 	return finalizeStyle(mergeNodeStyles(...applicableStyles));
 }
 
-export function resolveTagStyle(context: GraphComponent, tag: string) {
+export function resolveTagStyle(context: Graph, tag: string) {
 	return finalizeStyle(
 		mergeNodeStyles(
 			context.config.tagDefaultStyle as NodeStyle,
@@ -106,7 +106,7 @@ export function collectGraphColors(style: Partial<NodeStyle>, colors: GraphColor
 //			  - based on textLength or bytesLength of the page content
 //			  - data gathered during sitemap generation
 
-export function computeNeighborSizeMultiplier(context: GraphComponent, style: NodeStyle, neighborCount: number, distance?: number) {
+export function computeNeighborSizeMultiplier(context: Graph, style: NodeStyle, neighborCount: number, distance?: number) {
 	// EXPL: Artificially increases size of nodes that are closer to the current node
 	const neighborSizeInput = (distance !== undefined && context.config.depth >= 0)
 		? Math.max(neighborCount + 1, Math.round(NEIGHBORS_SIZE_DEPTH_BOOST / (distance + 1)))
