@@ -12,7 +12,7 @@
     }
 
     /* Ensures that override on specific element will still inherit proper accent/muted colors */
-	.slsg-graph-component {
+	.sg-graph-component, .slsg-graph-component {
 		--sg-node-color-hover: var(--slsg-node-color-hover, var(--sg-color-accent));
 		--sg-node-color-muted: var(--slsg-node-color-muted, var(--sg-color-muted));
 
@@ -25,12 +25,12 @@
 	}
 
 	/* =================================== Graph Container Styling ============================================== */
-	.slsg-graph-component {
+	.sg-graph-component, .slsg-graph-component {
 		width: var(--sg-graph-width);
 		height: var(--sg-graph-height);
 	}
 
-	.slsg-graph-container {
+	.sg-graph-container, .slsg-graph-container {
 		position: relative;
 		width: var(--sg-graph-width);
 		height: inherit;
@@ -65,7 +65,7 @@
 
 	/* ========================================================================================================= */
 	/* ====================================== Fullscreen Styling =============================================== */
-	.slsg-fullscreen-dialog[open] {
+	.sg-fullscreen-dialog[open] {
 		position: fixed;
 		inset: 0;
 		display: flex;
@@ -82,22 +82,22 @@
 		overflow: hidden;
 	}
 
-	.slsg-fullscreen-dialog::backdrop {
+	.sg-fullscreen-dialog::backdrop {
 		backdrop-filter: blur(4px);
         background-color: rgba(0, 0, 0, 0.1);
 	}
 
-	.slsg-graph-component.slsg-fullscreen-active {
+	.sg-graph-component.sg-fullscreen-active {
 		--sg-graph-bg-color: var(--sg-graph-maximized-bg-color);
 	}
 
-	.slsg-is-fullscreen {
+	.sg-is-fullscreen {
 		--sg-graph-bg-color: var(--sg-graph-maximized-bg-color);
 
 		position: relative;
 		z-index: 0;
 
-		.slsg-graph-action-container svg {
+		.sg-graph-action-container svg {
 			width: 24px;
 			height: 24px;
 		}
@@ -105,7 +105,7 @@
 
 	/* ========================================================================================================== */
 	/* ====================================== Graph Action Styles =============================================== */
-	.slsg-graph-action-container:not(:empty) {
+	.sg-graph-action-container:not(:empty) {
 		position: absolute;
 		right: 0;
 
@@ -119,7 +119,7 @@
 		backdrop-filter: blur(4px);
 	}
 
-	.slsg-graph-action-button.slsg-graph-action-button {
+	.sg-graph-action-button.sg-graph-action-button {
 		display: flex;
 
 		color: var(--sg-graph-action-color);
@@ -175,12 +175,12 @@
 
 	/* ========================================================================================================== */
 	/* ====================================== Context Menu Styles =============================================== */
-	.slsg-menu-container {
+	.sg-menu-container {
 		position: fixed;
 		z-index: 1000;
 	}
 
-	.slsg-menu {
+	.sg-menu {
 		display: inline-flex;
 		background-color: var(--sg-context-menu-bg-color);
 		border: 1px var(--sg-context-menu-border-color) solid;
@@ -190,7 +190,7 @@
 		padding: 6px;
 	}
 
-	.slsg-menu-item {
+	.sg-menu-item {
 		display: flex;
 		align-items: center;
 		gap: 8px;
@@ -200,27 +200,27 @@
 		white-space: nowrap;
 	}
 
-	.slsg-menu-item:hover {
+	.sg-menu-item:hover {
 		background-color: var(--sg-context-menu-bg-color-hover);
 	}
 
-	.slsg-menu-item-icon {
+	.sg-menu-item-icon {
 		display: flex;
 	}
 
-	.slsg-menu-item-icon svg {
+	.sg-menu-item-icon svg {
 		width: 20px;
 		height: 20px;
 	}
 
-	.slsg-menu-item-title {
+	.sg-menu-item-title {
 		font-weight: 600;
 		font-size: var(--sg-text-xs);
 	}
 
 	/* ========================================================================================================== */
 	/* ======================================== Popup Menu Styling ============================================== */
-	.slsg-popup-menu {
+	.sg-popup-menu {
 		position: fixed;
 		z-index: 1000;
 		right: 8px;
@@ -235,30 +235,30 @@
 
 		backdrop-filter: blur(32px);
 
-		.slsg-value-slider {
+		.sg-value-slider {
 			display: flex;
 			font-size: var(--sg-text-xs);
 			flex-wrap: wrap;
 
-			.slsg-value-slider-text {
+			.sg-value-slider-text {
 				display: flex;
 				gap: 0.5rem;
 			}
 
-			.slsg-value-slider-label {
+			.sg-value-slider-label {
 				font-weight: 900;
 			}
 		}
 	}
 }
 
-.slsg-is-fullscreen {
+.sg-is-fullscreen {
     height: 90vh;
     width: 90vw;
 }
 
 @media (max-width: 1152px) {
-    .slsg-is-fullscreen {
+    .sg-is-fullscreen {
         height: 80vh;
         width: 80vw;
     }

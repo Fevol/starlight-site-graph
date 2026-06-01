@@ -13,11 +13,11 @@ export function attachContextMenu(element: HTMLElement, items: MenuItem[]) {
 
 function openContextMenu(e: MouseEvent, element: HTMLElement, items: MenuItem[]) {
 	e.preventDefault();
-	for (const menu of document.querySelectorAll('.slsg-menu-container')) {
+	for (const menu of document.querySelectorAll('.sg-menu-container')) {
 		menu.dispatchEvent(new Event('slsg-remove-menu'));
 	}
 
-	const menuContainer = el('nav', 'slsg-menu-container');
+	const menuContainer = el('nav', 'sg-menu-container');
 
 	function removeMenu() {
 		window.removeEventListener('click', removeMenu);
@@ -28,16 +28,16 @@ function openContextMenu(e: MouseEvent, element: HTMLElement, items: MenuItem[])
 	menuContainer.addEventListener('slsg-remove-menu', removeMenu);
 	window.addEventListener('click', removeMenu);
 
-	const menu = el('div', 'slsg-menu', { parent: menuContainer });
+	const menu = el('div', 'sg-menu', { parent: menuContainer });
 
 	const groupedItems = Object.groupBy(items, ({ group }) => group || '');
 	for (const [key, group] of Object.entries(groupedItems)) {
 		if (key !== '') {
-			el('div', 'slsg-menu-separator', { parent: menu });
+			el('div', 'sg-menu-separator', { parent: menu });
 		}
 
 		for (const item of group!) {
-			const menuItem = el('div', 'slsg-menu-item', { parent: menu });
+			const menuItem = el('div', 'sg-menu-item', { parent: menu });
 			menuItem.onclick = e => {
 				item.onClick();
 				e.stopPropagation();
@@ -45,10 +45,10 @@ function openContextMenu(e: MouseEvent, element: HTMLElement, items: MenuItem[])
 			};
 
 			if (item.icon) {
-				el('div', 'slsg-menu-item-icon', { parent: menuItem, html: item.icon });
+				el('div', 'sg-menu-item-icon', { parent: menuItem, html: item.icon });
 			}
 
-			el('div', 'slsg-menu-item-title', { parent: menuItem, text: item.text });
+			el('div', 'sg-menu-item-title', { parent: menuItem, text: item.text });
 		}
 	}
 

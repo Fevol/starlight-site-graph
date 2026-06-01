@@ -1,7 +1,7 @@
 import { el } from './dom';
 
 export function showPopupMenu(container: HTMLElement, contents: HTMLElement[], onRemove?: () => void) {
-	const popupMenu = el('div', 'slsg-popup-menu');
+	const popupMenu = el('div', 'sg-popup-menu');
 	let removed = false;
 	let listenerTimeout: number | undefined;
 
@@ -23,7 +23,7 @@ export function showPopupMenu(container: HTMLElement, contents: HTMLElement[], o
 		}
 	}
 
-	const popupMenuContent = el('div', 'slsg-popup-menu-content', { parent: popupMenu });
+	const popupMenuContent = el('div', 'sg-popup-menu-content', { parent: popupMenu });
 	for (const content of contents) {
 		popupMenuContent.appendChild(content);
 	}

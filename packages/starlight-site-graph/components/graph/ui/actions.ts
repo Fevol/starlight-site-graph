@@ -9,7 +9,7 @@ import { MAX_DEPTH } from '../constants';
 import { icons, attachContextMenu, showPopupMenu, createValueSlider, el } from '../ui';
 
 function createActionButtonElement(context: Graph, icon: string, text: string) {
-	const button = el('button', 'slsg-graph-action-button', { parent: context.actionContainer, html: icon });
+	const button = el('button', 'sg-graph-action-button', { parent: context.actionContainer, html: icon });
 	button.title = text;
 	button.ariaLabel = text;
 	return button;
@@ -150,7 +150,7 @@ const ACTION_RENDERERS = {
 export function renderActionContainer(context: Graph) {
 	if (context.actionContainer == null) {
 		context.actionContainer = document.createElement('div');
-		context.actionContainer.classList.add('slsg-graph-action-container');
+		context.actionContainer.classList.add('sg-graph-action-container');
 		context.graphContainer.appendChild(context.actionContainer);
 	} else {
 		context.actionContainer.replaceChildren();

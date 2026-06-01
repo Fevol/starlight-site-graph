@@ -26,7 +26,7 @@
         --sg-text-color-accent: var(--slsg-text-color-accent, var(--sl-color-text-accent));
     }
 
-    .slsg-graph-component {
+    .sg-graph-component, .slsg-graph-component {
         --sg-text-color: var(--slsg-text-color, var(--sl-color-white));
         --sg-text-color-accent: var(--slsg-text-color-accent, var(--sl-color-text-accent));
         --sg-text-color-muted: var(--slsg-text-color-muted, var(--sl-color-white));
@@ -35,7 +35,7 @@
         --sg-color-muted: var(--slsg-color-muted, var(--sl-color-gray-5));
     }
 
-    :root[data-theme='dark'] .slsg-graph-component {
+    :root[data-theme='dark'] :is(.sg-graph-component, .slsg-graph-component) {
         --sg-link-color: var(--slsg-link-color, var(--sl-color-gray-4));
 
         --sg-node-color: var(--slsg-node-color, var(--sl-color-white));
@@ -56,7 +56,7 @@
         --sg-node-color-9: var(--slsg-node-color-9, #a287ca);
     }
 
-    :root[data-theme='light'] .slsg-graph-component {
+    :root[data-theme='light'] :is(.sg-graph-component, .slsg-graph-component) {
         --sg-link-color: var(--slsg-link-color, var(--sl-color-gray-5));
 
         --sg-node-color: var(--slsg-node-color, var(--sl-color-gray-4));
@@ -107,7 +107,7 @@
                     width: 50%;
                     min-width: var(--sg-graph-width);
 
-                    .slsg-graph-component {
+                    .sg-graph-component, .slsg-graph-component {
                         width: 100%;
                     }
                 }

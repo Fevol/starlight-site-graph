@@ -47,7 +47,7 @@ export class Graph implements GraphEngineHost {
 	constructor(element: HTMLElement, options: GraphOptions = {}) {
 		this.element = element;
 		this.element.style.visibility = 'hidden';
-		this.element.classList.add('slsg-graph-component');
+		this.element.classList.add('sg-graph-component');
 
 		this.debug = options.debug ?? false;
 		this.trailingSlashes = options.trailingSlashes ?? true;
@@ -59,7 +59,7 @@ export class Graph implements GraphEngineHost {
 		this.configController.initialize(options.config ?? {});
 
 		this.graphContainer = document.createElement('div');
-		this.graphContainer.classList.add('slsg-graph-container');
+		this.graphContainer.classList.add('sg-graph-container');
 		this.graphContainer.tabIndex = 0;
 		this.element.appendChild(this.graphContainer);
 

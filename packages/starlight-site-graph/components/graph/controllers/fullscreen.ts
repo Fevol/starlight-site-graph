@@ -10,10 +10,10 @@ export class FullscreenController {
 
 	initialize() {
 		this.mockGraphContainer = document.createElement('div');
-		this.mockGraphContainer.classList.add('slsg-graph-container');
+		this.mockGraphContainer.classList.add('sg-graph-container');
 
 		this.dialog = document.createElement('dialog');
-		this.dialog.classList.add('slsg-fullscreen-dialog', 'slsg-graph-component');
+		this.dialog.classList.add('sg-fullscreen-dialog', 'sg-graph-component');
 		this.context.element.appendChild(this.dialog);
 
 		this.context.graphContainer.onkeyup = event => {
@@ -26,8 +26,8 @@ export class FullscreenController {
 	destroy() {
 		this.fullscreen = false;
 
-		this.context.element.classList.toggle('slsg-fullscreen-active', false);
-		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', false);
+		this.context.element.classList.toggle('sg-fullscreen-active', false);
+		this.context.graphContainer.classList.toggle('sg-is-fullscreen', false);
 		this.fullscreenExitHandler?.();
 		this.context.graphContainer.onkeyup = null;
 
@@ -51,8 +51,8 @@ export class FullscreenController {
 		}
 
 		this.fullscreen = true;
-		this.context.element.classList.toggle('slsg-fullscreen-active', true);
-		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', true);
+		this.context.element.classList.toggle('sg-fullscreen-active', true);
+		this.context.graphContainer.classList.toggle('sg-is-fullscreen', true);
 		this.context.element.append(this.mockGraphContainer);
 		this.dialog.appendChild(this.context.graphContainer);
 
@@ -93,8 +93,8 @@ export class FullscreenController {
 		}
 
 		this.fullscreen = false;
-		this.context.element.classList.toggle('slsg-fullscreen-active', false);
-		this.context.graphContainer.classList.toggle('slsg-is-fullscreen', false);
+		this.context.element.classList.toggle('sg-fullscreen-active', false);
+		this.context.graphContainer.classList.toggle('sg-is-fullscreen', false);
 		this.context.element.appendChild(this.context.graphContainer);
 		this.mockGraphContainer.remove();
 		if (this.dialog.open) {
