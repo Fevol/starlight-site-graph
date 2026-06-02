@@ -11,6 +11,11 @@ import { destroyDisplayObject, hideDisplayObjects } from '../utils';
 export function adoptLinkDisplay(renderer: GraphRenderer, nextLink: LinkData, sourceDisplay: LinkDisplay) {
 	renderer.linkDisplays.set(computeLinkKey(nextLink), sourceDisplay);
 	renderer.linkDisplayCache.set(nextLink, sourceDisplay);
+
+	if (sourceDisplay.visual) {
+		sourceDisplay.visual.lineAlpha = 1;
+		sourceDisplay.visual.overlayAlpha = 0;
+	}
 }
 
 export function hideLinkDisplay(renderer: GraphRenderer, link: LinkData) {

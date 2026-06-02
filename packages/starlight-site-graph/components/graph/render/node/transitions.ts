@@ -218,26 +218,28 @@ export function updateNodeVisuals(renderer: GraphRenderer, nodes: NodeData[], de
 }
 
 export function updateExitingNodes(renderer: GraphRenderer, deltaMS: number) {
+	const duration = getTransitionDuration('lifecycle', renderer.config);
+
 	fadeOutExiting(
 		renderer,
 		deltaMS,
 		renderer.exitingNodeDisplays,
-		(display, maxDelta) => {
+		display => {
 			const visual = display.visual!;
-			if (visual.alpha.value <= maxDelta) {
-				return true;
-			}
-			visual.alpha.value -= maxDelta;
+			retargetTrack(visual.alpha, 0, duration, numberChanged, 'lifecycle');
+			const animating = tickTrack(visual.alpha, deltaMS, duration, (source, target, progress) => source + (target - source) * progress);
+
+			const alpha = visual.alpha.value;
 			if (display.node) {
-				display.node.alpha = visual.alpha.value;
+				display.node.alpha = alpha;
 			}
 			if (display.stroke) {
-				display.stroke.alpha = visual.alpha.value;
+				display.stroke.alpha = alpha;
 			}
 			if (display.label) {
-				display.label.alpha = visual.alpha.value;
+				display.label.alpha = alpha;
 			}
-			return false;
+			return !animating && alpha <= 0;
 		},
 		display => [display.node, display.stroke, display.label],
 		deferNodeDisposal,
