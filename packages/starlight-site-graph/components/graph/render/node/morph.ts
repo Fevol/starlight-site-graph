@@ -13,7 +13,7 @@ import { GRAPH_EPSILON } from '../../constants';
 
 const CIRCLE_MORPH_OUTLINE = sampleRadialOutline(createShapeVertices('circle', SHAPE_MORPH_SAMPLES), SHAPE_MORPH_SAMPLES);
 
-export function createShapeVertices(shape: NodeShapeType, points: number) {
+function createShapeVertices(shape: NodeShapeType, points: number) {
 	if (shape === 'polygon') {
 		return Array.from(
 			{ length: points },

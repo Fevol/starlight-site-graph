@@ -7,7 +7,6 @@ import type { WorkerMessage } from './worker/types';
 import { GraphCamera } from './camera';
 import { GraphTransform } from '../transform';
 import {
-	applyWorkerTick,
 	captureTopologyNodeState,
 	createColliderRadii,
 	normalizeTopology,
@@ -149,7 +148,14 @@ export class GraphSimulator {
 		this.worker.onmessage = (e: MessageEvent) => {
 			const msg = e.data as { type: string; data?: Float32Array };
 			if (msg.type === 'tick' && msg.data) {
-				applyWorkerTick(this.nodes, msg.data);
+				for (let i = 0; i < this.nodes.length; i++) {
+					const node = this.nodes[i]!;
+					node.x = msg.data[4 * i]!;
+					node.y = msg.data[4 * i + 1]!;
+					node.vx = msg.data[4 * i + 2]!;
+					node.vy = msg.data[4 * i + 3]!;
+				}
+
 				this.rebuildSpatialGrid();
 				this.camera.syncToCenterOnTick();
 				if (!this.ready) {

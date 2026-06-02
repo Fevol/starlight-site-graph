@@ -38,7 +38,9 @@ export function parseSitemap(serialized?: string): Sitemap {
 		if (isRecord(value)) {
 			const entry = value as Sitemap[string];
 			visitNodeStyleStates(entry.nodeStyle, state => {
-				if (state.shapeRotation === 'random') state.shapeRotation = Math.random() * 360;
+				if (state.shapeRotation === 'random') {
+					state.shapeRotation = Math.random() * 360;
+				}
 			});
 			sitemap[key] = entry;
 		}

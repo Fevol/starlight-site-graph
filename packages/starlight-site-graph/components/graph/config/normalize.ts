@@ -28,12 +28,6 @@ export function normalizeLegacyLabelConfig(config: unknown): void {
 	if ('labelMutedOpacity' in config) muted['labelOpacity'] = config['labelMutedOpacity'];
 }
 
-function resolveRotation(state: NodeStateStyle): void {
-	if (state.shapeRotation === 'random') {
-		state.shapeRotation = Math.random() * 360;
-	}
-}
-
 export function visitNodeStyleStates(style: Partial<NodeStyle> | undefined, apply: (state: NodeStateStyle) => void): void {
 	if (style) {
 		apply(style);
@@ -44,7 +38,7 @@ export function visitNodeStyleStates(style: Partial<NodeStyle> | undefined, appl
 }
 
 
-export function visitGraphConfigStyles(config: Partial<GraphConfig>, apply: (state: NodeStateStyle) => void): void {
+function visitGraphConfigStyles(config: Partial<GraphConfig>, apply: (state: NodeStateStyle) => void): void {
 	visitNodeStyleStates(config.nodeDefaultStyle, apply);
 	visitNodeStyleStates(config.nodeVisitedStyle, apply);
 	visitNodeStyleStates(config.nodeCurrentStyle, apply);
@@ -59,5 +53,9 @@ export function visitGraphConfigStyles(config: Partial<GraphConfig>, apply: (sta
 }
 
 export function normalizeRandomRotation(config: Partial<GraphConfig>): void {
-	visitGraphConfigStyles(config, resolveRotation);
+	visitGraphConfigStyles(config, (state) => {
+		if (state.shapeRotation === 'random') {
+			state.shapeRotation = Math.random() * 360;
+		}
+	});
 }

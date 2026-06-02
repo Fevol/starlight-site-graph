@@ -174,13 +174,3 @@ export function createColliderRadii(nodes: NodeData[], colliderPadding: number) 
 	}
 	return colliderRadii;
 }
-
-export function applyWorkerTick(nodes: NodeData[], data: Float32Array) {
-	for (let i = 0; i < nodes.length; i++) {
-		const node = nodes[i]!;
-		node.x = data[4 * i]!;
-		node.y = data[4 * i + 1]!;
-		node.vx = data[4 * i + 2]!;
-		node.vy = data[4 * i + 3]!;
-	}
-}
